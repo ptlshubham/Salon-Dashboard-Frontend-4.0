@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { CommonService } from 'src/app/core/services/common.service';
 import { UserProfileService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -43,13 +42,13 @@ export class DriverDetailsComponent {
   cityListData: any = [];
 
   constructor(
-      private homeService: CommonService,
+      // private homeService: CommonService,
     //   private staffService: StaffService,
     // public toastr: ToastrService,
     private userservice: UserProfileService,
     public formBuilder: UntypedFormBuilder,
   ) {
-    this.getStateList();
+    // this.getStateList();
   }
 
   ngOnInit(): void {
@@ -88,34 +87,34 @@ export class DriverDetailsComponent {
     this.pdfResponse = undefined;
     this.validationForm.markAsUntouched();
   }
-  getStateList() {
-    this.userservice.getStateFromJson().subscribe((res: any) => {
-      this.stateData = res;
-    })
-  }
+  // getStateList() {
+  //   this.userservice.getStateFromJson().subscribe((res: any) => {
+  //     this.stateData = res;
+  //   })
+  // }
   selectStateData(e: any): void {
     this.selectedState = e.target.value;
-    this.getCityListAccordingState();
+    // this.getCityListAccordingState();
   }
-  getCityListAccordingState() {
-    this.cityListData = [];
-    this.userservice.getCityFromJson().subscribe((res: any) => {
-      this.cityData = res;
-      this.cityData.forEach((element: any) => {
-        if (element.state == this.selectedState) {
-          this.cityListData.push(element);
-        }
-      });
-    })
-  }
+  // getCityListAccordingState() {
+  //   this.cityListData = [];
+  //   this.userservice.getCityFromJson().subscribe((res: any) => {
+  //     this.cityData = res;
+  //     this.cityData.forEach((element: any) => {
+  //       if (element.state == this.selectedState) {
+  //         this.cityListData.push(element);
+  //       }
+  //     });
+  //   })
+  // }
   selectCityData(e: any): void {
     this.selectedCity = e.target.value
   }
 
   getDriverList() {
-    this.homeService.getDriverDataList().subscribe((res:any)=>{
-      this.driverData = res;
-    })
+    // this.homeService.getDriverDataList().subscribe((res:any)=>{
+    //   this.driverData = res;
+    // })
   }
 
   getPositionData() {

@@ -2,19 +2,22 @@
 <app-pagetitle title="Dashboard" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
 <!-- end page title -->
 <div class="row">
-    <div class="col-xl-4 col-md-6">
+    <div class="col-xl-3 col-md-6">
         <!-- card -->
         <div class="card card-h-100">
             <!-- card body -->
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-12">
-                        <h4 class="mb-3">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Vendor List</span>
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Customer</small>
                         </h4>
                         <h4 class="mb-3">
                             $<span [countUp]="4.32" [options]="option" class="counter-value"></span>M
                         </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/user.png" alt="" class="rounded avatar-lg">
                     </div>
                 </div>
                 <div class="text-nowrap">
@@ -24,19 +27,22 @@
             </div><!-- end card body -->
         </div><!-- end card -->
     </div><!-- end col -->
-    <div class="col-xl-4 col-md-6">
+    <div class="col-xl-3 col-md-6">
         <!-- card -->
         <div class="card card-h-100">
             <!-- card body -->
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-12">
-                        <h4 class="mb-3">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Customer List</span>
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Services</small>
                         </h4>
                         <h4 class="mb-3">
                             <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
                         </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/services.png" alt="" class="rounded avatar-lg">
                     </div>
                 </div>
                 <div class="text-nowrap">
@@ -46,64 +52,47 @@
             </div><!-- end card body -->
         </div><!-- end card -->
     </div><!-- end col -->
-    <div class="col-xl-4 col-md-6">
+    <div class="col-xl-3 col-md-6">
         <!-- card -->
         <div class="card card-h-100">
             <!-- card body -->
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-12">
-                        <h4 class="mb-3">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Drivers</span>
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Daily Earnings</small>
                         </h4>
                         <h4 class="mb-3">
-                            $<span [countUp]="865.2" [options]="option" class="counter-value"></span>K
+                            $<span [countUp]="4.32" [options]="option" class="counter-value"></span>M
                         </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/earnings.png" alt="" class="rounded avatar-lg">
                     </div>
                 </div>
                 <div class="text-nowrap">
-                    <span class="badge bg-success-subtle text-success">+$20.9k</span>
+                    <span class="badge bg-success-subtle text-success">+ $2.8k</span>
                     <span class="ms-1 text-muted font-size-13">Since last week</span>
                 </div>
             </div><!-- end card body -->
         </div><!-- end card -->
     </div><!-- end col -->
-
-    <div class="col-xl-4 col-md-6">
+    <div class="col-xl-3 col-md-6">
         <!-- card -->
         <div class="card card-h-100">
             <!-- card body -->
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-12">
-                        <h4 class="mb-3">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Vehicle</span>
-                        </h4>
-                        <h4 class="mb-3">
-                            <span [countUp]="6258" class="counter-value"></span>
-                        </h4>
-                    </div>
-                </div>
-                <div class="text-nowrap">
-                    <span class="badge bg-danger-subtle text-danger">-29 Trades</span>
-                    <span class="ms-1 text-muted font-size-13">Since last week</span>
-                </div>
-            </div><!-- end card body -->
-        </div><!-- end card -->
-    </div><!-- end col-->
-    <div class="col-xl-4 col-md-6">
-        <!-- card -->
-        <div class="card card-h-100">
-            <!-- card body -->
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-12">
-                        <h4 class="mb-3">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Vehicle Expenses</span>
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Pending Enquiry</small>
                         </h4>
                         <h4 class="mb-3">
                             <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
                         </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/enquiry.png" alt="" class="rounded avatar-lg">
                     </div>
                 </div>
                 <div class="text-nowrap">
@@ -113,19 +102,97 @@
             </div><!-- end card body -->
         </div><!-- end card -->
     </div><!-- end col -->
-    <div class="col-xl-4 col-md-6">
+    <div class="col-xl-3 col-md-6">
         <!-- card -->
         <div class="card card-h-100">
             <!-- card body -->
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-12">
-                        <h4 class="mb-3">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Driver Expenses</span>
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Daily Expenses</small>
                         </h4>
                         <h4 class="mb-3">
                             <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
                         </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/expense.png" alt="" class="rounded avatar-lg">
+                    </div>
+                </div>
+                <div class="text-nowrap">
+                    <span class="badge bg-success-subtle text-success">+2.95%</span>
+                    <span class="ms-1 text-muted font-size-13">Since last week</span>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-h-100">
+            <!-- card body -->
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Combo Offer</small>
+                        </h4>
+                        <h4 class="mb-3">
+                            <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
+                        </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/offer.png" alt="" class="rounded avatar-lg">
+                    </div>
+                </div>
+                <div class="text-nowrap">
+                    <span class="badge bg-success-subtle text-success">+2.95%</span>
+                    <span class="ms-1 text-muted font-size-13">Since last week</span>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-h-100">
+            <!-- card body -->
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Product Order</small>
+                        </h4>
+                        <h4 class="mb-3">
+                            <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
+                        </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/product.png" alt="" class="rounded avatar-lg">
+                    </div>
+                </div>
+                <div class="text-nowrap">
+                    <span class="badge bg-success-subtle text-success">+2.95%</span>
+                    <span class="ms-1 text-muted font-size-13">Since last week</span>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-h-100">
+            <!-- card body -->
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Membership</small>
+                        </h4>
+                        <h4 class="mb-3">
+                            <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
+                        </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/member.png" alt="" class="rounded avatar-lg">
                     </div>
                 </div>
                 <div class="text-nowrap">

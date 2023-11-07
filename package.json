@@ -57,6 +57,7 @@
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
     "leaflet": "^1.9.4",
+    "localstorage-slim": "^2.6.0",
     "metismenujs": "^1.4.0",
     "ng-apexcharts": "^1.8.0",
     "ng-chartist": "^8.1.3",

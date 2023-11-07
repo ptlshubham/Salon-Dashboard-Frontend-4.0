@@ -1,113 +1,144 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 declare var $: any;
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  public static HOST_URL: string = "http://localhost:9000";
-  // public static HOST_URL: string = "https://api.cesociety.in";
+  public static HOST_URL: string = "http://localhost:8100";
+  // public static HOST_URL: string = "http://85.31.232.128:8100";
 
   constructor(
+
+    private http: HttpClient,
   ) { }
   httpOption = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
   }
-  //authenticate
-
-  public static userLoginURL: string = ApiService.HOST_URL + '/authenticate/UserLogin';
-  public static adminLoginURL: string = ApiService.HOST_URL + '/authenticate/AdminLogin';
-
-
-  // admin
-  public static getAllDriverListURL: string = ApiService.HOST_URL + '/admin/GetAllDriverList';
-  public static saveDriverDetailsDataURL: string = ApiService.HOST_URL + '/admin/SaveDriverDetailsData';
-
+  public static getUserLoginURL: string = ApiService.HOST_URL + '/authenticate/GetUsersLogin';
+  public static updateLogoutDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateLogoutDetails'
+  public static saveServicesListURL: string = ApiService.HOST_URL + '/admin/SaveServicesList';
+  public static getAllServicesURL: string = ApiService.HOST_URL + '/admin/GetAllServices';
+  public static updateServicesListURL: string = ApiService.HOST_URL + '/admin/UpdateServicesList/';
+  public static saveEmployeeListURL: string = ApiService.HOST_URL + '/admin/SaveEmployeeList';
+  public static getAllEmployeeURL: string = ApiService.HOST_URL + '/admin/GetAllEmployee';
+  public static removeEmployeeListURL: string = ApiService.HOST_URL + '/admin/RemoveEmployeeList/';
+  public static saveCustomerListURL: string = ApiService.HOST_URL + '/admin/SaveCustomerList';
+  public static saveLoginUserURL: string = ApiService.HOST_URL + '/authenticate/UserLogin';
+  public static getAllCustomerURL: string = ApiService.HOST_URL + '/admin/GetAllCustomer';
+  public static saveAppointmentListURL: string = ApiService.HOST_URL + '/admin/SaveAppointmentList';
+  public static getAllAppointmentURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';
+  public static getViewAppointmentURL: string = ApiService.HOST_URL + '/admin/GetViewAppointment';
+  public static getAllEnquiryListURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';
+  public static getDailyTotalURL: string = ApiService.HOST_URL + '/admin/GetDailyTotal';
+  public static getMonthlyTotalURL: string = ApiService.HOST_URL + '/admin/GetMonthlyTotal';
+  public static updateCustomerListURL: string = ApiService.HOST_URL + '/admin/UpdateCustomerList';
+  public static removeCustomerDetailsURL: string = ApiService.HOST_URL + '/admin/removeCustomerDetails/';
+  public static removeServicesListURL: string = ApiService.HOST_URL + '/admin/RemoveServicesList/';
+  public static forgotPasswordURL: string = ApiService.HOST_URL + '/admin/ForgotPassword';
+  public static getOneTimePasswordURL: string = ApiService.HOST_URL + '/admin/GetOneTimePassword';
+  public static updatePasswordURL: string = ApiService.HOST_URL + '/admin/UpdatePassword';
+  public static updateActiveStatusURL: string = ApiService.HOST_URL + '/admin/UpdateActiveStatus';
+  public static updateEnquiryStatusURL: string = ApiService.HOST_URL + '/admin/UpdateEnquiryStatus';
+  public static getCustomerTotalPointsURL: string = ApiService.HOST_URL + '/admin/GetCustomerTotalPoints';
+  public static updateEmployeeListURL: string = ApiService.HOST_URL + '/admin/UpdateEmployeeList';
+  public static updateWorkingStatusURL: string = ApiService.HOST_URL + '/admin/UpdateWorkingStatus';
+  public static getAllCustomerDataListURL: string = ApiService.HOST_URL + '/admin/GetAllCustomerDataList';
+  public static getCustomerByIdURL: string = ApiService.HOST_URL + '/admin/GetCustomerById';
+  public static getUsedServicesByCustomerURL: string = ApiService.HOST_URL + '/admin/GetUsedServicesByCustomer';
+  public static getAllCompletedServicesURL: string = ApiService.HOST_URL + '/admin/GetAllCompletedServices';
+  public static saveAdminLoginURL: string = ApiService.HOST_URL + '/admin/login';
+  public static ChackForPasswordURL: string = ApiService.HOST_URL + '/admin/ChackForPassword';
+  public static saveModeOfPayment: string = ApiService.HOST_URL + '/admin/SaveModeOfPayment';
+  public static getAllModeOfPayment: string = ApiService.HOST_URL + '/admin/GetAllModeOfPayment';
+  public static getMonthlyPayment: string = ApiService.HOST_URL + '/admin/GetMonthlyPayment';
+  public static saveOfferListURL: string = ApiService.HOST_URL + '/admin/SaveOfferList';
+  public static getAllOfferDataListURL: string = ApiService.HOST_URL + '/admin/GetAllOfferDataList';
+  public static getUsedServicesByOfferURL: string = ApiService.HOST_URL + '/admin/GetUsedServicesByOffer';
+  public static getAllOfferURL: string = ApiService.HOST_URL + '/admin/GetAllOffer';
+  public static getActiveOfferURL: string = ApiService.HOST_URL + '/admin/GetActiveOffer';
+  public static getOfferTotalPointsURL: string = ApiService.HOST_URL + '/admin/GetOfferTotalPoints';
+  public static updateOfferListURL: string = ApiService.HOST_URL + '/admin/UpdateOfferList';
+  public static removeOfferDetailsURL: string = ApiService.HOST_URL + '/admin/removeOfferDetails/';
+  public static saveExpensesListURL: string = ApiService.HOST_URL + '/admin/SaveExpensesList';
+  public static getAllExpensesURL: string = ApiService.HOST_URL + '/admin/GetAllExpenses';
+  public static removeexpensesDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveExpensesDetails/';
+  public static updateExpensesDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateExpensesDetails';
+  public static getMonthlyExpensesURL: string = ApiService.HOST_URL + '/admin/getMonthlyExpensesList';
+  public static saveProductsListURL: string = ApiService.HOST_URL + '/admin/SaveProductsList';
+  public static getAllProductsListURL: string = ApiService.HOST_URL + '/admin/GetAllProductsList';
+  public static getActiveProductsURL: string = ApiService.HOST_URL + '/admin/GetActiveProducts';
+  public static removeProductDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveProductDetails/';
+  public static getAllSalaryListURL: string = ApiService.HOST_URL + '/admin/GetAllSalaryList';
+  public static updateSalaryStatusURL: string = ApiService.HOST_URL + '/admin/UpdateSalaryStatus';
+  public static updateSalaryListURL: string = ApiService.HOST_URL + '/admin/UpdateSalaryList';
+  public static saveSalaryListURL: string = ApiService.HOST_URL + '/admin/SaveSalaryList';
+  public static removeSalaryListURL: string = ApiService.HOST_URL + '/admin/RemoveSalaryList/';
+  public static saveCategoryListURL: string = ApiService.HOST_URL + '/admin/SaveCategoryList/';
+  public static getAllCategoryListURL: string = ApiService.HOST_URL + '/admin/GetAllCategoryList/';
+  public static updateCategoryListURL: string = ApiService.HOST_URL + '/admin/UpdateCategoryList/';
+  public static removeCategoryDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveCategoryDetails/';
+  public static updateProductListURL: string = ApiService.HOST_URL + '/admin/UpdateProductList';
+  public static uploadMainImageURL: string = ApiService.HOST_URL + '/admin/UploadProductImage/';
+  public static uploadMultiImageURL: string = ApiService.HOST_URL + '/admin/UploadMultiProductImage/';
+  public static removeImageURL: string = ApiService.HOST_URL + '/admin/RemoveRecentUoloadImage/';
+  public static courosalImageURL: string = ApiService.HOST_URL + '/admin/CourosalImage/';
+  public static getCartDataByID: string = ApiService.HOST_URL + '/admin/GetCartDataByID/';
+  public static verificationURL: string = ApiService.HOST_URL + '/admin/Verification';
+  public static getRegisterOtpURL: string = ApiService.HOST_URL + '/admin/GetRegisterOtp';
+  public static saveUserCustomerListURL: string = ApiService.HOST_URL + '/admin/SaveUserCustomerList';
+  public static saveOfferPurchaseURL: string = ApiService.HOST_URL + '/admin/saveOfferPurchase';
+  public static saveVendorListURL: string = ApiService.HOST_URL + '/admin/SaveVendorList';
+  public static getAllVendorURL: string = ApiService.HOST_URL + '/admin/GetAllVendor';
+  public static removeVendorListURL: string = ApiService.HOST_URL + '/admin/RemoveVendorList/';
+  public static updateVendorListURL: string = ApiService.HOST_URL + '/admin/UpdateVendorList/';
+  public static getCustomerDataByIdURL: string = ApiService.HOST_URL + '/admin/GetCustomerDataById/';
+  public static saveMembershipListURL: string = ApiService.HOST_URL + '/admin/SaveMembershipList';
+  public static getUsedServicesByMembershipURL: string = ApiService.HOST_URL + '/admin/GetUsedServicesByMembership';
+  public static getAllOMembershipURL: string = ApiService.HOST_URL + '/admin/GetAllMembership';
+  public static updateMembershipListURL: string = ApiService.HOST_URL + '/admin/UpdateMembershipList';
+  public static removeMembershipDetailsURL: string = ApiService.HOST_URL + '/admin/removeMembershipDetails/';
+  public static getAllMembershipURL: string = ApiService.HOST_URL + '/admin/getAllMembership/';
+  public static getWebBannersURL: string = ApiService.HOST_URL + '/admin/GetWebBanners';
+  public static uploadBannersImageURL: string = ApiService.HOST_URL + '/admin/UploadBannersImage';
+  public static saveWebBannersURL: string = ApiService.HOST_URL + '/admin/SaveWebBanners';
+  public static getWebBannerURL: string = ApiService.HOST_URL + '/admin/GetWebBanner';
+  public static removeWebBannersURL: string = ApiService.HOST_URL + '/admin/RemoveWebBanners';
+  public static updateActiveWebStatusURL: string = ApiService.HOST_URL + '/admin/UpdateActiveWebBanners';
+  public static saveCartListURL: string = ApiService.HOST_URL + '/admin/saveCartList';
+  public static getAllCartListURL: string = ApiService.HOST_URL + '/admin/getAllCartList';
+  public static removeCartDetailsURL: string = ApiService.HOST_URL + '/admin/removeCartDetails';
+  public static updateCartListURL: string = ApiService.HOST_URL + '/admin/updateCartList';
+  public static saveOrderListURL: string = ApiService.HOST_URL + '/admin/saveOrderList';
+  public static updateActiveOffersURL: string = ApiService.HOST_URL + '/admin/UpdateActiveOffers';
+  public static savePlaceOrderListURL: string = ApiService.HOST_URL + '/admin/SavePlaceOrderList';
+  public static getAllOrderListURL: string = ApiService.HOST_URL + '/admin/GetAllOrderList';
+  public static savePurchaseServiceListURL: string = ApiService.HOST_URL + '/admin/SavePurchaseServiceList';
+  public static getAllMembershipPurchasedURL: string = ApiService.HOST_URL + '/admin/GetAllMembershipPurchased';
+  public static getMembershipPurchasedByIDURL: string = ApiService.HOST_URL + '/admin/GetMembershipPurchasedByID';
+  public static removeLastInsertedOTPURL: string = ApiService.HOST_URL + '/admin/removeLastInsertedOTP';
+  public static getAllProductOrderListURL: string = ApiService.HOST_URL + '/admin/GetAllProductOrderList/';
+  public static removeCustomerOrderURL: string = ApiService.HOST_URL + '/admin/RemoveCustomerOrder/';
+  public static removeOrderDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveOrderDetails';
+  public static saveAcceptUserOrderURL: string = ApiService.HOST_URL + '/admin/SaveAcceptUserOrder';
+  public static getActivatedMembershipURL: string = ApiService.HOST_URL + '/admin/GetActivatedMembership';
+  public static saveRatingsDetailsURL: string = ApiService.HOST_URL + '/admin/SaveRatingsDetails';
   
-  public static removeInstituteDetailsByIdURL: string = ApiService.HOST_URL + '/admin/RemoveInstituteDetailsById/';
-  public static updateInstituteDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateInstituteDetails';
-  public static saveGalleryImagesURL: string = ApiService.HOST_URL + '/admin/SaveGalleryImages';
-  public static uploadGalleryImagesURL: string = ApiService.HOST_URL + '/admin/UploadGalleryImages';
-  public static uploadGalleryVideoURL: string = ApiService.HOST_URL + '/admin/UploadGalleryVideo';
-  public static getImagesByIdDetailsURL: string = ApiService.HOST_URL + '/admin/GetImagesByIdDetails';
-  public static getALLImagesByIdDetailsURL: string = ApiService.HOST_URL + '/admin/GetALLImagesByIdDetails';
-  public static updateActiveDeactiveBannersURL: string = ApiService.HOST_URL + '/admin/UpdateActiveDeactiveBanners';
-  public static updateActiveDeactiveNewsURL: string = ApiService.HOST_URL + '/admin/UpdateActiveDeactiveNews'
-  public static removeImagesByIdDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveImagesByIdDetails';
-  public static saveDepartmentListURL: string = ApiService.HOST_URL + '/admin/SaveDepartmentList';
-  public static getDepartmentByIdDetailsURL: string = ApiService.HOST_URL + '/admin/GetDepartmentByIdDetails/';
-  public static removeDepartmentByIdDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveDepartmentByIdDetails/';
-  public static updateDepartmentListURL: string = ApiService.HOST_URL + '/admin/UpdateDepartmentList';
-  public static saveStaffProfileImagesURL: string = ApiService.HOST_URL + '/admin/SaveStaffProfileImages';
-  public static saveStaffDetailsListURL: string = ApiService.HOST_URL + '/admin/SaveStaffDetailsList';
-  public static updateStaffDetailsByIdURL: string = ApiService.HOST_URL + '/admin/UpdateStaffDetailsById';
-  public static removeStaffDocumentURL: string = ApiService.HOST_URL + '/admin/RemoveStaffDocument/';
-  public static getAllStaffDetailsURL: string = ApiService.HOST_URL + '/admin/GetAllStaffDetails/';
-  public static removeStaffDetailsByIdURL: string = ApiService.HOST_URL + '/admin/RemoveStaffDetailsById/';
-  public static saveDonnerListDetailsURL: string = ApiService.HOST_URL + '/admin/SaveDonnerListDetails';
-  public static getAllDonnerListURL: string = ApiService.HOST_URL + '/admin/GetAllDonnerList';
-  public static removeDonnerDetailsByIdURL: string = ApiService.HOST_URL + '/admin/RemoveDonnerDetailsById/';
-  public static getBeneficiaryYearURL: string = ApiService.HOST_URL + '/admin/GetBeneficiaryYear';
-  public static saveBeneficiaryDetailsURL: string = ApiService.HOST_URL + '/admin/SaveBeneficiaryDetails';
-  public static updateBeneficiaryDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateBeneficiaryDetails';
-  public static getAllBeneficiaryListURL: string = ApiService.HOST_URL + '/admin/GetAllBeneficiaryList';
-  public static removeBeneficiaryDetailsByIdURL: string = ApiService.HOST_URL + '/admin/RemoveBeneficiaryDetailsById/';
-  public static saveBulkBeneficiaryDetailsURL: string = ApiService.HOST_URL + '/admin/SaveBulkBeneficiaryDetails';
-  public static saveBulkDonnersDetailsURL: string = ApiService.HOST_URL + '/admin/SaveBulkDonnersDetails';
-  public static saveBlogDetailsURL: string = ApiService.HOST_URL + '/admin/SaveBlogDetails';
-  public static updateBlogDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateBlogDetails';
-  public static getBlogsDetailsByIdURL: string = ApiService.HOST_URL + '/admin/GetBlogsDetailsById/'
-  public static removeBlogDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveBlogDetails/';
-  public static uploadBlogImagesURL: string = ApiService.HOST_URL + '/admin/uploadBlogImages';
-  public static uploadInfraImageURL: string = ApiService.HOST_URL + '/admin/UploadInfraImage';
-  public static uploadInfraMultiImageURL: string = ApiService.HOST_URL + '/admin/UploadInfraMultiImage';
-  public static saveInfrastructureDetailsURL: string = ApiService.HOST_URL + '/admin/SaveInfrastructureDetails';
-  public static getBlogsInfraMultiImageByIdURL: string = ApiService.HOST_URL + '/admin/GetInfraMultiImagesById/';
-  public static updateInfraDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateInfraDetails';
-  public static removeInfraDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveInfraDetails/';
-  public static getInfraDetailsByIdURL: string = ApiService.HOST_URL + '/admin/GetInfraDetailsById/';
-  public static SaveAlumniDetailsURL: string = ApiService.HOST_URL + '/admin/SaveAlumniDetails';
-  public static GetAlumniDetailsURL: string = ApiService.HOST_URL + '/admin/GetAlumniDetails';
-  public static getContactUsDetailsByIdURL: string = ApiService.HOST_URL + '/admin/GetContactUsDetailsById/';
-  public static saveResultDetailsURL: string = ApiService.HOST_URL + '/admin/SaveResultDetails';
-  public static updateResultDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateResultDetails';
-  public static removeResultDetailsByIdURL: string = ApiService.HOST_URL + '/admin/RemoveResultDetailsById/';
-  public static getResultDetailsByIdURL: string = ApiService.HOST_URL + '/admin/GetResultDetailsById/';
-  public static uploadPDFURL: string = ApiService.HOST_URL + '/admin/UploadPDF';
-  public static saveNewsDataListURL: string = ApiService.HOST_URL + '/admin/SaveNewsDataList';
-  public static getNewsByIdDetailsURL: string = ApiService.HOST_URL + '/admin/GetNewsByIdDetails/';
-  public static removeNewsByIdDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveNewsByIdDetails/';
-  public static saveOthersDataListURL: string = ApiService.HOST_URL + '/admin/SaveOthersDataList';
-  public static removeOtherDetailsByIdURL: string = ApiService.HOST_URL + '/admin/RemoveOtherDetailsById/'
-  public static getOthersByIdDetailsURL: string = ApiService.HOST_URL + '/admin/GetOthersByIdDetails/';
-  public static saveStudentListDataURL: string = ApiService.HOST_URL + '/admin/SaveStudentListData';
-  public static updateStudentListDataURL: string = ApiService.HOST_URL + '/admin/UpdateStudentListData';
-  public static removeStudentListDataURL: string = ApiService.HOST_URL + '/admin/RemoveStudentListData/';
-  public static getStudentListDataURL: string = ApiService.HOST_URL + '/admin/GetStudentListData/';
-  public static saveMagazineListURL: string = ApiService.HOST_URL + '/admin/SaveMagazineList';
-  public static removeMagazineListURL: string = ApiService.HOST_URL + '/admin/RemoveMagazineList/';
-  public static removeCrietriaListURL: string = ApiService.HOST_URL + '/admin/RemoveCrietriaListURL/';
-  public static getMagazineListURL: string = ApiService.HOST_URL + '/admin/GetMagazineList';
-  public static getCounselingDataURL: string = ApiService.HOST_URL + '/admin/GetCounselingData';
-  public static getRahatokarshDonationListURL: string = ApiService.HOST_URL + '/admin/GetRahatokarshDonationList';
-  public static generateRahatokarshCertficateURL: string = ApiService.HOST_URL + '/admin/GenerateRahatokarshCertficate';
-  public static uploadMoreImageURL: string = ApiService.HOST_URL + '/admin/UploadMoreImage';
-  public static saveScholarshipDetailsURL: string = ApiService.HOST_URL + '/admin/SaveScholarshipDetails';
-  public static getScholarshipDetailsURL: string = ApiService.HOST_URL + '/admin/GetScholarshipDetails/';
-  public static removeScholarshipDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveScholarshipDetails/';
-  public static saveQuestionPapersDetailsURL: string = ApiService.HOST_URL + '/admin/SaveQuestionPapersDetails';
-  public static getQuestionPapersDetailsURL: string = ApiService.HOST_URL + '/admin/GetQuestionPapersDetails/';
-  public static removeQuestionPapersDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveQuestionPapersDetails/';
-  public static saveGatePassUserListURL: string = ApiService.HOST_URL + '/admin/SaveGatePassUserList';
-  public static getGatePassUserListURL: string = ApiService.HOST_URL + '/admin/GetGatePassUserList';
-  public static updateActiveDeactiveAnswerkeyURL: string = ApiService.HOST_URL + '/admin/UpdateActiveDeactiveAnswerkey';
-  public static saveAnswerkeyDataListURL: string = ApiService.HOST_URL + '/admin/SaveAnswerkeyDataList';
-  public static getAnswerkeyByIdDetailsURL: string = ApiService.HOST_URL + '/admin/GetAllAnswerkey';
-  public static removeAnswerkeyByIdDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveAnswerkeyByIdDetails/';
-  public static saveNaacDetailsURL: string = ApiService.HOST_URL + '/admin/SaveNaacDetails';
-  public static getNaacDataURL: string = ApiService.HOST_URL + '/admin/GetNaacData';
-  public static getKeyNoDataGroupByURL: string = ApiService.HOST_URL + '/admin/GetKeyNoDataGroupBy';
-  public static updateNAACDataURL: string = ApiService.HOST_URL + '/admin/UpdateNAACData';
+  // showNotification(from, align, msg, color) {
+  //   var color = color;
+  //   $.notify({
+  //     icon: "",
+  //     message: msg
+  //   }, {
+  //     type: color,
+  //     timer: 2000,
+  //     placement: {
+  //       from: from,
+  //       align: align
+  //     },
+  //     template: '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>'
+  //   });
+  // }
 }

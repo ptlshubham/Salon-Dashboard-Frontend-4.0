@@ -1,15 +1,13 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { CookieService } from 'ngx-cookie-service';
 import { EventService } from '../../core/services/event.service';
 import { LanguageService } from '../../core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from '../../../environments/environment';
-import { AuthenticationService } from '../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
 
 import { LAYOUT_MODE } from "../layouts.model";
+import ls from 'localstorage-slim';
+import { UserProfileService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-topbar',
@@ -28,11 +26,20 @@ export class TopbarComponent implements OnInit {
   cookieValue: any;
   countryName: any;
   valueset: any;
-  userName: any;
+
+  member: any;
+  Roles: any;
+  datetime: any;
+  in_time: any;
+  out_time: any;
+  visit: any = '';
+  loginTotalTime: number = 0;
+  uid: any;
+  vip: any;
+  public userName = ls.get('UserName', { decrypt: true });
   constructor(
     private router: Router,
-    private authService: AuthenticationService,
-    private authFackservice: AuthfakeauthenticationService,
+    private loginService: UserProfileService,
     public languageService: LanguageService,
     public _cookiesService: CookieService,
     public translate: TranslateService,
@@ -56,7 +63,13 @@ export class TopbarComponent implements OnInit {
   layoutMode!: string;
 
   ngOnInit(): void {
-    this.userName = localStorage.getItem('Name');
+    this.userName = ls.get('UserName', { decrypt: true });
+    this.in_time = ls.get('lastInTime', { decrypt: true });
+    this.out_time = ls.get('lastInTime', { decrypt: true });
+    this.Roles = ls.get('role', { decrypt: true });
+    this.uid = ls.get('UserId', { decrypt: true });
+    this.vip = ls.get('VIP', { decrypt: true });
+    this.member = ls.get('member', { decrypt: true });
 
     this.layoutMode = LAYOUT_MODE;
 
@@ -110,9 +123,41 @@ export class TopbarComponent implements OnInit {
   /**
    * Logout the user
    */
+  // logout() {
+  //   localStorage.clear();
+  //   this.router.navigate(['/account/login']);
+  // }
   logout() {
-    localStorage.clear();
-    this.router.navigate(['/account/login']);
+    // this.loginTimeCalculation();
+    let data = {
+      userid: this.uid,
+      loginMinute: this.loginTotalTime
+    };
+    this.loginService.UpdateLogout(data).subscribe((res) => {
+      // this.apiService.showNotification('top', 'right', 'Logout Successfully.', 'success');
+      ls.clear();
+      this.router.navigate(['/account/login']);
+    });
   }
+
+  // loginTimeCalculation() {
+  //   var intime = typeof datetime !== 'undefined' ? datetime : this.in_time;
+  //   var datetime: any = new Date(intime).getTime();
+  //   var now = new Date().getTime();
+  //   if (isNaN(datetime)) {
+  //     return "";
+  //   }
+  //   var milisec_diff: number = 0;
+  //   if (datetime < now) {
+  //     milisec_diff = now - datetime;
+  //   } else {
+  //     milisec_diff = datetime - now;
+  //   }
+  //   var minutes: number = 0;
+  //   minutes = (milisec_diff / 60000);
+  //   var minutesRound = Math.round(minutes);
+  //   this.loginTotalTime = minutesRound;
+
+  // }
 
 }

@@ -56,24 +56,24 @@ export class LoginComponent implements OnInit {
       return;
     }
     else {
-      this.userService.adminLogin(this.f.email.value, this.f.password.value).subscribe((res: any) => {
+      // this.userService.adminLogin(this.f.email.value, this.f.password.value).subscribe((res: any) => {
          
-        if (res.length > 0) {
-          localStorage.setItem('Name', res[0].name);
-          localStorage.setItem('token', res[0].token);
-          localStorage.setItem('Role', 'superAdmin');
-          // this.toastr.success('Login Successfully', 'success', { timeOut: 3000, });
-          this.router.navigate(['/']);
-        } else if (res == 1) {
-          // this.toastr.error('Incorrect Email !....please check your Email', 'wrong email', {
-          //   timeOut: 3000,
-          // });
-        } else {
-          // this.toastr.error('Incorrect Password !....please check your Password', 'wrong password', {
-          //   timeOut: 3000,
-          // });
-        }
-      })
+      //   if (res.length > 0) {
+      //     localStorage.setItem('Name', res[0].name);
+      //     localStorage.setItem('token', res[0].token);
+      //     localStorage.setItem('Role', 'superAdmin');
+      //     // this.toastr.success('Login Successfully', 'success', { timeOut: 3000, });
+      //     this.router.navigate(['/']);
+      //   } else if (res == 1) {
+      //     // this.toastr.error('Incorrect Email !....please check your Email', 'wrong email', {
+      //     //   timeOut: 3000,
+      //     // });
+      //   } else {
+      //     // this.toastr.error('Incorrect Password !....please check your Password', 'wrong password', {
+      //     //   timeOut: 3000,
+      //     // });
+      //   }
+      // })
     }
   }
 

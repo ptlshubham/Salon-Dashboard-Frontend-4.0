@@ -1,0 +1,264 @@
+<div class="row" *ngIf="isOpen==true">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">Add New Employee Details</h5>
+                    <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToTable()">
+                        <i class="bx bx-arrow-back font-size-16 align-middle"></i>
+                        Back</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <form [formGroup]="validationForm">
+                        <input type="hidden" />
+                        <div class="row">
+                            <div class="col-xl-4 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control" id="fname" placeholder="Enter Name"
+                                        formControlName="fname"
+                                        [ngClass]="{'is-invalid': f.fname.touched && f.fname.errors}"
+                                        [(ngModel)]="employeeModel.fname">
+                                    <div *ngIf="f.fname.touched && f.fname.errors" class="invalid-feedback">
+                                        <span *ngIf="f.fname.errors.required">This Field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control" id="lname" placeholder="Enter Name"
+                                        formControlName="lname"
+                                        [ngClass]="{'is-invalid': f.lname.touched && f.lname.errors}"
+                                        [(ngModel)]="employeeModel.lname">
+                                    <div *ngIf="f.lname.touched && f.lname.errors" class="invalid-feedback">
+                                        <span *ngIf="f.lname.errors.required">This Field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="mb-3">
+                                    <label for="basicpill-phoneno-input1" class="form-label">Contact
+                                        Number</label>
+                                    <input type="number" formControlName="contact"
+                                        [ngClass]="{ 'is-invalid': f.contact.touched && f.contact.errors }"
+                                        class="form-control" id="contact" [(ngModel)]="employeeModel.contact"
+                                        placeholder="Enter Alternate Number">
+                                    <div *ngIf="f.contact.touched || f.contact.invalid || f.contact.pristine"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f.contact.errors?.required">Mobile number is
+                                            required.</div>
+                                        <div *ngIf="f.contact.errors?.pattern">Please, Enter 10 digit
+                                            Mobile number.</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="mb-3">
+                                    <label for="basicpill-phoneno-input1" class="form-label">Whatsapp
+                                        Number</label>
+                                    <input type="number" formControlName="whatsapp"
+                                        [ngClass]="{ 'is-invalid': f.whatsapp.touched && f.whatsapp.errors }"
+                                        class="form-control" id="whatsapp" [(ngModel)]="employeeModel.whatsapp"
+                                        placeholder="Enter Alternate Number">
+                                    <div *ngIf="f.whatsapp.touched || f.whatsapp.invalid || f.whatsapp.pristine"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f.whatsapp.errors?.required">Mobile number is
+                                            required.</div>
+                                        <div *ngIf="f.whatsapp.errors?.pattern">Please, Enter 10 digit
+                                            Mobile number.</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group mb-3">
+                                    <label for="Selct Gender" class="form-label">Select
+                                        Gender</label>
+                                    <select required class="form-select" formControlName="selectGender"
+                                        [(ngModel)]="selectedGender" (change)="selectGenderData($event)"
+                                        [ngClass]="{'is-invalid': f.selectGender.touched && f.selectGender.errors}">
+                                        <option value="" hidden>Select Gender</option>
+                                        <option *ngFor="let c of genderData">{{c.name}}</option>
+                                    </select>
+                                    <div *ngIf="f.selectGender.touched && f.selectGender.errors" class="invalid-feedback">
+                                        <span *ngIf="f.selectGender.errors.required">This field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="mb-3">
+                                    <label for="basicpill-address-input" class="form-label">Address</label>
+                                    <textarea id="basicpill-address-input" class="form-control" rows="3" id="address"
+                                        formControlName="address" [(ngModel)]="employeeModel.address"
+                                        [ngClass]="{ 'is-invalid': f.address.touched && f.address.errors }"
+                                        placeholder="Address (Area and Street)"></textarea>
+                                    <div *ngIf="f.address.touched && f.address.errors" class="invalid-feedback">
+                                        <div *ngIf="f.address.errors.required">Address is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="basicpill-vatno-input1" class="form-label">Enter
+                                        Landmark</label>
+                                    <input type="text" formControlName="landmark" class="form-control" id="landmark"
+                                        placeholder="Landmark (Optional)" [(ngModel)]="employeeModel.landmark">
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group mb-3">
+                                    <label for="Selct State" class="form-label">Select
+                                        State</label>
+                                    <select required class="form-select" formControlName="selectState"
+                                        [(ngModel)]="selectedState" (change)="selectStateData($event)"
+                                        [ngClass]="{'is-invalid': f.selectState.touched && f.selectState.errors}">
+                                        <option value="" hidden>Select State</option>
+                                        <option *ngFor="let c of stateData">{{c.name}}</option>
+                                    </select>
+                                    <div *ngIf="f.selectState.touched && f.selectState.errors" class="invalid-feedback">
+                                        <span *ngIf="f.selectState.errors.required">This field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group mb-3">
+                                    <label for="Selct City" class="form-label">Select
+                                        City</label>
+                                    <select required class="form-select" formControlName="city"
+                                        [(ngModel)]="selectedCity" (change)="selectCityData($event)"
+                                        [ngClass]="{'is-invalid': f.city.touched && f.city.errors}">
+                                        <option value="" hidden *ngIf="cityListData.length==0">Please Select
+                                            State
+                                        </option>
+                                        <option value="" hidden *ngIf="cityListData.length>=0">Select City
+                                        </option>
+                                        <option *ngFor="let c of cityListData">{{c.city}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="f.city.touched && f.city.errors" class="invalid-feedback">
+                                        <span *ngIf="f.city.errors.required">This field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="basicpill-phoneno-input1" class="form-label">Enter
+                                        Pincode</label>
+                                    <input type="number" formControlName="pincode"
+                                        [ngClass]="{ 'is-invalid': f.pincode.touched && f.pincode.errors }"
+                                        class="form-control" id="pincode" [(ngModel)]="employeeModel.pincode"
+                                        placeholder="Enter Pincode Number">
+                                    <div *ngIf="f.pincode.touched || f.pincode.invalid || f.pincode.pristine"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f.pincode.errors?.required">Pincode is
+                                            required.</div>
+                                        <div *ngIf="f.pincode.errors?.pattern">Please, Enter valid
+                                            PINCODE.</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="Select Services" class="form-label">Select Services (Multiple)</label>
+                                    <div class="multi_default">
+                                        <ng-select [items]="servicesList" [multiple]="true" bindLabel="name"
+                                            [(ngModel)]="selectedServices" formControlName="services"
+                                            [ngClass]="{'is-invalid': f.services.touched && f.services.errors}">
+                                            <ng-template ng-optgroup-tmp let-item="item">
+                                                {{item.country || 'Unnamed group'}}
+                                            </ng-template>
+                                        </ng-select>
+                                        <div *ngIf="f.services.touched && f.services.errors" class="invalid-feedback">
+                                            <span *ngIf="f.services.errors.required">This field is
+                                                required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row justify-content-end">
+                                <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
+                                    <button type="submit" class="btn btn-primary" (click)="saveEmployeeDetail()"
+                                        *ngIf="isUpdate==false" [disabled]="validationForm.invalid">Submit</button>
+
+                                    <button type="submit" class="btn btn-primary" (click)="updateEmployeeDetail()"
+                                        *ngIf="isUpdate==true" [disabled]="validationForm.invalid">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="isOpen==false">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">Employee List</h5>
+                    <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
+                        (click)="openAddEmployee()"><i class="bx bx-user-plus label-icon"></i>
+                        Add New Employee</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-left">#</th>
+                                <th class="text-center">Employee Name</th>
+                                <th class="text-center">Contact No</th>
+                                <th class="text-center">Whatsapp No</th>
+                                <th class="text-center">Address</th>
+                                <th class="text-center">Gender</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <!-- <tbody>
+                            <tr *ngFor="let s of paginateData;let i=index">
+                                <td class="text-left">{{s.index}}</td>
+                                <td class="text-center">{{s.name}} </td>
+                                <td class="text-center">{{s.price}} </td>
+                                <td class="text-center">{{s.time}} </td>
+                                <td class="text-center">{{s.point}} </td>
+                                <td class="text-center">{{s.epoint}} </td>
+                                <td class="text-end">
+                                    <div class="d-flex flex-wrap gap-2 text-end">
+                                        <button type="button" class="btn btn-soft-primary waves-effect waves-light"
+                                            (click)="openUpdateService(s)"><i
+                                                class="bx bx-edit font-size-16 align-middle"></i></button>
+                                        <button type="button" class="btn btn-soft-danger waves-effect waves-light"
+                                            (click)="removeServiceDetails(s.id)"><i
+                                                class="bx bx-trash-alt font-size-16 align-middle"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody> -->
+                    </table>
+                </div>
+                <!-- <div class="row mt-4">
+                    <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page"
+                        [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                        (pageChange)="getPagintaion();" aria-label="Default pagination"
+                        class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
