@@ -24,17 +24,5 @@ export const MENU: MenuItem[] = [
         icon: 'users',
         link: '/custom/employee-list',
     },
-    {
-        id: 113,
-        label: 'Drivers List',
-        icon: 'users',
-        link: '/home/driver-list'
-    },
-    {
-        id: 114,
-        label: 'Vehicle List',
-        icon: 'file-text',
-        link: '/home/vehicle-list'
-    },
 ];
 

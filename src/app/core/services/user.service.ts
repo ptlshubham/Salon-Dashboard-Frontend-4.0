@@ -55,7 +55,7 @@ export class UserProfileService {
          debugger
         const data = {
             email: email,
-            pass:pass,
+            password:pass,
         };
 
         return this.http.post<any>(ApiService.getUserLoginURL, data);
@@ -81,7 +81,7 @@ export class UserProfileService {
         return this.http.post(ApiService.ChackForPasswordURL, data);
     }
     UpdateLogout(data:any) {
-         
+         debugger
         return this.http.post(ApiService.updateLogoutDetailsURL, data);
     }
 }

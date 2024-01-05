@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-
 import { environment } from '../../../environments/environment';
-import { AuthenticationService } from '../../core/services/auth.service';
 import { UserProfileService } from '../../core/services/user.service';
 import { LAYOUT_MODE } from '../../layouts/layouts.model';
 import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -34,7 +31,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder: UntypedFormBuilder,
     private router: Router,
-    private authenticationService: AuthenticationService,
+    // private authenticationService: AuthenticationService,
     private userService: UserProfileService) { }
 
   ngOnInit(): void {
@@ -65,15 +62,15 @@ export class RegisterComponent implements OnInit {
       return;
     } else {
       if (environment.defaultauth === 'firebase') {
-        this.authenticationService.register(this.f.email.value, this.f.password.value).then((res: any) => {
-          this.successmsg = true;
-          if (this.successmsg) {
-            this.router.navigate(['']);
-          }
-        })
-          .catch((error: string) => {
-            this.error = error ? error : '';
-          });
+        // this.authenticationService.register(this.f.email.value, this.f.password.value).then((res: any) => {
+        //   this.successmsg = true;
+        //   if (this.successmsg) {
+        //     this.router.navigate(['']);
+        //   }
+        // })
+          // .catch((error: string) => {
+          //   this.error = error ? error : '';
+          // });
       } else {
         // this.userService.register(this.signupForm.value)
         //   .pipe(first())

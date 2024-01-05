@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from '../../core/services/auth.service';
 import { LAYOUT_MODE } from '../../layouts/layouts.model';
 import { UserProfileService } from 'src/app/core/services/user.service';
 import ls from 'localstorage-slim';
@@ -31,15 +30,14 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService,
     // public toastr: ToastrService,
     private loginService: UserProfileService,
     // private homeService: HomeService
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/']);
-    }
+    // if (this.authenticationService.currentUserValue) {
+    //   this.router.navigate(['/']);
+    // }
   }
 
   ngOnInit(): void {

@@ -78,10 +78,8 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         let token: any = ls.get('authenticationToken', { decrypt: true });
-        console.log(token);
         // let adminToken: any = ls.get('authenticationToken', { decrypt: true }) 
         if (request.url != ApiService.getUserLoginURL && request.url != ApiService.getRegisterOtpURL && ApiService.saveUserCustomerListURL) {
-
             console.log("in the interceptor")
             request = request.clone({ headers: request.headers.set('x-access-token', token) });
             return next.handle(request).pipe(catchError(err => {
@@ -95,6 +93,7 @@ export class AuthInterceptor implements HttpInterceptor {
             }))
         }
         else {
+            debugger
             return next.handle(request);
         }
     }

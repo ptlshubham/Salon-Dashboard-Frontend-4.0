@@ -6,19 +6,19 @@ export class Employee {
         public lname?: string,
         public contact?: string,
         public whatsapp?: number,
+        public gender?: string,
         public address?: string,
-        public state?: string,
         public landmark?: string,
+        public state?: string,
         public city?: string,
         public pincode?: string,
-        public gender?: string,
+        public service: any = [],
         public salary?: number,
-        public services?: string,
         public isactive?: boolean,
         public createddate?: Date,
         public updateddate?: Date,
-        public service?: any,
-        public isworking?:boolean
+        public services?: any,
+        public isworking?: boolean
         // public dateofbirth?: string
     ) {
     }

@@ -23,7 +23,7 @@ export class EmployeeComponent {
   cityData: any = [];
   selectedState: any;
   selectedCity: any;
-  selectedServices: any;
+  selectedServices: any[] = [];
   selectedGender: any;
   cityListData: any = [];
   genderData: any = [
@@ -47,7 +47,7 @@ export class EmployeeComponent {
   }
 
   ngOnInit(): void {
-    this.selectedServices = 'Select Services';
+    // this.selectedServices = 'Select Services';
     this.validationForm = this.formBuilder.group({
       fname: ['', [Validators.required]],
       lname: ['', [Validators.required]],
@@ -115,7 +115,25 @@ export class EmployeeComponent {
   }
 
   saveEmployeeDetail() {
+    this.employeeModel.isactive = true;
+    this.employeeModel.gender = this.selectedGender;
+    this.employeeModel.state = this.selectedState;
+    this.employeeModel.city = this.selectedCity;
+    this.employeeModel.service = this.selectedServices;
+    debugger
+    this.employeeService.saveEmployeeList(this.employeeModel).subscribe((data: any) => {
+      this.employeeReg = data;
+      this.getAllEmployee();
+    })
+  }
+  getAllEmployee() {
+    this.employeeService.getAllEmployeeList().subscribe((data: any) => {
+      this.employeeReg = data;
 
+      for (let i = 0; i < this.employeeReg.length; i++) {
+        this.employeeReg[i].index = i + 1;
+      }
+    });
   }
   updateEmployeeDetail() {
 
