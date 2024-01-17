@@ -48,8 +48,8 @@ export class EmployeeComponent {
 
   public employeeModel: any = [];
   public salaryModel: any = [];
-  public employeeReg: any[];
-  public servicesList: any[];
+  public employeeReg: any[] = [];
+  public servicesList: any[] = [];
   salaryList: any = [];
 
 
@@ -274,6 +274,6 @@ export class EmployeeComponent {
 
     })
   }
-  
+
 
 }

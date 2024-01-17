@@ -11,8 +11,8 @@ import Swal from 'sweetalert2';
 })
 export class ServicesComponent {
   public servicesModel: Services = new Services;
-  public servicesList: Services[];
-  public services: Services[];
+  public servicesList: Services[] = [];
+  public services: Services[] = [];
 
   isOpen: boolean = false;
   isUpdate: boolean = false;
