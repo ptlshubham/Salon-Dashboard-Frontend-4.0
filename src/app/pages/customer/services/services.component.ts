@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Services } from 'src/app/core/models/services.model';
 import { ServiceListService } from 'src/app/core/services/services.service';
 import Swal from 'sweetalert2';
@@ -26,6 +27,8 @@ export class ServicesComponent {
   constructor(
     private servicesService: ServiceListService,
     public formBuilder: UntypedFormBuilder,
+    public toastr: ToastrService,
+
   ) { }
 
   ngOnInit(): void {
@@ -72,7 +75,10 @@ export class ServicesComponent {
 
   saveServicesDetail() {
     this.servicesService.saveServiceList(this.servicesModel).subscribe((data: any) => {
+      this.toastr.success('Service details added successfully', 'Success', { timeOut: 3000 });
       this.servicesList = data;
+      this.isOpen = false;
+      this.isUpdate = false;
     })
   }
   openUpdateService(data: any) {
@@ -99,8 +105,8 @@ export class ServicesComponent {
     });
   }
   updateServicesDetail() {
-    this.servicesModel
     this.servicesService.updateServicesList(this.servicesModel).subscribe((req) => {
+      this.toastr.success('Service details updated successfully', 'Updated', { timeOut: 3000 });
       this.isOpen = false;
       this.isUpdate = false;
       this.getAllServices();

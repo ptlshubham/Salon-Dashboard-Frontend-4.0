@@ -1,6 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import jsPDF from 'jspdf';
+import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { SalaryService } from 'src/app/core/services/salary.service';
 import { ServiceListService } from 'src/app/core/services/services.service';
@@ -58,7 +60,9 @@ export class EmployeeComponent {
     private employeeService: EmployeeService,
     private salaryService: SalaryService,
     public formBuilder: UntypedFormBuilder,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    public toastr: ToastrService,
+
   ) {
     this.getStateList();
     this.getAllServices();
@@ -144,9 +148,10 @@ export class EmployeeComponent {
     this.employeeModel.state = this.selectedState;
     this.employeeModel.city = this.selectedCity;
     this.employeeModel.service = this.selectedServices;
-    debugger
+
     this.employeeService.saveEmployeeList(this.employeeModel).subscribe((data: any) => {
       if (data = 'success') {
+        this.toastr.success('Employee details added successfully', 'Success', { timeOut: 3000 });
         this.isOpen = false;
         this.getAllEmployee();
       }
@@ -155,7 +160,7 @@ export class EmployeeComponent {
   getAllEmployee() {
     this.employeeService.getAllEmployeeList().subscribe((data: any) => {
       this.employeeReg = data;
-      debugger
+
       for (let i = 0; i < this.employeeReg.length; i++) {
         this.employeeReg[i].index = i + 1;
       }
@@ -185,8 +190,6 @@ export class EmployeeComponent {
     });
   }
   viewEmpDetails(data: any) {
-    debugger
-
     this.isOpen = true;
     this.isUpdate = true;
     this.employeeModel = data;
@@ -199,6 +202,7 @@ export class EmployeeComponent {
   }
   updateEmployeeDetail() {
     this.employeeService.updateEmpList(this.employeeModel).subscribe((req) => {
+      this.toastr.success('Employee details updated successfully', 'Updated', { timeOut: 3000 });
       this.getAllEmployee();
     })
   }
@@ -219,8 +223,8 @@ export class EmployeeComponent {
   }
   saveSalaryDetail() {
     this.salaryModel.empid = this.salaryModel.id;
-    debugger
     this.salaryService.saveSalaryList(this.salaryModel).subscribe((data: any) => {
+      this.toastr.success('Salary details added successfully', 'Success', { timeOut: 3000 });
       this.salaryList = data;
       this.getAllSalary(this.salaryModel.id);
     })
@@ -257,7 +261,61 @@ export class EmployeeComponent {
       }
     });
   }
-  generaterecipt(salarylistIndex: any) { }
+  generaterecipt(data: any): void {
+    // Create a dynamic salary slip template
+
+    const dynamicData = {
+      empName: data.fname + ' ' + data.lname,
+      contactNumber: data.contact,
+      gender: data.gender,
+      salary: data.salary,
+      paiddate: this.datepipe.transform(data.paiddate, 'yyyy-MM-dd'),
+      desc: data.desc,
+    };
+
+    // Set up jsPDF with A5 landscape page size
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: 'a5'
+    });
+
+    const margin = 20;
+
+    // Add company logo
+    const logoUrl = 'assets/images/giftbox.png'; // Replace with the actual path to your logo
+    pdf.addImage(logoUrl, 'PNG', margin, 10, 30, 30);
+
+    // Add company details
+    pdf.setFontSize(8);
+    pdf.text('Keryar IT Solutions', margin + 35, 20);
+    pdf.text('Address: Vaibhav Complex', margin + 35, 30);
+    pdf.text('Phone: Your Company Phone', margin + 35, 40);
+    pdf.text('Email: info@keryar.com', margin + 35, 50);
+
+    // Add dynamic data to the PDF
+    pdf.setFontSize(12);
+    pdf.text('Salary Slip Receipt', margin, 60);
+
+    // Add lines and borders
+    pdf.setLineWidth(0.5);
+    pdf.line(margin, 65, pdf.internal.pageSize.width - margin, 65);
+
+    // Add dynamic data with formatting
+    pdf.setFontSize(10);
+    pdf.text(`Employee Name: ${dynamicData.empName}`, margin, 80);
+    pdf.text(`Contact Number: ${dynamicData.contactNumber}`, margin, 90);
+    pdf.text(`Gender: ${dynamicData.gender}`, margin, 100);
+    pdf.text(`Salary: ${dynamicData.salary}`, margin, 110);
+    pdf.text(`Paid Date: ${dynamicData.paiddate}`, margin, 120);
+    pdf.text(`Description: ${dynamicData.desc}`, margin, 130);
+
+    // Save the PDF
+    pdf.save('salary-slip-receipt-a5-landscape.pdf');
+    this.toastr.success('Reciept downloaded successfully', 'Success', { timeOut: 3000 });
+
+  }
+
 
   editSalDetails(data: any) {
     this.isSalaryUpdate = true;
@@ -269,7 +327,7 @@ export class EmployeeComponent {
   }
   updateSalaryDetails() {
     this.salaryService.updateSalaryList(this.salaryModel).subscribe((res: any) => {
-      debugger
+      this.toastr.success('Salary details updated successfully', 'Updated', { timeOut: 3000 });
       this.getAllSalary(res);
 
     })

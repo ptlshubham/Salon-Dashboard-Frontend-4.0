@@ -37,12 +37,17 @@
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
               "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/ngx-toastr/toastr.css",
               "node_modules/ngx-lightbox/lightbox.css",
               "node_modules/ngx-ui-switch/ui-switch.component.css",
               "src/styles.scss",
               "src/assets/scss/bootstrap.scss",
               "src/assets/scss/app.scss",
               "src/assets/scss/icons.scss"
+            ],
+            "scripts": [
+              "node_modules/jspdf/dist/jspdf.umd.min.js",
+              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
             ],
             "allowedCommonJsDependencies": [
               "rxjs",

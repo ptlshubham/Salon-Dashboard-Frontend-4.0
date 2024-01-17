@@ -20,8 +20,12 @@
       "ES2022",
       "DOM"
     ],
-    "types": ["@types/googlemaps"],
-    "useDefineForClassFields": false
+    "types": [
+      "@types/googlemaps",
+      "jspdf",
+      "jspdf-autotable"
+    ],
+    "useDefineForClassFields": false,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -11,7 +11,7 @@ import { PagesModule } from './pages/pages.module';
 import { LayoutsModule } from './layouts/layouts.module';
 import { ExtrapagesModule } from './extrapages/extrapages.module';
 import { AuthInterceptor } from './core/guards/auth-http-interceptor';
-
+import { ToastrModule } from 'ngx-toastr';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -40,7 +40,8 @@ export function createTranslateLoader(http: HttpClient): any {
     NgbTooltipModule,
     NgbPopoverModule,
     NgbNavModule,
-    ExtrapagesModule
+    ExtrapagesModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
 
