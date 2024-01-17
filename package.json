@@ -52,6 +52,7 @@
     "firebase": "^10.7.0",
     "flatpickr": "^4.6.13",
     "jasmine-core": "^5.1.1",
+    "jspdf": "^2.5.1",
     "karma": "^6.4.2",
     "karma-coverage": "^2.2.1",
     "karma-jasmine": "^5.1.0",
