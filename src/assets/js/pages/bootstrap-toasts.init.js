@@ -1,5 +1,5 @@
 /*
-Template Name: Minia - Admin & Dashboard Template
+Template Name: Salon Portal | Dashboard
 Author: Themesbrand
 Version: 2.0.0
 Website: https://themesbrand.com/

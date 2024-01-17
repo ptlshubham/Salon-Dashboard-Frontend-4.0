@@ -1,4 +1,4 @@
-# Minia - Angular 12 Minia - Minimal Admin & Dashboard Template
+# Salon Portal - Angular 12 Salon Portal - Minimal Admin & Dashboard Template
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.2.
 
