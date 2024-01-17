@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
@@ -37,6 +37,9 @@ import { EmployeeComponent } from './employee/employee.component';
     NgbPaginationModule,
     NgbToastModule,
     NgSelectModule,
+  ],
+  providers:[
+    DatePipe
   ]
 })
 export class CustomerModule { }

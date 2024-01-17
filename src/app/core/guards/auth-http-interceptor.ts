@@ -93,7 +93,6 @@ export class AuthInterceptor implements HttpInterceptor {
             }))
         }
         else {
-            debugger
             return next.handle(request);
         }
     }

@@ -511,57 +511,63 @@
             </div><!-- end card header -->
 
             <div class="card-body">
-                <ngb-accordion #acc="ngbAccordion" activeIds="static-1" [closeOthers]="true">
-                    <ngb-panel id="static-1">
-                        <ng-template ngbPanelTitle class="text-black">
-                            Accordion Item #1
-                        </ng-template>
-                        <ng-template ngbPanelContent>
-                            <div class="text-muted">
-                                <strong class="text-body">This is the first item's accordion body.</strong> Anim
-                                pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
-                                squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-                                craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                <div ngbAccordion #acc="ngbAccordion" activeIds="static-1" [closeOthers]="true">
+                    <div ngbAccordionItem id="static-1">
+                        <h2 ngbAccordionHeader class="text-black">
+                            <button ngbAccordionButton> Accordion Item #1</button>
+                        </h2>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody>
+                                <ng-template class="text-muted">
+                                    <strong class="text-body">This is the first item's accordion body.</strong> Anim
+                                    pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                    squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                    quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
+                                    squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+                                    craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                </ng-template>
                             </div>
-                        </ng-template>
-                    </ngb-panel>
-                    <ngb-panel id="static-2">
-                        <ng-template ngbPanelTitle>
-                            Accordion Item #2
-                        </ng-template>
-                        <ng-template ngbPanelContent>
-                            <div class="text-muted">
-                                <strong class="text-body">This is the second item's accordion body.</strong> Anim
-                                pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
-                                squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-                                craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                        </div>
+                    </div>
+                    <div ngbAccordionItem id="static-2">
+                        <h2 ngbAccordionHeader class="text-black">
+                            <button ngbAccordionButton> Accordion Item #2</button>
+                        </h2>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody>
+                                <ng-template class="text-muted">
+                                    <strong class="text-body">This is the second item's accordion body.</strong> Anim
+                                    pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                    squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                    quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
+                                    squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+                                    craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                </ng-template>
                             </div>
-                        </ng-template>
-                    </ngb-panel>
-                    <ngb-panel id="static-3">
-                        <ng-template ngbPanelTitle>
-                            Accordion Item #3
-                        </ng-template>
-                        <ng-template ngbPanelContent>
-                            <div class="text-muted">
-                                <strong class="text-body">This is the third item's accordion body.</strong> Anim
-                                pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
-                                squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-                                craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                        </div>
+                    </div>
+                    <div ngbAccordionItem id="static-3">
+                        <h2 ngbAccordionHeader class="text-black">
+                            <button ngbAccordionButton> Accordion Item #3</button>
+                        </h2>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody>
+                                <ng-template class="text-muted">
+                                    <strong class="text-body">This is the third item's accordion body.</strong> Anim
+                                    pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                    squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                    quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
+                                    squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+                                    craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                </ng-template>
                             </div>
-                        </ng-template>
-                    </ngb-panel>
-                </ngb-accordion><!-- end accordion -->
-            </div><!-- end card-body -->
-        </div><!-- end card -->
-    </div><!-- end col -->
-</div><!--  end row -->
+                        </div>
+                    </div><!-- end accordion -->
+                </div><!-- end card-body -->
+            </div><!-- end card -->
+        </div><!-- end col -->
+    </div><!--  end row -->
+</div>
 
 <ng-template #TabContent>
     <p class="p-3 mb-0">

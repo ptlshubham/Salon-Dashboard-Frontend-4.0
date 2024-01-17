@@ -21,6 +21,7 @@
       "ES2022",
       "DOM"
     ],
+    "types": ["@types/googlemaps"],
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
