@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Salon Portal": {
+    "Salon-Portal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -109,10 +109,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Salon Portal:build:production"
+              "buildTarget": "Salon-Portal:build:production"
             },
             "development": {
-              "buildTarget": "Salon Portal:build:development"
+              "buildTarget": "Salon-Portal:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -120,7 +120,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "Salon Portal:build"
+            "buildTarget": "Salon-Portal:build"
           }
         },
         "test": {

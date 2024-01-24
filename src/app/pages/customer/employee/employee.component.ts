@@ -48,8 +48,8 @@ export class EmployeeComponent {
   showSalary: boolean = false;
   addEmp: boolean = false;
 
-  public employeeModel: any = [];
-  public salaryModel: any = [];
+  public employeeModel: any = {};
+  public salaryModel: any = {};
   public employeeReg: any[] = [];
   public servicesList: any[] = [];
   salaryList: any = [];
@@ -98,14 +98,14 @@ export class EmployeeComponent {
   backToTable() {
     this.isOpen = false;
     this.isUpdate = false;
-    // this.servicesModel = [];
+    this.employeeModel = {};
     this.validationForm.markAsUntouched();
   }
 
   openAddEmployee() {
     this.isOpen = true;
     this.isUpdate = false;
-    // this.servicesModel = [];
+    this.employeeModel = {};
     this.validationForm.markAsUntouched();
   }
   getAllServices() {
@@ -113,7 +113,6 @@ export class EmployeeComponent {
       this.servicesList = data;
     });
   }
-
   getStateList() {
     this.employeeService.getStateFromJson().subscribe((res: any) => {
       this.stateData = res;
@@ -137,7 +136,6 @@ export class EmployeeComponent {
   selectCityData(e: any): void {
     this.selectedCity = e.target.value
   }
-
   selectGenderData(e: any): void {
     this.selectedGender = e.target.value;
   }
@@ -152,7 +150,10 @@ export class EmployeeComponent {
     this.employeeService.saveEmployeeList(this.employeeModel).subscribe((data: any) => {
       if (data = 'success') {
         this.toastr.success('Employee details added successfully', 'Success', { timeOut: 3000 });
+        this.showSalary = false;
         this.isOpen = false;
+        this.employeeModel = {};
+        this.validationForm.markAsUntouched();
         this.getAllEmployee();
       }
     })
@@ -227,6 +228,8 @@ export class EmployeeComponent {
       this.toastr.success('Salary details added successfully', 'Success', { timeOut: 3000 });
       this.salaryList = data;
       this.getAllSalary(this.salaryModel.id);
+      this.salaryModel = {};
+
     })
   }
   getAllSalary(id: any) {

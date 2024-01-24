@@ -26,6 +26,7 @@ import { ChartModule } from './chart/chart.module';
 import { PagesRoutingModule } from './pages-routing.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CustomerModule } from './customer/customer.module';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     FormModule,
     TablesModule,
     ChartModule,
-    LeafletModule
+    LeafletModule,
+    CustomerModule
   ]
 })
 export class PagesModule { }

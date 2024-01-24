@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Services } from 'src/app/core/models/services.model';
 import { ServiceListService } from 'src/app/core/services/services.service';
 import Swal from 'sweetalert2';
 
@@ -11,10 +10,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./services.component.scss']
 })
 export class ServicesComponent {
-  public servicesModel: Services = new Services;
-  public servicesList: Services[] = [];
-  public services: Services[] = [];
-
+  public servicesList: any = [];
+  public services: any = [];
+  servicesModel: any = {};
   isOpen: boolean = false;
   isUpdate: boolean = false;
   validationForm!: FormGroup;
@@ -22,7 +20,6 @@ export class ServicesComponent {
   pageSize = 10;
   collectionSize = 0;
   paginateData: any = [];
-
 
   constructor(
     private servicesService: ServiceListService,
@@ -48,20 +45,19 @@ export class ServicesComponent {
   backToTable() {
     this.isOpen = false;
     this.isUpdate = false;
-    this.servicesModel = [];
+    this.servicesModel = {};
     this.validationForm.markAsUntouched();
   }
 
   openAddServices() {
     this.isOpen = true;
     this.isUpdate = false;
-    this.servicesModel = [];
+    this.servicesModel = {};
     this.validationForm.markAsUntouched();
   }
   getAllServices() {
     this.servicesService.getAllServicesList().subscribe((data: any) => {
       this.servicesList = data;
-
       for (let i = 0; i < this.servicesList.length; i++) {
         this.servicesList[i].index = i + 1;
       }
@@ -77,6 +73,7 @@ export class ServicesComponent {
     this.servicesService.saveServiceList(this.servicesModel).subscribe((data: any) => {
       this.toastr.success('Service details added successfully', 'Success', { timeOut: 3000 });
       this.servicesList = data;
+      this.servicesModel = {};
       this.isOpen = false;
       this.isUpdate = false;
     })
@@ -98,7 +95,7 @@ export class ServicesComponent {
     }).then(result => {
       if (result.value) {
         this.servicesService.removeServicesList(id).subscribe((req) => {
-          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          Swal.fire('Deleted!', 'Service has been deleted.', 'success');
           this.getAllServices();
         })
       }

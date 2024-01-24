@@ -52,7 +52,7 @@ export class UserProfileService {
 
     }
     userLogin(email: any, pass: any): Observable<any> {
-         debugger
+         
         const data = {
             email: email,
             password:pass,
@@ -81,7 +81,7 @@ export class UserProfileService {
         return this.http.post(ApiService.ChackForPasswordURL, data);
     }
     UpdateLogout(data:any) {
-         debugger
+         
         return this.http.post(ApiService.updateLogoutDetailsURL, data);
     }
 }

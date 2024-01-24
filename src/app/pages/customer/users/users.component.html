@@ -1,0 +1,576 @@
+<div *ngIf="isCustData">
+    <div class="row" *ngIf="isOpen">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">Add New Customer Details</h5>
+                    <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToTable()">
+                        <i class="bx bx-arrow-back font-size-16 align-middle"></i>
+                        Back</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <form [formGroup]="validationForm">
+                        <input type="hidden" />
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group mb-3">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control" id="fname" placeholder="Enter First Name"
+                                        formControlName="fname"
+                                        [ngClass]="{'is-invalid': f.fname.touched && f.fname.errors}"
+                                        [(ngModel)]="customerModel.fname">
+                                    <div *ngIf="f.fname.touched && f.fname.errors" class="invalid-feedback">
+                                        <span *ngIf="f.fname.errors.required">This Field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group mb-3">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control" id="lname" placeholder="Enter Last Name"
+                                        formControlName="lname"
+                                        [ngClass]="{'is-invalid': f.lname.touched && f.lname.errors}"
+                                        [(ngModel)]="customerModel.lname">
+                                    <div *ngIf="f.lname.touched && f.lname.errors" class="invalid-feedback">
+                                        <span *ngIf="f.lname.errors.required">This Field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group mb-3">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" formControlName="email" id="email"
+                                        placeholder="Enter Email Address"
+                                        [ngClass]="{'is-invalid': f.email.touched && f.email.errors}"
+                                        [(ngModel)]="customerModel.email">
+                                    <div *ngIf="f.email.touched && f.email.errors" class="invalid-feedback">
+                                        <div *ngIf="f.email.errors.required">Email is required</div>
+                                        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="basicpill-phoneno-input1" class="form-label">Contact
+                                        Number</label>
+                                    <input type="number" formControlName="contact"
+                                        [ngClass]="{ 'is-invalid': f.contact.touched && f.contact.errors }"
+                                        class="form-control" id="contact" [(ngModel)]="customerModel.contact"
+                                        placeholder="Enter Alternate Number">
+                                    <div *ngIf="f.contact.touched || f.contact.invalid || f.contact.pristine"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f.contact.errors?.required">Mobile number is
+                                            required.</div>
+                                        <div *ngIf="f.contact.errors?.pattern">Please, Enter 10 digit
+                                            Mobile number.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="basicpill-phoneno-input1" class="form-label">Whatsapp
+                                        Number</label>
+                                    <input type="number" formControlName="whatsapp"
+                                        [ngClass]="{ 'is-invalid': f.whatsapp.touched && f.whatsapp.errors }"
+                                        class="form-control" id="whatsapp" [(ngModel)]="customerModel.whatsapp"
+                                        placeholder="Enter Alternate Number">
+                                    <div *ngIf="f.whatsapp.touched || f.whatsapp.invalid || f.whatsapp.pristine"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f.whatsapp.errors?.required">Mobile number is
+                                            required.</div>
+                                        <div *ngIf="f.whatsapp.errors?.pattern">Please, Enter 10 digit
+                                            Mobile number.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group mb-3">
+                                    <label for="Selct Gender" class="form-label">Select
+                                        Gender</label>
+                                    <select required class="form-select" formControlName="gender"
+                                        [(ngModel)]="customerModel.gender" (change)="selectGenderData($event)"
+                                        [ngClass]="{'is-invalid': f.gender.touched && f.gender.errors}">
+                                        <option value="" hidden>Select Gender</option>
+                                        <option *ngFor="let c of genderData">{{c.name}}</option>
+                                    </select>
+                                    <div *ngIf="f.gender.touched && f.gender.errors" class="invalid-feedback">
+                                        <span *ngIf="f.gender.errors.required">This field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="basicpill-address-input" class="form-label">Address</label>
+                                    <textarea id="basicpill-address-input" class="form-control" rows="3" id="address"
+                                        formControlName="address" [(ngModel)]="customerModel.address"
+                                        [ngClass]="{ 'is-invalid': f.address.touched && f.address.errors }"
+                                        placeholder="Address (Area and Street)"></textarea>
+                                    <div *ngIf="f.address.touched && f.address.errors" class="invalid-feedback">
+                                        <div *ngIf="f.address.errors.required">Address is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="basicpill-vatno-input1" class="form-label">Enter
+                                        Landmark</label>
+                                    <input type="text" formControlName="landmark" class="form-control" id="landmark"
+                                        placeholder="Landmark (Optional)" [(ngModel)]="customerModel.landmark">
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group mb-3">
+                                    <label for="Selct State" class="form-label">Select
+                                        State</label>
+                                    <select required class="form-select" formControlName="state"
+                                        [(ngModel)]="customerModel.state" (change)="selectStateData($event)"
+                                        [ngClass]="{'is-invalid': f.state.touched && f.state.errors}">
+                                        <option value="" hidden>Select State</option>
+                                        <option *ngFor="let c of stateData">{{c.name}}</option>
+                                    </select>
+                                    <div *ngIf="f.state.touched && f.state.errors" class="invalid-feedback">
+                                        <span *ngIf="f.state.errors.required">This field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group mb-3">
+                                    <label for="Selct City" class="form-label">Select
+                                        City</label>
+                                    <select required class="form-select" formControlName="city"
+                                        [(ngModel)]="customerModel.city" (change)="selectCityData($event)"
+                                        [ngClass]="{'is-invalid': f.city.touched && f.city.errors}">
+                                        <option value="" hidden *ngIf="cityListData.length==0">Please Select
+                                            State
+                                        </option>
+                                        <option value="" hidden *ngIf="cityListData.length>=0">Select City
+                                        </option>
+                                        <option *ngFor="let c of cityListData">{{c.city}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="f.city.touched && f.city.errors" class="invalid-feedback">
+                                        <span *ngIf="f.city.errors.required">This field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="basicpill-phoneno-input1" class="form-label">Enter
+                                        Pincode</label>
+                                    <input type="number" formControlName="pincode"
+                                        [ngClass]="{ 'is-invalid': f.pincode.touched && f.pincode.errors }"
+                                        class="form-control" id="pincode" [(ngModel)]="customerModel.pincode"
+                                        placeholder="Enter Pincode Number">
+                                    <div *ngIf="f.pincode.touched || f.pincode.invalid || f.pincode.pristine"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f.pincode.errors?.required">Pincode is
+                                            required.</div>
+                                        <div *ngIf="f.pincode.errors?.pattern">Please, Enter valid
+                                            PINCODE.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="basicpill-phoneno-input1" class="form-label">VIP</label>
+                                    <div class="form-check form-switch form-switch-lg mb-3" dir="ltr">
+                                        <input type="checkbox" formControlName="vip" class="form-check-input" id="vip"
+                                            [(ngModel)]="customerModel.vip "
+                                            ngbTooltip="{{ customerModel.vip ? 'VIP Mode is ON' : 'VIP Mode is OFF' }}"
+                                            placement="bottom">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row justify-content-end">
+                                <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
+                                    <button type="submit" class="btn btn-primary" (click)="saveCustomerDetail()"
+                                        *ngIf="isUpdate==false" [disabled]="validationForm.invalid">Submit</button>
+
+                                    <button type="submit" class="btn btn-primary" (click)="updateCustomerDetail()"
+                                        *ngIf="isUpdate==true" [disabled]="validationForm.invalid">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isOpen">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Customer List</h5>
+                <div class="d-flex justify-content-end gap-3" style="align-items: baseline;">
+                    <label>Search By:</label>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="fname" placeholder="Whatsapp No & Customer Name"
+                                [(ngModel)]="searchQuery" (input)="applySearchFilter()">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
+                        (click)="openAddCustomer()"><i class="bx bx-user-plus label-icon"></i>
+                        Add New Customer</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-left"></th>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Customer Name</th>
+                                <th class="text-center">Whatsapp No</th>
+                                <th class="text-center">Gender</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let s of paginateData;let i=index">
+                                <th class="text-left">
+                                    <div class="form-check larger-checkbox mb-3">
+                                        <input class="form-check-input" type="checkbox" id="formCheck1"
+                                            (change)="seletedCustomerDetails(s)">
+                                    </div>
+                                </th>
+                                <td class="text-center">{{s.index}}</td>
+                                <td class="text-center">
+                                    <span class="fa fa-star checked" *ngIf="s.vip==true" ngbTooltip="VIP Mode is ON"
+                                        placement="bottom"></span>
+                                    {{s.fname}} {{s.lname}}
+                                </td>
+                                <td class="text-center">{{s.whatsapp}} </td>
+                                <td class="text-center">{{s.gender}} </td>
+                                <td class="text-center">{{s.status}} </td>
+                                <td class="text-end">
+                                    <div class="d-flex justify-content-end gap-1">
+                                        <button type="button" class="btn btn-soft-success waves-effect waves-light"
+                                            (click)="openCustomerAppointementList(s.id)" ngbTooltip="View Appointments"
+                                            placement="top"><i
+                                                class="bx bx-calendar-check font-size-16 align-middle"></i></button>
+                                        <button type="button" class="btn btn-soft-primary waves-effect waves-light"
+                                            (click)="editCustomerDetails(s)" ngbTooltip="Edit Customer"
+                                            placement="top"><i
+                                                class="bx bx-edit font-size-16 align-middle"></i></button>
+                                        <button type="button" class="btn btn-soft-danger waves-effect waves-light"
+                                            (click)="removeCustomerDetails(s.id)" ngbTooltip="Remove Customer"
+                                            placement="top"><i
+                                                class="bx bx-trash-alt font-size-16 align-middle"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mt-4">
+                    <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page"
+                        [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                        (pageChange)="getPagintaion();" aria-label="Default pagination"
+                        class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="isOpenAppointmentList">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">Customer Appointment List</h5>
+                <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToCustomerData()">
+                    <i class="bx bx-arrow-back font-size-16 align-middle"></i>
+                    Back</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-left">#</th>
+                            <th class="text-center">Total Price</th>
+                            <th class="text-center">Total Point</th>
+                            <th class="text-center">Appointment Date</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of paginateAppointData;let i=index">
+                            <td class="text-left">{{a.index}}</td>
+                            <td class="text-center">{{ a.totalprice }} ₹</td>
+                            <td class="text-center">{{ a.totalpoint }}</td>
+                            <td class="text-center">{{ a.createddate | date:'dd/MM/yyyy'}}</td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-1">
+                                    <button type="button" class="btn btn-soft-primary waves-effect waves-light"
+                                        (click)="openUsedServiceList(a,exlargeModal)" ngbTooltip="View Used Services"
+                                        placement="top" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl"><i
+                                            class="bx bx-show-alt font-size-16 align-middle"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row mt-4">
+                <ngb-pagination [collectionSize]="AppointCollectionSize" [pageSize]="appointPageSize"
+                    [(page)]="appointPage" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                    (pageChange)="getAppointPagintaion();" aria-label="Default pagination"
+                    class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+    <ng-template #exlargeModal let-modal>
+        <div class="modal-header">
+            <h5 class="modal-title mt-0">Services List</h5>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close click')">
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-left">#</th>
+                                <th class="text-center">Service Name</th>
+                                <th class="text-center">Service Price</th>
+                                <th class="text-center">Service Point</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of usedServices;let i=index">
+                                <td class="text-left">{{a.index}}</td>
+                                <td class="text-center">{{ a.servicesname }}</td>
+                                <td class="text-center">{{ a.price }} ₹</td>
+                                <td class="text-center">{{ a.point }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="d-flex justify-content-end gap-1">
+                    <div class="hstack gap-3">
+                        <div class="grid-example">Total Price:
+                            <span class="text-primary"><b>{{totalPriceForDetails}}
+                                    ₹</b></span>
+                        </div>
+                        <div class="vr"></div>
+                        <div class="grid-example">Total Points: <span
+                                class="text-primary"><b>{{totalPointForDetails}}</b></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
+<div class="row" *ngIf="isOpenCustAppointment">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Customer Appointment
+                <span class="fa fa-star checked" *ngIf="customerModel.vip==true" ngbTooltip="VIP Mode is ON"
+                    placement="bottom"></span>
+            </h5>
+            <div class="d-flex justify-content-end gap-3" style="align-items: baseline;">
+                <div class="form-check form-switch form-switch-md text-center" dir="ltr">
+                    <input type="checkbox" class="form-check-input" id="vip" [(ngModel)]="isVIP"
+                        (click)="updateCustomerDetails()"
+                        ngbTooltip="{{ isVIP ? 'VIP Mode is ON' : 'VIP Mode is OFF' }}" placement="bottom">
+                    <label class="text-center">VIP</label>
+                </div>
+                <button type="submit" class="btn btn-danger waves-effect waves-light" (click)="backToCustomerList()">
+                    <i class="bx bx-arrow-back font-size-16 align-middle"></i>
+                    Back</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                <form [formGroup]="validationAppointmentForm">
+                    <input type="hidden" />
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label>Customer Name</label>
+                                <input type="text" class="form-control disabled-c" id="fname"
+                                    placeholder="Enter First Name" [(ngModel)]="customerModel.customerName"
+                                    [ngModelOptions]="{standalone: true}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label>Email</label>
+                                <input type="email" class="form-control disabled-c" id="email"
+                                    placeholder="Enter Email Address" [(ngModel)]="customerModel.email"
+                                    [ngModelOptions]="{standalone: true}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="mb-3">
+                                <label for="basicpill-phoneno-input1" class="form-label">Contact
+                                    Number</label>
+                                <input type="number" class="form-control disabled-c" id="contact"
+                                    [(ngModel)]="customerModel.contact" [ngModelOptions]="{standalone: true}" disabled
+                                    placeholder="Enter Alternate Number">
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="mb-3">
+                                <label for="basicpill-phoneno-input1" class="form-label">Whatsapp
+                                    Number</label>
+                                <input type="number" class="form-control disabled-c" id="whatsapp"
+                                    [(ngModel)]="customerModel.whatsapp" [ngModelOptions]="{standalone: true}" disabled
+                                    placeholder="Enter Alternate Number">
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="mb-3">
+                                <label for="basicpill-phoneno-input1" class="form-label">Gender</label>
+                                <input type="text" class="form-control disabled-c" id="gender"
+                                    [(ngModel)]="customerModel.gender" [ngModelOptions]="{standalone: true}" disabled
+                                    placeholder="Enter Alternate Number">
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">Booking Date</label>
+                                <input class="form-control" type="date" id="example-date-input"
+                                    formControlName="bookingDate" [(ngModel)]="customerModel.bookingDate"
+                                    [ngClass]="{ 'is-invalid': fo.bookingDate.touched && fo.bookingDate.errors }">
+                                <div *ngIf="fo.bookingDate.touched || fo.bookingDate.errors" class="invalid-feedback">
+                                    <div *ngIf="fo.bookingDate.errors?.required">Booking Date is
+                                        required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="mb-3">
+                                <label for="choices-single-default" class="form-label">Select
+                                    Booking Time Slot</label>
+                                <ng-select [items]="bookingTimeInterval" bindLabel="time" formControlName="time"
+                                    placeholder="Select Booking Time" [(ngModel)]="customerModel.timeSlot"
+                                    [ngClass]="{'is-invalid': fo.time.touched && fo.time.errors}">
+                                    <ng-template ng-optgroup-tmp let-item="item">
+                                        {{item.time || 'Unnamed group'}}
+                                    </ng-template>
+                                </ng-select>
+                                <div *ngIf="fo.time.touched && fo.time.errors" class="invalid-feedback">
+                                    <span *ngIf="fo.time.errors.required">This field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-2">
+                </form>
+                <form [formGroup]="validationServiceForm">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="mb-3">
+                                <label for="choices-single-default" class="form-label">Select
+                                    Service</label>
+                                <ng-select [items]="servicesList" bindLabel="name" formControlName="name"
+                                    placeholder="Select Service" [(ngModel)]="servicesModel.Service"
+                                    [ngClass]="{'is-invalid': fs.name.touched && fs.name.errors}">
+                                    <ng-template ng-optgroup-tmp let-item="item">
+                                        {{item.name || 'Unnamed group'}}
+                                    </ng-template>
+                                </ng-select>
+                                <div *ngIf="fs.name.touched && fs.name.errors" class="invalid-feedback">
+                                    <span *ngIf="fs.name.errors.required">This field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="mb-3">
+                                <label for="choices-single-default" class="form-label">Select
+                                    Team Member</label>
+                                <ng-select [items]="employeeReg" bindLabel="employeeName" formControlName="employeeName"
+                                    placeholder="Select Team Member" [(ngModel)]="servicesModel.employee"
+                                    [ngClass]="{'is-invalid': fs.employeeName.touched && fs.employeeName.errors}">
+                                    <ng-template ng-optgroup-tmp let-item="item">
+                                        {{item.employeeName || 'Unnamed group'}}
+                                    </ng-template>
+                                </ng-select>
+                                <div *ngIf="fs.employeeName.touched && fs.employeeName.errors" class="invalid-feedback">
+                                    <span *ngIf="fs.employeeName.errors.required">This field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <button type="submit" class="btn btn-primary" style="margin-top:1.7rem !important"
+                                [disabled]="validationServiceForm.invalid" (click)="saveTempServiceDetail()"><i
+                                    class="bx bx-plus font-size-16 align-middle"></i>
+                                Add</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="table-responsive mt-5" *ngIf="tempServiceData.length>0">
+                <table class="table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-left">#</th>
+                            <th class="text-center">Services Name</th>
+                            <th class="text-center">Employee Name</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Point</th>
+                            <th class="text-center">Approx Time</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of tempServiceData;let i=index">
+                            <td class="text-left">{{a.index}}</td>
+                            <td class="text-center">{{ a.servicesname }}</td>
+                            <td class="text-center">{{ a.employeename }}</td>
+                            <td class="text-center">{{ a.price }} ₹</td>
+                            <td class="text-center">{{ a.serpoint }}</td>
+                            <td class="text-center">{{ a.time }}</td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-1">
+                                    <button type="button" class="btn btn-soft-danger waves-effect waves-light"
+                                        (click)="removeItemFromAppointement(i)" ngbTooltip="Remove Service"
+                                        placement="top" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl"><i
+                                            class=" bx bx-trash-alt font-size-16 align-middle"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <div class="form-group">
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-danger waves-effect waves-light"><i
+                            class="fas fa-times font-size-16 align-middle"></i> Cancel</button>
+                    <button type="submit" class="btn btn-success waves-effect waves-light"><i
+                            class="bx bxs-file-pdf font-size-16 align-middle"></i> Invoice</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light"
+                        [disabled]="validationAppointmentForm.invalid"><i
+                            class="bx bx-save font-size-16 align-middle"></i> Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

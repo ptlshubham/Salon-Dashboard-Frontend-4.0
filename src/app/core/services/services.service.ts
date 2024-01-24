@@ -14,7 +14,8 @@ export class ServiceListService {
         private httpClient: HttpClient
     ) { }
 
-    saveServiceList(admin: Services): Observable<any> {
+    saveServiceList(admin: any){
+        
         return this.httpClient.post<any>(ApiService.saveServicesListURL, admin);
     }
     getAllServicesList(): Observable<Services[]> {

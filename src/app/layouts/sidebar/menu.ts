@@ -14,12 +14,18 @@ export const MENU: MenuItem[] = [
     },
     {
         id: 3,
+        label: 'Customer List',
+        icon: 'users',
+        link: '/custom/user-list',
+    },
+    {
+        id: 4,
         label: 'Service List',
         icon: 'list',
         link: '/custom/service-list',
     },
     {
-        id: 3,
+        id: 5,
         label: 'Employee List',
         icon: 'users',
         link: '/custom/employee-list',

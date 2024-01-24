@@ -14,7 +14,7 @@ export class EmployeeService {
     ) { }
 
     saveEmployeeList(data: any){
-        debugger
+        
         return this.httpClient.post<any>(ApiService.saveEmployeeListURL, data);
     }
     getAllEmployeeList(): Observable<any[]> {

@@ -9,13 +9,17 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ServicesComponent } from './services/services.component';
 import { EmployeeComponent } from './employee/employee.component';
+import { UsersComponent } from './users/users.component';
+import { ExpensesComponent } from './expenses/expenses.component';
 
 
 
 @NgModule({
   declarations: [
     ServicesComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    UsersComponent,
+    ExpensesComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +44,9 @@ import { EmployeeComponent } from './employee/employee.component';
   ],
   providers:[
     DatePipe
+  ],
+  exports:[
+    UsersComponent
   ]
 })
 export class CustomerModule { }
