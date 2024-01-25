@@ -35,6 +35,12 @@ export const MENU: MenuItem[] = [
         label:'Expense',
         icon:'clipboard',
         link:'/custom/expenses'
+    },
+    {
+        id:7,
+        label:'Combo Offer',
+        icon:'gift',
+        link:'/custom/combo-offer'
     }
 ];
 
