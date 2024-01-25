@@ -5,6 +5,8 @@ import { EmployeeComponent } from './employee/employee.component';
 import { UsersComponent } from './users/users.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { ComboOfferComponent } from './combo-offer/combo-offer.component';
+import { MembershipComponent } from './membership/membership.component';
+import { VendorComponent } from './vendor/vendor.component';
 
 const routes: Routes = [
      {
@@ -26,7 +28,15 @@ const routes: Routes = [
      {
           path:'combo-offer',
           component: ComboOfferComponent  
-     }       
+     }, 
+     {
+          path:'membership',
+          component: MembershipComponent  
+     }, 
+     {
+          path:'vendor',
+          component: VendorComponent  
+     }           
 ];
 
 @NgModule({

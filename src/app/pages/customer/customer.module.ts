@@ -12,6 +12,8 @@ import { EmployeeComponent } from './employee/employee.component';
 import { UsersComponent } from './users/users.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { ComboOfferComponent } from './combo-offer/combo-offer.component';
+import { VendorComponent } from './vendor/vendor.component';
+import { MembershipComponent } from './membership/membership.component';
 
 
 
@@ -21,7 +23,9 @@ import { ComboOfferComponent } from './combo-offer/combo-offer.component';
     EmployeeComponent,
     UsersComponent,
     ExpensesComponent,
-    ComboOfferComponent
+    ComboOfferComponent,
+    VendorComponent,
+    MembershipComponent
   ],
   imports: [
     CommonModule,

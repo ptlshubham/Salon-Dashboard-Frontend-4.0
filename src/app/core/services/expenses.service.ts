@@ -27,7 +27,6 @@ export class ExpensesService {
         return this.httpClient.post<any>(ApiService.removeexpensesDetailsURL, data);
     }
     updateExpensesList(admin: any): Observable<any> {
-        console.log(admin, "updateservices")
         return this.httpClient.post<any>(ApiService.updateExpensesDetailsURL, admin);
     }
     getMonthlyExpensesList(): Observable<any[]> {
