@@ -121,6 +121,7 @@ export class ExpensesComponent {
       this.expensesList = data;
       this.toastr.success('Expense details added successfully', 'Success', { timeOut: 3000 });
       this.expensesList = data;
+      this.getAllExpenses();
       this.expensesModel = {};
       this.isOpen = false;
       this.isUpdate = false;
