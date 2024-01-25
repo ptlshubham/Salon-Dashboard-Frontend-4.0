@@ -1,1 +1,169 @@
-<p>expenses works!</p>
+<div class="row" *ngIf="isOpen==false">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">Expenses List</h5>
+                <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
+                    (click)="openAddExpense()"><i class="bx bx-user-plus label-icon"></i>
+                    Add New Expense</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-left">#</th>
+                            <th class="text-center">Expensesdate</th>
+                            <th class="text-center">ExpensesName</th>
+                            <th class="text-center">Expenses Prices</th>
+                            <th class="text-center">Employee Name</th>
+                            <th class="text-center">Payment type</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let s of paginateData;let i=index">
+                            <td class="text-left">{{s.index}}</td>
+                            <td class="text-center">{{s.expensesdate | date:'dd/MM/yyyy'}}</td>
+                            <td class="text-center">{{s.expensesname}} </td>
+                            <td class="text-center">{{s.expensesprices}} </td>
+
+                            <td class="text-center">{{s.employeename }}</td>
+                            <td class="text-center">{{s.paymenttype }}</td>
+
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-1">
+                                    <button type="button" class="btn btn-soft-primary waves-effect waves-light"
+                                        ngbTooltip="Edit Employee Details" placement="top"
+                                        (click)="editExpDetails(s)"><i
+                                            class="bx bx-edit font-size-16 align-middle"></i></button>
+                                          
+                                    <button type="button" class="btn btn-soft-danger waves-effect waves-light"
+                                        ngbTooltip="Remove Details" placement="top" (click)="removeExpense(s.id)"><i
+                                            class="bx bx-trash-alt font-size-16 align-middle"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row mt-4">
+                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
+                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getPagintaion();"
+                    aria-label="Default pagination"
+                    class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="isOpen==true">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">Add Expenses </h5>
+                <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToTable()">
+                    <i class="bx bx-arrow-back font-size-16 align-middle"></i>
+                    Back</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                <form [formGroup]="validationForm">
+                    <input type="hidden" />
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6">
+                            <div class="form-group mb-3">
+                                <label>Expenses Date</label>
+                                <div class="form-group mb-3">
+                                    <input type="date" [(ngModel)]="expensesModel.expensesdate" class="form-control"
+                                        value="{{ formdate }}" formControlName="expensesdate" name="expensesdate"
+                                        id="expensesdate"
+                                        [ngClass]="{'is-invalid': f.expensesdate.touched && f.expensesdate.errors}">
+                                    <div *ngIf="f.expensesdate.touched && f.expensesdate.errors"
+                                        class="invalid-feedback">
+                                        <span *ngIf="f.expensesdate.errors.required">This Field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="form-group mb-3">
+                                <label>Expenses Name</label>
+                                <input type="text" class="form-control" id="expensesname"
+                                    placeholder="Enter Expenses Name" formControlName="expensesname"
+                                    [ngClass]="{'is-invalid': f.expensesname.touched && f.expensesname.errors}"
+                                    [(ngModel)]="expensesModel.expensesname">
+                                <div *ngIf="f.expensesname.touched && f.expensesname.errors" class="invalid-feedback">
+                                    <span *ngIf="f.expensesname.errors.required">This Field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6">
+                            <div class="form-group mb-3">
+                                <label>Expenses Price</label>
+                                <input type="number" formControlName="expensesprices"
+                                    [ngClass]="{ 'is-invalid': f.expensesprices.touched && f.expensesprices.errors }"
+                                    [(ngModel)]="expensesModel.expensesprices" class="form-control" id="expensesprices"
+                                    placeholder=" Enter Expenses Price">
+                                <div *ngIf="f.expensesprices.touched || f.expensesprices.invalid || f.expensesprices.pristine"
+                                    class="invalid-feedback">
+                                    <div *ngIf="f.expensesprices.errors?.required">Price is
+                                        required.</div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Select
+                                    Payment Type</label>
+                                <select required class="form-select" formControlName="paymenttype"
+                                    [(ngModel)]="expensesModel.paymenttype"
+                                    [ngClass]="{'is-invalid': f.paymenttype.touched && f.paymenttype.errors}">
+                                    <option value="" hidden>Select Payment Type</option>
+                                    <option *ngFor="let c of paymentData">{{c.name}}</option>
+                                </select>
+                                <div *ngIf="f.paymenttype.touched && f.paymenttype.errors" class="invalid-feedback">
+                                    <span *ngIf="f.paymenttype.errors.required">This field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="form-group mb-3">
+                                <label>Employee Name</label>
+                                <input type="text" class="form-control" id="employeename"
+                                    placeholder="Enter Employee Name" formControlName="employeename"
+                                    [ngClass]="{'is-invalid': f.employeename.touched && f.employeename.errors}"
+                                    [(ngModel)]="expensesModel.employeename">
+                                <div *ngIf="f.employeename.touched && f.employeename.errors" class="invalid-feedback">
+                                    <span *ngIf="f.employeename.errors.required">This Field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row justify-content-end">
+                            <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
+                                <button type="submit" class="btn btn-primary" (click)="saveExpensesDetail()"
+                                    *ngIf="isUpdate==false" [disabled]="validationForm.invalid">Submit</button>
+
+                                 <button type="submit" class="btn btn-primary" (click)="updateExpenseDetail()"
+                                    *ngIf="isUpdate==true" [disabled]="validationForm.invalid">Update</button> 
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

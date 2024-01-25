@@ -66,7 +66,7 @@ export class EmployeeComponent {
   ) {
     this.getStateList();
     this.getAllServices();
-    this.getAllEmployee();
+     this.getAllEmployee();
   }
 
   ngOnInit(): void {
@@ -154,7 +154,7 @@ export class EmployeeComponent {
         this.isOpen = false;
         this.employeeModel = {};
         this.validationForm.markAsUntouched();
-        this.getAllEmployee();
+         this.getAllEmployee();
       }
     })
   }
@@ -204,7 +204,7 @@ export class EmployeeComponent {
   updateEmployeeDetail() {
     this.employeeService.updateEmpList(this.employeeModel).subscribe((req) => {
       this.toastr.success('Employee details updated successfully', 'Updated', { timeOut: 3000 });
-      this.getAllEmployee();
+       this.getAllEmployee();
     })
   }
   backToEmpPage() {

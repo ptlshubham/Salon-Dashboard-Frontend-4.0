@@ -30,5 +30,11 @@ export const MENU: MenuItem[] = [
         icon: 'users',
         link: '/custom/employee-list',
     },
+    {
+        id:6,
+        label:'Expense',
+        icon:'clipboard',
+        link:'/custom/expenses'
+    }
 ];
 
