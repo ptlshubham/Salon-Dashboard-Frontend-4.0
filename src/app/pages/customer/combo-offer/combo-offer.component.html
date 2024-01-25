@@ -1,0 +1,200 @@
+<div class="row" *ngIf="isOpen==true">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">Add New Offer Details</h5>
+                <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToTable()">
+                    <i class="bx bx-arrow-back font-size-16 align-middle"></i>
+                    Back</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                <form [formGroup]="validationForm">
+                    <input type="hidden" />
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6">
+                            <div class="form-group mb-3">
+                                <label>Offer Name</label>
+                                <input type="text" class="form-control" id="offername"
+                                    placeholder="Enter Combo Offer Name" formControlName="offername"
+                                    [ngClass]="{'is-invalid': f.offername.touched && f.offername.errors}"
+                                    [(ngModel)]="offerModel.offername">
+                                <div *ngIf="f.offername.touched && f.offername.errors" class="invalid-feedback">
+                                    <span *ngIf="f.offername.errors.required">This Field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form [formGroup]="validationServiceForm">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="mb-3">
+                                <label for="choices-single-default" class="form-label">Select
+                                    Service</label>
+                                <ng-select [items]="servicesList" bindLabel="name" formControlName="servicename"
+                                    placeholder="Select Service" [(ngModel)]="serviceModel.Service"
+                                    [ngClass]="{'is-invalid': fo.servicename.touched && fo.servicename.errors}">
+                                    <ng-template ng-optgroup-tmp let-item="item">
+                                        {{item.name || 'Unnamed group'}}
+                                    </ng-template>
+                                </ng-select>
+                                <div *ngIf="fo.servicename.touched && fo.servicename.errors" class="invalid-feedback">
+                                    <span *ngIf="fo.servicename.errors.required">This field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <button type="submit" class="btn btn-primary" style="margin-top:1.7rem !important"
+                                (click)="addServiceList()" [disabled]="serviceModel.Service==null"><i
+                                    class="bx bx-plus font-size-16 align-middle"></i>
+                                Add</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="tempServiceData.length>0">
+                <div class="table-responsive mt-5">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-left">#</th>
+                                <th class="text-center">Services Name</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Point</th>
+                                <th class="text-center">Approx Time</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of tempServiceData;let i=index">
+                                <td class="text-left">{{a.index}}</td>
+                                <td class="text-center">{{ a.servicesname }}</td>
+                                <td class="text-center">{{ a.price }} ₹</td>
+                                <td class="text-center">{{ a.serpoint }}</td>
+                                <td class="text-center">{{ a.time }}</td>
+                                <td class="text-end">
+                                    <div class="d-flex justify-content-end gap-1">
+                                        <button type="button" class="btn btn-soft-danger waves-effect waves-light"
+                                            (click)="removeItemFromTempServices(i)" ngbTooltip="Remove Service"
+                                            placement="top" data-bs-toggle="modal"
+                                            data-bs-target=".bs-example-modal-xl"><i
+                                                class=" bx bx-trash-alt font-size-16 align-middle"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mt-5">
+                    <div class="d-flex justify-content-end gap-1">
+                        <div class="hstack gap-3">
+                            <div class="grid-example">Total Price:
+                                <span class="text-primary"><b>
+                                        {{totalprice}} ₹</b></span>
+                            </div>
+                            <div class="vr"></div>
+                            <form [formGroup]="validationForm">
+                                <div class="form-group">
+                                    <input type="number" formControlName="percentage"
+                                        [ngClass]="{ 'is-invalid': f.percentage.touched && f.percentage.errors }"
+                                        class="form-control" id="percentage" [(ngModel)]="offerModel.percentage"
+                                        placeholder="Enter Offer Percentage" (keyup)="getOfferVal($event)">
+                                    <div *ngIf="f.percentage.touched || f.percentage.invalid || f.percentage.pristine"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f.percentage.errors?.required">This field is required. Only Numbers
+                                            allowed.</div>
+                                        <div *ngIf="f.percentage.errors?.pattern">Only Numbers Allowed.</div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="vr"></div>
+                            <div class="grid-example">Offer Price: <span class="text-primary"><b>{{offerprice}}
+                                        ₹</b></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="form-group">
+                <div class="row justify-content-end">
+                    <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
+                        <button type="submit" class="btn btn-primary" (click)="saveOfferDetail()"
+                            *ngIf="isUpdate==false" [disabled]="validationForm.invalid">Submit</button>
+
+                        <button type="submit" class="btn btn-primary" (click)="updateOfferDetail()"
+                            *ngIf="isUpdate==true" [disabled]="validationForm.invalid">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="isOpen==false">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">Combo Offer List</h5>
+                <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
+                    (click)="openAddOffer()"><i class="bx bx-user-plus label-icon"></i>
+                    Add New Offer Details</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-left">#</th>
+                            <th class="text-center">Offer Name</th>
+                            <th class="text-center">Offer Price</th>
+                            <th class="text-center">Total Price</th>
+                            <th class="text-center">Discount</th>
+                            <th class="text-center">Display Offer</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let s of paginateData;let i=index">
+                            <td class="text-left">{{s.index}}</td>
+                            <td class="text-center">{{s.offername}} </td>
+                            <td class="text-center">{{s.offerprice}} </td>
+                            <td class="text-center">{{s.totalprice}} </td>
+                            <td class="text-center">{{s.percentage}} %</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-success waves-effect btn-label waves-light"
+                                    *ngIf="s.status" (click)="deactiveBanners(i)"><i
+                                        class="bx bx-check-double label-icon"></i> Active</button>
+                                <button type="button" class="btn btn-danger waves-effect btn-label waves-light"
+                                    *ngIf="!s.status" (click)="activeBanners(i)"><i class="bx bx-block label-icon"></i>
+                                    Deactive</button>
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-1">
+                                    <button type="button" class="btn btn-soft-primary waves-effect waves-light"
+                                        (click)="openUpdateComboOffer(s)" ngbTooltip="Edit Offer" placement="top"><i
+                                            class="bx bx-edit font-size-16 align-middle"></i></button>
+                                    <button type="button" class="btn btn-soft-danger waves-effect waves-light"
+                                        (click)="removeComboOfferDetails(s.id)" ngbTooltip="Remove Offer"
+                                        placement="top"><i
+                                            class="bx bx-trash-alt font-size-16 align-middle"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row mt-4">
+                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
+                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getPagintaion();"
+                    aria-label="Default pagination"
+                    class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>

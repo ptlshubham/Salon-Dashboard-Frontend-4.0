@@ -11,6 +11,7 @@ import { ServicesComponent } from './services/services.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { UsersComponent } from './users/users.component';
 import { ExpensesComponent } from './expenses/expenses.component';
+import { ComboOfferComponent } from './combo-offer/combo-offer.component';
 
 
 
@@ -19,7 +20,8 @@ import { ExpensesComponent } from './expenses/expenses.component';
     ServicesComponent,
     EmployeeComponent,
     UsersComponent,
-    ExpensesComponent
+    ExpensesComponent,
+    ComboOfferComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { ExpensesComponent } from './expenses/expenses.component';
     DatePipe
   ],
   exports:[
-    UsersComponent
+    UsersComponent,
+    ComboOfferComponent
   ]
 })
 export class CustomerModule { }
