@@ -51,8 +51,8 @@ export const MENU: MenuItem[] = [
     {
         id:7,
         label:'Vendor',
-        icon:'gift',
-        link:'/custom/combo-offer'
+        icon:'anchor',
+        link:'/custom/vendor'
     }
 ];
 
