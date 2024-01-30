@@ -110,6 +110,7 @@ export class ApiService {
   public static updateCartListURL: string = ApiService.HOST_URL + '/admin/updateCartList';
   public static saveOrderListURL: string = ApiService.HOST_URL + '/admin/saveOrderList';
   public static updateActiveOffersURL: string = ApiService.HOST_URL + '/admin/UpdateActiveOffers';
+  public static updateActiveMemberShipURL: string = ApiService.HOST_URL + '/admin/UpdateActiveMemberShip';
   public static savePlaceOrderListURL: string = ApiService.HOST_URL + '/admin/SavePlaceOrderList';
   public static getAllOrderListURL: string = ApiService.HOST_URL + '/admin/GetAllOrderList';
   public static savePurchaseServiceListURL: string = ApiService.HOST_URL + '/admin/SavePurchaseServiceList';
