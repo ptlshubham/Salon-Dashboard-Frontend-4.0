@@ -111,7 +111,6 @@ export class MembershipComponent {
   saveMemberShipDetail() {
     this.memberShipModel.services = this.tempServiceData;
     this.memberShipModel.totalprice = this.finalprice;
-    debugger
     this.MembershipService.saveMembershipList(this.memberShipModel).subscribe((data: any) => {
       this.memberShipList = data;
       this.toastr.success('membership package details added successfully', 'Success', { timeOut: 3000 });
@@ -120,15 +119,14 @@ export class MembershipComponent {
       this.validationServiceForm.markAsUntouched();
       this.validationForm.markAsUntouched();
       this.getMembershiDetails();
-      this.backToTable();
-
+      this.isOpen = false;
+      this.isUpdate = false;
     })
   }
 
   getMembershiDetails() {
     this.MembershipService.getAllMembershipList().subscribe((data: any) => {
       this.memberShipList = data;
-      debugger
       for (let i = 0; i < this.memberShipList.length; i++) {
         this.memberShipList[i].index = i + 1;
       }
@@ -141,7 +139,6 @@ export class MembershipComponent {
   }
   activeMemberShipBanners(ind: any) {
     this.memberShipList[ind].status = false;
-    debugger
     this.MembershipService.activeDeavctiveMemberShip(this.memberShipList[ind]).subscribe((req) => {
     })
   }
@@ -150,17 +147,68 @@ export class MembershipComponent {
     this.MembershipService.activeDeavctiveMemberShip(this.memberShipList[ind]).subscribe((req) => {
     })
   }
-  openAddEMembership() {
+  openAddMembership() {
     this.isOpen = true;
     this.isUpdate = false;
     this.serviceModel = {};
     this.memberShipModel = {};
+    this.tempServiceData = [];
     this.validationForm.markAsUntouched();
   }
   getAllServices() {
     this.servicesService.getAllServicesList().subscribe((data: any) => {
       this.servicesList = data;
     });
+  }
+  openMembershipDetails(data1: any) {
+    this.validationForm.markAsUntouched();
+    this.tempServiceData = [];
+
+    this.isOpen = true;
+    this.isUpdate = true;
+    this.memberShipModel = data1;
+    this.membershipprice = data1.membershipprice;
+    // this.serviceModel = {};
+    this.MembershipService.getMemberServicesUsingId(data1.id).subscribe((data: any) => {
+      this.membershipData = data;
+      debugger
+      for (let i = 0; i < this.membershipData.length; i++) {
+        this.servicesList.forEach((element: any) => {
+          if (element.id == this.membershipData[i].serviceid) {
+            this.tempServiceData.push({
+              time: element.time,
+              serpoint: element.point,
+              price: element.price,
+              servicesname: element.name,
+              selectedServid: element.id,
+              quantity: this.membershipData[i].quantity,
+              totalAmount: Number(this.membershipData[i].quantity) * element.price,
+            })
+          }
+        });
+      }
+      for (let i = 0; i < this.tempServiceData.length; i++) {
+        this.tempServiceData[i].index = i + 1;
+      }
+      this.addPoinInList();
+    });
+  }
+  updateMembershipPackage() {
+    this.memberShipModel.services = this.tempServiceData;
+    this.memberShipModel.totalprice = this.finalprice;
+    this.MembershipService.saveMembershipList(this.memberShipModel).subscribe((data: any) => {
+      this.memberShipList = data;
+      this.toastr.success('membership package details updated successfully', 'Success', { timeOut: 3000 });
+      this.isOpen = true;
+      this.isUpdate = false;
+      this.tempServiceData = [];
+      this.memberShipModel = {};
+      this.finalprice = 0;
+      this.membershipprice = 0;
+      this.validationServiceForm.markAsUntouched();
+      this.validationForm.markAsUntouched();
+      this.getMembershiDetails();
+    })
   }
   removeMembershipDetailes(id: any) {
     Swal.fire({
