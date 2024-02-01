@@ -14,6 +14,7 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ComboOfferComponent } from './combo-offer/combo-offer.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { MembershipComponent } from './membership/membership.component';
+import { PurchaseMembershipComponent } from './purchase-membership/purchase-membership.component';
 
 
 
@@ -25,7 +26,8 @@ import { MembershipComponent } from './membership/membership.component';
     ExpensesComponent,
     ComboOfferComponent,
     VendorComponent,
-    MembershipComponent
+    MembershipComponent,
+    PurchaseMembershipComponent
   ],
   imports: [
     CommonModule,
@@ -48,12 +50,14 @@ import { MembershipComponent } from './membership/membership.component';
     NgbToastModule,
     NgSelectModule,
   ],
-  providers:[
-    DatePipe
+  providers: [
+    DatePipe,
+    PurchaseMembershipComponent
   ],
-  exports:[
+  exports: [
     UsersComponent,
-    ComboOfferComponent
+    ComboOfferComponent,
+    // PurchaseMembershipComponent
   ]
 })
 export class CustomerModule { }

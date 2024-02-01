@@ -1,0 +1,8 @@
+<div class="modal-header" *ngIf="modalData | async as data">
+    <h5 class="modal-title mt-0">{{ modalData.title }}</h5>
+    <button type="button" class="btn-close" (click)="closeModal()" aria-hidden="true"></button>
+</div>
+<div class="modal-body" *ngIf="modalData | async as data">
+    <p>{{ modalData.content }}</p>
+    <!-- Add more dynamic content as needed -->
+</div>

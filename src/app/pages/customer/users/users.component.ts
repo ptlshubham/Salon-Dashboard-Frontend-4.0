@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { EmployeeService } from 'src/app/core/services/employee.service';
+import { OfferService } from 'src/app/core/services/offer.service';
 import { ServiceListService } from 'src/app/core/services/services.service';
 import Swal from 'sweetalert2';
+import { PurchaseMembershipComponent } from '../purchase-membership/purchase-membership.component';
 
 @Component({
   selector: 'app-users',
@@ -22,6 +25,7 @@ export class UsersComponent {
   validationForm!: FormGroup;
   validationAppointmentForm!: FormGroup;
   validationServiceForm!: FormGroup;
+  validationReedemPointsForm!: FormGroup;
 
   page = 1;
   pageSize = 10;
@@ -64,17 +68,34 @@ export class UsersComponent {
   tempServiceData: any = [];
   servicesModel: any = {};
 
+  comboOfferList: any = [];
+  offerServicesDataList: any = [];
+  totalprice: any = 0;
+  totalPoint: any = 0;
+  totaltime: any = 0;
+  offerPrice: any = 0;
+  tempComboOfferData: any = [];
+  tempEmployeeData: any = [];
+  selectedComboOffer: any = null;
+  selectedComboId: any;
+
+  totalTempPrice: any = 0;
+  totalTempPoint: any = 0;
+  totalTempTime: any = 0;
 
   searchQuery: string = '';
   filteredCustomerList: any = [];
-
+  isPurchaseOpen: any;
   constructor(
     private customerService: CustomerService,
     public formBuilder: UntypedFormBuilder,
     private employeeService: EmployeeService,
     private servicesService: ServiceListService,
     public toastr: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private offerService: OfferService,
+    private purchaseMembershipComponent: PurchaseMembershipComponent
+
   ) {
     this.getCustomerDetails();
   }
@@ -103,10 +124,16 @@ export class UsersComponent {
       name: ['', [Validators.required]],
       employeeName: ['', [Validators.required]]
     });
+    this.validationReedemPointsForm = this.formBuilder.group({
+      reedempoints: ['', [Validators.required, Validators.pattern(/^(100|[1-9]\d{2,3}|10000)$/)]],
+    });
+
   }
   get f() { return this.validationForm.controls; }
   get fo() { return this.validationAppointmentForm.controls; }
   get fs() { return this.validationServiceForm.controls; }
+  get fp() { return this.validationReedemPointsForm.controls; }
+
 
 
   backToTable() {
@@ -174,7 +201,6 @@ export class UsersComponent {
     this.paginateData = this.filteredCustomerList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
-
   saveCustomerDetail() {
 
     this.customerService.saveCustomerList(this.customerModel).subscribe((data: any) => {
@@ -221,6 +247,8 @@ export class UsersComponent {
     })
   }
   seletedCustomerDetails(data: any) {
+    this.getOfferDetails();
+
     this.validationAppointmentForm.markAsUntouched();
     this.validationServiceForm.markAsUntouched();
     this.tempServiceData = [];
@@ -242,6 +270,16 @@ export class UsersComponent {
     this.getAllEmployee();
     this.viewMembershipDetails();
   }
+
+  purchaseMembership() {
+    const dynamicData = {
+      // Provide the data you want to display in the modal
+      title: 'Dynamic Title',
+      content: 'Dynamic Content'
+      // Add more properties as needed
+    };
+    this.purchaseMembershipComponent.openModal(dynamicData);
+  }
   getTimeIntervalJson() {
     this.customerService.getBookingTimeInterval().subscribe((data: any) => {
       this.bookingTimeInterval = data;
@@ -258,7 +296,6 @@ export class UsersComponent {
       this.employeeReg.forEach((employee: any, index: number) => {
         employee.employeeName = `${employee.fname} ${employee.lname}`;
       });
-      debugger
     });
   }
   backToCustomerList() {
@@ -287,7 +324,122 @@ export class UsersComponent {
   getAppointPagintaion() {
     this.paginateAppointData = this.appointmentList.slice((this.appointPage - 1) * this.appointPageSize, (this.appointPage - 1) * this.appointPageSize + this.appointPageSize);
   }
+
+  getOfferDetails() {
+    this.offerService.getActiveOfferList().subscribe((data: any) => {
+      this.comboOfferList = data;
+    });
+  }
+  onComboOfferChange(data: any): void {
+
+    this.totalPoint = 0;
+    this.totalprice = 0;
+    this.totaltime = 0;
+    this.offerPrice = 0;
+    this.offerServicesDataList = [];
+    this.tempComboOfferData = [];
+    this.selectedComboId = data.id;
+
+    this.offerPrice = data.offerprice;
+    this.offerService.getAllOfferDataList(data.id).subscribe((data: any) => {
+      this.offerServicesDataList = data;
+
+      for (let i = 0; i < this.offerServicesDataList.length; i++) {
+        this.servicesList.forEach((element: any) => {
+          if (element.id == this.offerServicesDataList[i].serviceId) {
+            this.tempComboOfferData.push({
+              time: element.time,
+              serpoint: element.point,
+              price: element.price,
+              servicesname: element.name,
+              selectedServid: element.id,
+              servicetype: 'Combo',
+              comboId: this.selectedComboId
+            })
+          }
+        });
+      }
+      this.selectedComboOffer = null;
+      for (let i = 0; i < this.tempComboOfferData.length; i++) {
+        this.tempComboOfferData[i].index = i + 1;
+      }
+      this.calculatePointsList()
+    });
+  }
+  removeItemFromComboOffer(i: any, data: any) {
+    if (data.servicetype == 'Combo') {
+      const comboIdToRemove = data.comboId;
+      this.tempComboOfferData = this.tempComboOfferData.filter((item: any) => item.comboId !== comboIdToRemove);
+    }
+    for (let i = 0; i < this.tempComboOfferData.length; i++) {
+      this.tempComboOfferData[i].index = i + 1;
+    }
+    this.calculatePointsList();
+  }
+  calculatePointsList() {
+    this.tempComboOfferData.forEach((element: any) => {
+      if (element.price != undefined) {
+        this.totalprice = this.totalprice + element.price;
+      }
+      if (element.serpoint != undefined) {
+        this.totalPoint = this.totalPoint + element.serpoint;
+      }
+      if (element.time != undefined) {
+        this.totaltime = this.totaltime + element.time;
+      }
+    });
+  }
+  calculateTempServicePointsList() {
+    this.totalTempPoint = 0;
+    this.totalTempPrice = 0;
+    this.totalTempTime = 0;
+
+    this.tempServiceData.forEach((element: any) => {
+      if (element.price != undefined) {
+        this.totalTempPrice = this.totalTempPrice + element.price;
+      }
+      if (element.serpoint != undefined) {
+        this.totalTempPoint = this.totalTempPoint + element.serpoint;
+      }
+      if (element.time != undefined) {
+        this.totalTempTime = this.totalTempTime + element.time;
+      }
+    });
+  }
+  onEmployeeChange(data: any, ind: any) {
+    debugger
+    const employeeName = data.fname + ' ' + data.lname;
+    this.offerServicesDataList[ind].employeename = employeeName;
+    this.offerServicesDataList[ind].selectedEmpid = data.id;
+  }
+  saveComboOffer() {
+    for (let i = 0; i < this.offerServicesDataList.length; i++) {
+      debugger
+      this.servicesList.forEach((element: any) => {
+        if (element.id == this.offerServicesDataList[i].serviceId) {
+          this.tempServiceData.push({
+            time: element.time,
+            serpoint: element.point,
+            price: element.price,
+            servicesname: element.name,
+            selectedServid: element.id,
+            servicetype: 'Combo',
+            employeename: this.offerServicesDataList[i].employeename,
+            selectedEmpid: this.offerServicesDataList[i].selectedEmpid,
+            comboId: this.selectedComboId
+          })
+        }
+      });
+    }
+    for (let i = 0; i < this.tempServiceData.length; i++) {
+      this.tempServiceData[i].index = i + 1;
+    }
+    this.offerServicesDataList = [];
+    this.selectedComboOffer = null;
+    this.calculateTempServicePointsList();
+  }
   saveTempServiceDetail() {
+
     this.tempServiceData.push({
       time: this.servicesModel.Service.time,
       serpoint: this.servicesModel.Service.point,
@@ -295,19 +447,28 @@ export class UsersComponent {
       servicesname: this.servicesModel.Service.name,
       selectedServid: this.servicesModel.Service.id,
       employeename: this.servicesModel.employee.employeeName,
-      selectedEmpid: this.servicesModel.employee.id
+      selectedEmpid: this.servicesModel.employee.id,
+      servicetype: 'Regular'
     });
     this.servicesModel = {};
     this.validationServiceForm.markAsUntouched();
     for (let i = 0; i < this.tempServiceData.length; i++) {
       this.tempServiceData[i].index = i + 1;
     }
+    this.calculateTempServicePointsList();
   }
-  removeItemFromAppointement(i: any) {
-    this.tempServiceData.splice(i, 1);
+  removeItemFromAppointement(i: any, data: any) {
+    if (data.servicetype == 'Combo') {
+      const comboIdToRemove = data.comboId;
+      this.tempServiceData = this.tempServiceData.filter((item: any) => item.comboId !== comboIdToRemove);
+    }
+    else {
+      this.tempServiceData.splice(i, 1);
+    }
     for (let i = 0; i < this.tempServiceData.length; i++) {
       this.tempServiceData[i].index = i + 1;
     }
+    this.calculateTempServicePointsList();
   }
   openUsedServiceList(data: any, exlargeModal: any) {
     this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });

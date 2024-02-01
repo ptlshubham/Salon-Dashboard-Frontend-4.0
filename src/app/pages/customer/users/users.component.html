@@ -395,6 +395,9 @@
                         ngbTooltip="{{ isVIP ? 'VIP Mode is ON' : 'VIP Mode is OFF' }}" placement="bottom">
                     <label class="text-center">VIP</label>
                 </div>
+                <button type="submit" class="btn btn-primary waves-effect waves-light" (click)="purchaseMembership()">
+                    <i class="mdi mdi-wallet-plus-outline font-size-16 align-middle"></i>
+                    Purchase Membership</button>
                 <button type="submit" class="btn btn-danger waves-effect waves-light" (click)="backToCustomerList()">
                     <i class="bx bx-arrow-back font-size-16 align-middle"></i>
                     Back</button>
@@ -477,6 +480,148 @@
                             </div>
                         </div>
                     </div>
+                    <div *ngIf="comboOfferList.length>0">
+                        <hr class="my-3">
+                        <h5 class="card-title">Available Combo Offers</h5>
+                        <hr class="my-3">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="choices-single-default" class="form-label">Select Combo Offer</label>
+                                    <ng-select [items]="comboOfferList" bindLabel="offername"
+                                        placeholder="Select Combo Offer" [(ngModel)]="selectedComboOffer"
+                                        [ngModelOptions]="{standalone: true}"
+                                        (ngModelChange)="onComboOfferChange($event)">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{item.offername || 'Unnamed group'}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12"
+                                *ngIf="offerServicesDataList!=''">
+                                <div class="mb-3">
+                                    <label for="choices-single-default" class="form-label">Select
+                                        Team Member</label>
+                                    <ng-select [items]="employeeReg" bindLabel="employeeName"
+                                        placeholder="Select Team Member" (change)="onEmployeeChange($event)">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{item.employeeName || 'Unnamed group'}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-xs-4" *ngIf="isEmployeeSelected">
+                                <button type="submit" class="btn btn-primary" style="margin-top:1.7rem !important"
+                                    [disabled]="!isEmployeeSelected" (click)="saveComboOffer()"><i
+                                        class="bx bx-plus font-size-16 align-middle"></i>
+                                    Add</button>
+                            </div> -->
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12"
+                                *ngIf="offerServicesDataList!=''">
+                                <label class="form-label">
+                                    Combo Offer Details</label>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column">
+                                            <div class="p-1">Services Name : <span class="badge bg-primary"
+                                                    *ngFor="let a of offerServicesDataList;let i=index"
+                                                    ngbTooltip="{{a.servicesname}}"
+                                                    placement="top">{{a.servicesname}}</span>
+                                            </div>
+                                            <div class="p-1">Total Point : <span class="badge bg-dark"
+                                                    ngbTooltip="{{totalPoint}}" placement="top">{{totalPoint}}</span>
+                                            </div>
+                                            <div class="p-1">Total Time (Minute): <span class="badge bg-info"
+                                                    ngbTooltip="{{totaltime}}" placement="top">{{totaltime}}</span>
+                                            </div>
+                                            <div class="p-1">Total Price : <span class="badge bg-warning"
+                                                    ngbTooltip="{{totalprice}} ₹" placement="top">{{totalprice}}
+                                                    ₹</span>
+                                            </div>
+                                            <div class="p-1">Offer Price : <span class="badge bg-success"
+                                                    ngbTooltip="{{offerPrice}} ₹" placement="top">{{offerPrice}}
+                                                    ₹</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="table-responsive mt-2"
+                            *ngIf="offerServicesDataList.length>0 && tempComboOfferData.length>0">
+                            <table class="table mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-left">#</th>
+                                        <th class="text-center">Services Name</th>
+                                        <th class="text-center">Price</th>
+                                        <th class="text-center">Point</th>
+                                        <th class="text-center">Approx Time</th>
+                                        <th class="text-center">Select Team Member</th>
+                                        <th class="text-center">Services Type</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let a of tempComboOfferData;let i=index">
+                                        <td class="text-left">{{a.index}}</td>
+                                        <td class="text-center">{{ a.servicesname }}</td>
+                                        <td class="text-center">{{ a.price }} ₹</td>
+                                        <td class="text-center">{{ a.serpoint }}</td>
+                                        <td class="text-center">{{ a.time }}</td>
+                                        <td class="text-center">
+                                            <ng-select [items]="employeeReg" bindLabel="employeeName"
+                                                placeholder="Select Team Member" (change)="onEmployeeChange($event,i)">
+                                                <ng-template ng-optgroup-tmp let-item="item">
+                                                    {{item.employeeName || 'Unnamed group'}}
+                                                </ng-template>
+                                            </ng-select>
+                                        </td>
+                                        <th class="text-center">
+                                            <span class="badge bg-warning">{{a.servicetype}}</span>
+                                        </th>
+                                        <td class="text-end">
+                                            <div class="d-flex justify-content-end gap-1">
+                                                <button type="button"
+                                                    class="btn btn-soft-danger waves-effect waves-light"
+                                                    (click)="removeItemFromComboOffer(i,a)" ngbTooltip="Remove Service"
+                                                    placement="top"><i
+                                                        class=" bx bx-trash-alt font-size-16 align-middle"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            <div class="d-flex justify-content-end gap-1 mt-3 mb-3">
+                                <div class="hstack gap-3">
+                                    <div class="grid-example">Total Price: <span class="text-primary"><b>{{totalprice}}
+                                                ₹</b></span>
+                                    </div>
+                                    <div class="vr"></div>
+                                    <div class="grid-example">Total Price: <span class="text-success"><b>{{offerPrice}}
+                                                ₹</b></span>
+                                    </div>
+                                    <div class="vr"></div>
+                                    <div class="grid-example">Today Points: <span
+                                            class="text-dark"><b>{{totalPoint}}</b></span>
+                                    </div>
+                                    <div class="vr"></div>
+                                    <div class="grid-example">Total Approx Time: <span
+                                            class="text-primary"><b>{{totaltime}}
+                                                (Minutes)</b></span>
+                                    </div>
+                                    <div class="vr"></div>
+                                    <button type="submit" class="btn btn-primary" (click)="saveComboOffer()"><i
+                                            class="bx bx-plus font-size-16 align-middle"></i>
+                                        Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <hr class="my-2">
                 </form>
                 <form [formGroup]="validationServiceForm">
@@ -534,6 +679,7 @@
                             <th class="text-center">Price</th>
                             <th class="text-center">Point</th>
                             <th class="text-center">Approx Time</th>
+                            <th class="text-center">Services Type</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -545,17 +691,61 @@
                             <td class="text-center">{{ a.price }} ₹</td>
                             <td class="text-center">{{ a.serpoint }}</td>
                             <td class="text-center">{{ a.time }}</td>
+                            <th class="text-center">
+                                <span class="badge bg-warning" *ngIf="a.servicetype=='Combo'">{{a.servicetype}}</span>
+                                <span class="badge bg-primary" *ngIf="a.servicetype=='Regular'">{{a.servicetype}}</span>
+                                <span class="badge bg-success" *ngIf="a.servicetype=='Member'">{{a.servicetype}}</span>
+                            </th>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
                                     <button type="button" class="btn btn-soft-danger waves-effect waves-light"
-                                        (click)="removeItemFromAppointement(i)" ngbTooltip="Remove Service"
-                                        placement="top" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl"><i
+                                        (click)="removeItemFromAppointement(i,a)" ngbTooltip="Remove Service"
+                                        placement="top"><i
                                             class=" bx bx-trash-alt font-size-16 align-middle"></i></button>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
+
                 </table>
+                <div class="d-flex flex-wrap gap-1 mt-3">
+                    <div class="hstack gap-3">
+                        <div class="grid-example">Total Points:<br>
+                            <span class="text-primary"><b>
+                                    {{tCustPoint}}</b></span>
+                        </div>
+                        <div class="vr"></div>
+                        <form [formGroup]="validationReedemPointsForm">
+                            <div class="form-group">
+                                <input type="number" formControlName="reedempoints"
+                                    [ngClass]="{ 'is-invalid': fp.reedempoints.touched && fp.reedempoints.errors }"
+                                    class="form-control" id="reedempoints" placeholder="Enter Points to Redeem">
+                                <div *ngIf="fp.reedempoints.touched || fp.reedempoints.invalid || fp.reedempoints.pristine"
+                                    class="invalid-feedback">
+                                    <div *ngIf="fp.reedempoints.errors?.required">This field is required. Only Numbers
+                                        allowed.</div>
+                                    <div *ngIf="fp.reedempoints.errors?.pattern">Minimum 100
+                                        points required for reedem.</div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="vr"></div>
+                        <div class="grid-example">Total Price:<br><span class="text-success"><b>{{totalTempPrice}}
+                                    ₹</b></span>
+                        </div>
+                        <div class="vr"></div>
+                        <div class="grid-example">Today Points:<br><span
+                                class="text-dark"><b>{{totalTempPoint}}</b></span>
+                        </div>
+                        <div class="vr"></div>
+                        <div class="grid-example">Total Approx Time:<br><span class="text-primary"><b>{{totalTempTime}}
+                                    (Minutes)</b></span>
+                        </div>
+                        <div class="vr"></div>
+                        <div class="grid-example">VIP Bonus:<br><span class="text-primary"><b> ₹</b></span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
