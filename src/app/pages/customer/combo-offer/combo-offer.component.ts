@@ -124,6 +124,8 @@ export class ComboOfferComponent {
       this.validationServiceForm.markAsUntouched();
       this.validationForm.markAsUntouched();
       this.getOfferDetails();
+      this.isOpen = false;
+      this.isUpdate = false;
     })
   }
   getOfferDetails() {
@@ -188,6 +190,8 @@ export class ComboOfferComponent {
       this.validationServiceForm.markAsUntouched();
       this.validationForm.markAsUntouched();
       this.getOfferDetails();
+      this.isOpen = false;
+      this.isUpdate = false;
     })
   }
   removeComboOfferDetails(id: any) {
