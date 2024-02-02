@@ -1,7 +1,7 @@
 <app-pagetitle title="Dashboard" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
 <div class="row">
     <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100">
+        <div class="card card-h-100" (click)="openCustomer()">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-8">
@@ -9,7 +9,8 @@
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Customer</small>
                         </h4>
                         <h4 class="mb-3">
-                            $<span [countUp]="4.32" [options]="option" class="counter-value"></span>M
+                            Total: <span [countUp]="customerList.length" [options]="option"
+                                class="counter-value"></span>
                         </h4>
                     </div>
                     <div class="col-4 text-center">
@@ -24,15 +25,17 @@
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100">
+        <div class="card card-h-100" (click)="openService()">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-8">
                         <h4>
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Services</small>
+
                         </h4>
                         <h4 class="mb-3">
-                            <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
+                            Total: <span [countUp]="servicesList.length" [options]="option"
+                                class="counter-value"></span>
                         </h4>
                     </div>
                     <div class="col-4 text-center">
@@ -55,7 +58,6 @@
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Daily Earnings</small>
                         </h4>
                         <h4 class="mb-3">
-                            $<span [countUp]="4.32" [options]="option" class="counter-value"></span>M
                         </h4>
                     </div>
                     <div class="col-4 text-center">
@@ -76,9 +78,10 @@
                     <div class="col-8">
                         <h4>
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Pending Enquiry</small>
+
                         </h4>
                         <h4 class="mb-3">
-                            <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
+
                         </h4>
                     </div>
                     <div class="col-4 text-center">
@@ -93,15 +96,16 @@
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100">
+        <div class="card card-h-100" (click)="openExpenses()">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-8">
                         <h4>
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Daily Expenses</small>
+                                
                         </h4>
                         <h4 class="mb-3">
-                            <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
+                            Total: <span [countUp]="ExpensesList.length" [options]="option" class="counter-value"></span>
                         </h4>
                     </div>
                     <div class="col-4 text-center">
@@ -116,15 +120,16 @@
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100">
+        <div class="card card-h-100" (click)="openofferSerivce()">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-8">
                         <h4>
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Combo Offer</small>
+
                         </h4>
                         <h4 class="mb-3">
-                            <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
+                            Total: <span [countUp]="offerList.length" [options]="option" class="counter-value"></span>
                         </h4>
                     </div>
                     <div class="col-4 text-center">
@@ -139,15 +144,16 @@
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100">
+        <div class="card card-h-100" (click)="openVendor()">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-8">
                         <h4>
-                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Product Order</small>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Vendor</small>
+
                         </h4>
                         <h4 class="mb-3">
-                            <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
+                            Total: <span [countUp]="vendorList.length" [options]="option" class="counter-value"></span>
                         </h4>
                     </div>
                     <div class="col-4 text-center">
@@ -162,15 +168,17 @@
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100">
+        <div class="card card-h-100" (click)="openMembershipService()">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-8">
                         <h4>
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Membership</small>
+
                         </h4>
                         <h4 class="mb-3">
-                            <span [countUp]="12.37" [options]="option" class="counter-value"></span>%
+                            Total: <span [countUp]="MembershipList.length" [options]="option"
+                                class="counter-value"></span>
                         </h4>
                     </div>
                     <div class="col-4 text-center">
