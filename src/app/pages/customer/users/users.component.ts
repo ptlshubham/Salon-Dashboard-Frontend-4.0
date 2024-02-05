@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services/customer.service';
@@ -59,7 +58,6 @@ export class UsersComponent {
 
   bookingTimeInterval: any = [];
   selectedCustId: any;
-  activeMembership: any = [];
   totalCustPoint: any = [];
   tCustPoint: any = 0;
   isVIP: boolean = false;
@@ -82,6 +80,10 @@ export class UsersComponent {
   totalTempPrice: any = 0;
   totalTempPoint: any = 0;
   totalTempTime: any = 0;
+
+  activeMembership: any = [];
+  tempActiveMembership: any = [];
+  selectedActiveMembership: any = [];
 
   searchQuery: string = '';
   filteredCustomerList: any = [];
@@ -140,12 +142,16 @@ export class UsersComponent {
     this.isOpen = false;
     this.isUpdate = false;
     this.customerModel = {};
+    this.activeMembership = [];
+    this.tempActiveMembership = [];
     this.validationForm.markAsUntouched();
   }
   openAddCustomer() {
     this.isOpen = true;
     this.isUpdate = false;
     this.customerModel = {};
+    this.activeMembership = [];
+    this.tempActiveMembership = [];
     this.validationForm.markAsUntouched();
     this.getStateList();
   }
@@ -214,15 +220,96 @@ export class UsersComponent {
   }
 
   viewMembershipDetails() {
-    let data = {
-      id: this.selectedCustId
-    }
-    this.customerService.getActivatedMembershipDetail(data).subscribe((data: any) => {
+    this.activeMembership = [];
+    this.tempActiveMembership = [];
+    this.selectedActiveMembership = [];
+    this.customerService.getActivatedMembershipDetail(this.selectedCustId).subscribe((data: any) => {
       this.activeMembership = data;
+      debugger
       for (let i = 0; i < this.activeMembership.length; i++) {
         this.activeMembership[i].index = i + 1;
       }
+      for (let i = 0; i < this.activeMembership.length; i++) {
+        this.servicesList.forEach((element: any) => {
+          if (element.id == this.activeMembership[i].serid) {
+            this.tempActiveMembership.push({
+              index: i + 1,
+              time: element.time,
+              serpoint: element.point,
+              price: element.price,
+              servicesname: element.name,
+              selectedServid: element.id,
+              totalquantity: this.activeMembership[i].quntity,
+              servicetype: 'Membership',
+              isChecked: false
+            })
+          }
+        });
+      }
+      for (let i = 0; i < this.tempActiveMembership.length; i++) {
+        this.tempActiveMembership[i].index = i + 1;
+      }
     })
+  }
+  onEmployeeMemberChange(data: any, ind: any) {
+    debugger
+    if (data != undefined) {
+      const employeeName = data.fname + ' ' + data.lname;
+      this.tempActiveMembership[ind].employeename = employeeName;
+      this.tempActiveMembership[ind].selectedEmpid = data.id;
+    }
+    else {
+      this.tempActiveMembership[ind].selectedEmpid = undefined;
+      this.tempActiveMembership[ind].isChecked = false;
+    }
+  }
+  selectedMemberService(data: any) {
+    debugger
+    if (data.isChecked == true) {
+      this.selectedActiveMembership.push({
+        time: data.time,
+        serpoint: data.serpoint,
+        price: data.price,
+        servicesname: data.servicesname,
+        selectedServid: data.selectedServid,
+        servicetype: 'Membership',
+        employeename: data.employeename,
+        selectedEmpid: data.selectedEmpid,
+        isChecked: true
+      });
+      for (let i = 0; i < this.selectedActiveMembership.length; i++) {
+        this.selectedActiveMembership[i].index = i + 1;
+      }
+    }
+    else if (data.isChecked == false) {
+      this.selectedActiveMembership.forEach((element: any, index: number) => {
+        if (element.servicetype == 'Membership' && element.selectedServid == data.selectedServid) {
+          debugger
+          this.selectedActiveMembership.splice(index, 1);
+        }
+      });
+    }
+  }
+  saveMemberShipData() {
+    this.selectedActiveMembership.forEach((element: any) => {
+      if (!this.tempServiceData.some((item: any) => item.selectedServid === element.selectedServid)) {
+        this.tempServiceData.push({
+          time: element.time,
+          serpoint: element.serpoint,
+          price: element.price,
+          servicesname: element.servicesname,
+          selectedServid: element.selectedServid,
+          servicetype: element.servicetype,
+          employeename: element.employeename,
+          selectedEmpid: element.selectedEmpid,
+        });
+      }
+    });
+    for (let i = 0; i < this.tempServiceData.length; i++) {
+      this.tempServiceData[i].index = i + 1;
+    }
+    this.viewMembershipDetails();
+    this.calculateTempServicePointsList();
   }
   getCustomerPoints() {
     this.customerService.getCustAllPoint(this.selectedCustId).subscribe((data: any) => {
@@ -272,13 +359,7 @@ export class UsersComponent {
   }
 
   purchaseMembership() {
-    const dynamicData = {
-      // Provide the data you want to display in the modal
-      title: 'Dynamic Title',
-      content: 'Dynamic Content'
-      // Add more properties as needed
-    };
-    this.purchaseMembershipComponent.openModal(dynamicData);
+
   }
   getTimeIntervalJson() {
     this.customerService.getBookingTimeInterval().subscribe((data: any) => {
@@ -414,7 +495,6 @@ export class UsersComponent {
   }
   saveComboOffer() {
     for (let i = 0; i < this.offerServicesDataList.length; i++) {
-      debugger
       this.servicesList.forEach((element: any) => {
         if (element.id == this.offerServicesDataList[i].serviceId) {
           this.tempServiceData.push({
@@ -513,4 +593,5 @@ export class UsersComponent {
     //   this.getAllServices();
     // })
   }
+
 }

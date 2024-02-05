@@ -95,6 +95,7 @@ export class ApiService {
   public static saveMembershipListURL: string = ApiService.HOST_URL + '/admin/SaveMembershipList';
   public static getUsedServicesByMembershipURL: string = ApiService.HOST_URL + '/admin/GetUsedServicesByMembership';
   public static getAllOMembershipURL: string = ApiService.HOST_URL + '/admin/GetAllMembership';
+  public static getAllActiveMembershipURL: string = ApiService.HOST_URL + '/admin/GetAllActiveMembership';
   public static updateMembershipListURL: string = ApiService.HOST_URL + '/admin/UpdateMembershipList';
   public static removeMembershipDetailsURL: string = ApiService.HOST_URL + '/admin/removeMembershipDetails/';
   public static getAllMembershipURL: string = ApiService.HOST_URL + '/admin/getAllMembership/';
@@ -121,8 +122,8 @@ export class ApiService {
   public static removeCustomerOrderURL: string = ApiService.HOST_URL + '/admin/RemoveCustomerOrder/';
   public static removeOrderDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveOrderDetails';
   public static saveAcceptUserOrderURL: string = ApiService.HOST_URL + '/admin/SaveAcceptUserOrder';
-  public static getActivatedMembershipURL: string = ApiService.HOST_URL + '/admin/GetActivatedMembership';
+  public static getActivatedMembershipURL: string = ApiService.HOST_URL + '/admin/GetActivatedMembership/';
   public static saveRatingsDetailsURL: string = ApiService.HOST_URL + '/admin/SaveRatingsDetails';
   // Organization Apis
-  
+
 }
