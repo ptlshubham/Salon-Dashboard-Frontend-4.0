@@ -79,23 +79,23 @@ export class DashboardComponent implements OnInit {
   getVendorServiceDetails() {
     this.vendorService.getAllVendorList().subscribe((data: any) => {
       this.vendorList = data;
-      debugger
+      
     });
   }
   getOfferDetails() {
-    debugger
+    
     this.offerService.getAllOfferList().subscribe((data: any) => {
       this.offerList = data;
     });
   }
   getMembershipServiceDetails() {
-    debugger
+    
     this.membershipService.getAllMembershipList().subscribe((data: any) => {
       this.MembershipList = data;
     });
   }
   getofferSerivceDetails() {
-    debugger
+    
     this.offerService.getAllOfferList().subscribe((data: any) => {
       this.MembershipList = data;
     });

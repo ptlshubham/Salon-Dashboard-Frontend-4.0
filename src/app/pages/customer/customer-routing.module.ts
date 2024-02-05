@@ -8,6 +8,7 @@ import { ComboOfferComponent } from './combo-offer/combo-offer.component';
 import { MembershipComponent } from './membership/membership.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { SalonRegistartionComponent } from '../admin/salon-registartion/salon-registartion.component';
+import { PurchaseMembershipComponent } from './purchase-membership/purchase-membership.component';
 
 const routes: Routes = [
      {
@@ -41,6 +42,10 @@ const routes: Routes = [
      {
           path: 'salon-registartion',
           component: SalonRegistartionComponent
+     },
+     {
+          path: 'purchase-membership',
+          component: PurchaseMembershipComponent
      }
 ];
 

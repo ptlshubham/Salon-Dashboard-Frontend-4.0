@@ -41,7 +41,9 @@ export class MembershipService {
         return this.httpClient.get<any>(ApiService.removeMembershipDetailsURL + id);
     }
 
-
+    getAllActiveMembership(): Observable<any> {
+        return this.httpClient.get<any>(ApiService.getAllActiveMembershipURL);
+    }
     getMemberServicesUsingId(id: any) {
         let data = {
             id: id
