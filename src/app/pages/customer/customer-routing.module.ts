@@ -7,12 +7,13 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ComboOfferComponent } from './combo-offer/combo-offer.component';
 import { MembershipComponent } from './membership/membership.component';
 import { VendorComponent } from './vendor/vendor.component';
+import { SalonRegistartionComponent } from '../admin/salon-registartion/salon-registartion.component';
 
 const routes: Routes = [
      {
           path: 'service-list',
           component: ServicesComponent
-     }, 
+     },
      {
           path: 'employee-list',
           component: EmployeeComponent
@@ -20,23 +21,27 @@ const routes: Routes = [
      {
           path: 'user-list',
           component: UsersComponent
-     }, 
+     },
      {
-          path:'expenses',
-          component: ExpensesComponent  
-     }, 
+          path: 'expenses',
+          component: ExpensesComponent
+     },
      {
-          path:'combo-offer',
-          component: ComboOfferComponent  
-     }, 
+          path: 'combo-offer',
+          component: ComboOfferComponent
+     },
      {
-          path:'membership',
-          component: MembershipComponent  
-     }, 
+          path: 'membership',
+          component: MembershipComponent
+     },
      {
-          path:'vendor',
-          component: VendorComponent  
-     }           
+          path: 'vendor',
+          component: VendorComponent
+     },
+     {
+          path: 'salon-registartion',
+          component: SalonRegistartionComponent
+     }
 ];
 
 @NgModule({
