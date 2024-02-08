@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { MembershipService } from 'src/app/core/services/membership.service';
@@ -23,22 +24,28 @@ export class PurchaseMembershipComponent {
   searchContact: any = null;
   showDetails: boolean = false;
   selectedMemberShip: any = {};
-  memberShipServices: any = [];
+  memberUsedServices: any = [];
   page = 1;
   quantity: number = 0;
   pageSize = 10;
   paginateData: any = [];
   collectionSize = 0;
   purchasedServices: any = [];
+  usedServices: any = [];
+  servicestotal: number = 0;
+  totalPriceafterdiscount: number = 0;
+
+
 
   constructor(
     public formBuilder: UntypedFormBuilder,
     private customerService: CustomerService,
     private membershipService: MembershipService,
     public toastr: ToastrService,
+    private modalService: NgbModal,
+
   ) {
     this.getPurchasedMemberList();
-
   }
 
   ngOnInit(): void {
@@ -103,9 +110,9 @@ export class PurchaseMembershipComponent {
       if (data.target.value == element.membershipname) {
         this.selectedMemberShip = element;
         this.membershipService.getMemberServicesUsingId(element.id).subscribe((data: any) => {
-          this.memberShipServices = data;
-          for (let i = 0; i < this.memberShipServices.length; i++) {
-            this.memberShipServices[i].index = i + 1;
+          this.memberUsedServices = data;
+          for (let i = 0; i < this.memberUsedServices.length; i++) {
+            this.memberUsedServices[i].index = i + 1;
           }
         });
       }
@@ -118,7 +125,7 @@ export class PurchaseMembershipComponent {
     this.joinMembershipModel.discount = this.selectedMemberShip.membershipdiscount;
     this.joinMembershipModel.dprice = this.selectedMemberShip.membershipprice;
     this.joinMembershipModel.isactive = true;
-    this.joinMembershipModel.services = this.memberShipServices;
+    this.joinMembershipModel.services = this.memberUsedServices;
     this.membershipService.savePurchaseServiceList(this.joinMembershipModel).subscribe((data: any) => {
       this.joinedMembership = data;
       if (data == 'success') {
@@ -153,4 +160,17 @@ export class PurchaseMembershipComponent {
       }
     })
   }
+  openUsedServiceList(data: any, exlargeModal: any) {
+    this.servicestotal = data.totalprice
+    this.totalPriceafterdiscount = data.membershipprice
+    this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
+    this.membershipService.getMemberServicesUsingId(data.memid).subscribe((data: any) => {
+      this.usedServices = data;
+      debugger
+      for (let i = 0; i < this.usedServices.length; i++) {
+        this.usedServices[i].index = i + 1;
+      }
+    })
+  }
 }
+

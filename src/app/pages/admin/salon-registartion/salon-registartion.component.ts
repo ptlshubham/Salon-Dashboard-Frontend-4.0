@@ -15,7 +15,6 @@ import Swal from 'sweetalert2';
 export class SalonRegistartionComponent {
 
   saloonlist: any = [];
-
   isOpen: boolean = false;
   isUpdate: boolean = false;
   validationForm!: FormGroup;
@@ -69,23 +68,23 @@ export class SalonRegistartionComponent {
     this.getAllRegistration();
 
     this.validationForm = this.formBuilder.group({
-      saloonname: ['', [Validators.required]],
-      ownerEmail: ['', [Validators.required]],
-      contactOwner: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-      saloonContact: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      sname: ['', [Validators.required]],
+      oemail: ['', [Validators.required]],
+      ocontact: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      scontact: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       selectGender: ['', [Validators.required]],
-      saloonAddress: ['', [Validators.required]],
+      address: ['', [Validators.required]],
       landmark: [''],
       selectState: ['', [Validators.required]],
       city: ['', [Validators.required]],
       pincode: ['', Validators.required],
       gst: [''],
       selectSupscription: ['', [Validators.required]],
-      webLink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
-      ownername: ['', [Validators.required]],
-      saloonemail: ['', [Validators.required]]
-    });
+      websitelink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
+      oname: ['', [Validators.required]],
+      semail: ['', [Validators.required]]
 
+    });
   }
   get f() { return this.validationForm.controls; }
 
@@ -144,9 +143,10 @@ export class SalonRegistartionComponent {
     this.RegistartionModel.city = this.selectedCity;
     this.RegistartionModel.selectState = this.selectedState;
     this.RegistartionModel.selectGender = this.selectedGender;
+    this.RegistartionModel.selectSupscription = this.selectedSupscription
     this.adminService.saveRegistrationList(this.RegistartionModel).subscribe((data: any) => {
       if (data = 'success') {
-        this.toastr.success('vendor details added successfully', 'Success', { timeOut: 3000 });
+        this.toastr.success('registration details added successfully', 'Success', { timeOut: 3000 });
         this.isOpen = false;
         this.RegistartionModel = {};
         this.validationForm.markAsUntouched();
@@ -182,5 +182,23 @@ export class SalonRegistartionComponent {
         Swal.fire('Deleted!', 'registration  details has been deleted.', 'success');
       }
     });
+  }
+  editRegistartionDeatil(data: any) {
+    this.isOpen = true;
+    this.isUpdate = true;
+    this.RegistartionModel = data;
+
+  }
+  updateRegistartionDetail() {
+    this.RegistartionModel.selectState = this.selectedState;
+    this.RegistartionModel.city = this.selectedCity;
+    this.RegistartionModel.selectGender = this.selectedGender;
+    this.RegistartionModel.selectSupscription = this.selectedSupscription
+    this.adminService.updateRegistrationList(this.RegistartionModel).subscribe((req) => {
+      this.toastr.success('Expense details updated successfully', 'Updated', { timeOut: 3000 });
+      this.isOpen = false;
+      this.isUpdate = false;
+      this.getAllRegistration();
+    })
   }
 }
