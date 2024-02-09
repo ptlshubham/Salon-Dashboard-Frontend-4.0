@@ -107,7 +107,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="memberShipServices.length > 0">
+      <div *ngIf="memberUsedServices.length > 0">
         <div class="table-responsive mt-5">
           <table class="table mb-0">
             <thead class="table-light">
@@ -120,7 +120,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let a of memberShipServices; let i = index">
+              <tr *ngFor="let a of memberUsedServices; let i = index">
                 <td class="text-left">{{ a.index }}</td>
                 <td class="text-center">{{ a.servicesname }}</td>
                 <td class="text-center">{{ a.serviceprice }} ₹</td>
@@ -166,6 +166,7 @@
     </div>
   </div>
 </div>
+
 <div class="row" *ngIf="isOpen==false">
   <div class="card">
     <div class="card-header">
@@ -176,6 +177,7 @@
         </button>
       </div>
     </div>
+
     <div class="card-body">
       <div class="table-responsive">
         <table class="table mb-0">
@@ -216,6 +218,10 @@
                     ngbTooltip="Edit Membership" placement="top" (click)="viewMembershipDetails(s)">
                     <i class="bx bx-edit font-size-16 align-middle"></i>
                   </button>
+                  <button type="button" class="btn btn-soft-primary waves-effect waves-light"
+                    (click)="openUsedServiceList(s,exlargeModal)" ngbTooltip="View Used Services" placement="top"
+                    data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl"><i
+                      class="bx bx-show-alt font-size-16 align-middle"></i></button>
                   <!-- <button type="button" class="btn btn-soft-danger waves-effect waves-light"
                     (click)="removeMembershipDetailes(s.id)" ngbTooltip="Remove Membership" placement="top">
                     <i class="bx bx-trash-alt font-size-16 align-middle"></i>
@@ -226,6 +232,7 @@
           </tbody>
         </table>
       </div>
+
       <div class="row mt-4">
         <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
           [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getPagintaion()"
@@ -233,5 +240,58 @@
           class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
       </div>
     </div>
+
   </div>
+
 </div>
+<ng-template #exlargeModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Services List</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close click')">
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="text-left">#</th>
+              <th class="text-center">Membership Package Name</th>
+              <th class="text-center">Service Name</th>
+              <th class="text-center">quantity</th>
+
+              <th class="text-center">Total Price</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of usedServices;let i=index">
+              <td class="text-left">{{a.index}}</td>
+              <td class="text-center">{{ a.membershipname }}</td>
+              <td class="text-center">{{ a.servicesname }}</td>
+              <td class="text-center">{{ a.quantity }}</td>
+              <td class="text-center">{{ a.totalprice }} ₹</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="d-flex justify-content-end gap-1">
+        <div class="hstack gap-3">
+          <div class="grid-example">Total Price:
+            <span class="text-primary"><b>{{servicestotal}}
+                ₹</b></span>
+          </div>
+          <div class="vr"></div>
+          <div class="grid-example">discount price: <span class="text-primary"><b>{{totalPriceafterdiscount}}</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

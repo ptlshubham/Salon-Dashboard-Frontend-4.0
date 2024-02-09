@@ -128,6 +128,6 @@ export class ApiService {
   public static saveRegistrationListURL: string = ApiService.HOST_URL + '/admin/SaveRegistrationList';
   public static getAllRegistrationURL: string = ApiService.HOST_URL + '/admin/GetAllRegistration';
   public static updateRegistrationListURL: string = ApiService.HOST_URL + '/admin/UpdateRegistrationList';
-  public static removeRegistrationDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveRegistrationDetails';
+  public static removeRegistrationDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveRegistrationDetails/';
 
 }
