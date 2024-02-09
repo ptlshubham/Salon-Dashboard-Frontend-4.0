@@ -7,7 +7,7 @@ import { EmployeeService } from 'src/app/core/services/employee.service';
 import { OfferService } from 'src/app/core/services/offer.service';
 import { ServiceListService } from 'src/app/core/services/services.service';
 import Swal from 'sweetalert2';
-import { PurchaseMembershipComponent } from '../purchase-membership/purchase-membership.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -88,6 +88,11 @@ export class UsersComponent {
   searchQuery: string = '';
   filteredCustomerList: any = [];
   isPurchaseOpen: any;
+
+  appointmentModel: any = {};
+  isCombo: boolean = false;
+  minDate: string;
+
   constructor(
     private customerService: CustomerService,
     public formBuilder: UntypedFormBuilder,
@@ -96,10 +101,12 @@ export class UsersComponent {
     public toastr: ToastrService,
     private modalService: NgbModal,
     private offerService: OfferService,
-    private purchaseMembershipComponent: PurchaseMembershipComponent
+    private router: Router
 
   ) {
     this.getCustomerDetails();
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
   }
 
   ngOnInit(): void {
@@ -240,7 +247,9 @@ export class UsersComponent {
               servicesname: element.name,
               selectedServid: element.id,
               totalquantity: this.activeMembership[i].quntity,
+              remainingquantity: this.activeMembership[i].remainingquantity,
               servicetype: 'Membership',
+              memid: this.activeMembership[i].memid,
               isChecked: false
             })
           }
@@ -275,6 +284,7 @@ export class UsersComponent {
         servicetype: 'Membership',
         employeename: data.employeename,
         selectedEmpid: data.selectedEmpid,
+        memid: data.memid,
         isChecked: true
       });
       for (let i = 0; i < this.selectedActiveMembership.length; i++) {
@@ -292,6 +302,7 @@ export class UsersComponent {
   }
   saveMemberShipData() {
     this.selectedActiveMembership.forEach((element: any) => {
+      debugger
       if (!this.tempServiceData.some((item: any) => item.selectedServid === element.selectedServid)) {
         this.tempServiceData.push({
           time: element.time,
@@ -301,6 +312,7 @@ export class UsersComponent {
           selectedServid: element.selectedServid,
           servicetype: element.servicetype,
           employeename: element.employeename,
+          memid: element.memid,
           selectedEmpid: element.selectedEmpid,
         });
       }
@@ -517,6 +529,7 @@ export class UsersComponent {
     this.offerServicesDataList = [];
     this.selectedComboOffer = null;
     this.calculateTempServicePointsList();
+    this.isCombo = true;
   }
   saveTempServiceDetail() {
 
@@ -541,6 +554,7 @@ export class UsersComponent {
     if (data.servicetype == 'Combo') {
       const comboIdToRemove = data.comboId;
       this.tempServiceData = this.tempServiceData.filter((item: any) => item.comboId !== comboIdToRemove);
+      this.isCombo = false;
     }
     else {
       this.tempServiceData.splice(i, 1);
@@ -584,6 +598,42 @@ export class UsersComponent {
         })
       }
     });
+  }
+  bookNowAppointment() {
+    this.appointmentModel.lessPoints = 0;
+    this.appointmentModel.totalNewPoint = 0;
+
+    this.appointmentModel.lessPoints = this.tCustPoint - this.appointmentModel.redeempoints;
+    this.appointmentModel.totalNewPoint = this.appointmentModel.lessPoints + this.appointmentModel.totalpoint;
+    this.appointmentModel.tCustPoint = this.tCustPoint;
+    this.appointmentModel.selectedService = this.tempServiceData;
+    this.appointmentModel.totalprice = this.totalTempPrice;
+    this.appointmentModel.totalpoint = this.totalTempPoint;
+    this.appointmentModel.totaltime = this.totalTempTime;
+    this.appointmentModel.isactive = true;
+    this.appointmentModel.custid = this.selectedCustId;
+    this.appointmentModel.timeSlot = this.customerModel.timeSlot.time;
+    this.appointmentModel.bookingDate = this.customerModel.bookingDate;
+    debugger
+    if (this.appointmentModel.redeempoints > this.appointmentModel.tCustPoint) {
+      this.toastr.error('You can not redeem point more than total point.', 'Warning', { timeOut: 3000 });
+    }
+    this.customerService.saveAppointmentList(this.appointmentModel).subscribe((data: any) => {
+      if (data.error) {
+        this.toastr.error('Failed to save booking details.Please try again', 'Warning', { timeOut: 3000 });
+      }
+      else {
+        this.validationAppointmentForm.markAsUntouched();
+        this.isCustData = true;
+        this.isOpen = false;
+        this.appointmentModel = [];
+        this.isOpenAppointmentList = false;
+        this.isOpenCustAppointment = false;
+
+        this.toastr.success('Booking has been done.', 'Success', { timeOut: 3000 });
+      }
+    })
+
   }
   updateCustomerDetail() {
     // this.servicesService.updateServicesList(this.servicesModel).subscribe((req) => {
