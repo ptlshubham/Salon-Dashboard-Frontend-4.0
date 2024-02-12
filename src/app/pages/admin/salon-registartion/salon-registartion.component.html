@@ -17,12 +17,11 @@
                             <div class="form-group mb-3">
                                 <label>Owner Name</label>
                                 <div class="form-group mb-3">
-                                    <input type="text" [(ngModel)]="RegistartionModel.ownername" class="form-control"
-                                        formControlName="ownername" name="ownername" id="ownername"
-                                        placeholder="Enter Owner's Name"
-                                        [ngClass]="{'is-invalid': f.ownername.touched && f.ownername.errors}">
-                                    <div *ngIf="f.ownername.touched && f.ownername.errors" class="invalid-feedback">
-                                        <span *ngIf="f.ownername.errors.required">This Field is
+                                    <input type="text" [(ngModel)]="RegistartionModel.oname" class="form-control"
+                                        formControlName="oname" name="oname" id="oname" placeholder="Enter Owner's Name"
+                                        [ngClass]="{'is-invalid': f.oname.touched && f.oname.errors}">
+                                    <div *ngIf="f.oname.touched && f.oname.errors" class="invalid-feedback">
+                                        <span *ngIf="f.oname.errors.required">This Field is
                                             required.</span>
                                     </div>
                                 </div>
@@ -31,13 +30,13 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="form-group mb-3">
                                 <label>Owner's Contact Number</label>
-                                <input type="number" formControlName="contactOwner"
-                                    [ngClass]="{ 'is-invalid': f.contactOwner.touched && f.contactOwner.errors }"
-                                    [(ngModel)]="RegistartionModel.contactOwner" class="form-control" id="contactOwner"
+                                <input type="number" formControlName="ocontact"
+                                    [ngClass]="{ 'is-invalid': f.ocontact.touched && f.ocontact.errors }"
+                                    [(ngModel)]="RegistartionModel.ocontact" class="form-control" id="ocontact"
                                     placeholder=" Enter Owners's contact">
-                                <div *ngIf="f.contactOwner.touched || f.contactOwner.invalid || f.contactOwner.pristine"
+                                <div *ngIf="f.ocontact.touched || f.ocontact.invalid || f.ocontact.pristine"
                                     class="invalid-feedback">
-                                    <div *ngIf="f.contactOwner.errors?.required">Contact number is
+                                    <div *ngIf="f.ocontact.errors?.required">Contact number is
                                         required.</div>
 
                                 </div>
@@ -48,12 +47,12 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="form-group mb-3">
                                 <label>Owner Email</label>
-                                <input type="text" class="form-control" id="ownerEmail" placeholder="Enter Owner  Email"
-                                    formControlName="ownerEmail"
-                                    [ngClass]="{'is-invalid': f.ownerEmail.touched && f.ownerEmail.errors}"
-                                    [(ngModel)]="RegistartionModel.ownerEmail">
-                                <div *ngIf="f.ownerEmail.touched && f.ownerEmail.errors" class="invalid-feedback">
-                                    <span *ngIf="f.ownerEmail.errors.required">This Field is
+                                <input type="text" class="form-control" id="oemail" placeholder="Enter Owner  Email"
+                                    formControlName="oemail"
+                                    [ngClass]="{'is-invalid': f.oemail.touched && f.oemail.errors}"
+                                    [(ngModel)]="RegistartionModel.oemail">
+                                <div *ngIf="f.oemail.touched && f.oemail.errors" class="invalid-feedback">
+                                    <span *ngIf="f.oemail.errors.required">This Field is
                                         required.</span>
                                 </div>
                             </div>
@@ -78,12 +77,11 @@
                             <div class="form-group mb-3">
                                 <label>Saloon Name</label>
                                 <div class="form-group mb-3">
-                                    <input type="text" [(ngModel)]="RegistartionModel.saloonname" class="form-control"
-                                        formControlName="saloonname" name="saloonname" id="saloonname"
-                                        placeholder="Enter Saloon Name"
-                                        [ngClass]="{'is-invalid': f.saloonname.touched && f.saloonname.errors}">
-                                    <div *ngIf="f.saloonname.touched && f.saloonname.errors" class="invalid-feedback">
-                                        <span *ngIf="f.saloonname.errors.required">This Field is
+                                    <input type="text" [(ngModel)]="RegistartionModel.sname" class="form-control"
+                                        formControlName="sname" name="sname" id="sname" placeholder="Enter Saloon Name"
+                                        [ngClass]="{'is-invalid': f.sname.touched && f.sname.errors}">
+                                    <div *ngIf="f.sname.touched && f.sname.errors" class="invalid-feedback">
+                                        <span *ngIf="f.sname.errors.required">This Field is
                                             required.</span>
                                     </div>
                                 </div>
@@ -95,15 +93,15 @@
                             <div class="mb-3">
                                 <label for="basicpill-phoneno-input1" class="form-label">Saloon Contact
                                     Number</label>
-                                <input type="number" formControlName="saloonContact"
-                                    [ngClass]="{ 'is-invalid': f.saloonContact.touched && f.saloonContact.errors }"
-                                    class="form-control" id="saloonContact"
-                                    [(ngModel)]="RegistartionModel.saloonContact" placeholder="Enter Alternate Number">
-                                <div *ngIf="f.saloonContact.touched || f.saloonContact.invalid || f.saloonContact.pristine"
+                                <input type="number" formControlName="scontact"
+                                    [ngClass]="{ 'is-invalid': f.scontact.touched && f.scontact.errors }"
+                                    class="form-control" id="scontact" [(ngModel)]="RegistartionModel.scontact"
+                                    placeholder="Enter Alternate Number">
+                                <div *ngIf="f.scontact.touched || f.scontact.invalid || f.scontact.pristine"
                                     class="invalid-feedback">
-                                    <div *ngIf="f.saloonContact.errors?.required">Mobile number is
+                                    <div *ngIf="f.scontact.errors?.required">Mobile number is
                                         required.</div>
-                                    <div *ngIf="f.saloonContact.errors?.pattern">Please, Enter 10 digit
+                                    <div *ngIf="f.scontact.errors?.pattern">Please, Enter 10 digit
                                         Mobile number.</div>
                                 </div>
                             </div>
@@ -111,12 +109,12 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="form-group mb-3">
                                 <label>Saloon Email</label>
-                                <input type="text" class="form-control" id="saloonemail"
-                                    placeholder="Enter Saloon Email" formControlName="saloonemail"
-                                    [ngClass]="{'is-invalid': f.saloonemail.touched && f.saloonemail.errors}"
-                                    [(ngModel)]="RegistartionModel.saloonemail">
-                                <div *ngIf="f.saloonemail.touched && f.saloonemail.errors" class="invalid-feedback">
-                                    <span *ngIf="f.saloonemail.errors.required">This Field is
+                                <input type="text" class="form-control" id="semail" placeholder="Enter Saloon Email"
+                                    formControlName="semail"
+                                    [ngClass]="{'is-invalid': f.semail.touched && f.semail.errors}"
+                                    [(ngModel)]="RegistartionModel.semail">
+                                <div *ngIf="f.semail.touched && f.semail.errors" class="invalid-feedback">
+                                    <span *ngIf="f.semail.errors.required">This Field is
                                         required.</span>
                                 </div>
                             </div>
@@ -158,7 +156,7 @@
                                     (change)="selectCityData($event)"
                                     [ngClass]="{'is-invalid': f.city.touched && f.city.errors}">
                                     <option value="" hidden *ngIf="cityListData.length==0">Please Select
-                                        State
+                                        City
                                     </option>
                                     <option value="" hidden *ngIf="cityListData.length>=0">Select City
                                     </option>
@@ -199,21 +197,17 @@
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <div class="mb-3">
                                 <label for="basicpill-address-input" class="form-label">Address</label>
-                                <textarea id="basicpill-address-input" class="form-control" rows="3" id="saloonAddress"
-                                    formControlName="saloonAddress" [(ngModel)]="RegistartionModel.saloonAddress"
-                                    [ngClass]="{ 'is-invalid': f.saloonAddress.touched && f.saloonAddress.errors }"
-                                    placeholder="saloonAddress (Area and Street)"></textarea>
-                                <div *ngIf="f.saloonAddress.touched && f.saloonAddress.errors" class="invalid-feedback">
-                                    <div *ngIf="f.saloonAddress.errors.required">saloonAddress is
+                                <textarea id="basicpill-address-input" class="form-control" rows="3" id="address"
+                                    formControlName="address" [(ngModel)]="RegistartionModel.address"
+                                    [ngClass]="{ 'is-invalid': f.address.touched && f.address.errors }"
+                                    placeholder="address (Area and Street)"></textarea>
+                                <div *ngIf="f.address.touched && f.address.errors" class="invalid-feedback">
+                                    <div *ngIf="f.address.errors.required">address is
                                         required.
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-
-
 
 
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -233,18 +227,19 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <div class="mb-3">
-                                <label for="basicpill-webLink-input" class="form-label">WebSite Link</label>
-                                <input type="text" formControlName="webLink"
-                                    [ngClass]="{ 'is-invalid': f.webLink.touched && f.webLink.errors }"
-                                    class="form-control" id="webLink" [(ngModel)]="RegistartionModel.webLink"
+                                <label for="basicpill-websitelink-input" class="form-label">WebSite Link</label>
+                                <input type="text" formControlName="websitelink"
+                                    [ngClass]="{ 'is-invalid': f.websitelink.touched && f.websitelink.errors }"
+                                    class="form-control" id="websitelink" [(ngModel)]="RegistartionModel.websitelink"
                                     placeholder="Enter Website Link"
                                     pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
-                                <div *ngIf="f.webLink.touched || f.webLink.invalid || f.webLink.pristine"
+                                <div *ngIf="f.websitelink.touched || f.websitelink.invalid || f.websitelink.pristine"
                                     class="invalid-feedback">
-                                    <div *ngIf="f.webLink.errors?.required">website link is required.</div>
-                                    <div *ngIf="f.webLink.errors?.pattern">Please enter a valid website Link</div>
+                                    <div *ngIf="f.websitelink.errors?.required">website link is required.</div>
+                                    <div *ngIf="f.websitelink.errors?.pattern">Please enter a valid website Link</div>
                                 </div>
                             </div>
                         </div>
@@ -270,8 +265,8 @@
                                     (click)="saveRegistartionDetail()"
                                     [disabled]="validationForm.invalid">Submit</button>
 
-                                <!-- <button type="submit" class="btn btn-primary"
-                                    *ngIf="isUpdate==true" [disabled]="validationForm.invalid">Update</button> -->
+                                <button type="submit" class="btn btn-primary" (click)="updateRegistartionDetail()"
+                                    *ngIf="isUpdate==true" [disabled]="validationForm.invalid">Update</button>
                             </div>
                         </div>
                     </div>
@@ -310,12 +305,13 @@
                             <td class="text-center">{{s.oname}} </td>
                             <td class="text-center">{{s.ocontact}} </td>
                             <td class="text-center">{{s.sname}} </td>
-                            <td class="text-center">{{s.sconatct}} </td>
+                            <td class="text-center">{{s.scontact}} </td>
                             <td class="text-center">{{s.address}} </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
                                     <button type="button" class="btn btn-soft-primary waves-effect waves-light"
-                                        ngbTooltip="Edit Services" placement="top"><i
+                                        ngbTooltip="Edit Registration Details" placement="top"
+                                        (click)="editRegistartionDeatil(s)"><i
                                             class="bx bx-edit font-size-16 align-middle"></i></button>
                                     <button type="button" class="btn btn-soft-danger waves-effect waves-light"
                                         (click)="removeRegistrationDetails(s.id)" ngbTooltip="Remove Services"

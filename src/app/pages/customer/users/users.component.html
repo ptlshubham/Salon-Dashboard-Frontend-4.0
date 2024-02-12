@@ -455,10 +455,10 @@
                                 <label for="example-date-input" class="form-label">Booking Date</label>
                                 <input class="form-control" type="date" id="example-date-input"
                                     formControlName="bookingDate" [(ngModel)]="customerModel.bookingDate"
-                                    [ngClass]="{ 'is-invalid': fo.bookingDate.touched && fo.bookingDate.errors }">
+                                    [ngClass]="{ 'is-invalid': fo.bookingDate.touched && fo.bookingDate.errors }"
+                                    [min]="minDate">
                                 <div *ngIf="fo.bookingDate.touched || fo.bookingDate.errors" class="invalid-feedback">
-                                    <div *ngIf="fo.bookingDate.errors?.required">Booking Date is
-                                        required.</div>
+                                    <div *ngIf="fo.bookingDate.errors?.required">Booking Date is required.</div>
                                 </div>
                             </div>
                         </div>
@@ -498,25 +498,6 @@
                                     </ng-select>
                                 </div>
                             </div>
-                            <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12"
-                                *ngIf="offerServicesDataList!=''">
-                                <div class="mb-3">
-                                    <label for="choices-single-default" class="form-label">Select
-                                        Team Member</label>
-                                    <ng-select [items]="employeeReg" bindLabel="employeeName"
-                                        placeholder="Select Team Member" (change)="onEmployeeChange($event)">
-                                        <ng-template ng-optgroup-tmp let-item="item">
-                                            {{item.employeeName || 'Unnamed group'}}
-                                        </ng-template>
-                                    </ng-select>
-                                </div>
-                            </div>
-                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-xs-4" *ngIf="isEmployeeSelected">
-                                <button type="submit" class="btn btn-primary" style="margin-top:1.7rem !important"
-                                    [disabled]="!isEmployeeSelected" (click)="saveComboOffer()"><i
-                                        class="bx bx-plus font-size-16 align-middle"></i>
-                                    Add</button>
-                            </div> -->
                         </div>
                         <!-- <div class="row">
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12"
@@ -631,10 +612,8 @@
                                 <tr>
                                     <th class="text-left">#</th>
                                     <th class="text-center">Services Name</th>
-                                    <!-- <th class="text-center">Price</th>
-                                    <th class="text-center">Point</th>
-                                    <th class="text-center">Approx Time</th> -->
                                     <th class="text-center">Total Quantity</th>
+                                    <th class="text-center">Remaining Quantity</th>
                                     <th class="text-center">Select Team Member</th>
                                     <th class="text-center">Services Type</th>
                                     <th class="text-center">Actions</th>
@@ -644,10 +623,8 @@
                                 <tr *ngFor="let a of tempActiveMembership;let i=index">
                                     <td class="text-left">{{a.index}}</td>
                                     <td class="text-center">{{ a.servicesname }}</td>
-                                    <!-- <td class="text-center">{{ a.price }} ₹</td>
-                                    <td class="text-center">{{ a.serpoint }}</td>
-                                    <td class="text-center">{{ a.time }}</td> -->
                                     <td class="text-center">{{ a.totalquantity }}</td>
+                                    <td class="text-center">{{ a.remainingquantity }}</td>
                                     <td class="text-center">
                                         <ng-select [items]="employeeReg" bindLabel="employeeName"
                                             placeholder="Select Team Member"
@@ -782,7 +759,8 @@
                             <div class="form-group">
                                 <input type="number" formControlName="reedempoints"
                                     [ngClass]="{ 'is-invalid': fp.reedempoints.touched && fp.reedempoints.errors }"
-                                    class="form-control" id="reedempoints" placeholder="Enter Points to Redeem">
+                                    class="form-control" id="reedempoints" [(ngModel)]="appointmentModel.redeempoints"
+                                    placeholder="Enter Points to Redeem">
                                 <div *ngIf="fp.reedempoints.touched || fp.reedempoints.invalid || fp.reedempoints.pristine"
                                     class="invalid-feedback">
                                     <div *ngIf="fp.reedempoints.errors?.required">This field is required. Only Numbers
@@ -818,7 +796,7 @@
                     <button type="submit" class="btn btn-danger waves-effect waves-light"><i
                             class="fas fa-times font-size-16 align-middle"></i> Cancel</button>
                     <button type="submit" class="btn btn-primary waves-effect waves-light"
-                        [disabled]="validationAppointmentForm.invalid"><i
+                        [disabled]="validationAppointmentForm.invalid" (click)="bookNowAppointment()"><i
                             class="bx bx-save font-size-16 align-middle"></i> Book Now</button>
                 </div>
             </div>

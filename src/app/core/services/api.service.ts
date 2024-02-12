@@ -25,7 +25,7 @@ export class ApiService {
   public static saveCustomerListURL: string = ApiService.HOST_URL + '/admin/SaveCustomerList';
   public static saveLoginUserURL: string = ApiService.HOST_URL + '/authenticate/UserLogin';
   public static getAllCustomerURL: string = ApiService.HOST_URL + '/admin/GetAllCustomer';
-  public static saveAppointmentListURL: string = ApiService.HOST_URL + '/admin/SaveAppointmentList';
+  public static saveAppointmentListURL: string = ApiService.HOST_URL + '/admin/SaveBookingDetails';
   public static getAllAppointmentURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';
   public static getViewAppointmentURL: string = ApiService.HOST_URL + '/admin/GetViewAppointment';
   public static getAllEnquiryListURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';
@@ -128,6 +128,6 @@ export class ApiService {
   public static saveRegistrationListURL: string = ApiService.HOST_URL + '/admin/SaveRegistrationList';
   public static getAllRegistrationURL: string = ApiService.HOST_URL + '/admin/GetAllRegistration';
   public static updateRegistrationListURL: string = ApiService.HOST_URL + '/admin/UpdateRegistrationList';
-  public static removeRegistrationDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveRegistrationDetails';
+  public static removeRegistrationDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveRegistrationDetails/';
 
 }
