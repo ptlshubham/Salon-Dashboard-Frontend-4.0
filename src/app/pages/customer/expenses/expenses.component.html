@@ -48,6 +48,21 @@
                     </tbody>
                 </table>
             </div>
+            <div class="row mt-5">
+                <div class="d-flex justify-content-start gap">
+                    <div class="hstack gap-3">
+                        <div class="grid-example">Daily Total:
+                            <span class="text-primary"><b>
+                                    {{paginateData.total}} ₹</b></span>
+                        </div>
+                              <div class="col-md">
+                                        <button type="button" class="btn btn-info btn-round ml5"  (click)="generateInvoicePDF()"><i class="fa fa-file-pdf-o"></i> 
+                                                     Invoice(PDF)</button> 
+                             </div>
+                    </div>
+                </div>
+            </div>
+                 
             <div class="row mt-4">
                 <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
                     [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getPagintaion();"
