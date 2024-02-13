@@ -194,5 +194,105 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 class="card-title"> Active Service List</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="text-primary">
+                            <th class="text-center">#</th>
+                            <th class="text-center">Customer Name</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Total Price</th>
+                            <th class="text-center">Payment</th>
+                            <th class="text-right">Actions</th>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of appointmentList">
+
+                                <td class="text-center">{{ item.index }}</td>
+                                <!-- <td class="text-center">{{ item.fname}} {{ item.lname}} </td> -->
+                                <td class="text-center">
+                                    <button class="btn btn-info" *ngIf="item.isactive==true">
+                                        Processing
+                                    </button>
+                                    <button class="btn btn-success" *ngIf="item.isactive==false">
+                                        Completed
+                                    </button>
+                                </td>
+                                <td class="text-center" style="color: black; font-weight: 500 !important">{{
+                                    item.totalprice }} ₹
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-success" *ngIf="item.isactive==true" data-toggle="modal"
+                                        data-target="#customerPaymentModal" (click)="modeOfPayment(item)">
+                                        <i class="fa fa-inr" aria-hidden="true"></i> Accept
+                                    </button>
+                                </td>
+                                <td class="text-right">
+                                    <button type="button" rel="tooltip" class="btn btn-info btn-icon btn-sm">
+                                        <i class="fa fa-eye" data-toggle="modal"
+                                            data-target="#customerServicesModal"
+                                            (click)="openUsedServiceList(item)"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 class="card-title"> Active Employee List</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="text-primary">
+                            <th class="text-center">#</th>
+                            <th class="text-center">Employee Name</th>
+                            <th class="text-center">Working State</th>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of paginateData ; let i = index">
+                                <td class="text-center">{{ item.index }}</td>
+                                <td class="text-center">{{ item.fname}} {{ item.lname}} </td>
+                                <td class="text-center">
+                                    <button class="btn btn-success btn-round" *ngIf="item.isworking==true"
+                                        (click)="updateEmpProcessingActive(item)">
+                                        Processing
+                                    </button>
+                                    <button class="btn btn-info btn-round" *ngIf="item.isworking==false"
+                                        (click)="updateEmpProcessingDeActive(item)">
+                                        Ideal
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+<div class="row">
     <app-users></app-users>
 </div>
