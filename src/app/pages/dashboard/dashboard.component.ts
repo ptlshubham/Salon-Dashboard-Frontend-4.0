@@ -7,6 +7,7 @@ import { VendorService } from 'src/app/core/services/vendor.service';
 import { OfferService } from 'src/app/core/services/offer.service';
 import { MembershipService } from 'src/app/core/services/membership.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EmployeeService } from 'src/app/core/services/employee.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,12 +15,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
+  mpage: any;
+  totalRec: any;
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   title!: string;
   dataSource!: Object;
   num: number = 0;
+  public employeeReg: any[] = [];
 
   public customerList: any = [];
   public servicesList: any = [];
@@ -28,7 +31,7 @@ export class DashboardComponent implements OnInit {
   offerList: any = [];
   ExpensesList: any = [];
   MembershipList: any = [];
-  
+
   appointmentList: any = [];
   usedServices: any = [];
 
@@ -41,7 +44,7 @@ export class DashboardComponent implements OnInit {
   totalPointForDetails: number = 0;
 
   constructor(
-
+    private employeeService: EmployeeService,
     private servicesService: ServiceListService,
     private customerService: CustomerService,
     private expensesService: ExpensesService,
@@ -54,7 +57,6 @@ export class DashboardComponent implements OnInit {
   ) {
     this.getAllAppointment();
   }
-
 
   option = {
     startVal: this.num,
@@ -69,6 +71,8 @@ export class DashboardComponent implements OnInit {
       { label: 'Dashboard' },
       { label: 'Dashboard', active: true }
     ];
+
+
     this.getCustomerDetails();
     this.getServicesDetails();
     this.getExpensesDetails();
@@ -156,7 +160,7 @@ export class DashboardComponent implements OnInit {
   getPagintaion() {
     this.paginateActiveData = this.appointmentList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
-  openUsedServiceList(obj: any,exlargeModal: any) {
+  openUsedServiceList(obj: any, exlargeModal: any) {
     this.totalPriceForDetails = obj.totalprice
     this.totalPointForDetails = obj.totalpoint
     this.customerService.getServicesListUsingId(obj.id).subscribe((data: any) => {
