@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 // counter
 import { CountUpModule } from 'ngx-countup';
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbNavModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { CarouselModule } from 'ngx-owl-carousel-o';
@@ -39,6 +39,8 @@ import { CustomerModule } from './customer/customer.module';
     RouterModule,
     NgbDropdownModule,
     NgbNavModule,
+    NgbPaginationModule,
+    NgbTooltipModule,
     // LightboxModule,
     TablesModule,
     LeafletModule,

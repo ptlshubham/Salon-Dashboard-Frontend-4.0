@@ -6,6 +6,7 @@ import { ExpensesService } from 'src/app/core/services/expenses.service';
 import { VendorService } from 'src/app/core/services/vendor.service';
 import { OfferService } from 'src/app/core/services/offer.service';
 import { MembershipService } from 'src/app/core/services/membership.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +28,17 @@ export class DashboardComponent implements OnInit {
   offerList: any = [];
   ExpensesList: any = [];
   MembershipList: any = [];
+  
+  appointmentList: any = [];
+  usedServices: any = [];
+
+  page = 1;
+  pageSize = 10;
+  collectionSize = 0;
+  paginateActiveData: any = [];
+
+  totalPriceForDetails: number = 0;
+  totalPointForDetails: number = 0;
 
   constructor(
 
@@ -36,8 +48,12 @@ export class DashboardComponent implements OnInit {
     private vendorService: VendorService,
     private offerService: OfferService,
     private membershipService: MembershipService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private modalService: NgbModal,
+
+  ) {
+    this.getAllAppointment();
+  }
 
 
   option = {
@@ -79,23 +95,22 @@ export class DashboardComponent implements OnInit {
   getVendorServiceDetails() {
     this.vendorService.getAllVendorList().subscribe((data: any) => {
       this.vendorList = data;
-      
     });
   }
   getOfferDetails() {
-    
+
     this.offerService.getAllOfferList().subscribe((data: any) => {
       this.offerList = data;
     });
   }
   getMembershipServiceDetails() {
-    
+
     this.membershipService.getAllMembershipList().subscribe((data: any) => {
       this.MembershipList = data;
     });
   }
   getofferSerivceDetails() {
-    
+
     this.offerService.getAllOfferList().subscribe((data: any) => {
       this.MembershipList = data;
     });
@@ -118,5 +133,39 @@ export class DashboardComponent implements OnInit {
   }
   openofferSerivce() {
     this.router.navigate(['/custom/combo-offer'])
+  }
+
+  getAllAppointment() {
+    this.customerService.getAllAppointmentList().subscribe((data: any) => {
+      this.appointmentList = data;
+      debugger
+      for (let i = 0; i < this.appointmentList.length; i++) {
+        this.appointmentList[i].index = i + 1;
+        this.customerService.getServicesListUsingId(data[i].id).subscribe((data: any) => {
+          this.usedServices = data;
+          debugger
+          for (let i = 0; i < this.usedServices.length; i++) {
+            this.usedServices[i].index = i + 1;
+          }
+        });
+      }
+      this.collectionSize = this.servicesList.length;
+      this.getPagintaion();
+    });
+  }
+  getPagintaion() {
+    this.paginateActiveData = this.appointmentList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
+  openUsedServiceList(obj: any,exlargeModal: any) {
+    this.totalPriceForDetails = obj.totalprice
+    this.totalPointForDetails = obj.totalpoint
+    this.customerService.getServicesListUsingId(obj.id).subscribe((data: any) => {
+      this.usedServices = data;
+      for (let i = 0; i < this.usedServices.length; i++) {
+        this.usedServices[i].index = i + 1;
+      }
+    });
+    this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
+
   }
 }
