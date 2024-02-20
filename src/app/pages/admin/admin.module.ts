@@ -5,12 +5,15 @@ import { SalonRegistartionComponent } from './salon-registartion/salon-registart
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ViewSallonComponent } from './view-sallon/view-sallon.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
 @NgModule({
   declarations: [
-    SalonRegistartionComponent
+    SalonRegistartionComponent,
+    ViewSallonComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +21,9 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    NgSelectModule
+
   ]
 })
 export class AdminModule { }
