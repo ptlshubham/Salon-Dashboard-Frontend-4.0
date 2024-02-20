@@ -15,6 +15,9 @@ import { ComboOfferComponent } from './combo-offer/combo-offer.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { MembershipComponent } from './membership/membership.component';
 import { PurchaseMembershipComponent } from './purchase-membership/purchase-membership.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
@@ -49,6 +52,8 @@ import { PurchaseMembershipComponent } from './purchase-membership/purchase-memb
     NgbPaginationModule,
     NgbToastModule,
     NgSelectModule,
+    FlatpickrModule.forRoot(),
+    NgbDatepickerModule
   ],
   providers: [
     DatePipe,

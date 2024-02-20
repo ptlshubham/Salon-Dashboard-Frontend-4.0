@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ExpensesService } from 'src/app/core/services/expenses.service';
@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -38,7 +39,26 @@ export class ExpensesComponent {
 
   finalprice: any = 0;
   tempServiceData: any = [];
+  hidden!: boolean;
+  selected: string = '';
+  hoveredDate: NgbDate | null = null;
+  fromNGDate: NgbDate | null = null;
+  toNGDate: NgbDate | null = null;
+  @Input() fromDate: Date | null = null;
+  @Input() toDate: Date | null = null;
+  @Output() dateRangeSelected = new EventEmitter<{ fromDate: Date, toDate: Date }>();
+  filteredexpenseList: any = [];
+  rangedate: any=[];
+
+  flatpickrOptions: any = {
+    altInput: true,
+    convertModelValue: true,
+    mode: "range",
+    maxDate: "today" // Disable future dates
+  };
   
+
+ //
   constructor(
     private expensesService: ExpensesService,
     public formBuilder: UntypedFormBuilder,
@@ -48,10 +68,51 @@ export class ExpensesComponent {
 
 
   }
+  onDateSelection(date: NgbDate) {
+    
+    const today = new Date();
+    const selectedDate = new Date(date.year, date.month - 1, date.day);
+
+    if (selectedDate <= today) { // Only allow selection of today or past dates
+      if (!this.fromDate && !this.toDate) {
+        this.fromNGDate = date;
+        this.fromDate = new Date(date.year, date.month - 1, date.day);
+        this.selected = '';
+      } else if (this.fromDate && !this.toDate && date.after(this.fromNGDate)) {
+        this.toNGDate = date;
+        this.toDate = new Date(date.year, date.month - 1, date.day);
+        this.hidden = true;
+        this.selected = this.fromDate.toLocaleDateString() + '-' + this.toDate.toLocaleDateString();
+        this.dateRangeSelected.emit({ fromDate: this.fromDate, toDate: this.toDate });
+
+        this.fromDate = null;
+        this.toDate = null;
+        this.fromNGDate = null;
+        this.toNGDate = null;
+
+      } else {
+        this.fromNGDate = date;
+        this.fromDate = new Date(date.year, date.month - 1, date.day);
+        this.selected = '';
+      }
+    }
+      }
+
+  isHovered(date: NgbDate) {
+    return this.fromNGDate && !this.toNGDate && this.hoveredDate && date.after(this.fromNGDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return date.after(this.fromNGDate) && date.before(this.toNGDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromNGDate) || date.equals(this.toNGDate) || this.isInside(date) || this.isHovered(date);
+  }
   ngOnInit(): void {
 
     this.getAllExpenses()
-
+ 
     this.validationForm = this.formBuilder.group({
       expensesprices: ['', [Validators.required]],
       employeename: ['', [Validators.required]],
@@ -82,7 +143,9 @@ export class ExpensesComponent {
   // -------------------------------get data------------//
   getAllExpenses() {
     this.expensesService.getAllExpensesList().subscribe((data: any) => {
+     
       this.expensesList = data;
+      this.filteredexpenseList = [...this.expensesList];
       for (let i = 0; i < this.expensesList.length; i++) {
         this.expensesList[i].index = i + 1;
       }
@@ -90,10 +153,18 @@ export class ExpensesComponent {
       this.getPagintaion();
     });
   }
+  onselection(){
+    this.page = 3; // Reset the page when the search query changes
+    this.filteredexpenseList = this.expensesList.filter((expenses: any) => 
+    expenses.expensesdate >= this.rangedate[0] && expenses.expensesdate <= this.rangedate[1]
+    
+);
+     this.getPagintaion();
+     
+  }
   getPagintaion() {
   
-    this.paginateData = this.expensesList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
-    
+    this.paginateData = this.filteredexpenseList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);    
     
   }
   // -----------------------get data end---------------//
@@ -290,4 +361,6 @@ export class ExpensesComponent {
   //     }
   //   });
   // }
+
+  
 }
