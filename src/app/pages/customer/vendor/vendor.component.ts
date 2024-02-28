@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { VendorService } from 'src/app/core/services/vendor.service';
@@ -30,8 +31,8 @@ export class VendorComponent {
   collectionSize = 0;
 
 
-
   constructor(
+    private router: Router,
     private vendorService: VendorService,
     private employeeService: EmployeeService,
     public toastr: ToastrService,
@@ -122,6 +123,7 @@ export class VendorComponent {
     })
   }
 
+
   getAllvendor() {
     this.vendorService.getAllVendorList().subscribe((data: any) => {
       this.vendorList = data;
@@ -164,6 +166,10 @@ export class VendorComponent {
   }
   getPagintaion() {
     this.paginateData = this.vendorList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
+  redirectToVendorProduct(id: any) {
+    this.router.navigate(['/custom/vendor-product', id]);
+
   }
 }
 

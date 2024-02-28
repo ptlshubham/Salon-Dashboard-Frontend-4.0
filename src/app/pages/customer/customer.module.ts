@@ -15,6 +15,7 @@ import { ComboOfferComponent } from './combo-offer/combo-offer.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { MembershipComponent } from './membership/membership.component';
 import { PurchaseMembershipComponent } from './purchase-membership/purchase-membership.component';
+import { VendorProductComponent } from './vendor-product/vendor-product.component';
 
 
 
@@ -27,7 +28,8 @@ import { PurchaseMembershipComponent } from './purchase-membership/purchase-memb
     ComboOfferComponent,
     VendorComponent,
     MembershipComponent,
-    PurchaseMembershipComponent
+    PurchaseMembershipComponent,
+    VendorProductComponent
   ],
   imports: [
     CommonModule,
