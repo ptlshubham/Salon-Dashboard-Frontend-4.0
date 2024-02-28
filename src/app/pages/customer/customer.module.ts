@@ -16,6 +16,10 @@ import { VendorComponent } from './vendor/vendor.component';
 import { MembershipComponent } from './membership/membership.component';
 import { PurchaseMembershipComponent } from './purchase-membership/purchase-membership.component';
 import { AppointmentComponent } from './appointment/appointment.component';
+import { VendorProductComponent } from './vendor-product/vendor-product.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
@@ -29,7 +33,8 @@ import { AppointmentComponent } from './appointment/appointment.component';
     VendorComponent,
     MembershipComponent,
     PurchaseMembershipComponent,
-    AppointmentComponent
+    AppointmentComponent,
+    VendorProductComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +56,8 @@ import { AppointmentComponent } from './appointment/appointment.component';
     NgbPaginationModule,
     NgbToastModule,
     NgSelectModule,
+    FlatpickrModule.forRoot(),
+    NgbDatepickerModule
   ],
   providers: [
     DatePipe,

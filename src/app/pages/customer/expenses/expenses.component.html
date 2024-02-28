@@ -1,8 +1,18 @@
 <div class="row" *ngIf="isOpen==false">
     <div class="card">
         <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h5 class="card-title">Expenses List</h5>
+
+            <h5 class="card-title">Expenses List</h5>
+
+            <div class="d-flex justify-content-end gap-3" style="align-items: baseline;">
+                <label class="form-label ">Range</label>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <input class="form-control flatpickr-input" type="text" mwlFlatpickr [altInput]="true"
+                            [convertModelValue]="true" (input)="onselection()" mode="range"
+                            [options]="flatpickrOptions">
+                    </div>
+                </div>
                 <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
                     (click)="openAddExpense()"><i class="bx bx-user-plus label-icon"></i>
                     Add New Expense</button>
@@ -38,7 +48,7 @@
                                         ngbTooltip="Edit Employee Details" placement="top"
                                         (click)="editExpDetails(s)"><i
                                             class="bx bx-edit font-size-16 align-middle"></i></button>
-                                          
+
                                     <button type="button" class="btn btn-soft-danger waves-effect waves-light"
                                         ngbTooltip="Remove Details" placement="top" (click)="removeExpense(s.id)"><i
                                             class="bx bx-trash-alt font-size-16 align-middle"></i></button>
@@ -55,14 +65,15 @@
                             <span class="text-primary"><b>
                                     {{paginateData.total}} ₹</b></span>
                         </div>
-                              <div class="col-md">
-                                        <button type="button" class="btn btn-info btn-round ml5"  (click)="generateInvoicePDF()"><i class="fa fa-file-pdf-o"></i> 
-                                                     Invoice(PDF)</button> 
-                             </div>
+                        <div class="col-md">
+                            <button type="button" class="btn btn-primary  " (click)="generateInvoicePDF()"><i
+                                    class="fa fa-file-pdf-0"></i>
+                                Invoice(PDF)</button>
+                        </div>
                     </div>
                 </div>
             </div>
-                 
+
             <div class="row mt-4">
                 <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
                     [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getPagintaion();"
@@ -172,8 +183,8 @@
                                 <button type="submit" class="btn btn-primary" (click)="saveExpensesDetail()"
                                     *ngIf="isUpdate==false" [disabled]="validationForm.invalid">Submit</button>
 
-                                 <button type="submit" class="btn btn-primary" (click)="updateExpenseDetail()"
-                                    *ngIf="isUpdate==true" [disabled]="validationForm.invalid">Update</button> 
+                                <button type="submit" class="btn btn-primary" (click)="updateExpenseDetail()"
+                                    *ngIf="isUpdate==true" [disabled]="validationForm.invalid">Update</button>
                             </div>
                         </div>
                     </div>
