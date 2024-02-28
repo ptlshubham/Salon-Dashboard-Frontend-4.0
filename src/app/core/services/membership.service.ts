@@ -15,6 +15,7 @@ export class MembershipService {
     ) { }
 
     saveMembershipList(admin: any): Observable<any> {
+        debugger
         return this.httpClient.post<any>(ApiService.saveMembershipListURL, admin);
     }
     getAllMembershipList(): Observable<any[]> {
@@ -55,6 +56,9 @@ export class MembershipService {
     }
     getPurchasedDetail(data: any): Observable<any> {
         return this.httpClient.post<any>(ApiService.getMembershipPurchasedByIDURL, data);
+    }
+    updatePurchaseMembershipStatus(id:any){
+        return this.httpClient.get<any>(ApiService.updatePurchaseMembershipStatusURL + id);
     }
     activeDeavctiveMemberShip(admin: any): Observable<any> {
 

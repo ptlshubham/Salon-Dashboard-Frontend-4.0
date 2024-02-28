@@ -22,8 +22,6 @@ export class DashboardComponent implements OnInit {
   title!: string;
   dataSource!: Object;
   num: number = 0;
-  public employeeReg: any[] = [];
-
   public customerList: any = [];
   public servicesList: any = [];
   public dailyexpensesList: any = [];
@@ -32,19 +30,9 @@ export class DashboardComponent implements OnInit {
   ExpensesList: any = [];
   MembershipList: any = [];
 
-  appointmentList: any = [];
-  usedServices: any = [];
 
-  page = 1;
-  pageSize = 10;
-  collectionSize = 0;
-  paginateActiveData: any = [];
-
-  totalPriceForDetails: number = 0;
-  totalPointForDetails: number = 0;
 
   constructor(
-    private employeeService: EmployeeService,
     private servicesService: ServiceListService,
     private customerService: CustomerService,
     private expensesService: ExpensesService,
@@ -52,10 +40,8 @@ export class DashboardComponent implements OnInit {
     private offerService: OfferService,
     private membershipService: MembershipService,
     private router: Router,
-    private modalService: NgbModal,
 
   ) {
-    this.getAllAppointment();
   }
 
   option = {
@@ -139,37 +125,5 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/custom/combo-offer'])
   }
 
-  getAllAppointment() {
-    this.customerService.getAllAppointmentList().subscribe((data: any) => {
-      this.appointmentList = data;
-      debugger
-      for (let i = 0; i < this.appointmentList.length; i++) {
-        this.appointmentList[i].index = i + 1;
-        this.customerService.getServicesListUsingId(data[i].id).subscribe((data: any) => {
-          this.usedServices = data;
-          debugger
-          for (let i = 0; i < this.usedServices.length; i++) {
-            this.usedServices[i].index = i + 1;
-          }
-        });
-      }
-      this.collectionSize = this.servicesList.length;
-      this.getPagintaion();
-    });
-  }
-  getPagintaion() {
-    this.paginateActiveData = this.appointmentList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
-  }
-  openUsedServiceList(obj: any, exlargeModal: any) {
-    this.totalPriceForDetails = obj.totalprice
-    this.totalPointForDetails = obj.totalpoint
-    this.customerService.getServicesListUsingId(obj.id).subscribe((data: any) => {
-      this.usedServices = data;
-      for (let i = 0; i < this.usedServices.length; i++) {
-        this.usedServices[i].index = i + 1;
-      }
-    });
-    this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
 
-  }
 }

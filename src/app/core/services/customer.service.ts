@@ -109,6 +109,7 @@ export class CustomerService {
         return this.httpClient.post<any>(ApiService.removeLastInsertedOTPURL, data);
     }
     getActivatedMembershipDetail(id:any){
+        
         return this.httpClient.get<any>(ApiService.getActivatedMembershipURL + id);
     }
     saveRatingsDetailsById(data: any): Observable<any> {

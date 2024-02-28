@@ -124,6 +124,7 @@ export class ApiService {
   public static saveAcceptUserOrderURL: string = ApiService.HOST_URL + '/admin/SaveAcceptUserOrder';
   public static getActivatedMembershipURL: string = ApiService.HOST_URL + '/admin/GetActivatedMembership/';
   public static saveRatingsDetailsURL: string = ApiService.HOST_URL + '/admin/SaveRatingsDetails';
+  public static updatePurchaseMembershipStatusURL: string = ApiService.HOST_URL + '/admin/UpdatePurchaseMembershipStatusURL/';
   // Organization Apis
   public static saveRegistrationListURL: string = ApiService.HOST_URL + '/admin/SaveRegistrationList';
   public static getAllRegistrationURL: string = ApiService.HOST_URL + '/admin/GetAllRegistration';

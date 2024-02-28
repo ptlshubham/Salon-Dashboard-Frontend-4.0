@@ -26,6 +26,21 @@
                 </div>
               </div>
             </div>
+            <div class="col-xl-4 col-md-6">
+              <div class="form-group mb-3">
+                <label for="Selct Validity" class="form-label">Validity</label>
+                <select required class="form-select" formControlName="selectValidity" [(ngModel)]="selectedValidity"
+                  (change)="selectValidityDetails($event)"
+                  [ngClass]="{'is-invalid': f.selectValidity.touched && f.selectValidity.errors}">
+                  <option value="" hidden>Select Validity</option>
+                  <option *ngFor="let c of validityData">{{c.name}}</option>
+                </select>
+                <div *ngIf="f.selectValidity.touched && f.selectValidity.errors" class="invalid-feedback">
+                  <span *ngIf="f.selectValidity.errors.required">This field is
+                    required.</span>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
         <form [formGroup]="validationServiceForm">
@@ -171,6 +186,7 @@
               <th class="text-center">Membership Price</th>
               <th class="text-center">Total Price</th>
               <th class="text-center">Membership Discount</th>
+              <th class="text-center">Validity</th>
               <th class="text-center">Display Membership</th>
               <th class="text-end">Action</th>
             </tr>
@@ -182,7 +198,7 @@
               <td class="text-center">{{ s.membershipprice}} ₹</td>
               <td class="text-center">{{ s.totalprice}} ₹</td>
               <td class="text-center">{{ s.membershipdiscount}} %</td>
-
+              <td class="text-center">{{ s.validity}}</td>
               <td class="text-center">
                 <button type="button" class="btn btn-success waves-effect btn-label waves-light" *ngIf="s.status"
                   (click)="activeMemberShipBanners(i)">

@@ -99,11 +99,17 @@
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
           <div class="form-group mb-3">
             <label class="form-label">Select
-              Payment Type</label>
+              Membership Package</label>
             <select required class="form-select" (change)="onMembershipPackageChange($event)">
               <option value="" hidden>Select Membership Package</option>
               <option *ngFor="let c of memberShipList">{{c.membershipname}}</option>
             </select>
+          </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+          <div style="padding-top: 28px;">
+            Membership Package Validity: <span class="badge bg-primary">{{validity}}</span> <br>
+            Membership Validi Till: <span class="badge bg-success">{{validityDate|date}}</span>
           </div>
         </div>
       </div>
@@ -190,7 +196,8 @@
               <th class="text-center">Total Price</th>
               <th class="text-center">Membership Price</th>
               <th class="text-center">Membership Discount</th>
-              <th class="text-center">Status</th>
+              <th class="text-center">Validity Status</th>
+              <th class="text-center">Validity Date</th>
               <th class="text-end">Action</th>
             </tr>
           </thead>
@@ -203,14 +210,14 @@
               <td class="text-center">{{ s.totalprice }} ₹</td>
               <td class="text-center">{{ s.membershipprice }} ₹</td>
               <td class="text-center">{{ s.membershipdiscount}} %</td>
-
               <td class="text-center">
-                <button type="button" class="btn btn-success waves-effect btn-label waves-light" *ngIf="s.isactive">
-                  <i class="bx bx-check-double label-icon"></i> Active
-                </button>
-                <button type="button" class="btn btn-danger waves-effect btn-label waves-light" *ngIf="!s.isactive">
-                  <i class="bx bx-block label-icon"></i> Deactive
-                </button>
+                <span class="badge bg-success" *ngIf="s.isactive">Active</span>
+                <span class="badge bg-danger" *ngIf="!s.isactive">Deactive</span>
+              </td>
+              <td class="text-center">
+                <span class="badge bg-success" *ngIf="s.isactive">{{s.validitydate |date}}</span>
+                <span class="badge bg-danger" *ngIf="!s.isactive">{{s.validitydate |date}}</span>
+
               </td>
               <td class="text-end">
                 <div class="d-flex justify-content-end gap-1">
@@ -259,8 +266,7 @@
               <th class="text-left">#</th>
               <th class="text-center">Membership Package Name</th>
               <th class="text-center">Service Name</th>
-              <th class="text-center">quantity</th>
-
+              <th class="text-center">Quantity</th>
               <th class="text-center">Total Price</th>
 
             </tr>
@@ -271,6 +277,7 @@
               <td class="text-center">{{ a.membershipname }}</td>
               <td class="text-center">{{ a.servicesname }}</td>
               <td class="text-center">{{ a.quantity }}</td>
+
               <td class="text-center">{{ a.totalprice }} ₹</td>
 
             </tr>

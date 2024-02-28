@@ -179,6 +179,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="mb-3">
+                                    <label for="basicpill-notes-input" class="form-label">Notes</label>
+                                    <textarea id="basicpill-notes-input" class="form-control" rows="3" id="notes"
+                                        formControlName="notes" [(ngModel)]="customerModel.notes"
+                                        placeholder="Notes"></textarea>
+                                </div>
+                            </div>
                             <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                 <div class="mb-3">
                                     <label for="basicpill-phoneno-input1" class="form-label">VIP</label>
@@ -395,7 +403,7 @@
                         ngbTooltip="{{ isVIP ? 'VIP Mode is ON' : 'VIP Mode is OFF' }}" placement="bottom">
                     <label class="text-center">VIP</label>
                 </div>
-                <button type="submit" class="btn btn-primary waves-effect waves-light" (click)="purchaseMembership()">
+                <button type="submit" class="btn btn-primary waves-effect waves-light" (click)="purchaseMembership(customerModel)">
                     <i class="mdi mdi-wallet-plus-outline font-size-16 align-middle"></i>
                     Purchase Membership</button>
                 <button type="submit" class="btn btn-danger waves-effect waves-light" (click)="backToCustomerList()">
@@ -479,6 +487,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="mb-3">
+                                <label for="basicpill-notes-input" class="form-label">Notes</label>
+                                <textarea id="basicpill-notes-input" class="form-control" rows="3" id="notes"
+                                    formControlName="notes" [(ngModel)]="customerModel.notes"
+                                    placeholder="Notes"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngIf!=null>
+                            <div class="mb-3">
+                                <label for="basicpill-notes-input" class="form-label">Voucher Notes</label>
+                                <textarea id="basicpill-notes-input" class="form-control" rows="3" id="notes"
+                                    [(ngModel)]="customerModel.vouchernotes" [ngModelOptions]="{standalone: true}"
+                                    placeholder="Notes"></textarea>
+                            </div>
+                        </div>
                     </div>
                     <div *ngIf="comboOfferList.length>0">
                         <hr class="my-3">
@@ -499,38 +523,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="row">
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12"
-                                *ngIf="offerServicesDataList!=''">
-                                <label class="form-label">
-                                    Combo Offer Details</label>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex flex-column">
-                                            <div class="p-1">Services Name : <span class="badge bg-primary"
-                                                    *ngFor="let a of offerServicesDataList;let i=index"
-                                                    ngbTooltip="{{a.servicesname}}"
-                                                    placement="top">{{a.servicesname}}</span>
-                                            </div>
-                                            <div class="p-1">Total Point : <span class="badge bg-dark"
-                                                    ngbTooltip="{{totalPoint}}" placement="top">{{totalPoint}}</span>
-                                            </div>
-                                            <div class="p-1">Total Time (Minute): <span class="badge bg-info"
-                                                    ngbTooltip="{{totaltime}}" placement="top">{{totaltime}}</span>
-                                            </div>
-                                            <div class="p-1">Total Price : <span class="badge bg-warning"
-                                                    ngbTooltip="{{totalprice}} ₹" placement="top">{{totalprice}}
-                                                    ₹</span>
-                                            </div>
-                                            <div class="p-1">Offer Price : <span class="badge bg-success"
-                                                    ngbTooltip="{{offerPrice}} ₹" placement="top">{{offerPrice}}
-                                                    ₹</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="table-responsive mt-2"
                             *ngIf="offerServicesDataList.length>0 && tempComboOfferData.length>0">
                             <table class="table mb-0">
