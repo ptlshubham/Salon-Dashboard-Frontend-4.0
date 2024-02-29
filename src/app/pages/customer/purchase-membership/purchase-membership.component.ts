@@ -155,6 +155,7 @@ export class PurchaseMembershipComponent {
     this.joinMembershipModel.validitydate = this.validityDate;
     this.joinMembershipModel.isactive = true;
     this.joinMembershipModel.services = this.memberUsedServices;
+    debugger
     this.membershipService.savePurchaseServiceList(this.joinMembershipModel).subscribe((data: any) => {
       this.joinedMembership = data;
       if (data == 'success') {

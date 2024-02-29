@@ -133,7 +133,7 @@ export class UsersComponent {
     });
     this.validationServiceForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      employeeName: ['', [Validators.required]]
+      // employeeName: ['', [Validators.required]]
     });
     this.validationReedemPointsForm = this.formBuilder.group({
       reedempoints: ['', [Validators.required, Validators.pattern(/^(100|[1-9]\d{2,3}|10000)$/)]],
@@ -278,18 +278,18 @@ export class UsersComponent {
       }
     })
   }
-  onEmployeeMemberChange(data: any, ind: any) {
+  // onEmployeeMemberChange(data: any, ind: any) {
 
-    if (data != undefined) {
-      const employeeName = data.fname + ' ' + data.lname;
-      this.tempActiveMembership[ind].employeename = employeeName;
-      this.tempActiveMembership[ind].selectedEmpid = data.id;
-    }
-    else {
-      this.tempActiveMembership[ind].selectedEmpid = undefined;
-      this.tempActiveMembership[ind].isChecked = false;
-    }
-  }
+  //   if (data != undefined) {
+  //     const employeeName = data.fname + ' ' + data.lname;
+  //     this.tempActiveMembership[ind].employeename = employeeName;
+  //     this.tempActiveMembership[ind].selectedEmpid = data.id;
+  //   }
+  //   else {
+  //     this.tempActiveMembership[ind].selectedEmpid = undefined;
+  //     this.tempActiveMembership[ind].isChecked = false;
+  //   }
+  // }
   selectedMemberService(data: any) {
 
     if (data.isChecked == true) {
@@ -300,8 +300,8 @@ export class UsersComponent {
         servicesname: data.servicesname,
         selectedServid: data.selectedServid,
         servicetype: 'Membership',
-        employeename: data.employeename,
-        selectedEmpid: data.selectedEmpid,
+        // employeename: data.employeename,
+        // selectedEmpid: data.selectedEmpid,
         memid: data.memid,
         isChecked: true
       });
@@ -329,9 +329,9 @@ export class UsersComponent {
           servicesname: element.servicesname,
           selectedServid: element.selectedServid,
           servicetype: element.servicetype,
-          employeename: element.employeename,
+          // employeename: element.employeename,
           memid: element.memid,
-          selectedEmpid: element.selectedEmpid,
+          // selectedEmpid: element.selectedEmpid,
         });
       }
     });
@@ -522,12 +522,12 @@ export class UsersComponent {
       }
     });
   }
-  onEmployeeChange(data: any, ind: any) {
+  // onEmployeeChange(data: any, ind: any) {
 
-    const employeeName = data.fname + ' ' + data.lname;
-    this.offerServicesDataList[ind].employeename = employeeName;
-    this.offerServicesDataList[ind].selectedEmpid = data.id;
-  }
+  //   const employeeName = data.fname + ' ' + data.lname;
+  //   this.offerServicesDataList[ind].employeename = employeeName;
+  //   this.offerServicesDataList[ind].selectedEmpid = data.id;
+  // }
   saveComboOffer() {
     for (let i = 0; i < this.offerServicesDataList.length; i++) {
       this.servicesList.forEach((element: any) => {
@@ -539,8 +539,8 @@ export class UsersComponent {
             servicesname: element.name,
             selectedServid: element.id,
             servicetype: 'Combo',
-            employeename: this.offerServicesDataList[i].employeename,
-            selectedEmpid: this.offerServicesDataList[i].selectedEmpid,
+            // employeename: this.offerServicesDataList[i].employeename,
+            // selectedEmpid: this.offerServicesDataList[i].selectedEmpid,
             comboId: this.selectedComboId
           })
         }
@@ -562,8 +562,8 @@ export class UsersComponent {
       price: this.servicesModel.Service.price,
       servicesname: this.servicesModel.Service.name,
       selectedServid: this.servicesModel.Service.id,
-      employeename: this.servicesModel.employee.employeeName,
-      selectedEmpid: this.servicesModel.employee.id,
+      // employeename: this.servicesModel.employee.employeeName,
+      // selectedEmpid: this.servicesModel.employee.id,
       servicetype: 'Regular'
     });
     this.servicesModel = {};
