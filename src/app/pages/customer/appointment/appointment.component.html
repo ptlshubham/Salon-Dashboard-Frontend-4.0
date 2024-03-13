@@ -1,3 +1,15 @@
+<div class="card-body">
+    <ng-template #Rightcontent let-offcanvas>
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">Offcanvas Right</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
+                (click)="offcanvas.dismiss('Cross click')"></button>
+        </div>
+        <div class="offcanvas-body">
+            ...
+        </div>
+    </ng-template>
+</div>
 <div class="row">
     <div class="col-lg-8 col-md-8 col-xl-8 col-sm-12">
         <div class="card">

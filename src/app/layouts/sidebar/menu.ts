@@ -54,4 +54,10 @@ export const MENU: MenuItem[] = [
     icon: 'anchor',
     link: '/custom/vendor',
   },
+  {
+    id:10,
+    label:'banners',
+    icon:'layers',
+    link:'/custom/banners'
+  }
 ];

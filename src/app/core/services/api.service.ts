@@ -105,7 +105,7 @@ export class ApiService {
   public static getWebBannersURL: string = ApiService.HOST_URL + '/admin/GetWebBanners';
   public static uploadBannersImageURL: string = ApiService.HOST_URL + '/admin/UploadBannersImage';
   public static saveWebBannersURL: string = ApiService.HOST_URL + '/admin/SaveWebBanners';
-  public static getWebBannerURL: string = ApiService.HOST_URL + '/admin/GetWebBanner';
+  public static getactiveBannerURL: string = ApiService.HOST_URL + '/admin/GetWebActiveBanner';
   public static removeWebBannersURL: string = ApiService.HOST_URL + '/admin/RemoveWebBanners';
   public static updateActiveWebStatusURL: string = ApiService.HOST_URL + '/admin/UpdateActiveWebBanners';
   public static saveCartListURL: string = ApiService.HOST_URL + '/admin/saveCartList';
@@ -136,4 +136,9 @@ export class ApiService {
   //
   public static saveVendorProductListURL: string = ApiService.HOST_URL + '/admin/saveVendorProductList';
   public static saveVendorOrderListURL: string = ApiService.HOST_URL + '/admin/saveVendorOrderList'
+  public static getVendorOrderListURL: string = ApiService.HOST_URL + '/admin/GetVendorOrderList/';
+  public static removeorderDetailsURL: string = ApiService.HOST_URL + '/admin/removeorderDetails/';
+
+
+
 }

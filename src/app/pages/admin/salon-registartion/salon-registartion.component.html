@@ -279,10 +279,10 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <h5 class="card-title">Services List</h5>
+                <h5 class="card-title">Salon List</h5>
                 <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
                     (click)="openAddExpense()"><i class="bx bx-user-plus label-icon"></i>
-                    Add New Service Details</button>
+                    Add New Salon Details</button>
             </div>
         </div>
         <div class="card-body">
@@ -310,12 +310,13 @@
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
                                     <button type="button" class="btn btn-soft-primary waves-effect waves-light"
-                                        ngbTooltip="Edit Registration Details" placement="top"
+                                        ngbTooltip="Edit salon Details" placement="top"
                                         (click)="editRegistartionDeatil(s)"><i
                                             class="bx bx-edit font-size-16 align-middle"></i></button>
+
                                     <button type="button" class="btn btn-soft-danger waves-effect waves-light"
-                                        (click)="removeRegistrationDetails(s.id)" ngbTooltip="Remove Services"
-                                        placement="top"><i
+                                        ngbTooltip="Remove salon" placement="top"
+                                        (click)="removeRegistrationDetails(s.id)"><i
                                             class="bx bx-trash-alt font-size-16 align-middle"></i></button>
                                 </div>
                             </td>
