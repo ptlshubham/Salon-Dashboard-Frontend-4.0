@@ -21,11 +21,14 @@ export class ApiService {
   public static updateServicesListURL: string = ApiService.HOST_URL + '/admin/UpdateServicesList/';
   public static saveEmployeeListURL: string = ApiService.HOST_URL + '/admin/SaveEmployeeList';
   public static getAllEmployeeURL: string = ApiService.HOST_URL + '/admin/GetAllEmployee';
+  public static getOnlyIdealEmployeeList: string = ApiService.HOST_URL + '/admin/GetOnlyIdealEmployeeList';
   public static removeEmployeeListURL: string = ApiService.HOST_URL + '/admin/RemoveEmployeeList/';
   public static saveCustomerListURL: string = ApiService.HOST_URL + '/admin/SaveCustomerList';
   public static saveLoginUserURL: string = ApiService.HOST_URL + '/authenticate/UserLogin';
   public static getAllCustomerURL: string = ApiService.HOST_URL + '/admin/GetAllCustomer';
   public static saveAppointmentListURL: string = ApiService.HOST_URL + '/admin/SaveBookingDetails';
+  public static updateAppointementEmployeeDetails: string = ApiService.HOST_URL + '/admin/UpdateAppointementEmployeeDetails';
+  public static removeAppointementEmployeeData: string = ApiService.HOST_URL + '/admin/RemoveAppointementEmployeeData';
   public static getAllAppointmentURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';
   public static getViewAppointmentURL: string = ApiService.HOST_URL + '/admin/GetViewAppointment';
   public static getAllEnquiryListURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';

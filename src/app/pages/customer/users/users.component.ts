@@ -638,6 +638,7 @@ export class UsersComponent {
     this.appointmentModel.custid = this.selectedCustId;
     this.appointmentModel.timeSlot = this.customerModel.timeSlot.time;
     this.appointmentModel.bookingDate = this.customerModel.bookingDate;
+    this.appointmentModel.isstatus = 'Waiting';
 
     if (this.appointmentModel.redeempoints > this.appointmentModel.tCustPoint) {
       this.toastr.error('You can not redeem point more than total point.', 'Warning', { timeOut: 3000 });

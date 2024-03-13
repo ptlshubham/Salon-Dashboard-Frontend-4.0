@@ -25,11 +25,22 @@
                                 <td class="text-center">{{s.fname}} {{s.lname}}</td>
                                 <td class="text-center">
                                     <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
-                                        *ngIf="s.isactive" ngbTooltip="Service is running." placement="top"><i
+                                        *ngIf="s.isstatus=='Processing'" ngbTooltip="Service is running."
+                                        placement="top"><i
                                             class="mdi mdi-spin mdi-loading label-icon"></i>Processing</button>
+
                                     <button type="button" class="btn btn-success waves-effect btn-label waves-light"
-                                        *ngIf="!s.isactive" ngbTooltip="Completed all Services." placement="top">
+                                        *ngIf="s.isstatus=='Completed'" ngbTooltip="Completed all Services."
+                                        placement="top">
                                         <i class="bx bx-check-double label-icon"></i>Completed</button>
+
+                                    <button type="button" class="btn btn-warning waves-effect btn-label waves-light"
+                                        *ngIf="s.isstatus=='Waiting'" ngbTooltip="Customer is waiting." placement="top">
+                                        <i class="mdi mdi-progress-clock label-icon"></i>Waiting</button>
+
+                                    <button type="button" class="btn btn-danger waves-effect btn-label waves-light"
+                                        *ngIf="s.isstatus=='Hold'" ngbTooltip="Services on Hold." placement="top">
+                                        <i class="bx bx-pause-circle label-icon"></i>Hold</button>
                                 </td>
                                 <td class="text-center">{{s.totalprice}}₹</td>
                                 <td class="text-center">
@@ -120,7 +131,7 @@
                                 <th class="text-left">#</th>
                                 <th class="text-center">Service Type</th>
                                 <th class="text-center">Service Name</th>
-                                <th class="text-center">Assigned Employee</th>
+                                <th class="text-center">Select Employee</th>
                                 <th class="text-center">Service Price</th>
                                 <th class="text-center">Service Point</th>
                                 <th class="text-center">Actions</th>
@@ -138,7 +149,20 @@
                                         *ngIf="a.servicetype=='Membership'">{{a.servicetype}}</span>
                                 </td>
                                 <td class="text-center">{{ a.servicesname }}</td>
-                                <td class="text-center">{{ a.employeename}}</td>
+                                <td class="text-center" *ngIf="a.employeename!=null">
+                                    {{a.employeename}} <a class="pl-5"
+                                        (click)="removeEmployeeDetailsFormAppointement(a)"><i
+                                            class="fas fa-times font-size-16 align-middle text-danger"
+                                            ngbTooltip="Remove Selected Employee" placement="top"></i></a>
+                                </td>
+                                <td class="text-center" *ngIf="a.employeename==null">
+                                    <ng-select [items]="idealEmployee" bindLabel="employeeName"
+                                        placeholder="Select Team Member" (change)="onEmployeeMemberChange($event,i,a)">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{item.employeeName || 'Unnamed group'}}
+                                        </ng-template>
+                                    </ng-select>
+                                </td>
                                 <td class="text-center">{{ a.price }} ₹</td>
                                 <td class="text-center">{{ a.point }}</td>
                                 <td class="text-end">

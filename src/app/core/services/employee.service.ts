@@ -13,13 +13,17 @@ export class EmployeeService {
         private httpClient: HttpClient
     ) { }
 
-    saveEmployeeList(data: any){
-        
+    saveEmployeeList(data: any) {
+
         return this.httpClient.post<any>(ApiService.saveEmployeeListURL, data);
     }
     getAllEmployeeList(): Observable<any[]> {
         return this.httpClient.get<any>(ApiService.getAllEmployeeURL);
     }
+    getOnlyIdealEmployee(): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getOnlyIdealEmployeeList);
+    }
+    
     removeEmployeeList(id: any) {
         let data = {
             id: id
@@ -31,6 +35,12 @@ export class EmployeeService {
     }
     updateEmpActiveStatus(admin: any): Observable<any> {
         return this.httpClient.post<any>(ApiService.updateWorkingStatusURL, admin)
+    }
+    updateAppoiEmployeeDetails(admin: any): Observable<any> {
+        return this.httpClient.post<any>(ApiService.updateAppointementEmployeeDetails, admin)
+    }
+    removeAppointementEmployeeDetails(admin: any): Observable<any> {
+        return this.httpClient.post<any>(ApiService.removeAppointementEmployeeData, admin)
     }
     public getStateFromJson(): Observable<any[]> {
         return this.httpClient.get<any[]>('assets/json/state.json');

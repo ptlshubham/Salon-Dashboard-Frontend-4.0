@@ -13,7 +13,8 @@ export class AppointmentComponent {
   appointmentList: any = [];
   usedServices: any = [];
   public employeeReg: any[] = [];
-
+  public idealEmployee: any[] = [];
+  userServiceObj: any = {};
   page = 1;
   pageSize = 10;
   collectionSize = 0;
@@ -37,6 +38,8 @@ export class AppointmentComponent {
   ) {
     this.getAllAppointment();
     this.getAllEmployee();
+    this.getOnlyIdealEmployee();
+    this.userServiceObj = {};
   }
 
   getAllAppointment() {
@@ -59,6 +62,7 @@ export class AppointmentComponent {
     this.paginateActiveData = this.appointmentList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
   openUsedServiceList(obj: any, exlargeModal: any) {
+    this.userServiceObj = obj;
     this.totalPriceForDetails = obj.totalprice
     this.totalPointForDetails = obj.totalpoint
     this.customerService.getServicesListUsingId(obj.id).subscribe((data: any) => {
@@ -67,7 +71,52 @@ export class AppointmentComponent {
         this.usedServices[i].index = i + 1;
       }
     });
+    this.getOnlyIdealEmployee();
     this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
+  }
+  onEmployeeMemberChange(data: any, ind: any, val: any) {
+    debugger
+    if (data != undefined) {
+      let emp = {
+        employeeName: data.employeeName,
+        empId: data.id,
+        appointmentid: data.appointmentid,
+        CSId: val.CSId
+      }
+      this.employeeService.updateAppoiEmployeeDetails(emp).subscribe((data: any) => {
+        this.customerService.getServicesListUsingId(this.userServiceObj.id).subscribe((data: any) => {
+          this.usedServices = data;
+          for (let i = 0; i < this.usedServices.length; i++) {
+            this.usedServices[i].index = i + 1;
+          }
+          this.getOnlyIdealEmployee();
+        });
+      })
+      this.getAllAppointment();
+    }
+    else {
+      this.getAllAppointment();
+      this.customerService.getServicesListUsingId(this.userServiceObj.id).subscribe((data: any) => {
+        this.usedServices = data;
+        for (let i = 0; i < this.usedServices.length; i++) {
+          this.usedServices[i].index = i + 1;
+        }
+        this.getOnlyIdealEmployee();
+      });
+    }
+  }
+  removeEmployeeDetailsFormAppointement(data: any) {
+    debugger
+    this.employeeService.removeAppointementEmployeeDetails(data).subscribe((res: any) => {
+      this.customerService.getServicesListUsingId(this.userServiceObj.id).subscribe((data: any) => {
+        this.usedServices = data;
+        debugger
+        for (let i = 0; i < this.usedServices.length; i++) {
+          this.usedServices[i].index = i + 1;
+        }
+        this.getOnlyIdealEmployee();
+      });
+    })
   }
   openPaymentData(data: any, exxlargeModal: any) {
     debugger
@@ -103,6 +152,9 @@ export class AppointmentComponent {
   getAllEmployee() {
     this.employeeService.getAllEmployeeList().subscribe((data: any) => {
       this.employeeReg = data;
+      this.employeeReg.forEach((employee: any, index: number) => {
+        employee.employeeName = `${employee.fname} ${employee.lname}`;
+      });
       for (let i = 0; i < this.employeeReg.length; i++) {
         this.employeeReg[i].index = i + 1;
       }
@@ -113,7 +165,14 @@ export class AppointmentComponent {
   getEmployeePagintaion() {
     this.paginateEmployeeData = this.employeeReg.slice((this.pageEmployee - 1) * this.pageSizeEmployee, (this.pageEmployee - 1) * this.pageSizeEmployee + this.pageSizeEmployee);
   }
-
+  getOnlyIdealEmployee() {
+    this.employeeService.getOnlyIdealEmployee().subscribe((data: any) => {
+      this.idealEmployee = data;
+      this.idealEmployee.forEach((employee: any, index: number) => {
+        employee.employeeName = `${employee.fname} ${employee.lname}`;
+      });
+    });
+  }
   updateEmpProcessingActive(data: any) {
     let valu = {
       id: data.id,
