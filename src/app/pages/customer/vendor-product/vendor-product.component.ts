@@ -5,6 +5,7 @@ import { VendorService } from 'src/app/core/services/vendor.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { vendorproductService } from 'src/app/core/services/vedorproduct.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-vendor-product',
@@ -16,6 +17,7 @@ export class VendorProductComponent {
   validationForm!: FormGroup;
   vendorModel: any = {};
   vendorList: any = [];
+  orderList: any = [];
   vendorId: any;
   collectionSize: any;
   tempProductData: any = [];
@@ -25,6 +27,11 @@ export class VendorProductComponent {
   finalprice: any = 0;
   quantity: any = 0;
   totalQuantity: any = 0
+  paginateData: any = [];
+  page = 1;
+  pageSize = 10;
+  isUpdate: boolean = false;
+
 
 
   constructor(
@@ -39,6 +46,8 @@ export class VendorProductComponent {
     this.activatedRoute.params.subscribe(params => {
       this.vendorId = params['id'];
       this.getVendorDetails();
+      this.getorderlist()
+
     });
   }
   ngOnInit(): void {
@@ -60,9 +69,14 @@ export class VendorProductComponent {
       });
     });
   }
+
   backToTable() {
-    this.router.navigate(['/custom/vendor']);
+    this.isOpen = false;
+    this.isUpdate = false;
+    this.validationForm.markAsUntouched();
+    this.productmodel = {};
   }
+
   addProductList() {
     this.tempProductData.push({
       Productname: this.productmodel.Productname,
@@ -83,18 +97,16 @@ export class VendorProductComponent {
     this.totalQuantity = 0;
     this.tempProductData.forEach((element: any) => {
       element.qty
-      debugger
+
       if (element.totalprice != undefined) {
         this.finalprice = this.finalprice + element.totalprice;
       }
       if (element.qty) {
-        debugger
         this.totalQuantity = this.totalQuantity + element.qty;
 
       }
     });
   }
-
 
   removeItemFromTempServices(i: any) {
     this.tempProductData.splice(i, 1);
@@ -109,7 +121,6 @@ export class VendorProductComponent {
     this.productmodel.finalprice = this.finalprice;
     this.productmodel.totalQuantity = this.totalQuantity;
     this.productmodel.product = this.tempProductData;
-    debugger
     this.vendorProductService.saveVendororderList(this.productmodel).subscribe((data: any) => {
       if (data = 'success') {
         this.toastr.success('Employee details added successfully', 'Success', { timeOut: 3000 });
@@ -117,7 +128,52 @@ export class VendorProductComponent {
         this.productmodel = {};
         this.validationForm.markAllAsTouched();
         this.backToTable();
+        this.getorderlist();
       }
     })
+  }
+
+  openvendorder() {
+    this.isOpen = true;
+    this.isUpdate = false;
+    this.productmodel = {};
+    this.tempProductData = [];
+    this.validationForm.markAsUntouched();
+  }
+
+  getorderlist() {
+    this.vendorProductService.getVendorOrderList(this.vendorId).subscribe((data: any) => {
+      this.orderList = data
+      for (let i = 0; i < this.orderList.length; i++) {
+        this.orderList[i].index = i + 1;
+      }
+      this.collectionSize = this.orderList.length;
+      this.getPagintaion();
+    });
+  }
+  getPagintaion() {
+    this.paginateData = this.orderList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
+  removeorder(id: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(result => {
+      if (result.value) {
+        this.vendorProductService.removeorderDetails(id).subscribe(() => {
+        })
+        Swal.fire('Deleted!', 'vendor order details has been deleted.', 'success');
+        this.getorderlist();
+      }
+    });
+  }
+
+  backtovendor() {
+    this.router.navigate(['/custom/vendor']);
   }
 }

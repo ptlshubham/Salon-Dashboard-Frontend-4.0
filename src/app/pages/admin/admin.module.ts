@@ -7,7 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewSallonComponent } from './view-sallon/view-sallon.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -22,8 +22,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     ReactiveFormsModule,
     NgbPaginationModule,
-    NgSelectModule
-
+    NgSelectModule,
+    NgbTooltipModule
   ]
 })
 export class AdminModule { }

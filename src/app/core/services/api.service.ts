@@ -133,4 +133,9 @@ export class ApiService {
   //
   public static saveVendorProductListURL: string = ApiService.HOST_URL + '/admin/saveVendorProductList';
   public static saveVendorOrderListURL: string = ApiService.HOST_URL + '/admin/saveVendorOrderList'
+  public static getVendorOrderListURL: string = ApiService.HOST_URL + '/admin/GetVendorOrderList/';
+  public static removeorderDetailsURL: string = ApiService.HOST_URL + '/admin/removeorderDetails/';
+
+
+
 }

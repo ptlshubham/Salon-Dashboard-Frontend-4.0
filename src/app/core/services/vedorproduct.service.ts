@@ -18,7 +18,13 @@ export class vendorproductService {
         debugger
         return this.httpClient.post<any>(ApiService.saveVendorOrderListURL, admin);
     }
-    saveVendorProductList(admin: any): Observable<any> {
-        return this.httpClient.post<any>(ApiService.saveVendorProductListURL, admin);
+    getVendorOrderList(id: any) {
+        debugger
+        return this.httpClient.get<any>(ApiService.getVendorOrderListURL + id);
     }
+    removeorderDetails(id: any) {
+        debugger
+        return this.httpClient.get<any>(ApiService.removeorderDetailsURL + id);
+    }
+
 }

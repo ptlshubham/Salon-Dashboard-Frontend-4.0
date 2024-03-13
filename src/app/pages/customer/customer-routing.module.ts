@@ -41,10 +41,6 @@ const routes: Routes = [
           component: VendorComponent
      },
      {
-          path: 'salon-registartion',
-          component: SalonRegistartionComponent
-     },
-     {
           path: 'purchase-membership',
           component: PurchaseMembershipComponent
      },
@@ -52,6 +48,7 @@ const routes: Routes = [
           path: 'vendor-product/:id',
           component: VendorProductComponent
      }
+
 ];
 
 @NgModule({
