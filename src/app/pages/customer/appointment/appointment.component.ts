@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, TemplateRef } from '@angular/core';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 
@@ -34,6 +34,7 @@ export class AppointmentComponent {
     private employeeService: EmployeeService,
     private customerService: CustomerService,
     private modalService: NgbModal,
+    private offcanvasService: NgbOffcanvas
 
   ) {
     this.getAllAppointment();
@@ -42,6 +43,9 @@ export class AppointmentComponent {
     this.userServiceObj = {};
   }
 
+  openRight(content: TemplateRef<any>) {
+    this.offcanvasService.open(content, { position: 'end' });
+  }
   getAllAppointment() {
     this.customerService.getAllAppointmentList().subscribe((data: any) => {
       this.appointmentList = data;
