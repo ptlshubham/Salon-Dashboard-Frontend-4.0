@@ -30,6 +30,13 @@ export class MembershipComponent {
   servicesList: any = [];
   tempServiceData: any = [];
   membershipData: any = [];
+  validityData: any = [
+    { name: '3 Month' },
+    { name: '6 Month' },
+    { name: '9 Month' },
+    { name: '12 Month' }
+  ]
+  selectedValidity: any;
 
   get f() {
     return this.validationForm.controls;
@@ -51,6 +58,7 @@ export class MembershipComponent {
   ngOnInit(): void {
     this.validationForm = this.formBuilder.group({
       membershipname: ['', [Validators.required]],
+      selectValidity: ['', [Validators.required]],
       membershipdiscount: ['', [Validators.required, Validators.pattern('^[1-9][0-9]?$|^100$')],
       ],
     });
@@ -75,7 +83,25 @@ export class MembershipComponent {
       this.tempServiceData[i].index = i + 1;
     }
   }
-
+  selectValidityDetails(e: any): void {
+    this.selectedValidity = e.target.value;
+    if (this.selectedValidity == '3 Month') {
+      this.memberShipModel.validitydays = 90;
+      this.memberShipModel.validity = this.selectedValidity;
+    }
+    else if (this.selectedValidity == '6 Month') {
+      this.memberShipModel.validitydays = 180;
+      this.memberShipModel.validity = this.selectedValidity;
+    }
+    else if (this.selectedValidity == '9 Month') {
+      this.memberShipModel.validitydays = 270;
+      this.memberShipModel.validity = this.selectedValidity;
+    }
+    else if (this.selectedValidity == '12 Month') {
+      this.memberShipModel.validitydays = 365;
+      this.memberShipModel.validity = this.selectedValidity;
+    }
+  }
   updatePricesTotal(data: any, ind: any) {
     this.tempServiceData[ind].totalAmount = Number(data.quantity) * data.price;
     this.addPoinInList();
@@ -111,6 +137,7 @@ export class MembershipComponent {
   saveMemberShipDetail() {
     this.memberShipModel.services = this.tempServiceData;
     this.memberShipModel.totalprice = this.finalprice;
+    this.memberShipModel.isactive = true;
     this.MembershipService.saveMembershipList(this.memberShipModel).subscribe((data: any) => {
       this.memberShipList = data;
       this.toastr.success('membership package details added successfully', 'Success', { timeOut: 3000 });

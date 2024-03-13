@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services/customer.service';
@@ -13,6 +14,7 @@ import { MembershipService } from 'src/app/core/services/membership.service';
 })
 export class PurchaseMembershipComponent {
   public joinedMembership: any = [];
+  public dataMembership: any = [];
   public memberShipList: any = [];
   public customer: any = [];
   memberShipModel: any = {};
@@ -34,18 +36,36 @@ export class PurchaseMembershipComponent {
   usedServices: any = [];
   servicestotal: number = 0;
   totalPriceafterdiscount: number = 0;
-
-
-
+  tempData: any = {};
+  validity: any;
+  validityDays: number = 0;
+  validityDate: any;
   constructor(
     public formBuilder: UntypedFormBuilder,
     private customerService: CustomerService,
     private membershipService: MembershipService,
     public toastr: ToastrService,
     private modalService: NgbModal,
-
+    private activatedRoute: ActivatedRoute,
   ) {
     this.getPurchasedMemberList();
+    this.activatedRoute.queryParams.subscribe(res => {
+      this.tempData = JSON.parse(res.customerData);
+      this.customerService.getAllCustomerList().subscribe((data: any) => {
+        this.customer = data;
+        this.customer.forEach((element: any) => {
+          if (this.tempData.contact == element.contact) {
+            this.getCustomerDetails();
+            this.memberShipModel = element;
+            this.showDetails = true;
+            this.isOpen = true;
+            this.isUpdate = false;
+            this.searchContact = null;
+            this.validationForm.markAsUntouched();
+          }
+        });
+      });
+    });
   }
 
   ngOnInit(): void {
@@ -83,8 +103,10 @@ export class PurchaseMembershipComponent {
     });
   }
   getAllActiveMembershipDetails() {
+    debugger
     this.membershipService.getAllActiveMembership().subscribe((data: any) => {
       this.memberShipList = data;
+      debugger
       for (let i = 0; i < this.memberShipList.length; i++) {
         this.memberShipList[i].index = i + 1;
       }
@@ -105,10 +127,16 @@ export class PurchaseMembershipComponent {
     }
   }
   onMembershipPackageChange(data: any) {
-    debugger
     this.memberShipList.forEach((element: any) => {
       if (data.target.value == element.membershipname) {
         this.selectedMemberShip = element;
+        this.validity = element.validity;
+        this.validityDays = element.validitydays;
+        debugger
+        // Calculate the validity end date
+        const currentDate = new Date();
+        this.validityDate = new Date(currentDate.getTime() + (this.validityDays * 24 * 60 * 60 * 1000));
+
         this.membershipService.getMemberServicesUsingId(element.id).subscribe((data: any) => {
           this.memberUsedServices = data;
           for (let i = 0; i < this.memberUsedServices.length; i++) {
@@ -124,8 +152,10 @@ export class PurchaseMembershipComponent {
     this.joinMembershipModel.tprice = this.selectedMemberShip.totalprice;
     this.joinMembershipModel.discount = this.selectedMemberShip.membershipdiscount;
     this.joinMembershipModel.dprice = this.selectedMemberShip.membershipprice;
+    this.joinMembershipModel.validitydate = this.validityDate;
     this.joinMembershipModel.isactive = true;
     this.joinMembershipModel.services = this.memberUsedServices;
+    debugger
     this.membershipService.savePurchaseServiceList(this.joinMembershipModel).subscribe((data: any) => {
       this.joinedMembership = data;
       if (data == 'success') {
@@ -139,17 +169,32 @@ export class PurchaseMembershipComponent {
   }
   getPurchasedMemberList() {
     this.joinedMembership = [];
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const todaydate = `${year}-${month}-${day}`;
     this.membershipService.getAllMemberPurchased().subscribe((data: any) => {
+      this.dataMembership = data;
       this.joinedMembership = data;
+      this.dataMembership.forEach((element: any) => {
+        const validityDate = element.validitydate.split('T')[0];
+        if (todaydate > validityDate) {
+          this.membershipService.updatePurchaseMembershipStatus(element.memid).subscribe((data: any) => {
+          })
+        }
+      });
       for (let i = 0; i < this.joinedMembership.length; i++) {
         this.joinedMembership[i].index = i + 1;
       }
       this.collectionSize = this.joinedMembership.length;
       this.getPagintaion();
     })
+
   }
   getPagintaion() {
     this.paginateData = this.joinedMembership.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+
   }
   viewMembershipDetails(data: any) {
     debugger
@@ -166,7 +211,6 @@ export class PurchaseMembershipComponent {
     this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
     this.membershipService.getMemberServicesUsingId(data.memid).subscribe((data: any) => {
       this.usedServices = data;
-      debugger
       for (let i = 0; i < this.usedServices.length; i++) {
         this.usedServices[i].index = i + 1;
       }

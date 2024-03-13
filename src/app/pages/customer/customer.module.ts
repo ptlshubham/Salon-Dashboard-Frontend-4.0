@@ -15,6 +15,8 @@ import { ComboOfferComponent } from './combo-offer/combo-offer.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { MembershipComponent } from './membership/membership.component';
 import { PurchaseMembershipComponent } from './purchase-membership/purchase-membership.component';
+import { AppointmentComponent } from './appointment/appointment.component';
+import { VendorProductComponent } from './vendor-product/vendor-product.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { BannersComponent } from './banners/banners.component';
@@ -32,7 +34,9 @@ import { BannersComponent } from './banners/banners.component';
     VendorComponent,
     MembershipComponent,
     PurchaseMembershipComponent,
-    BannersComponent
+    BannersComponent,
+    AppointmentComponent,
+    VendorProductComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +68,7 @@ import { BannersComponent } from './banners/banners.component';
   exports: [
     UsersComponent,
     ComboOfferComponent,
-    // PurchaseMembershipComponent
+    AppointmentComponent
   ]
 })
 export class CustomerModule { }

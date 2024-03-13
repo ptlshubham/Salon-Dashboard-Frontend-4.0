@@ -186,11 +186,16 @@
                             <td class="text-left">{{s.index}}</td>
                             <td class="text-center">{{s.fname}}</td>
                             <td class="text-center">{{s.contact}} </td>
-                            <td class="text-center">{{s.address}} {{s.address}} {{s.city}} {{s.state}} {{s.pincode}}
+                            <td class="text-center">{{s.address}} {{s.city}} {{s.state}} {{s.pincode}}
                             </td>
                             <td class="text-center">{{s.gst}} </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
+                                    <button type="button" class="btn btn-soft-warning waves-effect waves-light"
+                                        ngbTooltip="vendor products" placement="top"
+                                        (click)="redirectToVendorProduct(s.id)">
+                                        <i class="mdi mdi-shopping-search"></i></button>
+
                                     <button type="button" class="btn btn-soft-primary waves-effect waves-light"
                                         ngbTooltip="Edit Vendor Details" placement="top"
                                         (click)="editvendorDetails(s)"><i

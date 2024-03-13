@@ -82,6 +82,7 @@ export class UsersComponent {
   totalTempTime: any = 0;
 
   activeMembership: any = [];
+  dataMembership: any = [];
   tempActiveMembership: any = [];
   selectedActiveMembership: any = [];
 
@@ -123,7 +124,8 @@ export class UsersComponent {
       address: ['', [Validators.required]],
       pincode: ['', [Validators.required, Validators.pattern("^[0-9]{6}$")]],
       gender: ['', [Validators.required]],
-      vip: [Boolean]
+      vip: [Boolean],
+      notes: ['']
     });
     this.validationAppointmentForm = this.formBuilder.group({
       bookingDate: ['', [Validators.required]],
@@ -131,7 +133,7 @@ export class UsersComponent {
     });
     this.validationServiceForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      employeeName: ['', [Validators.required]]
+      // employeeName: ['', [Validators.required]]
     });
     this.validationReedemPointsForm = this.formBuilder.group({
       reedempoints: ['', [Validators.required, Validators.pattern(/^(100|[1-9]\d{2,3}|10000)$/)]],
@@ -191,6 +193,7 @@ export class UsersComponent {
   getCustomerDetails() {
     this.customerService.getAllCustomerList().subscribe((data: any) => {
       this.customerList = data;
+
       this.filteredCustomerList = [...this.customerList]; // Initialize filtered list
       for (let i = 0; i < this.customerList.length; i++) {
         this.customerList[i].index = i + 1;
@@ -215,24 +218,39 @@ export class UsersComponent {
   }
 
   saveCustomerDetail() {
-
     this.customerService.saveCustomerList(this.customerModel).subscribe((data: any) => {
-      this.customerList = data;
-      this.customerModel = {};
-      this.isOpen = false;
-      this.validationForm.markAsUntouched();
-      this.toastr.success('Customer details added successfully', 'Success', { timeOut: 3000 });
-      this.getCustomerDetails();
+      if (data == "error") {
+        this.toastr.error('This Contact Number is already registered.', 'Error', { timeOut: 3000 });
+      }
+      else {
+        this.customerList = data;
+        this.customerModel = {};
+        this.isOpen = false;
+        this.validationForm.markAsUntouched();
+        this.toastr.success('Customer details added successfully', 'Success', { timeOut: 3000 });
+        this.getCustomerDetails();
+      }
     })
   }
 
   viewMembershipDetails() {
+    this.dataMembership = [];
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const todaydate = `${year}-${month}-${day}`;
     this.activeMembership = [];
     this.tempActiveMembership = [];
     this.selectedActiveMembership = [];
     this.customerService.getActivatedMembershipDetail(this.selectedCustId).subscribe((data: any) => {
-      this.activeMembership = data;
-      debugger
+      this.dataMembership = data;
+      this.dataMembership.forEach((element: any) => {
+        debugger
+        if (todaydate < element.validitydate) {
+          this.activeMembership.push(element);
+        }
+      });
       for (let i = 0; i < this.activeMembership.length; i++) {
         this.activeMembership[i].index = i + 1;
       }
@@ -260,20 +278,20 @@ export class UsersComponent {
       }
     })
   }
-  onEmployeeMemberChange(data: any, ind: any) {
-    debugger
-    if (data != undefined) {
-      const employeeName = data.fname + ' ' + data.lname;
-      this.tempActiveMembership[ind].employeename = employeeName;
-      this.tempActiveMembership[ind].selectedEmpid = data.id;
-    }
-    else {
-      this.tempActiveMembership[ind].selectedEmpid = undefined;
-      this.tempActiveMembership[ind].isChecked = false;
-    }
-  }
+  // onEmployeeMemberChange(data: any, ind: any) {
+
+  //   if (data != undefined) {
+  //     const employeeName = data.fname + ' ' + data.lname;
+  //     this.tempActiveMembership[ind].employeename = employeeName;
+  //     this.tempActiveMembership[ind].selectedEmpid = data.id;
+  //   }
+  //   else {
+  //     this.tempActiveMembership[ind].selectedEmpid = undefined;
+  //     this.tempActiveMembership[ind].isChecked = false;
+  //   }
+  // }
   selectedMemberService(data: any) {
-    debugger
+
     if (data.isChecked == true) {
       this.selectedActiveMembership.push({
         time: data.time,
@@ -282,8 +300,8 @@ export class UsersComponent {
         servicesname: data.servicesname,
         selectedServid: data.selectedServid,
         servicetype: 'Membership',
-        employeename: data.employeename,
-        selectedEmpid: data.selectedEmpid,
+        // employeename: data.employeename,
+        // selectedEmpid: data.selectedEmpid,
         memid: data.memid,
         isChecked: true
       });
@@ -294,7 +312,7 @@ export class UsersComponent {
     else if (data.isChecked == false) {
       this.selectedActiveMembership.forEach((element: any, index: number) => {
         if (element.servicetype == 'Membership' && element.selectedServid == data.selectedServid) {
-          debugger
+
           this.selectedActiveMembership.splice(index, 1);
         }
       });
@@ -302,7 +320,7 @@ export class UsersComponent {
   }
   saveMemberShipData() {
     this.selectedActiveMembership.forEach((element: any) => {
-      debugger
+
       if (!this.tempServiceData.some((item: any) => item.selectedServid === element.selectedServid)) {
         this.tempServiceData.push({
           time: element.time,
@@ -311,9 +329,9 @@ export class UsersComponent {
           servicesname: element.servicesname,
           selectedServid: element.selectedServid,
           servicetype: element.servicetype,
-          employeename: element.employeename,
+          // employeename: element.employeename,
           memid: element.memid,
-          selectedEmpid: element.selectedEmpid,
+          // selectedEmpid: element.selectedEmpid,
         });
       }
     });
@@ -356,6 +374,7 @@ export class UsersComponent {
     this.isOpenCustAppointment = true;
     this.selectedCustId = data.id;
     this.customerModel = data;
+
     this.customerModel.customerName = data.fname + ' ' + data.lname;
     if (data.vip == 0) {
       this.isVIP = false;
@@ -370,8 +389,12 @@ export class UsersComponent {
     this.viewMembershipDetails();
   }
 
-  purchaseMembership() {
-
+  purchaseMembership(data: any) {
+    this.router.navigate(['custom/purchase-membership'], {
+      queryParams: {
+        customerData: JSON.stringify(data)
+      }
+    });
   }
   getTimeIntervalJson() {
     this.customerService.getBookingTimeInterval().subscribe((data: any) => {
@@ -499,12 +522,12 @@ export class UsersComponent {
       }
     });
   }
-  onEmployeeChange(data: any, ind: any) {
-    debugger
-    const employeeName = data.fname + ' ' + data.lname;
-    this.offerServicesDataList[ind].employeename = employeeName;
-    this.offerServicesDataList[ind].selectedEmpid = data.id;
-  }
+  // onEmployeeChange(data: any, ind: any) {
+
+  //   const employeeName = data.fname + ' ' + data.lname;
+  //   this.offerServicesDataList[ind].employeename = employeeName;
+  //   this.offerServicesDataList[ind].selectedEmpid = data.id;
+  // }
   saveComboOffer() {
     for (let i = 0; i < this.offerServicesDataList.length; i++) {
       this.servicesList.forEach((element: any) => {
@@ -516,8 +539,8 @@ export class UsersComponent {
             servicesname: element.name,
             selectedServid: element.id,
             servicetype: 'Combo',
-            employeename: this.offerServicesDataList[i].employeename,
-            selectedEmpid: this.offerServicesDataList[i].selectedEmpid,
+            // employeename: this.offerServicesDataList[i].employeename,
+            // selectedEmpid: this.offerServicesDataList[i].selectedEmpid,
             comboId: this.selectedComboId
           })
         }
@@ -539,8 +562,8 @@ export class UsersComponent {
       price: this.servicesModel.Service.price,
       servicesname: this.servicesModel.Service.name,
       selectedServid: this.servicesModel.Service.id,
-      employeename: this.servicesModel.employee.employeeName,
-      selectedEmpid: this.servicesModel.employee.id,
+      // employeename: this.servicesModel.employee.employeeName,
+      // selectedEmpid: this.servicesModel.employee.id,
       servicetype: 'Regular'
     });
     this.servicesModel = {};
@@ -580,6 +603,7 @@ export class UsersComponent {
     this.isOpen = true;
     this.isUpdate = true;
     this.customerModel = data;
+
   }
   removeCustomerDetails(id: any) {
     Swal.fire({
@@ -614,7 +638,7 @@ export class UsersComponent {
     this.appointmentModel.custid = this.selectedCustId;
     this.appointmentModel.timeSlot = this.customerModel.timeSlot.time;
     this.appointmentModel.bookingDate = this.customerModel.bookingDate;
-    debugger
+
     if (this.appointmentModel.redeempoints > this.appointmentModel.tCustPoint) {
       this.toastr.error('You can not redeem point more than total point.', 'Warning', { timeOut: 3000 });
     }
