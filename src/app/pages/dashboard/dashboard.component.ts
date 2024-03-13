@@ -8,13 +8,15 @@ import { OfferService } from 'src/app/core/services/offer.service';
 import { MembershipService } from 'src/app/core/services/membership.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeService } from 'src/app/core/services/employee.service';
-
+import { BannersService } from 'src/app/core/services/banners.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  showNavigationIndicators = true; // Assuming you want to show navigation indicators by default
+  banners: any[] = [];
   mpage: any;
   totalRec: any;
   // bread crumb items
@@ -42,8 +44,11 @@ export class DashboardComponent implements OnInit {
 
   totalPriceForDetails: number = 0;
   totalPointForDetails: number = 0;
+  imagesData: any = [];
 
+  showNavigationArrows: any;
   constructor(
+    private bannersService: BannersService,
     private employeeService: EmployeeService,
     private servicesService: ServiceListService,
     private customerService: CustomerService,
@@ -72,7 +77,7 @@ export class DashboardComponent implements OnInit {
       { label: 'Dashboard', active: true }
     ];
 
-
+    this.getwebsilder();
     this.getCustomerDetails();
     this.getServicesDetails();
     this.getExpensesDetails();
@@ -81,6 +86,17 @@ export class DashboardComponent implements OnInit {
     this.getMembershipServiceDetails();
 
   }
+  getwebsilder() {
+    this.bannersService.getWebSlider().subscribe((res: any) => {
+      debugger
+      this.imagesData = res;
+      for (let i = 0; i < this.imagesData.length; i++) {
+        this.imagesData[i].index = i + 1;
+      }
+    })
+
+  }
+
   getServicesDetails() {
     this.servicesService.getAllServicesList().subscribe((data: any) => {
       this.servicesList = data;

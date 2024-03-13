@@ -17,6 +17,8 @@ import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './expenses.component.scss'
 })
 export class ExpensesComponent {
+ 
+  public dailyexpensesList: any = [];
   isOpen: boolean = false;
   expensesModel: any = {};
   expensesList: any = [];
@@ -48,13 +50,14 @@ export class ExpensesComponent {
   @Input() toDate: Date | null = null;
   @Output() dateRangeSelected = new EventEmitter<{ fromDate: Date, toDate: Date }>();
   filteredexpenseList: any = [];
-  rangedate: any=[];
+  rangedate: Date[] = [];
 
   flatpickrOptions: any = {
     altInput: true,
     convertModelValue: true,
     mode: "range",
-    maxDate: "today" // Disable future dates
+    maxDate:"today",
+     // Disable future dates
   };
   
 
@@ -153,17 +156,32 @@ export class ExpensesComponent {
       this.getPagintaion();
     });
   }
-  onselection(){
-    this.page = 3; // Reset the page when the search query changes
-    this.filteredexpenseList = this.expensesList.filter((expenses: any) => 
-    expenses.expensesdate >= this.rangedate[0] && expenses.expensesdate <= this.rangedate[1]
+  onselection() {
+    this.page = 1; // Reset the page when the search query changes
     
-);
-     this.getPagintaion();
+    // Check if rangedate is valid and not empty
+    if (this.rangedate.length === 2 && this.rangedate[0] && this.rangedate[1]) {
+      // Convert rangedate elements to Date objects
+      const startDate = new Date(this.rangedate[0]);
+      const endDate = new Date(this.rangedate[1]);
+  
+      // Format the date range
+     
+  
+      // Filter expensesList based on the date range
+      this.filteredexpenseList = this.expensesList.filter((expense: any) => {
+        // Convert expense date to Date object if it's not already
+        const expenseDate = new Date(expense.expensesdate);
+  
+        // Compare expense date with the date range
+        return expenseDate >= startDate && expenseDate <= endDate;
+      });
+    } 
+    this.getPagintaion(); // Ensure pagination is updated after filtering
      
   }
   getPagintaion() {
-  
+    
     this.paginateData = this.filteredexpenseList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);    
     
   }

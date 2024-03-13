@@ -21,6 +21,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CustomerModule } from './customer/customer.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { CustomerModule } from './customer/customer.module';
     // LightboxModule,
     TablesModule,
     LeafletModule,
-    CustomerModule
+    CustomerModule,
+    NgbModule 
   ]
 })
 export class PagesModule { }

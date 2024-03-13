@@ -12,6 +12,10 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { ExtrapagesModule } from './extrapages/extrapages.module';
 import { AuthInterceptor } from './core/guards/auth-http-interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { BannersComponent } from './pages/customer/banners/banners.component';
+
+
+
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -19,7 +23,8 @@ export function createTranslateLoader(http: HttpClient): any {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    
   ],
   imports: [
     TranslateModule.forRoot({

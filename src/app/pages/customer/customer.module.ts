@@ -17,6 +17,7 @@ import { MembershipComponent } from './membership/membership.component';
 import { PurchaseMembershipComponent } from './purchase-membership/purchase-membership.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { BannersComponent } from './banners/banners.component';
 
 
 
@@ -30,7 +31,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     ComboOfferComponent,
     VendorComponent,
     MembershipComponent,
-    PurchaseMembershipComponent
+    PurchaseMembershipComponent,
+    BannersComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +55,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     NgbToastModule,
     NgSelectModule,
     FlatpickrModule.forRoot(),
-    NgbDatepickerModule
+    NgbDatepickerModule,
   ],
   providers: [
     DatePipe,

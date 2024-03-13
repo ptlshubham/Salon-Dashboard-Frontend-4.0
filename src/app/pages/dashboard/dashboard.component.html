@@ -1,8 +1,18 @@
 <app-pagetitle title="Dashboard" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+<div class="col-xl-12 mb-4">
+
+    <ngb-carousel [showNavigationIndicators]="showNavigationIndicators">
+        <ng-template ngbSlide *ngFor="let b of imagesData">
+            <img src="http://localhost:8100{{b.bannersimage}}" alt="second slide" class="d-block img-fluid">
+        </ng-template>
+    </ngb-carousel>
+
+</div><!-- end col -->
 <div class="row">
     <div class="col-xl-3 col-md-6">
         <div class="card card-h-100" (click)="openCustomer()">
             <div class="card-body">
+
                 <div class="row align-items-center">
                     <div class="col-8">
                         <h4>
