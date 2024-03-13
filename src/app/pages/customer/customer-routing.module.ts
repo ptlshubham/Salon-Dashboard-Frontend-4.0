@@ -9,6 +9,7 @@ import { MembershipComponent } from './membership/membership.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { SalonRegistartionComponent } from '../admin/salon-registartion/salon-registartion.component';
 import { PurchaseMembershipComponent } from './purchase-membership/purchase-membership.component';
+import { BannersComponent } from './banners/banners.component';
 import { VendorProductComponent } from './vendor-product/vendor-product.component';
 
 const routes: Routes = [
@@ -43,6 +44,10 @@ const routes: Routes = [
      {
           path: 'purchase-membership',
           component: PurchaseMembershipComponent
+     },
+     {
+          path: 'banners',
+          component: BannersComponent
      },
      {
           path: 'vendor-product/:id',
