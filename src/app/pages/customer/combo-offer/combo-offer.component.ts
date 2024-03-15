@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OfferService } from 'src/app/core/services/offer.service';
 import { ServiceListService } from 'src/app/core/services/services.service';
@@ -17,6 +18,7 @@ export class ComboOfferComponent {
   serviceModel: any = {};
   servicesList: any = [];
   tempServiceData: any = [];
+  usedServices: any = [];
 
   isOpen: boolean = false;
   isUpdate: boolean = false;
@@ -33,13 +35,15 @@ export class ComboOfferComponent {
   totalOfferPoint: any = 0;
   offerprice: number = 0;
   discount: number = 0;
-
+  viewOfferData: any = {};
   offerData: any = [];
   constructor(
     private offerService: OfferService,
     public formBuilder: UntypedFormBuilder,
     public toastr: ToastrService,
     private servicesService: ServiceListService,
+    private modalService: NgbModal,
+
   ) {
     this.getAllServices();
     this.getOfferDetails();
@@ -141,6 +145,35 @@ export class ComboOfferComponent {
   getPagintaion() {
     this.paginateData = this.offerList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
+  opencomboservices(data: any, exlargeModal: any) {
+
+    this.viewOfferData = data;
+    this.tempServiceData = [];
+    this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
+
+    this.offerService.getAllOfferDataList(data.id).subscribe((data: any) => {
+      this.offerData = data;
+
+      for (let i = 0; i < this.offerData.length; i++) {
+        this.servicesList.forEach((element: any) => {
+          if (element.id == this.offerData[i].serviceId) {
+            this.tempServiceData.push({
+              time: element.time,
+              serpoint: element.point,
+              price: element.price,
+              servicesname: element.name,
+              selectedServid: element.id,
+            })
+          }
+        });
+      }
+      for (let i = 0; i < this.tempServiceData.length; i++) {
+        this.tempServiceData[i].index = i + 1;
+      }
+      this.addPoinInList();
+      this.getOfferVal(data);
+    });
+  }
   activeBanners(ind: any) {
     this.offerList[ind].status = true;
     this.offerService.activeDeavctiveOffers(this.offerList[ind]).subscribe((req) => {
@@ -181,7 +214,7 @@ export class ComboOfferComponent {
   updateOfferDetail() {
     this.offerModel.services = this.tempServiceData;
     this.offerModel.totalprice = this.totalprice;
-    debugger
+
     this.offerService.saveOfferList(this.offerModel).subscribe((data: any) => {
       this.offerList = data;
       this.toastr.success('Offer details updated successfully', 'Success', { timeOut: 3000 });
