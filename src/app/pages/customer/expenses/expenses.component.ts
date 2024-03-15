@@ -7,9 +7,22 @@ import Swal from 'sweetalert2';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
-import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
+function extractDateFromDateStr(dateStr: string | undefined | null): Date | null {
+  if (!dateStr) {
+    return null;
+  }
 
+  const dateParts = dateStr.split('T')[0].split('-');
+  if (dateParts.length !== 3) {
+    return null;
+  }
+
+  const year = parseInt(dateParts[0], 10);
+  const month = parseInt(dateParts[1], 10) - 1; // Months are zero-based (0-January, 1-February, etc.)
+  const day = parseInt(dateParts[2], 10);
+  return new Date(year, month, day);
+}
 
 @Component({
   selector: 'app-expenses',
@@ -17,7 +30,7 @@ import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './expenses.component.scss'
 })
 export class ExpensesComponent {
- 
+
   public dailyexpensesList: any = [];
   isOpen: boolean = false;
   expensesModel: any = {};
@@ -33,35 +46,22 @@ export class ExpensesComponent {
     { name: 'Gpay' },
     { name: 'Cash' },
     { name: 'Bank-Tansaction' },
-
   ]
-  
-  totalprice: number =0;
+
+  totalprice: number = 0;
   dailyTotal: number = 0;
 
   finalprice: any = 0;
   tempServiceData: any = [];
   hidden!: boolean;
   selected: string = '';
-  hoveredDate: NgbDate | null = null;
-  fromNGDate: NgbDate | null = null;
-  toNGDate: NgbDate | null = null;
-  @Input() fromDate: Date | null = null;
-  @Input() toDate: Date | null = null;
-  @Output() dateRangeSelected = new EventEmitter<{ fromDate: Date, toDate: Date }>();
-  filteredexpenseList: any = [];
-  rangedate: Date[] = [];
 
-  flatpickrOptions: any = {
-    altInput: true,
-    convertModelValue: true,
-    mode: "range",
-    maxDate:"today",
-     // Disable future dates
-  };
-  
+  filterData: any = [];
+  maxDate: Date = new Date();
+  selectedDateRange: { from: Date, to: Date } | null = null; // Define the type of selectedDateRange
+  selectedStartDate: Date | null = null;
+  selectedEndDate: Date | null = null;
 
- //
   constructor(
     private expensesService: ExpensesService,
     public formBuilder: UntypedFormBuilder,
@@ -71,51 +71,10 @@ export class ExpensesComponent {
 
 
   }
-  onDateSelection(date: NgbDate) {
-    
-    const today = new Date();
-    const selectedDate = new Date(date.year, date.month - 1, date.day);
-
-    if (selectedDate <= today) { // Only allow selection of today or past dates
-      if (!this.fromDate && !this.toDate) {
-        this.fromNGDate = date;
-        this.fromDate = new Date(date.year, date.month - 1, date.day);
-        this.selected = '';
-      } else if (this.fromDate && !this.toDate && date.after(this.fromNGDate)) {
-        this.toNGDate = date;
-        this.toDate = new Date(date.year, date.month - 1, date.day);
-        this.hidden = true;
-        this.selected = this.fromDate.toLocaleDateString() + '-' + this.toDate.toLocaleDateString();
-        this.dateRangeSelected.emit({ fromDate: this.fromDate, toDate: this.toDate });
-
-        this.fromDate = null;
-        this.toDate = null;
-        this.fromNGDate = null;
-        this.toNGDate = null;
-
-      } else {
-        this.fromNGDate = date;
-        this.fromDate = new Date(date.year, date.month - 1, date.day);
-        this.selected = '';
-      }
-    }
-      }
-
-  isHovered(date: NgbDate) {
-    return this.fromNGDate && !this.toNGDate && this.hoveredDate && date.after(this.fromNGDate) && date.before(this.hoveredDate);
-  }
-
-  isInside(date: NgbDate) {
-    return date.after(this.fromNGDate) && date.before(this.toNGDate);
-  }
-
-  isRange(date: NgbDate) {
-    return date.equals(this.fromNGDate) || date.equals(this.toNGDate) || this.isInside(date) || this.isHovered(date);
-  }
   ngOnInit(): void {
 
     this.getAllExpenses()
- 
+
     this.validationForm = this.formBuilder.group({
       expensesprices: ['', [Validators.required]],
       employeename: ['', [Validators.required]],
@@ -143,49 +102,71 @@ export class ExpensesComponent {
     this.validationForm.markAsUntouched();
   }
 
-  // -------------------------------get data------------//
   getAllExpenses() {
     this.expensesService.getAllExpensesList().subscribe((data: any) => {
-     
       this.expensesList = data;
-      this.filteredexpenseList = [...this.expensesList];
-      for (let i = 0; i < this.expensesList.length; i++) {
-        this.expensesList[i].index = i + 1;
+      this.filterData = data;
+      debugger
+      for (let i = 0; i < this.filterData.length; i++) {
+        this.filterData[i].index = i + 1;
       }
-      this.collectionSize = this.expensesList.length;
+      this.collectionSize = this.filterData.length;
       this.getPagintaion();
     });
   }
-  onselection() {
-    this.page = 1; // Reset the page when the search query changes
-    
-    // Check if rangedate is valid and not empty
-    if (this.rangedate.length === 2 && this.rangedate[0] && this.rangedate[1]) {
-      // Convert rangedate elements to Date objects
-      const startDate = new Date(this.rangedate[0]);
-      const endDate = new Date(this.rangedate[1]);
-  
-      // Format the date range
-     
-  
-      // Filter expensesList based on the date range
-      this.filteredexpenseList = this.expensesList.filter((expense: any) => {
-        // Convert expense date to Date object if it's not already
-        const expenseDate = new Date(expense.expensesdate);
-  
-        // Compare expense date with the date range
-        return expenseDate >= startDate && expenseDate <= endDate;
-      });
-    } 
-    this.getPagintaion(); // Ensure pagination is updated after filtering
-     
-  }
   getPagintaion() {
-    
-    this.paginateData = this.filteredexpenseList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);    
-    
+
+    this.paginateData = this.filterData.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+
   }
-  // -----------------------get data end---------------//
+
+  selectedDateRangeData() {
+    if (this.selectedDateRange && typeof this.selectedDateRange.from === 'object' && typeof this.selectedDateRange.to === 'object') {
+      console.log('Selected Date Range:', this.selectedDateRange);
+      const startDate = new Date(this.selectedDateRange.from);
+      const endDate = new Date(this.selectedDateRange.to);
+
+      // Check if startDate and endDate are valid Date objects
+      if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+        this.selectedStartDate = startDate;
+        this.selectedEndDate = endDate;
+        this.filterExpensesByDateRange();
+      } else {
+        console.error('Invalid date format in selectedDateRange');
+      }
+    } else {
+      console.error('Invalid selectedDateRange format');
+    }
+  }
+
+  filterExpensesByDateRange() {
+    debugger
+    this.filterData = [];
+    if (this.selectedStartDate !== null && this.selectedEndDate !== null) {
+      const filteredExpenses = this.expensesList.filter((expense: any) => {
+        const expenseDateStr = expense.expensesdate; // Assuming expense.expensesDate is of type string
+        if (expenseDateStr === null || expenseDateStr === undefined) {
+          return false; // Skip this expense if expensesDate is null or undefined
+        }
+
+        const expenseDate = extractDateFromDateStr(expenseDateStr);
+        if (expenseDate === null) {
+          return false; // Skip this expense if expenseDate cannot be extracted
+        }
+
+        return expenseDate >= this.selectedStartDate! && expenseDate <= this.selectedEndDate!;
+      });
+      console.log('Filtered Expenses:', filteredExpenses);
+      this.filterData = filteredExpenses;
+      for (let i = 0; i < this.filterData.length; i++) {
+        this.filterData[i].index = i + 1;
+      }
+      this.getPagintaion();
+
+    }
+  }
+
+
 
 
   removeExpense(id: any) {
@@ -234,12 +215,12 @@ export class ExpensesComponent {
       this.isUpdate = false;
     })
   }
-  
+
   generateInvoicePDF() {
 
     let documentDefinition: any = {
-     
-      footer: function (currentPage:any, pageCount:any) {
+
+      footer: function (currentPage: any, pageCount: any) {
         return { text: "Page " + currentPage.toString() + ' of ' + pageCount, alignment: 'center', fontSize: 10, margin: [0, 20, 0, 0] }
       },
       content: [
@@ -313,15 +294,15 @@ export class ExpensesComponent {
           layout: 'headerLineOnly',
           table: {
             headerRows: 1,
-            widths: ['auto','*', '*', 'auto', 'auto'],
+            widths: ['auto', '*', '*', 'auto', 'auto'],
             body: [
-               [// {text: 'Index', style: 'tablehead'}, 
+              [// {text: 'Index', style: 'tablehead'}, 
                 { text: 'Expenses Name', style: 'tablehead' },
                 { text: 'Expenses Date', style: 'tablehead' },
                 { text: 'Employee Name', style: 'tablehead' },
                 { text: 'Payment Type', style: 'tablehead' },
                 { text: 'Expense Price', style: 'tablehead' }],
-              ...this.paginateData.map((p:any ,index:any) => ([
+              ...this.paginateData.map((p: any, index: any) => ([
                 //{ text: p.index, style: 'tablecell' },
                 { text: p.expensesname, style: 'tablecell' },
                 { text: new Date(p.expensesdate).getDate() + "/" + (new Date(p.expensesdate).getMonth() + 1) + "/" + (new Date(p.expensesdate).getFullYear()), style: 'tablecell' },
@@ -342,7 +323,7 @@ export class ExpensesComponent {
       ],
       images: {
         webimg: 'https://res.cloudinary.com/dfojt5f1l/image/upload/v1654778945/media/keryar/output-onlinepngtools_vysa26.png',
-      
+
       },
       styles: {
         Bill: {
@@ -355,7 +336,7 @@ export class ExpensesComponent {
           alignment: 'left',
           margin: [200, 0, 0, 5],
           fontSize: 10
-        }, 
+        },
         tablehead: {
           bold: true,
           fontSize: 12,
@@ -380,5 +361,5 @@ export class ExpensesComponent {
   //   });
   // }
 
-  
+
 }

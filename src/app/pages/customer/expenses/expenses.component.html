@@ -9,8 +9,9 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <input class="form-control flatpickr-input" type="text" mwlFlatpickr [altInput]="true"
-                            [convertModelValue]="true" (input)="onselection()" mode="range"
-                            [options]="flatpickrOptions">
+                            [convertModelValue]="true" mode="range" placeholder="Select a date range"
+                            [maxDate]="maxDate" [(ngModel)]="selectedDateRange"
+                            (ngModelChange)="selectedDateRangeData()">
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
