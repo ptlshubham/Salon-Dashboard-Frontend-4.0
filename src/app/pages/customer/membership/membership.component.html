@@ -3,7 +3,8 @@
     <div class="card-header">
       <div class="d-flex justify-content-between">
         <h5 class="card-title">Add New Membership Details</h5>
-        <button type="submit" class="btn btn-danger waves-effect waves-light" (click)="backToTable()">
+        <button type="submit" class="btn btn-danger waves-effect waves-light" (click)="backToTable()"
+          ngbTooltip="back to the membership List">
           <i class="bx bx-arrow-back font-size-16 align-middle"></i>
           Back
         </button>
@@ -171,7 +172,8 @@
     <div class="card-header">
       <div class="d-flex justify-content-between">
         <h5 class="card-title">Membership Package List</h5>
-        <button type="button" class="btn btn-primary waves-effect btn-label waves-light" (click)="openAddMembership()">
+        <button type="button" class="btn btn-primary waves-effect btn-label waves-light" ngbTooltip="Add membership"
+          (click)="openAddMembership()">
           <i class="bx bx-user-plus label-icon"></i> Add New Membership Details
         </button>
       </div>

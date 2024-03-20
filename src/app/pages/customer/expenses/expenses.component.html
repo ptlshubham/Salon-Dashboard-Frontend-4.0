@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
-                    (click)="openAddExpense()"><i class="bx bx-user-plus label-icon"></i>
+                    (click)="openAddExpense()" ngbTooltip="Add new Expense"><i class="bx bx-user-plus label-icon"></i>
                     Add New Expense</button>
             </div>
         </div>
@@ -37,8 +37,7 @@
                             <td class="text-left">{{s.index}}</td>
                             <td class="text-center">{{s.expensesdate | date:'dd/MM/yyyy'}}</td>
                             <td class="text-center">{{s.expensesname}} </td>
-                            <td class="text-center">{{s.expensesprices}} </td>
-
+                            <td class="text-center">{{s.expensesprices}} ₹</td>
                             <td class="text-center">{{s.employeename }}</td>
                             <td class="text-center">{{s.paymenttype }}</td>
 
@@ -61,10 +60,10 @@
             <div class="row mt-5">
                 <div class="d-flex justify-content-start gap">
                     <div class="hstack gap-3">
-                        <div class="grid-example">Daily Total:
+                        <!-- <div class="grid-example">Daily Total:
                             <span class="text-primary"><b>
                                     {{paginateData.total}} ₹</b></span>
-                        </div>
+                        </div> -->
                         <div class="col-md">
                             <button type="button" class="btn btn-primary  " (click)="generateInvoicePDF()"><i
                                     class="fa fa-file-pdf-0"></i>
@@ -89,7 +88,8 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title">Add Expenses </h5>
-                <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToTable()">
+                <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToTable()"
+                    ngbTooltip="Back to Expense list">
                     <i class="bx bx-arrow-back font-size-16 align-middle"></i>
                     Back</button>
             </div>

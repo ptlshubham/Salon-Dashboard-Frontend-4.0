@@ -60,12 +60,16 @@
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100">
+        <div class="card card-h-100" (click)="openearnings()">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-8">
                         <h4>
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Daily Earnings</small>
+                        </h4>
+                        <h4 class="mb-3">
+                            Total: <span [countUp]="ExpensesList.length" [options]="option"
+                                class="counter-value"></span>
                         </h4>
                         <h4 class="mb-3">
                         </h4>
