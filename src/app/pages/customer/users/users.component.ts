@@ -246,7 +246,7 @@ export class UsersComponent {
     this.customerService.getActivatedMembershipDetail(this.selectedCustId).subscribe((data: any) => {
       this.dataMembership = data;
       this.dataMembership.forEach((element: any) => {
-        debugger
+        
         if (todaydate < element.validitydate) {
           this.activeMembership.push(element);
         }

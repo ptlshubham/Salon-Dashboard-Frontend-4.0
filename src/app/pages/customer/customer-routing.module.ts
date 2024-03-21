@@ -11,6 +11,7 @@ import { SalonRegistartionComponent } from '../admin/salon-registartion/salon-re
 import { PurchaseMembershipComponent } from './purchase-membership/purchase-membership.component';
 import { BannersComponent } from './banners/banners.component';
 import { VendorProductComponent } from './vendor-product/vendor-product.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
      {
@@ -52,7 +53,11 @@ const routes: Routes = [
      {
           path: 'vendor-product/:id',
           component: VendorProductComponent
-     }
+     },
+     {
+          path: 'profile',
+          component: ProfileComponent
+     },
 
 ];
 

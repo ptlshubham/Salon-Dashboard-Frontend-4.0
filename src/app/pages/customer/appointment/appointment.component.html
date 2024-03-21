@@ -48,11 +48,11 @@
                                 </td>
                                 <td class="text-center">{{s.totalprice}}₹</td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-success waves-effect btn-label waves-light"
+                                    <button type="button" class="btn btn-info waves-effect btn-label waves-light"
                                         ngbTooltip="Accept payment" placement="top" data-bs-toggle="modal"
                                         data-bs-target=".bs-example-modal-xl"
                                         (click)="openPaymentData(s,eexlargeModal)"><i
-                                            class="bx bx-check-double label-icon"></i>Accept</button>
+                                            class="bx bx-rupee label-icon"></i>Accept</button>
                                 </td>
                                 <td class="text-end">
                                     <div class="d-flex justify-content-end gap-1">
@@ -76,6 +76,35 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-5 col-md-5 col-xl-5 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">Pending Service List</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-left">#</th>
+                                <th class="text-center">Customer Name</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Total Price</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mt-4">
+                </div>
+            </div>
+        </div>
+    </div>
     <ng-template #exlargeModal let-modal>
         <div class="modal-header">
             <h5 class="modal-title mt-0">Services List</h5>
@@ -92,6 +121,7 @@
                                 <th class="text-center">Service Type</th>
                                 <th class="text-center">Service Name</th>
                                 <th class="text-center">Select Employee</th>
+                                <th class="text-center">If Completed</th>
                                 <th class="text-center">Service Price</th>
                                 <th class="text-center">Service Point</th>
                                 <th class="text-center">Actions</th>
@@ -113,7 +143,8 @@
                                     {{a.employeename}} <a class="pl-5"
                                         (click)="removeEmployeeDetailsFormAppointement(a)"><i
                                             class="fas fa-times font-size-16 align-middle text-danger"
-                                            ngbTooltip="Remove Selected Employee" placement="top"></i></a>
+                                            *ngIf="!a.ifcomplete" ngbTooltip="Remove Selected Employee"
+                                            placement="top"></i></a>
                                 </td>
                                 <td class="text-center" *ngIf="a.employeename==null">
                                     <ng-select [items]="idealEmployee" bindLabel="employeeName"
@@ -123,12 +154,20 @@
                                         </ng-template>
                                     </ng-select>
                                 </td>
+                                <td class="text-center">
+                                    <input class="form-check-input form-check larger-checkbox text-center"
+                                        type="checkbox" id="formCheck1" [(ngModel)]="a.ifcomplete"
+                                        [disabled]="a.employeename == null"
+                                        ngbTooltip="Select the field and complete services" placement="top"
+                                        (change)="selectedCompletedService(a)">
+                                </td>
                                 <td class="text-center">{{ a.price }} ₹</td>
                                 <td class="text-center">{{ a.point }}</td>
                                 <td class="text-end">
-                                    <div class="d-flex justify-content-end gap-1">
+                                    <div class="d-flex justify-content-end gap-1"
+                                        [ngbTooltip]="a.ifcomplete ? 'You won\'t delete' : 'Remove Service'">
                                         <button type="button" class="btn btn-soft-danger waves-effect waves-light"
-                                            (click)="removeItemFromUsedServices(i,a)" ngbTooltip="Remove Service"
+                                            [disabled]="a.ifcomplete" (click)="removeItemFromUsedServices(i,a)"
                                             placement="top"><i
                                                 class=" bx bx-trash-alt font-size-16 align-middle"></i></button>
                                     </div>

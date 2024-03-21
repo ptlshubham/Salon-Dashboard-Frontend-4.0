@@ -45,6 +45,8 @@ export class ApiService {
   public static getCustomerTotalPointsURL: string = ApiService.HOST_URL + '/admin/GetCustomerTotalPoints';
   public static updateEmployeeListURL: string = ApiService.HOST_URL + '/admin/UpdateEmployeeList';
   public static updateWorkingStatusURL: string = ApiService.HOST_URL + '/admin/UpdateWorkingStatus';
+  public static updateCompleteServicesURL: string = ApiService.HOST_URL + '/admin/UpdateCompleteServices';
+  public static updateAppointmentServicesStatusURL: string = ApiService.HOST_URL + '/admin/UpdateAppointmentServicesStatus';
   public static getAllCustomerDataListURL: string = ApiService.HOST_URL + '/admin/GetAllCustomerDataList';
   public static getCustomerByIdURL: string = ApiService.HOST_URL + '/admin/GetCustomerById';
   public static getUsedServicesByCustomerURL: string = ApiService.HOST_URL + '/admin/GetUsedServicesByCustomer';

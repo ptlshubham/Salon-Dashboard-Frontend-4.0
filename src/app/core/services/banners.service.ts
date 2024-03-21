@@ -24,7 +24,7 @@ export class BannersService {
 
   }
   saveWebBannersImage(admin: any): Observable<any> {
-     debugger
+     
     return this.httpClient.post<any>(ApiService.saveWebBannersURL, admin);
   }
   getWebBanners(): Observable<any[]>{
@@ -38,7 +38,7 @@ export class BannersService {
   }
 
   activeDeavctiveWebBanners(admin: any): Observable<any> {
-     debugger
+     
     return this.httpClient.post<any>(ApiService.updateActiveWebStatusURL, admin);
   }
 }

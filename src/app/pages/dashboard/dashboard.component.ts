@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit {
   }
   getwebsilder() {
     this.bannersService.getWebSlider().subscribe((res: any) => {
-      debugger
+      
       this.imagesData = res;
       for (let i = 0; i < this.imagesData.length; i++) {
         this.imagesData[i].index = i + 1;

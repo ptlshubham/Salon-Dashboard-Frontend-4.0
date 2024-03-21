@@ -103,10 +103,10 @@ export class PurchaseMembershipComponent {
     });
   }
   getAllActiveMembershipDetails() {
-    debugger
+    
     this.membershipService.getAllActiveMembership().subscribe((data: any) => {
       this.memberShipList = data;
-      debugger
+      
       for (let i = 0; i < this.memberShipList.length; i++) {
         this.memberShipList[i].index = i + 1;
       }
@@ -132,7 +132,7 @@ export class PurchaseMembershipComponent {
         this.selectedMemberShip = element;
         this.validity = element.validity;
         this.validityDays = element.validitydays;
-        debugger
+        
         // Calculate the validity end date
         const currentDate = new Date();
         this.validityDate = new Date(currentDate.getTime() + (this.validityDays * 24 * 60 * 60 * 1000));
@@ -155,7 +155,7 @@ export class PurchaseMembershipComponent {
     this.joinMembershipModel.validitydate = this.validityDate;
     this.joinMembershipModel.isactive = true;
     this.joinMembershipModel.services = this.memberUsedServices;
-    debugger
+    
     this.membershipService.savePurchaseServiceList(this.joinMembershipModel).subscribe((data: any) => {
       this.joinedMembership = data;
       if (data == 'success') {
@@ -197,7 +197,7 @@ export class PurchaseMembershipComponent {
 
   }
   viewMembershipDetails(data: any) {
-    debugger
+    
     this.membershipService.getPurchasedDetail(data).subscribe((data: any) => {
       this.purchasedServices = data;
       for (let i = 0; i < this.purchasedServices.length; i++) {

@@ -119,4 +119,10 @@ export class CustomerService {
         return this.httpClient.get("./assets/json/Time-Interval.json");
 
     }
+    updateCompleteServiceDetails(admin: any): Observable<any> {
+        return this.httpClient.post<any>(ApiService.updateCompleteServicesURL, admin)
+    }
+    updateCompleteStatusDetails(admin: any): Observable<any> {
+        return this.httpClient.post<any>(ApiService.updateAppointmentServicesStatusURL, admin)
+    }
 }

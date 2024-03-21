@@ -198,7 +198,7 @@ export class MembershipComponent {
     // this.serviceModel = {};
     this.MembershipService.getMemberServicesUsingId(data1.id).subscribe((data: any) => {
       this.membershipData = data;
-      debugger
+      
       for (let i = 0; i < this.membershipData.length; i++) {
         this.servicesList.forEach((element: any) => {
           if (element.id == this.membershipData[i].serviceid) {

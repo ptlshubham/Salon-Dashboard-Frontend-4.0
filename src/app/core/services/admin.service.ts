@@ -23,7 +23,7 @@ export class adminService {
         return this.httpClient.post<any>(ApiService.updateRegistrationListURL, admin);
     }
     removeRegistrationDetails(id: any) {
-        debugger
+        
         return this.httpClient.get<any>(ApiService.removeRegistrationDetailsURL + id);
     }
     public getStateFromJson(): Observable<any[]> {

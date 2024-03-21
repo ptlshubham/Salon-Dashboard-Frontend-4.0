@@ -106,7 +106,7 @@ export class ExpensesComponent {
     this.expensesService.getAllExpensesList().subscribe((data: any) => {
       this.expensesList = data;
       this.filterData = data;
-      debugger
+      
       for (let i = 0; i < this.filterData.length; i++) {
         this.filterData[i].index = i + 1;
       }
@@ -122,7 +122,7 @@ export class ExpensesComponent {
 
   selectedDateRangeData() {
     if (this.selectedDateRange && typeof this.selectedDateRange.from === 'object' && typeof this.selectedDateRange.to === 'object') {
-      console.log('Selected Date Range:', this.selectedDateRange);
+      // console.log('Selected Date Range:', this.selectedDateRange);
       const startDate = new Date(this.selectedDateRange.from);
       const endDate = new Date(this.selectedDateRange.to);
 
@@ -140,7 +140,7 @@ export class ExpensesComponent {
   }
 
   filterExpensesByDateRange() {
-    debugger
+    
     this.filterData = [];
     if (this.selectedStartDate !== null && this.selectedEndDate !== null) {
       const filteredExpenses = this.expensesList.filter((expense: any) => {

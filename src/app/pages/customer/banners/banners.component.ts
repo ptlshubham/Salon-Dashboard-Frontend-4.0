@@ -68,7 +68,7 @@ export class BannersComponent implements OnInit {
     this.bannersImage = null;
     this.imageUrl = "assets/images/file-upload-image.jpg"
     console.log('Selected purpose:', event.target.value);
-    debugger
+    
     // perform other actions based on the selected value
   }
   // uploadFile(event: any) {
@@ -87,7 +87,7 @@ export class BannersComponent implements OnInit {
   //         this.toastr.success('Image Uploaded Successfully', 'Uploaded', {
   //           timeOut: 3000,
   //         });
-  //         debugger
+  //         
   //         this.editFile = false;
   //         this.removeUpload = true;
   //       })
@@ -118,7 +118,7 @@ export class BannersComponent implements OnInit {
     img.src = window.URL.createObjectURL(file);
     img.onload = () => {
       if (this.imageModel.purpose == 'slider') {
-        debugger
+        
         if (img.width === 1920 && img.height === 710) {
           if (event.target.files && event.target.files[0]) {
             reader.readAsDataURL(file);
@@ -144,7 +144,7 @@ export class BannersComponent implements OnInit {
       }
       else if (this.imageModel.purpose == 'image') {
         if (img.width === 500 && img.height === 500) {
-          debugger
+          
           if (event.target.files && event.target.files[0]) {
             reader.readAsDataURL(file);
             reader.onload = () => {
@@ -181,7 +181,7 @@ export class BannersComponent implements OnInit {
       this.imageModel.image = this.bannersImage;
       this.imageModel.status = true;
       this.bannersService.saveWebBannersImage(this.imageModel).subscribe((res: any) => {
-        debugger
+        
         this.toastr.success('Images Data added Successfully', 'success', {
           timeOut: 3000,
         });
@@ -233,7 +233,7 @@ export class BannersComponent implements OnInit {
     })
   }
   deactiveBanners(ind: any) {
-    debugger
+    
     this.paginateData[ind].status = false;
     this.bannersService.activeDeavctiveWebBanners(this.paginateData[ind]).subscribe((req) => {
     })

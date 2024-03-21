@@ -15,7 +15,7 @@ export class MembershipService {
     ) { }
 
     saveMembershipList(admin: any): Observable<any> {
-        debugger
+        
         return this.httpClient.post<any>(ApiService.saveMembershipListURL, admin);
     }
     getAllMembershipList(): Observable<any[]> {
