@@ -3,7 +3,8 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title">Add Vendor</h5>
-                <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToTable()">
+                <button type="submit" class="btn btn-danger  waves-effect waves-light"
+                    ngbTooltip="go to the vendor List" (click)="backToTable()">
                     <i class="bx bx-arrow-back font-size-16 align-middle"></i>
                     Back</button>
             </div>
@@ -164,7 +165,7 @@
             <div class="d-flex justify-content-between">
                 <h5 class="card-title">Vendor List </h5>
                 <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
-                    (click)="openAddvendor()"><i class="bx bx-user-plus label-icon"></i>
+                    (click)="openAddvendor()" ngbTooltip="Add new vendor"><i class="bx bx-user-plus label-icon"></i>
                     Add New Vendor</button>
             </div>
         </div>

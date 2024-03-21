@@ -1,0 +1,199 @@
+<div class="row">
+    <div class="col-xl-3 col-md-6" (click)="opendailyearnings()">
+        <div class="card card-h-100">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Daily Earnings</small>
+                        </h4>
+                        <h4 class="mb-3">
+                            <!-- Total: <span [countUp]="servicesList.length" [options]="option"
+                                class="counter-value"></span> -->
+                        </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/services.png" alt="" class="rounded avatar-lg">
+                    </div>
+                </div>
+                <div class="text-nowrap">
+                    <span class="badge bg-success-subtle text-success">+2.95%</span>
+                    <span class="ms-1 text-muted font-size-13">Since last week</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6" (click)="pendinglist()">
+        <div class="card card-h-100">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h4>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">panding List</small>
+                        </h4>
+                        <h4 class="mb-3">
+                            <!-- Total: <span [countUp]="servicesList.length" [options]="option"
+                                class="counter-value"></span> -->
+                        </h4>
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="assets/images/icons/services.png" alt="" class="rounded avatar-lg">
+                    </div>
+                </div>
+                <div class="text-nowrap">
+                    <span class="badge bg-success-subtle text-success">+2.95%</span>
+                    <span class="ms-1 text-muted font-size-13">Since last week</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="isOpen==false">
+    <div class="card">
+        <div class="card-header">
+
+            <h5 class="card-title">Earning List</h5>
+
+            <div class="d-flex justify-content-end gap-3" style="align-items: baseline;">
+                <label class="form-label ">Duration</label>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <input class="form-control flatpickr-input" type="text" mwlFlatpickr [altInput]="true"
+                            [convertModelValue]="true" (input)="onselection()" mode="range"
+                            [options]="flatpickrOptions">
+                    </div>
+                </div>
+                <!-- <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
+                    (click)="openAddExpense()"><i class="bx bx-user-plus label-icon"></i>
+                    Add New Expense</button> -->
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-left">#</th>
+                            <th class="text-center">Customer Name</th>
+                            <th class="text-center">Amount</th>
+                            <th class="text-center">Payment Type</th>
+                            <th class="text-center">Payment Satuts</th>
+                            <th class="text-center">Payment Date</th>
+                            <th class="text-end">Payment Time</th>
+                        </tr>
+                    </thead>
+                    <!-- <tbody>
+                        <tr *ngFor="let s of paginateData;let i=index">
+                            <td class="text-left">{{s.index}}</td>
+                            <td class="text-center">{{s.expensesdate | date:'dd/MM/yyyy'}}</td>
+                            <td class="text-center">{{s.expensesname}} </td>
+                            <td class="text-center">{{s.expensesprices}} </td>
+
+                            <td class="text-center">{{s.employeename }}</td>
+                            <td class="text-center">{{s.paymenttype }}</td>
+
+                            
+                        </tr>
+                    </tbody> -->
+                </table>
+            </div>
+            <div class="row mt-5">
+                <div class="d-flex justify-content-start gap">
+                    <div class="hstack gap-3">
+                        <div class="grid-example">Daily Total:
+                            <span class="text-primary"><b>
+                                    {{paginateData.total}} ₹</b></span>
+                        </div>
+                        <!-- <div class="col-md">
+                            <button type="button" class="btn btn-primary  " (click)="generateInvoicePDF()"><i
+                                    class="fa fa-file-pdf-0"></i>
+                                Invoice(PDF)</button>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
+                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getPagintaion();"
+                    aria-label="Default pagination"
+                    class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="isOpen==true">
+    <div class="card">
+        <div class="card-header">
+
+            <h5 class="card-title">panding List</h5>
+
+            <div class="d-flex justify-content-end gap-3" style="align-items: baseline;">
+                <label class="form-label ">Duration</label>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <input class="form-control flatpickr-input" type="text" mwlFlatpickr [altInput]="true"
+                            [convertModelValue]="true" (input)="onselection()" mode="range"
+                            [options]="flatpickrOptions">
+                    </div>
+                </div>
+                <!-- <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
+                    (click)="openAddExpense()"><i class="bx bx-user-plus label-icon"></i>
+                    Add New Expense</button> -->
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-left">#</th>
+                            <th class="text-center">Customer Name</th>
+                            <th class="text-center">Amount</th>
+                            <th class="text-center">Payment Type</th>
+                            <th class="text-center">Payment Satuts</th>
+                            <th class="text-center">Payment Date</th>
+                            <th class="text-end">Payment Time</th>
+                        </tr>
+                    </thead>
+                    <!-- <tbody>
+                        <tr *ngFor="let s of paginateData;let i=index">
+                            <td class="text-left">{{s.index}}</td>
+                            <td class="text-center">{{s.expensesdate | date:'dd/MM/yyyy'}}</td>
+                            <td class="text-center">{{s.expensesname}} </td>
+                            <td class="text-center">{{s.expensesprices}} </td>
+
+                            <td class="text-center">{{s.employeename }}</td>
+                            <td class="text-center">{{s.paymenttype }}</td>
+
+                            
+                        </tr>
+                    </tbody> -->
+                </table>
+            </div>
+            <div class="row mt-5">
+                <div class="d-flex justify-content-start gap">
+                    <div class="hstack gap-3">
+                        <div class="grid-example">Daily Total:
+                            <span class="text-primary"><b>
+                                    {{paginateData.total}} ₹</b></span>
+                        </div>
+                        <!-- <div class="col-md">
+                            <button type="button" class="btn btn-primary  " (click)="generateInvoicePDF()"><i
+                                    class="fa fa-file-pdf-0"></i>
+                                Invoice(PDF)</button>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
+                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getPagintaion();"
+                    aria-label="Default pagination"
+                    class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>

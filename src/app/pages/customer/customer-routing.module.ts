@@ -12,6 +12,7 @@ import { PurchaseMembershipComponent } from './purchase-membership/purchase-memb
 import { BannersComponent } from './banners/banners.component';
 import { VendorProductComponent } from './vendor-product/vendor-product.component';
 import { ProfileComponent } from './profile/profile.component';
+import { EarningsComponent } from './earnings/earnings.component';
 
 const routes: Routes = [
      {
@@ -58,6 +59,10 @@ const routes: Routes = [
           path: 'profile',
           component: ProfileComponent
      },
+     {
+          path: 'earnings',
+          component: EarningsComponent
+     }
 
 ];
 

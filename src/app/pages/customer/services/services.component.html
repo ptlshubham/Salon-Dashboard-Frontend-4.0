@@ -3,7 +3,8 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title">Add New Service Details</h5>
-                <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToTable()">
+                <button type="submit" class="btn btn-danger  waves-effect waves-light" (click)="backToTable()"
+                    ngbTooltip="Back to service list">
                     <i class="bx bx-arrow-back font-size-16 align-middle"></i>
                     Back</button>
             </div>
@@ -102,7 +103,7 @@
             <div class="d-flex justify-content-between">
                 <h5 class="card-title">Services List</h5>
                 <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
-                    (click)="openAddServices()"><i class="bx bx-user-plus label-icon"></i>
+                    ngbTooltip="Add new Service" (click)="openAddServices()"><i class="bx bx-user-plus label-icon"></i>
                     Add New Service Details</button>
             </div>
         </div>
@@ -123,9 +124,9 @@
                     <tbody>
                         <tr *ngFor="let s of paginateData;let i=index">
                             <td class="text-left">{{s.index}}</td>
-                            <td class="text-center">{{s.name}} </td>
-                            <td class="text-center">{{s.price}} </td>
-                            <td class="text-center">{{s.time}} </td>
+                            <td class="text-center">{{s.name}}</td>
+                            <td class="text-center">{{s.price}}₹ </td>
+                            <td class="text-center">{{s.time}} minute </td>
                             <td class="text-center">{{s.point}} </td>
                             <td class="text-center">{{s.epoint}} </td>
                             <td class="text-end">

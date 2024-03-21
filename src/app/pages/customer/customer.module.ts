@@ -21,6 +21,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { BannersComponent } from './banners/banners.component';
 import { ProfileComponent } from './profile/profile.component';
+import { EarningsComponent } from './earnings/earnings.component';
 
 
 
@@ -38,7 +39,8 @@ import { ProfileComponent } from './profile/profile.component';
     BannersComponent,
     AppointmentComponent,
     VendorProductComponent,
-    ProfileComponent
+    ProfileComponent,
+    EarningsComponent
   ],
   imports: [
     CommonModule,

@@ -56,8 +56,15 @@ export const MENU: MenuItem[] = [
   },
   {
     id: 10,
-    label: 'banners',
+    label: 'Banners',
     icon: 'mdi mdi-image-area',
     link: '/custom/banners'
+  },
+  {
+    id: 11,
+    label: 'Report',
+    icon: 'mdi mdi-script-text-outline',
+    link: '/custom/earnings'
   }
+
 ];

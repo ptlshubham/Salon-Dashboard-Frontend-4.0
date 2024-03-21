@@ -112,7 +112,6 @@ export class DashboardComponent implements OnInit {
     });
   }
   getOfferDetails() {
-
     this.offerService.getAllOfferList().subscribe((data: any) => {
       this.offerList = data;
     });
@@ -147,6 +146,9 @@ export class DashboardComponent implements OnInit {
   }
   openofferSerivce() {
     this.router.navigate(['/custom/combo-offer'])
+  }
+  openearnings() {
+    this.router.navigate(['/custom/earnings'])
   }
 
 
