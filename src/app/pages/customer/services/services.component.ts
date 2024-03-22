@@ -33,7 +33,8 @@ export class ServicesComponent {
 
     this.validationForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      price: ['', [Validators.required]],
+      price: [0, [Validators.required]],
+      totalcost: ['', [Validators.required]],
       time: ['', [Validators.required]],
       point: ['', [Validators.required]],
       epoint: ['', [Validators.required]],
