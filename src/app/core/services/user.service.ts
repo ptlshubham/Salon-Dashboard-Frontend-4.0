@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
     constructor(private http: HttpClient) { }
-  
+
     // userLogin(email: any, pass: any) {
     //     let data = {
     //         email: email,
@@ -52,10 +52,10 @@ export class UserProfileService {
 
     }
     userLogin(email: any, pass: any): Observable<any> {
-         
+
         const data = {
             email: email,
-            password:pass,
+            password: pass,
         };
 
         return this.http.post<any>(ApiService.getUserLoginURL, data);
@@ -74,14 +74,22 @@ export class UserProfileService {
 
         return this.http.post<any>(ApiService.updatePasswordURL, admin);
     }
-    changePassword(admin:any) {
+    changePassword(admin: any) {
         return this.http.post<any>(ApiService.updatePasswordURL, admin);
     }
-    CheckPassword(data:any) {
+    CheckPassword(data: any) {
         return this.http.post(ApiService.ChackForPasswordURL, data);
     }
-    UpdateLogout(data:any) {
-         
+    UpdateLogout(data: any) {
+
         return this.http.post(ApiService.updateLogoutDetailsURL, data);
+    }
+    UnlockScreen(pass: any, values: any): Observable<any> {
+        let data = {
+            id: values.uid,
+            password: pass
+        }
+        debugger
+        return this.http.post<any>(ApiService.UnlockScreenLockURL, data);
     }
 }

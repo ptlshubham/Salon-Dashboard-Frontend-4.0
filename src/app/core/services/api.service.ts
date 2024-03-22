@@ -15,6 +15,7 @@ export class ApiService {
     })
   }
   public static getUserLoginURL: string = ApiService.HOST_URL + '/authenticate/GetUsersLogin';
+  public static UnlockScreenLockURL: string=ApiService.HOST_URL+'/authenticate/UnlockScreenLock';
   public static updateLogoutDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateLogoutDetails'
   public static saveServicesListURL: string = ApiService.HOST_URL + '/admin/SaveServicesList';
   public static getAllServicesURL: string = ApiService.HOST_URL + '/admin/GetAllServices';

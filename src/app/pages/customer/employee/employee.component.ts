@@ -146,7 +146,7 @@ export class EmployeeComponent {
     this.employeeModel.state = this.selectedState;
     this.employeeModel.city = this.selectedCity;
     this.employeeModel.service = this.selectedServices;
-
+    
     this.employeeService.saveEmployeeList(this.employeeModel).subscribe((data: any) => {
       if (data = 'success') {
         this.toastr.success('Employee details added successfully', 'Success', { timeOut: 3000 });
@@ -202,10 +202,13 @@ export class EmployeeComponent {
     this.validationForm.controls['selectedServices'].setValue(data.services);
   }
   updateEmployeeDetail() {
+    this.employeeModel.gender = this.selectedGender;
     this.employeeService.updateEmpList(this.employeeModel).subscribe((req) => {
       this.toastr.success('Employee details updated successfully', 'Updated', { timeOut: 3000 });
-       this.getAllEmployee();
-    })
+      this.getAllEmployee();
+       this.isOpen = false;
+       this.isUpdate = false;
+    });
   }
   backToEmpPage() {
     this.showSalary = false;
