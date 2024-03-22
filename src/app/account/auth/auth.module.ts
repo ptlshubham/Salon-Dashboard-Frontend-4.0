@@ -6,7 +6,6 @@ import { NgOtpInputModule } from 'ng-otp-input';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthRoutingModule } from './auth-routing.module';
-import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RecoverpwdComponent } from './recoverpwd/recoverpwd.component';
 import { LockscreenComponent } from './lockscreen/lockscreen.component';
@@ -17,7 +16,6 @@ import { TwostepverificationComponent } from './twostepverification/twostepverif
 
 @NgModule({
   declarations: [
-    LoginComponent,
     RegisterComponent,
     RecoverpwdComponent,
     LockscreenComponent,

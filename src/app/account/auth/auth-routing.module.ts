@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RecoverpwdComponent } from './recoverpwd/recoverpwd.component';
 import { LockscreenComponent } from './lockscreen/lockscreen.component';
@@ -11,10 +10,6 @@ import { VerificationComponent } from './verification/verification.component';
 import { TwostepverificationComponent } from './twostepverification/twostepverification.component';
 
 const routes: Routes = [
-  {
-    path: 'admin-login',
-    component: LoginComponent,
-  },
   {
     path: 'register1',
     component: RegisterComponent,

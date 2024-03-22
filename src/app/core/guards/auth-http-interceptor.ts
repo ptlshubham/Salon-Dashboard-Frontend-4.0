@@ -19,8 +19,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
         let token: any = ls.get('authenticationToken', { decrypt: true });
         // let adminToken: any = ls.get('authenticationToken', { decrypt: true }) 
-        if (request.url != ApiService.getUserLoginURL && request.url != ApiService.getRegisterOtpURL && ApiService.saveUserCustomerListURL) {
-            
+        if (request.url != ApiService.getUserLoginURL && request.url != ApiService.getRegisterOtpURL && ApiService.saveUserCustomerListURL && request.url != ApiService.forgotPasswordURL && request.url != ApiService.getOneTimePasswordURL && request.url != ApiService.updatePasswordURL) {
+
             console.log("in the interceptor")
             request = request.clone({ headers: request.headers.set('x-access-token', token) });
             return next.handle(request).pipe(catchError(err => {
