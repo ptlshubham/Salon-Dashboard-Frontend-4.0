@@ -28,11 +28,12 @@ export class ApiService {
   public static saveLoginUserURL: string = ApiService.HOST_URL + '/authenticate/UserLogin';
   public static getAllCustomerURL: string = ApiService.HOST_URL + '/admin/GetAllCustomer';
   public static saveAppointmentListURL: string = ApiService.HOST_URL + '/admin/SaveBookingDetails';
-  public static updateAppointementEmployeeDetails: string = ApiService.HOST_URL + '/admin/UpdateAppointementEmployeeDetails';
-  public static removeAppointementEmployeeData: string = ApiService.HOST_URL + '/admin/RemoveAppointementEmployeeData';
+  public static updateAppointementEmployeeDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateAppointementEmployeeDetails';
+  public static removeAppointementEmployeeDataURL: string = ApiService.HOST_URL + '/admin/RemoveAppointementEmployeeData';
   public static getAllAppointmentURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';
   public static getViewAppointmentURL: string = ApiService.HOST_URL + '/admin/GetViewAppointment';
   public static getAllEnquiryListURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';
+  public static removeAppointmentDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveAppointmentDetails';
   public static getDailyTotalURL: string = ApiService.HOST_URL + '/admin/GetDailyTotal';
   public static getMonthlyTotalURL: string = ApiService.HOST_URL + '/admin/GetMonthlyTotal';
   public static updateCustomerListURL: string = ApiService.HOST_URL + '/admin/UpdateCustomerList';

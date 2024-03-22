@@ -16,8 +16,8 @@ export class CustomerService {
             this.bookingTimeInterval = data;
         });
     }
-    saveCustomerList(data: any){
-        
+    saveCustomerList(data: any) {
+
         return this.httpClient.post<any>(ApiService.saveCustomerListURL, data);
     }
     getAllCustomerList(): Observable<any> {
@@ -37,6 +37,9 @@ export class CustomerService {
             id: admin.id
         }
         return this.httpClient.post<any>(ApiService.getViewAppointmentURL, data);
+    }
+    removeCustomerAppointmentData(data: any) {
+        return this.httpClient.post<any>(ApiService.removeAppointmentDetailsURL, data);
     }
     getDailyTotalList(): Observable<any> {
         return this.httpClient.get<any>(ApiService.getDailyTotalURL);
@@ -108,8 +111,8 @@ export class CustomerService {
 
         return this.httpClient.post<any>(ApiService.removeLastInsertedOTPURL, data);
     }
-    getActivatedMembershipDetail(id:any){
-        
+    getActivatedMembershipDetail(id: any) {
+
         return this.httpClient.get<any>(ApiService.getActivatedMembershipURL + id);
     }
     saveRatingsDetailsById(data: any): Observable<any> {
