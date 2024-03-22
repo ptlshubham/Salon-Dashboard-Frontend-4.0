@@ -31,7 +31,7 @@ export class AppointmentComponent {
   isworking: boolean = false;
   paymemtDataModel: any = {};
   completeNumber: number = 0;
-
+  processNumber: number = 0;
   constructor(
     private employeeService: EmployeeService,
     private customerService: CustomerService,
@@ -56,13 +56,18 @@ export class AppointmentComponent {
       this.appointmentList = filteredData;
       for (let i = 0; i < this.appointmentList.length; i++) {
         this.appointmentList[i].index = i + 1;
-        this.customerService.getServicesListUsingId(data[i].id).subscribe((data: any) => {
-          this.usedServices = data;
-          for (let i = 0; i < this.usedServices.length; i++) {
-            this.usedServices[i].index = i + 1;
-          }
-        });
+        this.getUsedServicesDetails(data[i].id);
       }
+      this.collectionSize = this.appointmentList.length;
+      this.getPagintaion();
+    });
+  }
+  getRefreshAppointment() {
+    this.customerService.getAllAppointmentList().subscribe((data: any) => {
+      const filteredData = data.filter((element: any) => {
+        return element.isstatus !== 'Completed' || (!element.ispayment || element.ispayment === 0);
+      });
+      this.appointmentList = filteredData;
       this.collectionSize = this.appointmentList.length;
       this.getPagintaion();
     });
@@ -70,17 +75,20 @@ export class AppointmentComponent {
   getPagintaion() {
     this.paginateActiveData = this.appointmentList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
-  openUsedServiceList(obj: any, exlargeModal: any) {
-
-    this.userBookingData = obj;
-    this.totalPriceForDetails = obj.totalprice
-    this.totalPointForDetails = obj.totalpoint
-    this.customerService.getServicesListUsingId(obj.id).subscribe((data: any) => {
+  getUsedServicesDetails(id: any) {
+    this.customerService.getServicesListUsingId(id).subscribe((data: any) => {
       this.usedServices = data;
       for (let i = 0; i < this.usedServices.length; i++) {
         this.usedServices[i].index = i + 1;
       }
     });
+  }
+  openUsedServiceList(obj: any, exlargeModal: any) {
+
+    this.userBookingData = obj;
+    this.totalPriceForDetails = obj.totalprice
+    this.totalPointForDetails = obj.totalpoint
+    this.getUsedServicesDetails(obj.id);
     this.getOnlyIdealEmployee();
     this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
   }
@@ -96,51 +104,46 @@ export class AppointmentComponent {
         isstatus: 'Processing'
       }
       this.employeeService.updateAppoiEmployeeDetails(emp).subscribe((data: any) => {
-        this.customerService.getServicesListUsingId(this.userBookingData.id).subscribe((data: any) => {
-          this.usedServices = data;
-          for (let i = 0; i < this.usedServices.length; i++) {
-            this.usedServices[i].index = i + 1;
-          }
-          this.getOnlyIdealEmployee();
-          // this.getAllAppointment();
-        });
+        this.getRefreshAppointment();
+        this.getUsedServicesDetails(this.userBookingData.id);
+        this.getOnlyIdealEmployee();
       })
     }
     else {
-
-      this.customerService.getServicesListUsingId(this.userBookingData.id).subscribe((data: any) => {
-        this.usedServices = data;
-        for (let i = 0; i < this.usedServices.length; i++) {
-          this.usedServices[i].index = i + 1;
-        }
-        this.getOnlyIdealEmployee();
-      });
+      this.getUsedServicesDetails(this.userBookingData.id);
+      this.getOnlyIdealEmployee();
     }
   }
   removeEmployeeDetailsFormAppointement(data: any) {
-
-    data.isstatus = 'Hold',
-      data.bookingId = this.userBookingData.id,
-      this.employeeService.removeAppointementEmployeeDetails(data).subscribe((res: any) => {
-        this.customerService.getServicesListUsingId(this.userBookingData.id).subscribe((data: any) => {
-          this.usedServices = data;
-
-          for (let i = 0; i < this.usedServices.length; i++) {
-            this.usedServices[i].index = i + 1;
-          }
+    this.processNumber = 0;
+    for (let i = 0; i < this.usedServices.length; i++) {
+      if (this.usedServices[i].empid != null && this.usedServices[i].ifcomplete == false) {
+        this.processNumber = this.processNumber + 1;
+      }
+    }
+    if (this.processNumber > 1) {
+      data.isstatus = 'Processing',
+        data.bookingId = this.userBookingData.id,
+        this.employeeService.removeAppointementEmployeeDetails(data).subscribe((res: any) => {
+          this.getRefreshAppointment();
+          this.getUsedServicesDetails(this.userBookingData.id);
           this.getOnlyIdealEmployee();
-        });
-      })
+        })
+    }
+    else {
+      data.isstatus = 'Hold',
+        data.bookingId = this.userBookingData.id,
+        this.employeeService.removeAppointementEmployeeDetails(data).subscribe((res: any) => {
+          this.getRefreshAppointment();
+          this.getUsedServicesDetails(this.userBookingData.id);
+          this.getOnlyIdealEmployee();
+        })
+    }
+
   }
   openPaymentData(data: any, exxlargeModal: any) {
-
     this.paymemtDataModel = {};
-    this.customerService.getServicesListUsingId(data.id).subscribe((data: any) => {
-      this.usedServices = data;
-      for (let i = 0; i < this.usedServices.length; i++) {
-        this.usedServices[i].index = i + 1;
-      }
-    });
+    this.getUsedServicesDetails(data.id);
     this.paymemtDataModel = data;
     this.paymemtDataModel.services = this.usedServices;
     this.modalService.open(exxlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
@@ -191,6 +194,7 @@ export class AppointmentComponent {
       }
       this.collectionSizeEmployee = this.employeeReg.length;
       this.getEmployeePagintaion();
+      this.getAllAppointment();
     });
   }
   getEmployeePagintaion() {
@@ -210,6 +214,7 @@ export class AppointmentComponent {
       isworking: this.isworking = false
     }
     this.employeeService.updateEmpActiveStatus(valu).subscribe((data: any) => {
+      this.getAllEmployee();
     })
   }
   updateEmpProcessingDeActive(data: any) {
@@ -240,22 +245,21 @@ export class AppointmentComponent {
             CSId: data.CSId
           }
           this.customerService.updateCompleteServiceDetails(com).subscribe((data1: any) => {
-            this.customerService.getServicesListUsingId(this.userBookingData.id).subscribe((data: any) => {
-              this.usedServices = data;
-              this.usedServices.forEach((element: any) => {
-                if (element.ifcomplete == true) {
-                  this.completeNumber = this.completeNumber + 1;
-                }
-              });
-              if (this.usedServices.length == this.completeNumber) {
-                let req = {
-                  bookingId: this.userBookingData.id,
-                  isstatus: 'Completed'
-                }
-                this.customerService.updateCompleteStatusDetails(req).subscribe((data2: any) => {
-                })
+            this.getUsedServicesDetails(this.userBookingData.id);
+            this.usedServices.forEach((element: any) => {
+              if (element.ifcomplete == true) {
+                this.completeNumber = this.completeNumber + 1;
               }
             });
+            if (this.usedServices.length == this.completeNumber) {
+              let req = {
+                bookingId: this.userBookingData.id,
+                isstatus: 'Completed'
+              }
+              this.customerService.updateCompleteStatusDetails(req).subscribe((data2: any) => {
+
+              })
+            }
           })
           let valu = {
             id: data.empid,
@@ -270,5 +274,29 @@ export class AppointmentComponent {
         }
       });
     }
+  }
+  removeAppointmentData(data: any) {
+    debugger
+    this.getUsedServicesDetails(data.id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(result => {
+      if (result.value) {
+        var userData = [];
+        userData = data;
+        userData.usedServices = this.usedServices;
+        debugger
+        this.customerService.removeCustomerAppointmentData(userData).subscribe((req) => {
+          this.getAllAppointment();
+        })
+        Swal.fire('Deleted!', 'Service details has been deleted.', 'success');
+      }
+    });
   }
 }

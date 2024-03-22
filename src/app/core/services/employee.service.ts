@@ -37,10 +37,10 @@ export class EmployeeService {
         return this.httpClient.post<any>(ApiService.updateWorkingStatusURL, admin)
     }
     updateAppoiEmployeeDetails(admin: any): Observable<any> {
-        return this.httpClient.post<any>(ApiService.updateAppointementEmployeeDetails, admin)
+        return this.httpClient.post<any>(ApiService.updateAppointementEmployeeDetailsURL, admin)
     }
     removeAppointementEmployeeDetails(admin: any): Observable<any> {
-        return this.httpClient.post<any>(ApiService.removeAppointementEmployeeData, admin)
+        return this.httpClient.post<any>(ApiService.removeAppointementEmployeeDataURL, admin)
     }
     public getStateFromJson(): Observable<any[]> {
         return this.httpClient.get<any[]>('assets/json/state.json');
