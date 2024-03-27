@@ -756,46 +756,46 @@
                                             </div>
                                         </div>
 
-                                            <form [formGroup]="unlockForm">
-                                                <div class="mb-3">
-                                                    <label>Old Password </label>
-                                                    <input type="password" formControlName="password"
-                                                        [ngClass]="{ 'is-invalid': unlockSubmit && a.password.errors }"
-                                                        class="form-control" id="userpassword" placeholder="Old Password">
-                                                    <div *ngIf="unlockSubmit && a.password.errors" class="invalid-feedback">
-                                                        <div *ngIf="a.password.errors.required">Password is required</div>
-                                                    </div>
+                                        <form [formGroup]="unlockForm">
+                                            <div class="mb-3">
+                                                <label>Old Password </label>
+                                                <input type="password" [(ngModel)]="passwordValue"
+                                                    [ngModelOptions]="{standalone: true}" class="form-control"
+                                                    id="olduserpassword" placeholder="Old Password"
+                                                    (focusout)="onPasswordFocusOut()">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Password </label>
+                                                <input type="password" formControlName="password"
+                                                    [ngClass]="{ 'is-invalid': unlockSubmit && a.password.errors }"
+                                                    class="form-control" id="userpassword" placeholder="Enter Password">
+                                                <div *ngIf="unlockSubmit && a.password.errors" class="invalid-feedback">
+                                                    <div *ngIf="a.password.errors.required">Password is required</div>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label>Password </label>
-                                                    <input type="password" formControlName="password"
-                                                        [ngClass]="{ 'is-invalid': unlockSubmit && a.password.errors }"
-                                                        class="form-control" id="userpassword" placeholder="Enter Password">
-                                                    <div *ngIf="unlockSubmit && a.password.errors" class="invalid-feedback">
-                                                        <div *ngIf="a.password.errors.required">Password is required</div>
-                                                    </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Retype password</label>
+                                                <input type="password" formControlName="confirmpwd"
+                                                    placeholder="Retype Password"
+                                                    [ngClass]="{'is-invalid': unlockSubmit && a.confirmpwd.errors}"
+                                                    class="form-control" />
+                                                <div *ngIf="unlockSubmit && a.confirmpwd.errors"
+                                                    class="invalid-feedback">
+                                                    <span *ngIf="a.confirmpwd.errors.required">This value is
+                                                        required.</span>
+                                                    <span *ngIf="a.confirmpwd.errors.mustMatch">This value should be the
+                                                        same.</span>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label>Retype password</label>
-                                                    <input type="password" formControlName="confirmpwd"
-                                                        placeholder="Retype Password"
-                                                        [ngClass]="{'is-invalid': unlockSubmit && a.confirmpwd.errors}"
-                                                        class="form-control" />
-                                                    <div *ngIf="unlockSubmit && a.confirmpwd.errors" class="invalid-feedback">
-                                                        <span *ngIf="a.confirmpwd.errors.required">This value is
-                                                            required.</span>
-                                                        <span *ngIf="a.confirmpwd.errors.mustMatch">This value should be the
-                                                            same.</span>
-                                                    </div>
-                                                </div>
-                                                <div class="text-end">
-                                                    <button class="btn btn-primary  waves-effect waves-light" type="submit"
-                                                        (click)="onResetSubmit()">Change</button>
-                                                </div>
-                                            </form>
-        
-                                            
-        
+                                            </div>
+                                            <div class="text-end">
+                                                <button class="btn btn-primary  waves-effect waves-light"
+                                                    [disabled]="!valid" type="submit"
+                                                    (click)="onResetSubmit()">Change</button>
+                                            </div>
+                                        </form>
+
+
+
                                     </div>
                                     <!-- end card body -->
                                 </div>
