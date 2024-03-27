@@ -23,7 +23,6 @@ export class EmployeeService {
     getOnlyIdealEmployee(): Observable<any[]> {
         return this.httpClient.get<any>(ApiService.getOnlyIdealEmployeeList);
     }
-    
     removeEmployeeList(id: any) {
         let data = {
             id: id
@@ -41,6 +40,16 @@ export class EmployeeService {
     }
     removeAppointementEmployeeDetails(admin: any): Observable<any> {
         return this.httpClient.post<any>(ApiService.removeAppointementEmployeeDataURL, admin)
+    }
+    removeRegularUsedService(admin: any): Observable<any> {
+        
+        return this.httpClient.post<any>(ApiService.removeRegularItemsFromServicesURL, admin)
+    }
+    removeMemberUsedService(admin: any): Observable<any> {
+        return this.httpClient.post<any>(ApiService.removeMembershipItemsFromServicesURL, admin)
+    }
+    removeComboUsedService(admin: any): Observable<any> {
+        return this.httpClient.post<any>(ApiService.removeComboItemsFromServicesURL, admin)
     }
     public getStateFromJson(): Observable<any[]> {
         return this.httpClient.get<any[]>('assets/json/state.json');

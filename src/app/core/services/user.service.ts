@@ -89,7 +89,7 @@ export class UserProfileService {
             id: values.uid,
             password: pass
         }
-        debugger
+        
         return this.http.post<any>(ApiService.UnlockScreenLockURL, data);
     }
 }

@@ -15,7 +15,7 @@ export class ApiService {
     })
   }
   public static getUserLoginURL: string = ApiService.HOST_URL + '/authenticate/GetUsersLogin';
-  public static UnlockScreenLockURL: string=ApiService.HOST_URL+'/authenticate/UnlockScreenLock';
+  public static UnlockScreenLockURL: string = ApiService.HOST_URL + '/authenticate/UnlockScreenLock';
   public static updateLogoutDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateLogoutDetails'
   public static saveServicesListURL: string = ApiService.HOST_URL + '/admin/SaveServicesList';
   public static getAllServicesURL: string = ApiService.HOST_URL + '/admin/GetAllServices';
@@ -30,6 +30,9 @@ export class ApiService {
   public static saveAppointmentListURL: string = ApiService.HOST_URL + '/admin/SaveBookingDetails';
   public static updateAppointementEmployeeDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateAppointementEmployeeDetails';
   public static removeAppointementEmployeeDataURL: string = ApiService.HOST_URL + '/admin/RemoveAppointementEmployeeData';
+  public static removeRegularItemsFromServicesURL: string = ApiService.HOST_URL + '/admin/RemoveRegularItemsFromServices';
+  public static removeMembershipItemsFromServicesURL: string = ApiService.HOST_URL + '/admin/RemoveMembershipItemsFromServices';
+  public static removeComboItemsFromServicesURL: string = ApiService.HOST_URL + '/admin/RemoveComboItemsFromServices';
   public static getAllAppointmentURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';
   public static getViewAppointmentURL: string = ApiService.HOST_URL + '/admin/GetViewAppointment';
   public static getAllEnquiryListURL: string = ApiService.HOST_URL + '/admin/GetAllAppointment';

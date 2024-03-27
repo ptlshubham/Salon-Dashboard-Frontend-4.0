@@ -32,6 +32,9 @@ export class AppointmentComponent {
   paymemtDataModel: any = {};
   completeNumber: number = 0;
   processNumber: number = 0;
+  point: number = 0;
+  price: number = 0;
+  time: number = 0;
   constructor(
     private employeeService: EmployeeService,
     private customerService: CustomerService,
@@ -161,23 +164,40 @@ export class AppointmentComponent {
       confirmButtonText: 'Yes, delete it!'
     }).then(result => {
       if (result.value) {
-        data
-        debugger
         if (data.servicetype == 'Combo') {
           const comboIdToRemove = data.comboid;
-          this.usedServices = this.usedServices.filter((item: any) => item.comboid !== comboIdToRemove);
+          
+          this.usedServices.forEach((element: any) => {
+            
+            if (element.comboid == comboIdToRemove && element.appointmentid == data.appointmentid) {
+              
+              this.point = this.point + element.point;
+              this.price = this.price + element.price;
+              this.time = this.time + element.time;
+            }
+          });
+          
+          data.removepoint = this.point;
+          data.removeprice = this.price;
+          data.removetime = this.time;
+          this.employeeService.removeComboUsedService(data).subscribe((req) => {
+            this.usedServices = this.usedServices.filter((item: any) => item.comboid !== comboIdToRemove);
+          })
         }
         else if (data.servicetype == 'Membership') {
-          this.usedServices.splice(index, 1);
+          
+          this.employeeService.removeMemberUsedService(data).subscribe((req) => {
+            this.usedServices.splice(index, 1);
+          })
         }
         else if (data.servicetype == 'Regular') {
-          this.usedServices.splice(index, 1);
+          this.employeeService.removeRegularUsedService(data).subscribe((req) => {
+            this.usedServices.splice(index, 1);
+          })
         }
         for (let i = 0; i < this.usedServices.length; i++) {
           this.usedServices[i].index = i + 1;
         }
-        // this.employeeService.removeEmployeeList(id).subscribe((req) => {
-        // })
         Swal.fire('Deleted!', 'Service details has been deleted.', 'success');
       }
     });
@@ -276,7 +296,7 @@ export class AppointmentComponent {
     }
   }
   removeAppointmentData(data: any) {
-    debugger
+    
     this.getUsedServicesDetails(data.id);
     Swal.fire({
       title: 'Are you sure?',
@@ -291,7 +311,7 @@ export class AppointmentComponent {
         var userData = [];
         userData = data;
         userData.usedServices = this.usedServices;
-        debugger
+        
         this.customerService.removeCustomerAppointmentData(userData).subscribe((req) => {
           this.getAllAppointment();
         })

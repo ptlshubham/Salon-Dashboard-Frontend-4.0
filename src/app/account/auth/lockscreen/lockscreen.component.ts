@@ -74,7 +74,7 @@ export class LockscreenComponent implements OnInit {
       return;
     } else {
       this.loginService.UnlockScreen(this.f.password.value, this.lsData).subscribe((data: any) => {
-        debugger
+        
         console.log(data);
         console.log(data);
         if (data == 1) {
