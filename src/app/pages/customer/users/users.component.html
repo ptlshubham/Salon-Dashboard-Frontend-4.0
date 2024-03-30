@@ -264,7 +264,6 @@
                                 </td>
                                 <td class="text-center">{{s.whatsapp}} </td>
                                 <td class="text-center">{{s.gender}} </td>
-                                <!-- <td class="text-center">{{s.status}} </td> -->
                                 <td class="text-end">
                                     <div class="d-flex justify-content-end gap-1">
                                         <button type="button" class="btn btn-soft-success waves-effect waves-light"
@@ -536,7 +535,6 @@
                                         <th class="text-center">Price</th>
                                         <th class="text-center">Point</th>
                                         <th class="text-center">Approx Time</th>
-                                        <!-- <th class="text-center">Select Team Member</th> -->
                                         <th class="text-center">Services Type</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
@@ -548,14 +546,6 @@
                                         <td class="text-center">{{ a.price }} ₹</td>
                                         <td class="text-center">{{ a.serpoint }}</td>
                                         <td class="text-center">{{ a.time }}</td>
-                                        <!-- <td class="text-center">
-                                            <ng-select [items]="employeeReg" bindLabel="employeeName"
-                                                placeholder="Select Team Member" (change)="onEmployeeChange($event,i)">
-                                                <ng-template ng-optgroup-tmp let-item="item">
-                                                    {{item.employeeName || 'Unnamed group'}}
-                                                </ng-template>
-                                            </ng-select>
-                                        </td> -->
                                         <th class="text-center">
                                             <span class="badge bg-warning">{{a.servicetype}}</span>
                                         </th>
@@ -609,7 +599,6 @@
                                     <th class="text-center">Services Name</th>
                                     <th class="text-center">Total Quantity</th>
                                     <th class="text-center">Remaining Quantity</th>
-                                    <!-- <th class="text-center">Select Team Member</th> -->
                                     <th class="text-center">Services Type</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
@@ -620,15 +609,6 @@
                                     <td class="text-center">{{ a.servicesname }}</td>
                                     <td class="text-center">{{ a.totalquantity }}</td>
                                     <td class="text-center">{{ a.remainingquantity }}</td>
-                                    <!-- <td class="text-center">
-                                        <ng-select [items]="employeeReg" bindLabel="employeeName"
-                                            placeholder="Select Team Member"
-                                            (change)="onEmployeeMemberChange($event,i)">
-                                            <ng-template ng-optgroup-tmp let-item="item">
-                                                {{item.employeeName || 'Unnamed group'}}
-                                            </ng-template>
-                                        </ng-select>
-                                    </td> -->
                                     <th class="text-center">
                                         <span class="badge bg-success">{{a.servicetype}}</span>
                                     </th>
@@ -678,23 +658,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            <div class="mb-3">
-                                <label for="choices-single-default" class="form-label">Select
-                                    Team Member</label>
-                                <ng-select [items]="employeeReg" bindLabel="employeeName" formControlName="employeeName"
-                                    placeholder="Select Team Member" [(ngModel)]="servicesModel.employee"
-                                    [ngClass]="{'is-invalid': fs.employeeName.touched && fs.employeeName.errors}">
-                                    <ng-template ng-optgroup-tmp let-item="item">
-                                        {{item.employeeName || 'Unnamed group'}}
-                                    </ng-template>
-                                </ng-select>
-                                <div *ngIf="fs.employeeName.touched && fs.employeeName.errors" class="invalid-feedback">
-                                    <span *ngIf="fs.employeeName.errors.required">This field is
-                                        required.</span>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-xs-4">
                             <button type="submit" class="btn btn-primary" style="margin-top:1.7rem !important"
                                 [disabled]="validationServiceForm.invalid" (click)="saveTempServiceDetail()"><i
@@ -710,7 +673,6 @@
                         <tr>
                             <th class="text-left">#</th>
                             <th class="text-center">Services Name</th>
-                            <!-- <th class="text-center">Employee Name</th> -->
                             <th class="text-center">Price</th>
                             <th class="text-center">Point</th>
                             <th class="text-center">Approx Time</th>
@@ -722,7 +684,6 @@
                         <tr *ngFor="let a of tempServiceData;let i=index">
                             <td class="text-left">{{a.index}}</td>
                             <td class="text-center">{{ a.servicesname }}</td>
-                            <!-- <td class="text-center">{{ a.employeename }}</td> -->
                             <td class="text-center">{{ a.price }} ₹</td>
                             <td class="text-center">{{ a.serpoint }}</td>
                             <td class="text-center">{{ a.time }}</td>
@@ -744,14 +705,14 @@
                     </tbody>
 
                 </table>
-                <div class="d-flex flex-wrap gap-1 mt-3">
+                <div class="d-flex flex-wrap gap-1 mt-3 justify-content-end">
                     <div class="hstack gap-3">
                         <div class="grid-example">Total Points:<br>
                             <span class="text-primary"><b>
                                     {{tCustPoint}}</b></span>
                         </div>
-                        <div class="vr"></div>
-                        <form [formGroup]="validationReedemPointsForm">
+                        <!-- <div class="vr"></div> -->
+                        <!-- <form [formGroup]="validationReedemPointsForm">
                             <div class="form-group">
                                 <input type="number" formControlName="reedempoints"
                                     [ngClass]="{ 'is-invalid': fp.reedempoints.touched && fp.reedempoints.errors }"
@@ -765,7 +726,7 @@
                                         points required for reedem.</div>
                                 </div>
                             </div>
-                        </form>
+                        </form> -->
                         <div class="vr"></div>
                         <div class="grid-example">Total Price:<br><span class="text-success"><b>{{totalTempPrice}}
                                     ₹</b></span>

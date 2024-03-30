@@ -6,7 +6,6 @@ import { ExpensesService } from 'src/app/core/services/expenses.service';
 import { VendorService } from 'src/app/core/services/vendor.service';
 import { OfferService } from 'src/app/core/services/offer.service';
 import { MembershipService } from 'src/app/core/services/membership.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { BannersService } from 'src/app/core/services/banners.service';
 @Component({
@@ -31,7 +30,7 @@ export class DashboardComponent implements OnInit {
   offerList: any = [];
   ExpensesList: any = [];
   MembershipList: any = [];
-
+  totalExpense: number = 0;
 
   page = 1;
   pageSize = 10;
@@ -55,6 +54,7 @@ export class DashboardComponent implements OnInit {
     private router: Router,
 
   ) {
+
   }
 
   option = {
@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit {
   }
   getwebsilder() {
     this.bannersService.getWebSlider().subscribe((res: any) => {
-      
+
       this.imagesData = res;
       for (let i = 0; i < this.imagesData.length; i++) {
         this.imagesData[i].index = i + 1;
@@ -102,10 +102,33 @@ export class DashboardComponent implements OnInit {
     });
   }
   getExpensesDetails() {
-    this.expensesService.getAllExpensesList().subscribe((data: any) => {
-      this.dailyexpensesList = data;
+    this.expensesService.getAllExpensesList().subscribe((data: any[]) => {
+      const todayDate = new Date().toISOString().slice(0, 10); // Get today's date in "YYYY-MM-DD" format
+      const todayExpenses = data.filter((expense: any) => {
+        const expenseDate = expense.expensesdate.slice(0, 10); // Get date part only
+        return expenseDate === todayDate && expense.expensesprices > 0;
+      });
+  
+      // Calculate total expense amount for today
+      let totalExpense = 0;
+      todayExpenses.forEach((expense: any) => {
+        totalExpense += expense.expensesprices;
+      });
+  
+      // Store total expense amount in the variable
+      this.totalExpense = totalExpense;
+  
+      // Store filtered expenses in dailyexpensesList
+      this.dailyexpensesList = todayExpenses;
     });
   }
+  
+  
+  
+  
+  
+
+
   getVendorServiceDetails() {
     this.vendorService.getAllVendorList().subscribe((data: any) => {
       this.vendorList = data;

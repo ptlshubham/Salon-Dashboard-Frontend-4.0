@@ -1,7 +1,11 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { EmployeeService } from 'src/app/core/services/employee.service';
+import { OfferService } from 'src/app/core/services/offer.service';
+import { ServiceListService } from 'src/app/core/services/services.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -9,9 +13,10 @@ import Swal from 'sweetalert2';
   templateUrl: './appointment.component.html',
   styleUrl: './appointment.component.scss'
 })
-export class AppointmentComponent {
+export class AppointmentComponent implements OnInit {
 
   appointmentList: any = [];
+  pendingList: any = [];
   usedServices: any = [];
   public employeeReg: any[] = [];
   public idealEmployee: any[] = [];
@@ -20,6 +25,13 @@ export class AppointmentComponent {
   pageSize = 5;
   collectionSize = 0;
   paginateActiveData: any = [];
+  paginatePendingData: any = [];
+
+
+  pagePe = 1;
+  pageSizePe = 5;
+  collectionSizePe = 0;
+  paginateActiveDataPe: any = [];
 
   totalPriceForDetails: number = 0;
   totalPointForDetails: number = 0;
@@ -35,40 +47,107 @@ export class AppointmentComponent {
   point: number = 0;
   price: number = 0;
   time: number = 0;
+  refreshSubscription: Subscription;
+
+  validationServiceForm!: FormGroup;
+
+  comboOfferList: any = [];
+  tempServiceData: any = [];
+  offerServicesDataList: any = [];
+  totalprice: any = 0;
+  totalPoint: any = 0;
+  totaltime: any = 0;
+  offerPrice: any = 0;
+  tempComboOfferData: any = [];
+  tempEmployeeData: any = [];
+  selectedComboOffer: any = null;
+  selectedComboId: any;
+  servicesList: any = [];
+
+  totalTempPrice: any = 0;
+  totalTempPoint: any = 0;
+  totalTempTime: any = 0;
+
+  activeMembership: any = [];
+  dataMembership: any = [];
+  tempActiveMembership: any = [];
+  selectedActiveMembership: any = [];
+
+  searchQuery: string = '';
+  filteredCustomerList: any = [];
+  isPurchaseOpen: any;
+
+  appointmentModel: any = {};
+  isCombo: boolean = false;
+  selectedCustId: any;
+  servicesModel: any = {};
+  tCustPoint: any = 0;
+
+  customerModel: any = {};
+
   constructor(
     private employeeService: EmployeeService,
     private customerService: CustomerService,
     private modalService: NgbModal,
-    private offcanvasService: NgbOffcanvas
+    private offcanvasService: NgbOffcanvas,
+    public formBuilder: UntypedFormBuilder,
+    private offerService: OfferService,
+    private servicesService: ServiceListService,
 
   ) {
+    this.refreshSubscription = this.customerService.refresh$.subscribe(() => {
+      this.getAllAppointment();
+      this.getOnlyIdealEmployee();
+      this.userBookingData = {};
+      this.getPendingAppointment(); // Refresh dashboard
+    });
     this.getAllAppointment();
     this.getOnlyIdealEmployee();
     this.userBookingData = {};
+    this.getPendingAppointment();
   }
+  ngOnInit(): void {
+
+    this.validationServiceForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+    });
+  }
+  get fs() { return this.validationServiceForm.controls; }
 
   openRight(content: TemplateRef<any>) {
     this.getAllEmployee();
     this.offcanvasService.open(content, { position: 'end' });
   }
+
   getAllAppointment() {
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
     this.customerService.getAllAppointmentList().subscribe((data: any) => {
       const filteredData = data.filter((element: any) => {
-        return element.isstatus !== 'Completed' || (!element.ispayment || element.ispayment === 0);
+        const bookingDate = new Date(element.bookingdate);
+        bookingDate.setHours(0, 0, 0, 0);
+        return (element.isstatus !== 'Completed' || (!element.ispayment || element.ispayment === 0)) &&
+          bookingDate.getTime() === todayDate.getTime();
       });
       this.appointmentList = filteredData;
-      for (let i = 0; i < this.appointmentList.length; i++) {
-        this.appointmentList[i].index = i + 1;
-        this.getUsedServicesDetails(data[i].id);
-      }
+      // for (let i = 0; i < this.appointmentList.length; i++) {
+      //   this.appointmentList[i].index = i + 1;
+      //   this.getUsedServicesDetails(data[i].id);
+      // }
       this.collectionSize = this.appointmentList.length;
       this.getPagintaion();
     });
   }
   getRefreshAppointment() {
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
+
     this.customerService.getAllAppointmentList().subscribe((data: any) => {
       const filteredData = data.filter((element: any) => {
-        return element.isstatus !== 'Completed' || (!element.ispayment || element.ispayment === 0);
+        const bookingDate = new Date(element.bookingdate);
+        bookingDate.setHours(0, 0, 0, 0);
+        return (element.isstatus !== 'Completed' || (!element.ispayment || element.ispayment === 0)) &&
+          (bookingDate.getTime() === todayDate.getTime());
       });
       this.appointmentList = filteredData;
       this.collectionSize = this.appointmentList.length;
@@ -76,6 +155,9 @@ export class AppointmentComponent {
     });
   }
   getPagintaion() {
+    for (let i = 0; i < this.appointmentList.length; i++) {
+      this.appointmentList[i].index = i + 1;
+    }
     this.paginateActiveData = this.appointmentList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
   getUsedServicesDetails(id: any) {
@@ -144,13 +226,15 @@ export class AppointmentComponent {
     }
 
   }
-  openPaymentData(data: any, exxlargeModal: any) {
+  openPaymentData(data: any, content: any) {
     this.paymemtDataModel = {};
     this.getUsedServicesDetails(data.id);
     this.paymemtDataModel = data;
     this.paymemtDataModel.services = this.usedServices;
-    this.modalService.open(exxlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
+    this.modalService.open(content, {windowClass: 'modal-holder', centered: true });
   }
+
+
 
   removeItemFromUsedServices(index: any, data: any) {
 
@@ -166,17 +250,15 @@ export class AppointmentComponent {
       if (result.value) {
         if (data.servicetype == 'Combo') {
           const comboIdToRemove = data.comboid;
-          
+
           this.usedServices.forEach((element: any) => {
-            
             if (element.comboid == comboIdToRemove && element.appointmentid == data.appointmentid) {
-              
               this.point = this.point + element.point;
               this.price = this.price + element.price;
               this.time = this.time + element.time;
             }
           });
-          
+
           data.removepoint = this.point;
           data.removeprice = this.price;
           data.removetime = this.time;
@@ -185,7 +267,7 @@ export class AppointmentComponent {
           })
         }
         else if (data.servicetype == 'Membership') {
-          
+
           this.employeeService.removeMemberUsedService(data).subscribe((req) => {
             this.usedServices.splice(index, 1);
           })
@@ -214,7 +296,6 @@ export class AppointmentComponent {
       }
       this.collectionSizeEmployee = this.employeeReg.length;
       this.getEmployeePagintaion();
-      this.getAllAppointment();
     });
   }
   getEmployeePagintaion() {
@@ -296,7 +377,7 @@ export class AppointmentComponent {
     }
   }
   removeAppointmentData(data: any) {
-    
+
     this.getUsedServicesDetails(data.id);
     Swal.fire({
       title: 'Are you sure?',
@@ -311,7 +392,7 @@ export class AppointmentComponent {
         var userData = [];
         userData = data;
         userData.usedServices = this.usedServices;
-        
+
         this.customerService.removeCustomerAppointmentData(userData).subscribe((req) => {
           this.getAllAppointment();
         })
@@ -319,4 +400,309 @@ export class AppointmentComponent {
       }
     });
   }
+  getPendingAppointment() {
+    this.customerService.getAllAppointmentList().subscribe((data: any) => {
+      const currentDateUTC = new Date().toISOString();
+      this.pendingList = data.filter((item: any) => {
+        return item.bookingdate > currentDateUTC;
+      });
+
+      // Sort pendingList in ascending order based on booking date
+      this.pendingList.sort((a: any, b: any) => {
+        return new Date(a.bookingdate).getTime() - new Date(b.bookingdate).getTime();
+      });
+
+      this.collectionSizePe = this.pendingList.length;
+      this.getPendingPagintaion();
+    });
+  }
+
+  getPendingPagintaion() {
+    for (let i = 0; i < this.pendingList.length; i++) {
+      this.pendingList[i].index = i + 1;
+    }
+    this.paginatePendingData = this.pendingList.slice((this.pagePe - 1) * this.pageSizePe, (this.pagePe - 1) * this.pageSizePe + this.pageSizePe);
+  }
+
+  openAddNewService(servicesexlargeModal: any) {
+    this.getOfferDetails();
+
+    this.validationServiceForm.markAsUntouched();
+    this.tempServiceData = [];
+    this.selectedCustId = this.userBookingData.cId;
+    this.customerModel = this.userBookingData;
+    
+    this.customerModel.customerName = this.userBookingData.fname + ' ' + this.userBookingData.lname;
+    this.getAllServices();
+    this.getAllEmployee();
+    this.viewMembershipDetails();
+    this.addOldSelectedServices();
+    this.modalService.open(servicesexlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
+  }
+
+  addOldSelectedServices() {
+    this.usedServices
+    
+    for (let i = 0; i < this.usedServices.length; i++) {
+      this.tempServiceData.push({
+        time: this.usedServices[i].time,
+        serpoint: this.usedServices[i].point,
+        price: this.usedServices[i].price,
+        servicesname: this.usedServices[i].servicesname,
+        selectedServid: this.usedServices[i].servicesid,
+        servicetype: this.usedServices[i].servicetype,
+        memid: this.usedServices[i].memid,
+        comboId: this.usedServices[i].comboid,
+        CSId:this.usedServices[i].CSId,
+        appointmentid:this.usedServices[i].appointmentid,
+      });
+    }
+    for (let i = 0; i < this.tempServiceData.length; i++) {
+      this.tempServiceData[i].index = i + 1;
+    }
+    this.calculateTempServicePointsList();
+  }
+  getOfferDetails() {
+    this.offerService.getActiveOfferList().subscribe((data: any) => {
+      this.comboOfferList = data;
+    });
+  }
+  getAllServices() {
+    this.servicesService.getAllServicesList().subscribe((data: any) => {
+      this.servicesList = data;
+    });
+  }
+
+  onComboOfferChange(data: any): void {
+
+    this.totalPoint = 0;
+    this.totalprice = 0;
+    this.totaltime = 0;
+    this.offerPrice = 0;
+    this.offerServicesDataList = [];
+    this.tempComboOfferData = [];
+    this.selectedComboId = data.id;
+
+    this.offerPrice = data.offerprice;
+    this.offerService.getAllOfferDataList(data.id).subscribe((data: any) => {
+      this.offerServicesDataList = data;
+
+      for (let i = 0; i < this.offerServicesDataList.length; i++) {
+        this.servicesList.forEach((element: any) => {
+          if (element.id == this.offerServicesDataList[i].serviceId) {
+            this.tempComboOfferData.push({
+              time: element.time,
+              serpoint: element.point,
+              price: element.price,
+              servicesname: element.name,
+              selectedServid: element.id,
+              servicetype: 'Combo',
+              comboId: this.selectedComboId
+            })
+          }
+        });
+      }
+      this.selectedComboOffer = null;
+      for (let i = 0; i < this.tempComboOfferData.length; i++) {
+        this.tempComboOfferData[i].index = i + 1;
+      }
+      this.calculatePointsList()
+    });
+  }
+  calculatePointsList() {
+    this.tempComboOfferData.forEach((element: any) => {
+      if (element.price != undefined) {
+        this.totalprice = this.totalprice + element.price;
+      }
+      if (element.serpoint != undefined) {
+        this.totalPoint = this.totalPoint + element.serpoint;
+      }
+      if (element.time != undefined) {
+        this.totaltime = this.totaltime + element.time;
+      }
+    });
+  }
+  removeItemFromComboOffer(i: any, data: any) {
+    if (data.servicetype == 'Combo') {
+      const comboIdToRemove = data.comboId;
+      this.tempComboOfferData = this.tempComboOfferData.filter((item: any) => item.comboId !== comboIdToRemove);
+    }
+    for (let i = 0; i < this.tempComboOfferData.length; i++) {
+      this.tempComboOfferData[i].index = i + 1;
+    }
+    this.calculatePointsList();
+  }
+  saveComboOffer() {
+    for (let i = 0; i < this.offerServicesDataList.length; i++) {
+      this.servicesList.forEach((element: any) => {
+        if (element.id == this.offerServicesDataList[i].serviceId) {
+          this.tempServiceData.push({
+            time: element.time,
+            serpoint: element.point,
+            price: element.price,
+            servicesname: element.name,
+            selectedServid: element.id,
+            servicetype: 'Combo',
+            // employeename: this.offerServicesDataList[i].employeename,
+            // selectedEmpid: this.offerServicesDataList[i].selectedEmpid,
+            comboId: this.selectedComboId
+          })
+        }
+      });
+    }
+    for (let i = 0; i < this.tempServiceData.length; i++) {
+      this.tempServiceData[i].index = i + 1;
+    }
+    this.offerServicesDataList = [];
+    this.selectedComboOffer = null;
+    this.calculateTempServicePointsList();
+    this.isCombo = true;
+  }
+  calculateTempServicePointsList() {
+    this.totalTempPoint = 0;
+    this.totalTempPrice = 0;
+    this.totalTempTime = 0;
+
+    this.tempServiceData.forEach((element: any) => {
+      if (element.price != undefined) {
+        this.totalTempPrice = this.totalTempPrice + element.price;
+      }
+      if (element.serpoint != undefined) {
+        this.totalTempPoint = this.totalTempPoint + element.serpoint;
+      }
+      if (element.time != undefined) {
+        this.totalTempTime = this.totalTempTime + element.time;
+      }
+    });
+  }
+  selectedMemberService(data: any) {
+
+    if (data.isChecked == true) {
+      this.selectedActiveMembership.push({
+        time: data.time,
+        serpoint: data.serpoint,
+        price: data.price,
+        servicesname: data.servicesname,
+        selectedServid: data.selectedServid,
+        servicetype: 'Membership',
+        // employeename: data.employeename,
+        // selectedEmpid: data.selectedEmpid,
+        memid: data.memid,
+        isChecked: true
+      });
+      for (let i = 0; i < this.selectedActiveMembership.length; i++) {
+        this.selectedActiveMembership[i].index = i + 1;
+      }
+    }
+    else if (data.isChecked == false) {
+      this.selectedActiveMembership.forEach((element: any, index: number) => {
+        if (element.servicetype == 'Membership' && element.selectedServid == data.selectedServid) {
+
+          this.selectedActiveMembership.splice(index, 1);
+        }
+      });
+    }
+  }
+  saveMemberShipData() {
+    this.selectedActiveMembership.forEach((element: any) => {
+
+      if (!this.tempServiceData.some((item: any) => item.selectedServid === element.selectedServid)) {
+        this.tempServiceData.push({
+          time: element.time,
+          serpoint: element.serpoint,
+          price: element.price,
+          servicesname: element.servicesname,
+          selectedServid: element.selectedServid,
+          servicetype: element.servicetype,
+          // employeename: element.employeename,
+          memid: element.memid,
+          // selectedEmpid: element.selectedEmpid,
+        });
+      }
+    });
+    for (let i = 0; i < this.tempServiceData.length; i++) {
+      this.tempServiceData[i].index = i + 1;
+    }
+    this.viewMembershipDetails();
+    this.calculateTempServicePointsList();
+  }
+  viewMembershipDetails() {
+    this.dataMembership = [];
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const todaydate = `${year}-${month}-${day}`;
+    this.activeMembership = [];
+    this.tempActiveMembership = [];
+    this.selectedActiveMembership = [];
+    this.customerService.getActivatedMembershipDetail(this.selectedCustId).subscribe((data: any) => {
+      this.dataMembership = data;
+      this.dataMembership.forEach((element: any) => {
+
+        if (todaydate < element.validitydate) {
+          this.activeMembership.push(element);
+        }
+      });
+      for (let i = 0; i < this.activeMembership.length; i++) {
+        this.activeMembership[i].index = i + 1;
+      }
+      for (let i = 0; i < this.activeMembership.length; i++) {
+        this.servicesList.forEach((element: any) => {
+          if (element.id == this.activeMembership[i].serid) {
+            this.tempActiveMembership.push({
+              index: i + 1,
+              time: element.time,
+              serpoint: element.point,
+              price: element.price,
+              servicesname: element.name,
+              selectedServid: element.id,
+              totalquantity: this.activeMembership[i].quntity,
+              remainingquantity: this.activeMembership[i].remainingquantity,
+              servicetype: 'Membership',
+              memid: this.activeMembership[i].memid,
+              isChecked: false
+            })
+          }
+        });
+      }
+      for (let i = 0; i < this.tempActiveMembership.length; i++) {
+        this.tempActiveMembership[i].index = i + 1;
+      }
+    })
+  }
+  saveTempServiceDetail() {
+
+    this.tempServiceData.push({
+      time: this.servicesModel.Service.time,
+      serpoint: this.servicesModel.Service.point,
+      price: this.servicesModel.Service.price,
+      servicesname: this.servicesModel.Service.name,
+      selectedServid: this.servicesModel.Service.id,
+      // employeename: this.servicesModel.employee.employeeName,
+      // selectedEmpid: this.servicesModel.employee.id,
+      servicetype: 'Regular'
+    });
+    this.servicesModel = {};
+    this.validationServiceForm.markAsUntouched();
+    for (let i = 0; i < this.tempServiceData.length; i++) {
+      this.tempServiceData[i].index = i + 1;
+    }
+    this.calculateTempServicePointsList();
+  }
+  removeItemFromAppointement(i: any, data: any) {
+    if (data.servicetype == 'Combo') {
+      const comboIdToRemove = data.comboId;
+      this.tempServiceData = this.tempServiceData.filter((item: any) => item.comboId !== comboIdToRemove);
+      this.isCombo = false;
+    }
+    else {
+      this.tempServiceData.splice(i, 1);
+    }
+    for (let i = 0; i < this.tempServiceData.length; i++) {
+      this.tempServiceData[i].index = i + 1;
+    }
+    this.calculateTempServicePointsList();
+  }
+
 }

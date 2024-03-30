@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit{
   isOpen: boolean = false;
   isUpdate: boolean = false;
   isCustData: boolean = true;
@@ -654,7 +654,7 @@ export class UsersComponent {
         this.appointmentModel = [];
         this.isOpenAppointmentList = false;
         this.isOpenCustAppointment = false;
-
+        this.customerService.triggerRefresh(); 
         this.toastr.success('Booking has been done.', 'Success', { timeOut: 3000 });
       }
     })

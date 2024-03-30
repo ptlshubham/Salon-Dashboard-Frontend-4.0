@@ -68,13 +68,12 @@ export class LockscreenComponent implements OnInit {
 
   }
   unlockScreen() {
+    
     this.submitted = false;
     // stop here if form is invalid
     if (this.unlockForm.valid) {
-      return;
-    } else {
       this.loginService.UnlockScreen(this.f.password.value, this.lsData).subscribe((data: any) => {
-        
+      
         console.log(data);
         console.log(data);
         if (data == 1) {
@@ -104,7 +103,7 @@ export class LockscreenComponent implements OnInit {
             ls.set('UserId', data[0].id, { encrypt: true });
             ls.set('authenticationToken', data[0].token, { encrypt: true });
             ls.set('role', data[0].role, { encrypt: true });
-
+  
             this.router.navigate(['/']);
           }
           else if (data[0].role == 'Sub-Admin') {
@@ -119,6 +118,7 @@ export class LockscreenComponent implements OnInit {
           }
         }
       });
-    }
+    }  
+    
   }
 }

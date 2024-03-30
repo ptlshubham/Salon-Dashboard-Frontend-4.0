@@ -1,7 +1,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -16,6 +16,16 @@ export class CustomerService {
             this.bookingTimeInterval = data;
         });
     }
+    private refreshSubject = new Subject<void>();
+
+    // Observable to subscribe for refresh events
+    refresh$ = this.refreshSubject.asObservable();
+
+    // Method to trigger a refresh
+    triggerRefresh(): void {
+        this.refreshSubject.next();
+    }
+    
     saveCustomerList(data: any) {
 
         return this.httpClient.post<any>(ApiService.saveCustomerListURL, data);
