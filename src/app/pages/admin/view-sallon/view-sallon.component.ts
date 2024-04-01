@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { adminService } from 'src/app/core/services/admin.service';
+import { AdminService } from 'src/app/core/services/admin.service';
 import { CustomerService } from 'src/app/core/services/customer.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class ViewSallonComponent {
 
   constructor(
     public formBuilder: UntypedFormBuilder,
-    private adminService: adminService,
+    private adminService: AdminService,
     private CustomerService: CustomerService
 
 

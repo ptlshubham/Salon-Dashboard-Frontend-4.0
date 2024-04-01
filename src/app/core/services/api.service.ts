@@ -140,12 +140,13 @@ export class ApiService {
   public static getAllRegistrationURL: string = ApiService.HOST_URL + '/admin/GetAllRegistration';
   public static updateRegistrationListURL: string = ApiService.HOST_URL + '/admin/UpdateRegistrationList';
   public static removeRegistrationDetailsURL: string = ApiService.HOST_URL + '/admin/RemoveRegistrationDetails/';
-  //
+  
   public static saveVendorProductListURL: string = ApiService.HOST_URL + '/admin/saveVendorProductList';
   public static saveVendorOrderListURL: string = ApiService.HOST_URL + '/admin/saveVendorOrderList'
   public static getVendorOrderListURL: string = ApiService.HOST_URL + '/admin/GetVendorOrderList/';
   public static removeorderDetailsURL: string = ApiService.HOST_URL + '/admin/removeorderDetails/';
 
+  public static saveGeneralSalonDetailsURL: string = ApiService.HOST_URL + '/admin/SaveGeneralSalonDetails';
 
 
 }

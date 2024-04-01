@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { adminService } from 'src/app/core/services/admin.service';
+import { AdminService } from 'src/app/core/services/admin.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { EmployeeService } from 'src/app/core/services/employee.service';
 
 
 
@@ -57,8 +58,9 @@ export class SalonRegistartionComponent {
 
   constructor(
     public formBuilder: UntypedFormBuilder,
-    private adminService: adminService,
+    private adminService: AdminService,
     public toastr: ToastrService,
+    public employeeService: EmployeeService
 
   ) {
     this.getStateList();
@@ -105,7 +107,7 @@ export class SalonRegistartionComponent {
 
   getCityListAccordingState() {
     this.cityListData = [];
-    this.adminService.getCityFromJson().subscribe((res: any) => {
+    this.employeeService.getCityFromJson().subscribe((res: any) => {
       this.cityData = res;
       this.cityData.forEach((element: any) => {
         if (element.state == this.selectedState) {
@@ -119,7 +121,7 @@ export class SalonRegistartionComponent {
     this.selectedCity = e.target.value
   }
   getStateList() {
-    this.adminService.getStateFromJson().subscribe((res: any) => {
+    this.employeeService.getStateFromJson().subscribe((res: any) => {
       this.stateData = res;
     })
   }

@@ -6,7 +6,7 @@ import { ApiService } from './api.service';
 @Injectable({
     providedIn: 'root'
 })
-export class adminService {
+export class AdminService {
 
     constructor(
         private httpClient: HttpClient
@@ -26,12 +26,8 @@ export class adminService {
         
         return this.httpClient.get<any>(ApiService.removeRegistrationDetailsURL + id);
     }
-    public getStateFromJson(): Observable<any[]> {
-        return this.httpClient.get<any[]>('assets/json/state.json');
-    }
-    public getCityFromJson(): Observable<any[]> {
-        return this.httpClient.get<any[]>('assets/json/state-city.json');
-    }
+    saveGeneralDetails(admin: any) {
 
-
+        return this.httpClient.post<any>(ApiService.saveGeneralSalonDetailsURL, admin);
+    }
 }

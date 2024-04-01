@@ -4,8 +4,8 @@ import { MustMatch } from 'src/app/account/auth/validation.mustmatch';
 import ls from 'localstorage-slim';
 import { UserProfileService } from 'src/app/core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
-import { log } from 'console';
 import { Router } from '@angular/router';
+import { AdminService } from 'src/app/core/services/admin.service';
 
 @Component({
   selector: 'app-profile',
@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
     private userService: UserProfileService,
     private router: Router,
     public toastr: ToastrService,
+    private adminService:AdminService
 
   ) { }
 
