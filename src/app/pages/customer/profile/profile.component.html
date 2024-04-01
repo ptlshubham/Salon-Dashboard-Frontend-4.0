@@ -742,20 +742,14 @@
                             <div class="tab-pane" id="about" role="tabpanel">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="card-title mb-0">Shubham Patel</h5>
+                                        <h5 class="card-title mb-2">Change Password</h5>
+                                        <div class="text-muted">
+                                            <p class="mb-0">Your password must be at least 6 characters and
+                                                should include a combination of numbers, letters and special
+                                                characters.</p>
+                                        </div>
                                     </div>
                                     <div class="card-body">
-                                        <div>
-                                            <div class="pb-3">
-                                                <h3 class="font-size-150">Change Password</h3>
-                                                <div class="text-muted">
-                                                    <p class="mb-2">Your password must be at least 6 characters and
-                                                        should include a combination of numbers, letters and special
-                                                        characters.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <form [formGroup]="unlockForm">
                                             <div class="mb-3">
                                                 <label>Old Password </label>
@@ -793,13 +787,49 @@
                                                     (click)="onResetSubmit()">Change</button>
                                             </div>
                                         </form>
-
-
-
                                     </div>
-                                    <!-- end card body -->
                                 </div>
-                                <!-- end card -->
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="5" class="nav-item">
+                        <a ngbNavLink class="nav-link px-3">
+                            General
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="tab-pane" id="about" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Discount For Customer</h5>
+                                        <!-- <div class="text-muted">
+                                            <p class="mb-0">Your password must be at least 6 characters and
+                                                should include a combination of numbers, letters and special
+                                                characters.</p>
+                                        </div> -->
+                                    </div>
+                                    <div class="card-body">
+                                        <div>
+                                            <div>
+                                                <div class="input-group mb-3">
+                                                    <label class="input-group-text">VIP Discount</label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Discount">
+                                                    <label class="input-group-text">%</label>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <label class="input-group-text">General Discount (Max
+                                                        Discount)</label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter General Discount (Max Discount)">
+                                                    <label class="input-group-text">%</label>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-primary w-md">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </ng-template>
                     </li>

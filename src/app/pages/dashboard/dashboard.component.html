@@ -35,21 +35,20 @@
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100" (click)="openService()">
+        <div class="card card-h-100">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-8">
                         <h4>
-                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Services</small>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Pending Enquiry</small>
 
                         </h4>
                         <h4 class="mb-3">
-                            Total: <span [countUp]="servicesList.length" [options]="option"
-                                class="counter-value"></span>
+                            Total: <span [countUp]="0" [options]="option" class="counter-value"></span>
                         </h4>
                     </div>
                     <div class="col-4 text-center">
-                        <img src="assets/images/icons/services.png" alt="" class="rounded avatar-lg">
+                        <img src="assets/images/icons/enquiry.png" alt="" class="rounded avatar-lg">
                     </div>
                 </div>
                 <div class="text-nowrap">
@@ -86,30 +85,6 @@
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-8">
-                        <h4>
-                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Pending Enquiry</small>
-
-                        </h4>
-                        <h4 class="mb-3">
-
-                        </h4>
-                    </div>
-                    <div class="col-4 text-center">
-                        <img src="assets/images/icons/enquiry.png" alt="" class="rounded avatar-lg">
-                    </div>
-                </div>
-                <div class="text-nowrap">
-                    <span class="badge bg-success-subtle text-success">+2.95%</span>
-                    <span class="ms-1 text-muted font-size-13">Since last week</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
         <div class="card card-h-100" (click)="openExpenses()">
             <div class="card-body">
                 <div class="row align-items-center">
@@ -125,79 +100,6 @@
                     </div>
                     <div class="col-4 text-center">
                         <img src="assets/images/icons/expense.png" alt="" class="rounded avatar-lg">
-                    </div>
-                </div>
-                <div class="text-nowrap">
-                    <span class="badge bg-success-subtle text-success">+2.95%</span>
-                    <span class="ms-1 text-muted font-size-13">Since last week</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100" (click)="openofferSerivce()">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-8">
-                        <h4>
-                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Combo Offer</small>
-
-                        </h4>
-                        <h4 class="mb-3">
-                            Total: <span [countUp]="offerList.length" [options]="option" class="counter-value"></span>
-                        </h4>
-                    </div>
-                    <div class="col-4 text-center">
-                        <img src="assets/images/icons/offer.png" alt="" class="rounded avatar-lg">
-                    </div>
-                </div>
-                <div class="text-nowrap">
-                    <span class="badge bg-success-subtle text-success">+2.95%</span>
-                    <span class="ms-1 text-muted font-size-13">Since last week</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100" (click)="openVendor()">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-8">
-                        <h4>
-                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Vendor</small>
-
-                        </h4>
-                        <h4 class="mb-3">
-                            Total: <span [countUp]="vendorList.length" [options]="option" class="counter-value"></span>
-                        </h4>
-                    </div>
-                    <div class="col-4 text-center">
-                        <img src="assets/images/icons/product.png" alt="" class="rounded avatar-lg">
-                    </div>
-                </div>
-                <div class="text-nowrap">
-                    <span class="badge bg-success-subtle text-success">+2.95%</span>
-                    <span class="ms-1 text-muted font-size-13">Since last week</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100" (click)="openMembershipService()">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-8">
-                        <h4>
-                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Membership</small>
-
-                        </h4>
-                        <h4 class="mb-3">
-                            Total: <span [countUp]="MembershipList.length" [options]="option"
-                                class="counter-value"></span>
-                        </h4>
-                    </div>
-                    <div class="col-4 text-center">
-                        <img src="assets/images/icons/member.png" alt="" class="rounded avatar-lg">
                     </div>
                 </div>
                 <div class="text-nowrap">

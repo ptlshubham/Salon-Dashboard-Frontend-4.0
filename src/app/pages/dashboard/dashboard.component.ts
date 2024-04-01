@@ -44,17 +44,10 @@ export class DashboardComponent implements OnInit {
   showNavigationArrows: any;
   constructor(
     private bannersService: BannersService,
-    private employeeService: EmployeeService,
-    private servicesService: ServiceListService,
     private customerService: CustomerService,
     private expensesService: ExpensesService,
-    private vendorService: VendorService,
-    private offerService: OfferService,
-    private membershipService: MembershipService,
     private router: Router,
-
   ) {
-
   }
 
   option = {
@@ -73,11 +66,7 @@ export class DashboardComponent implements OnInit {
 
     this.getwebsilder();
     this.getCustomerDetails();
-    this.getServicesDetails();
     this.getExpensesDetails();
-    this.getVendorServiceDetails();
-    this.getOfferDetails();
-    this.getMembershipServiceDetails();
 
   }
   getwebsilder() {
@@ -89,12 +78,6 @@ export class DashboardComponent implements OnInit {
       }
     })
 
-  }
-
-  getServicesDetails() {
-    this.servicesService.getAllServicesList().subscribe((data: any) => {
-      this.servicesList = data;
-    });
   }
   getCustomerDetails() {
     this.customerService.getAllCustomerList().subscribe((data: any) => {
@@ -122,53 +105,12 @@ export class DashboardComponent implements OnInit {
       this.dailyexpensesList = todayExpenses;
     });
   }
-  
-  
-  
-  
-  
-
-
-  getVendorServiceDetails() {
-    this.vendorService.getAllVendorList().subscribe((data: any) => {
-      this.vendorList = data;
-    });
-  }
-  getOfferDetails() {
-    this.offerService.getAllOfferList().subscribe((data: any) => {
-      this.offerList = data;
-    });
-  }
-  getMembershipServiceDetails() {
-
-    this.membershipService.getAllMembershipList().subscribe((data: any) => {
-      this.MembershipList = data;
-    });
-  }
-  getofferSerivceDetails() {
-
-    this.offerService.getAllOfferList().subscribe((data: any) => {
-      this.MembershipList = data;
-    });
-  }
-
+ 
   openCustomer() {
     this.router.navigate(['/custom/user-list']);
   }
-  openService() {
-    this.router.navigate(['/custom/service-list']);
-  }
   openExpenses() {
     this.router.navigate(['/custom/expenses']);
-  }
-  openVendor() {
-    this.router.navigate(['/custom/vendor']);
-  }
-  openMembershipService() {
-    this.router.navigate(['/custom/membership']);
-  }
-  openofferSerivce() {
-    this.router.navigate(['/custom/combo-offer'])
   }
   openearnings() {
     this.router.navigate(['/custom/earnings'])

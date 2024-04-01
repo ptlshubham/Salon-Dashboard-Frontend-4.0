@@ -161,8 +161,10 @@ export class AppointmentComponent implements OnInit {
     this.paginateActiveData = this.appointmentList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
   getUsedServicesDetails(id: any) {
+    debugger
     this.customerService.getServicesListUsingId(id).subscribe((data: any) => {
       this.usedServices = data;
+      debugger
       for (let i = 0; i < this.usedServices.length; i++) {
         this.usedServices[i].index = i + 1;
       }
@@ -228,9 +230,11 @@ export class AppointmentComponent implements OnInit {
   }
   openPaymentData(data: any, content: any) {
     this.paymemtDataModel = {};
-    this.getUsedServicesDetails(data.id);
-    this.paymemtDataModel = data;
-    this.paymemtDataModel.services = this.usedServices;
+    this.customerService.getServicesListUsingId(data.id).subscribe((res: any) => {
+      this.paymemtDataModel = data;
+      this.paymemtDataModel.services = res;
+    });
+
     this.modalService.open(content, {windowClass: 'modal-holder', centered: true });
   }
 

@@ -258,396 +258,86 @@
     </ng-template>
     <ng-template #content let-modal>
         <div class="modal-header">
-            <h5 class="modal-title mt-0">Select Payment Method</h5>
+            <h5 class="modal-title mt-0">Payment Method</h5>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close click')">
             </button>
         </div>
         <div class="modal-body">
             <div class="card">
                 <div class="card-body border-bottom">
-                    <div class="d-flex flex-wrap">
-                        <ul ngbNav #nav="ngbNav" [activeId]="1"
-                            class="nav-tabs nav-tabs-custom card-header-tabs ml-auto">
-                            <li [ngbNavItem]="1" class="nav-item">
-                                <a ngbNavLink>Cash</a>
-                                <ng-template ngbNavContent>
-                                    <div class="card-body">
-                                        <div class="tab-pane active" id="buy-tab" role="tabpanel">
-                                            <div>
-                                                <div class="p-1 d-flex flex-wrap gap-2">Services Name : <span
-                                                        class="badge bg-primary"
-                                                        *ngFor="let a of paymemtDataModel.services;let i=index"
-                                                        ngbTooltip="{{a.servicesname}}"
-                                                        placement="top">{{a.servicesname}}</span>
-                                                </div>
-                                                <div class="p-1">Total Point : <span class="badge bg-primary"
-                                                        ngbTooltip="{{paymemtDataModel.totalpoint}}"
-                                                        placement="top">{{paymemtDataModel.totalpoint}}</span>
-                                                </div>
-                                                <div class="p-1">Total Time (Minute): <span class="badge bg-primary"
-                                                        ngbTooltip="{{paymemtDataModel.totaltime}}"
-                                                        placement="top">{{paymemtDataModel.totaltime}}</span>
-                                                </div>
-                                                <div class="float-end ms-2">
+                    <div>
+                        <div class="row">
+                            <div class="d-flex flex-column">
+                                <div class="p-1">Customer Name : <span class="badge bg-primary"
+                                        ngbTooltip="{{paymemtDataModel.fname}} {{paymemtDataModel.lname}}"
+                                        placement="top">{{paymemtDataModel.fname}}
+                                        {{paymemtDataModel.lname}}</span>
+                                </div>
+                                <div class="p-1">Contact : <span class="badge bg-primary"
+                                        ngbTooltip="{{paymemtDataModel.contact}}"
+                                        placement="top">{{paymemtDataModel.contact}}</span>
+                                </div>
+                                <div class="p-1 d-flex flex-wrap gap-2">Services : <span class="badge bg-primary"
+                                        *ngFor="let a of paymemtDataModel.services;let i=index"
+                                        ngbTooltip="{{a.servicesname}}" placement="top">{{a.servicesname}}</span>
+                                </div>
+                                <div class="p-1">Today Earned Point : <span class="badge bg-primary"
+                                        ngbTooltip="{{paymemtDataModel.totalpoint}}"
+                                        placement="top">{{paymemtDataModel.totalpoint}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="font-size-18 mb-4 p-1">Total Amount:
+                            <span class="badge bg-success text-white text-decoration-underline"
+                                ngbTooltip="{{paymemtDataModel.totalprice}} ₹"
+                                placement="top">{{paymemtDataModel.totalprice}}
+                                ₹</span>
+                        </h5>
+                        <div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">Customer Total Point</label>
+                                <input type="text" class="form-control disabled-c" disabled placeholder="Total Point">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">Redeem Points</label>
+                                <input type="text" class="form-control" placeholder="Enter Redeem Points">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">Cash</label>
+                                <input type="text" class="form-control" placeholder="Enter Amount">
+                                <label class="input-group-text">₹</label>
+                            </div>
 
-                                                    <h5 class="font-size-24"><i
-                                                            class="bx bx-wallet text-primary font-size-24 align-middle me-1"></i>
-                                                        <a href="javascript:void(0);"
-                                                            class="text-reset text-decoration-underline">{{paymemtDataModel.totalprice}}
-                                                            ₹</a>
-                                                    </h5>
-                                                </div>
-                                                <div class="form-group mb-3">
-                                                    <label>Payment method :</label>
-                                                    <select class="form-select">
-                                                        <option>Direct Bank Payment</option>
-                                                        <option>Credit / Debit Card</option>
-                                                        <option>Paypal</option>
-                                                        <option>Payoneer</option>
-                                                        <option>Stripe</option>
-                                                    </select>
-                                                </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">Online Payment</label>
+                                <select class="form-select" style="max-width: 130px;">
+                                    <option value="BT" selected>UPI</option>
+                                    <option value="ET">Credit/Debit </option>
+                                    <option value="LT">Bank Transfer</option>
+                                </select>
+                                <input type="text" class="form-control" placeholder="Enter Amount">
+                                <label class="input-group-text">₹</label>
+                            </div>
 
-                                                <div>
-                                                    <label>Add Amount :</label>
-                                                    <div class="input-group mb-3">
-                                                        <label class="input-group-text">Amount</label>
-                                                        <select class="form-select" style="max-width: 90px;">
-                                                            <option value="BT" selected>BTC</option>
-                                                            <option value="ET">ETH</option>
-                                                            <option value="LT">LTC</option>
-                                                        </select>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="0.00121255">
-                                                    </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">Pending Amount</label>
+                                <input type="text" class="form-control" placeholder="Enter Amount">
+                                <label class="input-group-text">₹</label>
+                            </div>
 
-                                                    <div class="input-group mb-3">
-                                                        <label class="input-group-text">Price</label>
-                                                        <input type="text" class="form-control" placeholder="$58,245">
-                                                        <label class="input-group-text">$</label>
-                                                    </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">Total</label>
+                                <input type="text" class="form-control disabled-c" disabled placeholder="Enter Amount">
+                                <label class="input-group-text">₹</label>
+                            </div>
+                        </div>
 
-                                                    <div class="input-group mb-3">
-                                                        <label class="input-group-text">Total</label>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="$36,854.25">
-                                                    </div>
-                                                </div>
-
-                                                <div class="text-center">
-                                                    <button type="button" class="btn btn-success w-md">Buy
-                                                        Coin</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </li>
-                            <li [ngbNavItem]="2" class="nav-item">
-                                <a ngbNavLink>Online Payment</a>
-                                <ng-template ngbNavContent>
-                                    <div class="card-body">
-                                        <div class="tab-pane" id="sell-tab" role="tabpanel">
-                                            <div class="float-end ms-2">
-                                                <h5 class="font-size-14"><i
-                                                        class="bx bx-wallet text-primary font-size-16 align-middle me-1"></i>
-                                                    <a href="javascript:void(0);"
-                                                        class="text-reset text-decoration-underline">$4235.23</a>
-                                                </h5>
-                                            </div>
-                                            <h5 class="font-size-14 mb-4">Sell Coins</h5>
-
-                                            <div>
-
-                                                <div class="form-group mb-3">
-                                                    <label>Wallet ID :</label>
-                                                    <input type="email" class="form-control"
-                                                        placeholder="1cvb254ugxvfcd280ki">
-                                                </div>
-
-                                                <div>
-                                                    <label>Add Amount :</label>
-                                                    <div class="input-group mb-3">
-                                                        <label class="input-group-text">Amount</label>
-
-                                                        <select class="form-select" style="max-width: 90px;">
-                                                            <option value="BT" selected>BTC</option>
-                                                            <option value="ET">ETH</option>
-                                                            <option value="LT">LTC</option>
-                                                        </select>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="0.00121255">
-                                                    </div>
-
-                                                    <div class="input-group mb-3">
-
-                                                        <label class="input-group-text">Price</label>
-
-                                                        <input type="text" class="form-control"
-                                                            placeholder="$23,754.25">
-
-                                                        <label class="input-group-text">$</label>
-                                                    </div>
-
-                                                    <div class="input-group mb-3">
-                                                        <label class="input-group-text">Total</label>
-                                                        <input type="text" class="form-control" placeholder="$6,852.41">
-                                                    </div>
-                                                </div>
-
-                                                <div class="text-center">
-                                                    <button type="button" class="btn btn-danger w-md">Sell
-                                                        Coin</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </li>
-                            <li [ngbNavItem]="3" class="nav-item">
-                                <a ngbNavLink>Pending Payment</a>
-                                <ng-template ngbNavContent>
-                                    <div class="card-body">
-                                        <div class="tab-pane" id="sell-tab" role="tabpanel">
-                                            <div class="float-end ms-2">
-                                                <h5 class="font-size-14"><i
-                                                        class="bx bx-wallet text-primary font-size-16 align-middle me-1"></i>
-                                                    <a href="javascript:void(0);"
-                                                        class="text-reset text-decoration-underline">$4235.23</a>
-                                                </h5>
-                                            </div>
-                                            <h5 class="font-size-14 mb-4">Sell Coins</h5>
-
-                                            <div>
-
-                                                <div class="form-group mb-3">
-                                                    <label>Wallet ID :</label>
-                                                    <input type="email" class="form-control"
-                                                        placeholder="1cvb254ugxvfcd280ki">
-                                                </div>
-
-                                                <div>
-                                                    <label>Add Amount :</label>
-                                                    <div class="input-group mb-3">
-                                                        <label class="input-group-text">Amount</label>
-
-                                                        <select class="form-select" style="max-width: 90px;">
-                                                            <option value="BT" selected>BTC</option>
-                                                            <option value="ET">ETH</option>
-                                                            <option value="LT">LTC</option>
-                                                        </select>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="0.00121255">
-                                                    </div>
-
-                                                    <div class="input-group mb-3">
-
-                                                        <label class="input-group-text">Price</label>
-
-                                                        <input type="text" class="form-control"
-                                                            placeholder="$23,754.25">
-
-                                                        <label class="input-group-text">$</label>
-                                                    </div>
-
-                                                    <div class="input-group mb-3">
-                                                        <label class="input-group-text">Total</label>
-                                                        <input type="text" class="form-control" placeholder="$6,852.41">
-                                                    </div>
-                                                </div>
-
-                                                <div class="text-center">
-                                                    <button type="button" class="btn btn-danger w-md">Sell
-                                                        Coin</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </li>
-                        </ul>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success w-md">Pay Now</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
-
-            <!-- <div class="card">
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-xl-3">
-                            <ul ngbNav #nav1="ngbNav" [activeId]="1" class="flex-column nav-pills">
-                                <li [ngbNavItem]="1" class="nav flex-column nav-pills pricing-tab-box">
-                                    <a ngbNavLink class="nav-link mb-3">
-                                        <div class="d-flex align-items-center">
-                                            <i class="bx bx-check-circle h3 mb-0 me-4"></i>
-                                            <div class="flex-1">
-                                                <h5 class="fw-medium">Cash</h5>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <ng-template ngbNavContent>
-                                        <div class="tab-pane fade show active" id="v-price-one" role="tabpanel"
-                                            aria-labelledby="v-pills-tab-one">
-                                            <div class="row">
-                                                <div>
-                                                    <div class="form-group mb-3">
-                                                        <label>Payment method :</label>
-                                                        <select class="form-select">
-                                                            <option>Direct Bank Payment</option>
-                                                            <option>Credit / Debit Card</option>
-                                                            <option>Paypal</option>
-                                                            <option>Payoneer</option>
-                                                            <option>Stripe</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div>
-                                                        <label>Add Amount :</label>
-                                                        <div class="input-group mb-3">
-                                                            <label class="input-group-text">Amount</label>
-                                                            <select class="form-select" style="max-width: 90px;">
-                                                                <option value="BT" selected>BTC</option>
-                                                                <option value="ET">ETH</option>
-                                                                <option value="LT">LTC</option>
-                                                            </select>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="0.00121255">
-                                                        </div>
-
-                                                        <div class="input-group mb-3">
-                                                            <label class="input-group-text">Price</label>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="$58,245">
-                                                            <label class="input-group-text">$</label>
-                                                        </div>
-
-                                                        <div class="input-group mb-3">
-                                                            <label class="input-group-text">Total</label>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="$36,854.25">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="text-center">
-                                                        <button type="button" class="btn btn-success w-md">Buy
-                                                            Coin</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                </li>
-                                <li [ngbNavItem]="2" class="nav flex-column nav-pills pricing-tab-box">
-                                    <a ngbNavLink class="nav-link mb-3">
-                                        <div class="d-flex align-items-center">
-                                            <i class="bx bx-check-circle h3 mb-0 me-4"></i>
-                                            <div class="flex-1">
-                                                <h5 class="fw-medium">Online</h5>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <ng-template ngbNavContent>
-                                        <div class="tab-pane fade show active" id="v-price-one" role="tabpanel"
-                                            aria-labelledby="v-pills-tab-one">
-                                            <div class="row">
-                                                <div class="d-flex flex-column">
-                                                    <div class="p-1">Customer Name : <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.fname}} {{paymemtDataModel.lname}}"
-                                                            placement="top">{{paymemtDataModel.fname}}
-                                                            {{paymemtDataModel.lname}}</span>
-                                                    </div>
-                                                    <div class="p-1">Contact : <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.contact}}"
-                                                            placement="top">{{paymemtDataModel.contact}}</span>
-                                                    </div>
-                                                    <div class="p-1">Email : <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.email}}"
-                                                            placement="top">{{paymemtDataModel.email}}</span>
-                                                    </div>
-                                                    <div class="p-1 d-flex flex-wrap gap-2">Services Name : <span
-                                                            class="badge bg-primary"
-                                                            *ngFor="let a of paymemtDataModel.services;let i=index"
-                                                            ngbTooltip="{{a.servicesname}}"
-                                                            placement="top">{{a.servicesname}}</span>
-                                                    </div>
-                                                    <div class="p-1">Total Point : <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.totalpoint}}"
-                                                            placement="top">{{paymemtDataModel.totalpoint}}</span>
-                                                    </div>
-                                                    <div class="p-1">Total Time (Minute): <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.totaltime}}"
-                                                            placement="top">{{paymemtDataModel.totaltime}}</span>
-                                                    </div>
-                                                    <div class="p-1">Total Price : <span class="badge bg-success"
-                                                            ngbTooltip="{{paymemtDataModel.totalprice}} ₹"
-                                                            placement="top">{{paymemtDataModel.totalprice}}
-                                                            ₹</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                </li>
-                                <li [ngbNavItem]="3" class="nav flex-column nav-pills pricing-tab-box">
-                                    <a ngbNavLink class="nav-link mb-3">
-                                        <div class="d-flex align-items-center">
-                                            <i class="bx bx-check-circle h3 mb-0 me-4"></i>
-                                            <div class="flex-1">
-                                                <h5 class="fw-medium">Pending Payment</h5>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <ng-template ngbNavContent>
-                                        <div class="tab-pane fade show active" id="v-price-one" role="tabpanel"
-                                            aria-labelledby="v-pills-tab-one">
-                                            <div class="row">
-                                                <div class="d-flex flex-column">
-                                                    <div class="p-1">Customer Name : <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.fname}} {{paymemtDataModel.lname}}"
-                                                            placement="top">{{paymemtDataModel.fname}}
-                                                            {{paymemtDataModel.lname}}</span>
-                                                    </div>
-                                                    <div class="p-1">Contact : <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.contact}}"
-                                                            placement="top">{{paymemtDataModel.contact}}</span>
-                                                    </div>
-                                                    <div class="p-1">Email : <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.email}}"
-                                                            placement="top">{{paymemtDataModel.email}}</span>
-                                                    </div>
-                                                    <div class="p-1 d-flex flex-wrap gap-2">Services Name : <span
-                                                            class="badge bg-primary"
-                                                            *ngFor="let a of paymemtDataModel.services;let i=index"
-                                                            ngbTooltip="{{a.servicesname}}"
-                                                            placement="top">{{a.servicesname}}</span>
-                                                    </div>
-                                                    <div class="p-1">Total Point : <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.totalpoint}}"
-                                                            placement="top">{{paymemtDataModel.totalpoint}}</span>
-                                                    </div>
-                                                    <div class="p-1">Total Time (Minute): <span class="badge bg-primary"
-                                                            ngbTooltip="{{paymemtDataModel.totaltime}}"
-                                                            placement="top">{{paymemtDataModel.totaltime}}</span>
-                                                    </div>
-                                                    <div class="p-1">Total Price : <span class="badge bg-success"
-                                                            ngbTooltip="{{paymemtDataModel.totalprice}} ₹"
-                                                            placement="top">{{paymemtDataModel.totalprice}}
-                                                            ₹</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-xl-9">
-                            <div [ngbNavOutlet]="nav1"></div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
         <div class="modal-footer">
 
