@@ -186,6 +186,72 @@ const marketOverview: ChartType = {
   },
 };
 
+const basicRadialBarChart: ChartType = {
+  chart: { height: 370, type: "radialBar" },
+  plotOptions: {
+      radialBar: {
+          dataLabels: {
+              name: { fontSize: "22px" },
+              value: { fontSize: "16px" },
+              total: {
+                  show: !0,
+                  label: "Total",
+                  formatter: (w: any) => {
+                      return 249;
+                  }
+              }
+          }
+      }
+  },
+  colors: ['#556ee6', '#34c38f', '#f46a6a', '#f1b44c'],
+  series: [44, 55, 67, 83],
+  labels: ['Computer', 'Tablet', 'Laptop', 'Mobile'],
+};
+
+const simplePieChart: ChartType = {
+  chart: { height: 380, type: "pie" },
+  series: [44, 55, 41, 17, 15],
+  labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
+  colors: ["#2ab57d", "#5156be", "#fd625e", "#4ba6ef", "#ffbf53"],
+  legend: {
+      show: !0,
+      position: "bottom",
+      horizontalAlign: "center",
+      verticalAlign: "middle",
+      floating: !1,
+      fontSize: "14px",
+      offsetX: 0,
+  },
+  responsive: [
+      {
+          breakpoint: 600,
+          options: { chart: { height: 240 }, legend: { show: !1 } },
+      },
+  ],
+};
+
+const donutChart: ChartType = {
+  chart: { height: 380, type: "donut" },
+  series: [44, 55, 41, 17, 15],
+  labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
+  colors: ["#2ab57d", "#5156be", "#fd625e", "#4ba6ef", "#ffbf53"],
+  legend: {
+      show: !0,
+      position: "bottom",
+      horizontalAlign: "center",
+      verticalAlign: "middle",
+      floating: !1,
+      fontSize: "14px",
+      offsetX: 0,
+  },
+  responsive: [
+      {
+          breakpoint: 600,
+          options: { chart: { height: 240 }, legend: { show: !1 } },
+      },
+  ],
+};
+
 const recentActivity = [
   {
     icon: 'bx bx-bitcoin font-size-24',
@@ -408,4 +474,4 @@ const transactionsSell = [
   }
 ];
 
-export { walletOverview, investedOverview, marketOverview, recentActivity, walletlineChart, tradeslineChart, investedlineChart, profitlineChart, News, transactionsAll, transactionsBuy, transactionsSell };
+export { walletOverview, investedOverview, marketOverview, recentActivity, walletlineChart, tradeslineChart, investedlineChart, profitlineChart, News, transactionsAll, transactionsBuy, transactionsSell,basicRadialBarChart, simplePieChart, donutChart };

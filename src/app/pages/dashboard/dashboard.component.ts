@@ -8,6 +8,9 @@ import { OfferService } from 'src/app/core/services/offer.service';
 import { MembershipService } from 'src/app/core/services/membership.service';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { BannersService } from 'src/app/core/services/banners.service';
+import { ChartType } from './dashboard.model';
+import { basicRadialBarChart, simplePieChart, donutChart} from './data';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -31,6 +34,10 @@ export class DashboardComponent implements OnInit {
   ExpensesList: any = [];
   MembershipList: any = [];
   totalExpense: number = 0;
+  simplePieChart!: ChartType;
+  basicRadialBarChart!: ChartType;
+  donutChart!: ChartType;
+
 
   page = 1;
   pageSize = 10;
@@ -67,6 +74,8 @@ export class DashboardComponent implements OnInit {
     this.getwebsilder();
     this.getCustomerDetails();
     this.getExpensesDetails();
+    this._fetchData();
+    
 
   }
   getwebsilder() {
@@ -105,7 +114,14 @@ export class DashboardComponent implements OnInit {
       this.dailyexpensesList = todayExpenses;
     });
   }
+
+  private _fetchData() {
+    this.basicRadialBarChart = basicRadialBarChart;
+    this.simplePieChart = simplePieChart;
+    this.donutChart = donutChart;
+  }
  
+
   openCustomer() {
     this.router.navigate(['/custom/user-list']);
   }

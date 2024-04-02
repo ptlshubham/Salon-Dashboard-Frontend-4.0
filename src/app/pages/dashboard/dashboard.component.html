@@ -109,6 +109,47 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Radial Chart</h4>
+            </div>
+            <div class="card-body">
+                <apx-chart class="apex-charts" dir="ltr" [series]="basicRadialBarChart.series"
+                    [chart]="basicRadialBarChart.chart" [plotOptions]="basicRadialBarChart.plotOptions"
+                    [labels]="basicRadialBarChart.labels" [colors]="basicRadialBarChart.colors">
+                </apx-chart>
+            </div>
+        </div>
+        <!--end card-->
+
+    </div>
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Pie Chart</h4>
+            </div>
+            <div class="card-body">
+                <apx-chart class="apex-charts" dir="ltr" [series]="simplePieChart.series" [chart]="simplePieChart.chart"
+                    [labels]="simplePieChart.labels" [legend]="simplePieChart.legend" [colors]="simplePieChart.colors"
+                    [responsive]="simplePieChart.responsive">
+                </apx-chart>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Donut Chart</h4>
+            </div>
+            <div class="card-body">
+                <apx-chart class="apex-charts" dir="ltr" [series]="donutChart.series" [chart]="donutChart.chart"
+                    [labels]="donutChart.labels" [legend]="donutChart.legend" [colors]="donutChart.colors"
+                    [responsive]="donutChart.responsive">
+                </apx-chart>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
     <app-appointment></app-appointment>
