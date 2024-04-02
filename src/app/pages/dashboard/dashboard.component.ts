@@ -1,21 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerService } from 'src/app/core/services/customer.service';
-import { ServiceListService } from 'src/app/core/services/services.service';
 import { ExpensesService } from 'src/app/core/services/expenses.service';
-import { VendorService } from 'src/app/core/services/vendor.service';
-import { OfferService } from 'src/app/core/services/offer.service';
-import { MembershipService } from 'src/app/core/services/membership.service';
-import { EmployeeService } from 'src/app/core/services/employee.service';
 import { BannersService } from 'src/app/core/services/banners.service';
 import { ChartType } from './dashboard.model';
-import { basicRadialBarChart, simplePieChart, donutChart} from './data';
+import { basicRadialBarChart, simplePieChart } from './data';
+import { DashboardService } from 'src/app/core/services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
+
 export class DashboardComponent implements OnInit {
   showNavigationIndicators = true; // Assuming you want to show navigation indicators by default
   banners: any[] = [];
@@ -36,8 +33,6 @@ export class DashboardComponent implements OnInit {
   totalExpense: number = 0;
   simplePieChart!: ChartType;
   basicRadialBarChart!: ChartType;
-  donutChart!: ChartType;
-
 
   page = 1;
   pageSize = 10;
@@ -49,12 +44,38 @@ export class DashboardComponent implements OnInit {
   imagesData: any = [];
 
   showNavigationArrows: any;
+
+  donutChart: ChartType = {
+    chart: { height: 380, type: "donut" },
+    series: [],
+    labels: [],
+    colors: ["#2ab57d", "#5156be", "#fd625e", "#4ba6ef", "#ffbf53"],
+    legend: {
+      show: !0,
+      position: "bottom",
+      horizontalAlign: "center",
+      verticalAlign: "middle",
+      floating: !1,
+      fontSize: "14px",
+      color: "#000000",
+      offsetX: 0,
+    },
+    responsive: [
+      {
+        breakpoint: 600,
+        options: { chart: { height: 240 }, legend: { show: !1 } },
+      },
+    ],
+  };
   constructor(
     private bannersService: BannersService,
     private customerService: CustomerService,
     private expensesService: ExpensesService,
+    private dashboardService: DashboardService,
+
     private router: Router,
   ) {
+    this.getCustomerDonoutChart();
   }
 
   option = {
@@ -75,8 +96,6 @@ export class DashboardComponent implements OnInit {
     this.getCustomerDetails();
     this.getExpensesDetails();
     this._fetchData();
-    
-
   }
   getwebsilder() {
     this.bannersService.getWebSlider().subscribe((res: any) => {
@@ -100,16 +119,16 @@ export class DashboardComponent implements OnInit {
         const expenseDate = expense.expensesdate.slice(0, 10); // Get date part only
         return expenseDate === todayDate && expense.expensesprices > 0;
       });
-  
+
       // Calculate total expense amount for today
       let totalExpense = 0;
       todayExpenses.forEach((expense: any) => {
         totalExpense += expense.expensesprices;
       });
-  
+
       // Store total expense amount in the variable
       this.totalExpense = totalExpense;
-  
+
       // Store filtered expenses in dailyexpensesList
       this.dailyexpensesList = todayExpenses;
     });
@@ -118,9 +137,8 @@ export class DashboardComponent implements OnInit {
   private _fetchData() {
     this.basicRadialBarChart = basicRadialBarChart;
     this.simplePieChart = simplePieChart;
-    this.donutChart = donutChart;
   }
- 
+
 
   openCustomer() {
     this.router.navigate(['/custom/user-list']);
@@ -131,6 +149,13 @@ export class DashboardComponent implements OnInit {
   openearnings() {
     this.router.navigate(['/custom/earnings'])
   }
-
+  getCustomerDonoutChart() {
+    this.dashboardService.getCustservice().subscribe((data: any) => {
+      data.forEach((element: any) => {
+        this.donutChart.series.push(element.service_count);
+        this.donutChart.labels.push(element.servicesname);
+      });
+    });
+  }
 
 }
