@@ -30,4 +30,7 @@ export class AdminService {
 
         return this.httpClient.post<any>(ApiService.saveGeneralSalonDetailsURL, admin);
     }
+    getAllGeneralDetails(): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getAllGeneralSalonDataURL);
+    }
 }

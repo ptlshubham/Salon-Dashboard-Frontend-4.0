@@ -11,29 +11,29 @@
                         <div class="d-flex align-items-start mt-3 mt-sm-0">
                             <div class="flex-shrink-0">
                                 <div class="avatar-xl me-3">
-                                    <img src="assets/images/users/avatar-2.jpg" alt=""
+                                    <img src="assets/images/users/user.png" alt=""
                                         class="img-fluid rounded-circle d-block">
                                 </div>
                             </div>
                             <div class="flex-grow-1">
                                 <div>
-                                    <h5 class="font-size-16 mb-1">Phyllis Gatlin</h5>
-                                    <p class="text-muted font-size-13">Full Stack Developer</p>
+                                    <h5 class="font-size-16 mb-1">{{userData.name}}</h5>
+                                    <p class="text-muted font-size-13">{{userData.role}}</p>
 
                                     <div
                                         class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
-                                        <div><i
+                                        <!-- <div><i
                                                 class="mdi mdi-circle-medium me-1 text-success align-middle"></i>Development
-                                        </div>
+                                        </div> -->
                                         <div><i
-                                                class="mdi mdi-circle-medium me-1 text-success align-middle"></i>phyllisgatlin&#64;minia.com
+                                                class="bx bx-envelope me-1 text-success align-middle"></i>{{userData.email}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-auto order-1 order-sm-2">
+                    <!-- <div class="col-sm-auto order-1 order-sm-2">
                         <div class="d-flex align-items-start justify-content-end gap-2">
                             <div>
                                 <button type="button" class="btn btn-soft-light"><i class="me-1"></i> Message</button>
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-tabs-custom card-header-tabs border-top mt-4">
                     <li [ngbNavItem]="1" class="nav-item">
@@ -798,73 +798,87 @@
                         </a>
                         <ng-template ngbNavContent>
                             <div class="tab-pane" id="about" role="tabpanel">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title mb-0">Discount For Customer</h5>
-                                        <!-- <div class="text-muted">
+                                <form [formGroup]="discountValidationForm" (ngSubmit)="saveGeneralServiceDetail()">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title mb-0">Discount For Customer</h5>
+                                            <!-- <div class="text-muted">
                                             <p class="mb-0">Your password must be at least 6 characters and
                                                 should include a combination of numbers, letters and special
                                                 characters.</p>
                                         </div> -->
-                                    </div>
-                                    <div class="card-body">
-                                        <div>
-                                            <div>
-                                                <div class="input-group mb-3">
-                                                    <label class="input-group-text">VIP Discount</label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Enter Discount">
-                                                    <label class="input-group-text">%</label>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text">VIP Discount</label>
+                                                <input type="number" class="form-control" placeholder="Enter Discount"
+                                                    formControlName="vipdiscount" id="vipdiscount"
+                                                    [ngClass]="{ 'is-invalid': f.vipdiscount.touched && f.vipdiscount.errors }">
+                                                <label class="input-group-text">%</label>
+                                                <div *ngIf="f.vipdiscount.touched || f.vipdiscount.invalid"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="f.vipdiscount.errors?.required">This field is
+                                                        required.</div>
                                                 </div>
-                                                <div class="input-group mb-3">
-                                                    <label class="input-group-text">General Discount (Max
-                                                        Discount)</label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Enter General Discount (Max Discount)">
-                                                    <label class="input-group-text">%</label>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text">General Discount (Max
+                                                    Discount)</label>
+                                                <input type="number" class="form-control"
+                                                    placeholder="Enter General Discount (Max Discount)"
+                                                    formControlName="maxdiscount"
+                                                    [ngClass]="{ 'is-invalid': f.maxdiscount.touched && f.maxdiscount.errors }">
+                                                <label class="input-group-text">%</label>
+                                                <div *ngIf="f.maxdiscount.touched || f.maxdiscount.invalid"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="f.maxdiscount.errors?.required">This field is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="my-0">
+                                        <div class="card-header">
+                                            <h5 class="card-title mb-0">Point Redeem System</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text">Employee Points</label>
+                                                <label class="input-group-text">100 Points</label>
+                                                <input type="number" class="form-control"
+                                                    placeholder="Enter Points Price (100 Points)"
+                                                    formControlName="emppointsconvert" id="emppointsconvert"
+                                                    [ngClass]="{ 'is-invalid': f.emppointsconvert.touched && f.emppointsconvert.errors }">
+                                                <label class="input-group-text">₹</label>
+                                                <div *ngIf="f.emppointsconvert.touched || f.emppointsconvert.invalid"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="f.emppointsconvert.errors?.required">This field is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text">Customer Points</label>
+                                                <label class="input-group-text">100 Points</label>
+                                                <input type="number" class="form-control"
+                                                    placeholder="Enter Points Price (100 Points)"
+                                                    formControlName="custpointsconvert"
+                                                    [ngClass]="{ 'is-invalid': f.custpointsconvert.touched && f.custpointsconvert.errors }">
+                                                <label class="input-group-text">₹</label>
+                                                <div *ngIf="f.custpointsconvert.touched || f.custpointsconvert.invalid "
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="f.custpointsconvert.errors?.required">This field is
+                                                        required.</div>
                                                 </div>
                                             </div>
                                             <div class="text-center">
-                                                <button type="button" class="btn btn-primary w-md">Save</button>
+                                                <button type="submit" class="btn btn-primary"
+                                                    [disabled]="discountValidationForm.invalid"><i
+                                                        class="bx bx-save align-middle"></i>
+                                                    Save</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="about" role="tabpanel">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title mb-0">Point Redeem system</h5>
-                                        <!-- <div class="text-muted">
-                                            <p class="mb-0">Your password must be at least 6 characters and
-                                                should include a combination of numbers, letters and special
-                                                characters.</p>
-                                        </div> -->
-                                    </div>
-                                    <div class="card-body">
-                                        <div>
-                                            <div>
-                                                <div class="input-group mb-3">
-                                                    <label class="input-group-text">Employee Points</label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Enter Employee Points">
-                                                    <label class="input-group-text">₹</label>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <label class="input-group-text">Customer Points</label>
-                                                    <label class="input-group-text">(Ex.Minimum 100 points
-                                                        required for redeem) </label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Enter Customer Points ">
-                                                    <label class="input-group-text">₹</label>
-                                                </div>
-                                            </div>
-                                            <div class="text-center">
-                                                <button type="button" class="btn btn-primary w-md">Save</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                         </ng-template>
 
@@ -884,23 +898,21 @@
     <div class="col-xl-3 col-lg-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title mb-3">Skills</h5>
+                <h5 class="card-title mb-3">General Setup</h5>
 
                 <div class="d-flex flex-wrap gap-2 font-size-16">
-                    <a href="javascript:void(0);" class="badge bg-primary-subtle text-primary">Photoshop</a>
-                    <a href="javascript:void(0);" class="badge bg-primary-subtle text-primary">illustrator</a>
-                    <a href="javascript:void(0);" class="badge bg-primary-subtle text-primary">HTML</a>
-                    <a href="javascript:void(0);" class="badge bg-primary-subtle text-primary">CSS</a>
-                    <a href="javascript:void(0);" class="badge bg-primary-subtle text-primary">Javascript</a>
-                    <a href="javascript:void(0);" class="badge bg-primary-subtle text-primary">Php</a>
-                    <a href="javascript:void(0);" class="badge bg-primary-subtle text-primary">Python</a>
+                    <a href="javascript:void(0);" class="badge bg-primary text-white">VIP Discount :
+                        {{generalModel.vipdiscount}} %</a>
+                    <a href="javascript:void(0);"
+                        class="badge bg-primary text-white">General Discount : {{generalModel.maxdiscount}} %</a>
+                    <a href="javascript:void(0);"
+                        class="badge bg-primary text-white">Employee Points : {{generalModel.emppointsconvert}} ₹</a>
+                    <a href="javascript:void(0);"
+                        class="badge bg-primary text-white">Customer Points : {{generalModel.custpointsconvert}} ₹</a>
                 </div>
             </div>
-            <!-- end card body -->
         </div>
-        <!-- end card -->
-
-        <div class="card">
+        <!-- <div class="card">
             <div class="card-body">
                 <h5 class="card-title mb-3">Portfolio</h5>
 
@@ -918,11 +930,9 @@
                     </ul>
                 </div>
             </div>
-            <!-- end card body -->
-        </div>
-        <!-- end card -->
+        </div> -->
 
-        <div class="card">
+        <!-- <div class="card">
             <div class="card-body">
                 <h5 class="card-title mb-3">Similar Profiles</h5>
 
@@ -970,10 +980,6 @@
                     </a>
                 </div>
             </div>
-            <!-- end card body -->
-        </div>
-        <!-- end card -->
+        </div> -->
     </div>
-    <!-- end col -->
 </div>
-<!-- end row -->

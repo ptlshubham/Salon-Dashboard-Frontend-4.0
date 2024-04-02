@@ -89,7 +89,10 @@ export class UserProfileService {
             id: values.uid,
             password: pass
         }
-        
+
         return this.http.post<any>(ApiService.UnlockScreenLockURL, data);
+    }
+    getUserData(id: any) {
+        return this.http.get(ApiService.getUserDataByIdURL + id);
     }
 }

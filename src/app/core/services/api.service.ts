@@ -147,6 +147,8 @@ export class ApiService {
   public static removeorderDetailsURL: string = ApiService.HOST_URL + '/admin/removeorderDetails/';
 
   public static saveGeneralSalonDetailsURL: string = ApiService.HOST_URL + '/admin/SaveGeneralSalonDetails';
+  public static getAllGeneralSalonDataURL: string = ApiService.HOST_URL + '/admin/GetAllGeneralSalonData';
+  public static getUserDataByIdURL: string = ApiService.HOST_URL + '/admin/GetUserDataById/';
 
 
 }

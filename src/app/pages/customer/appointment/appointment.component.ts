@@ -161,10 +161,8 @@ export class AppointmentComponent implements OnInit {
     this.paginateActiveData = this.appointmentList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
   getUsedServicesDetails(id: any) {
-    debugger
     this.customerService.getServicesListUsingId(id).subscribe((data: any) => {
       this.usedServices = data;
-      debugger
       for (let i = 0; i < this.usedServices.length; i++) {
         this.usedServices[i].index = i + 1;
       }
