@@ -4,6 +4,8 @@ import { environment } from '../../../environments/environment';
 import { UserProfileService } from '../../core/services/user.service';
 import { LAYOUT_MODE } from '../../layouts/layouts.model';
 import { Router } from '@angular/router';
+import { OwlOptions } from 'ngx-owl-carousel-o';
+import { News } from '../../pages/dashboard/data';
 
 @Component({
   selector: 'app-register',
@@ -28,11 +30,28 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   successmsg = false;
   error = '';
+  News: any;
 
+  timelineCarousel: OwlOptions = {
+    items: 1,
+    loop: false,
+    margin: 0,
+    nav: false,
+    navText: ["", ""],
+    dots: true,
+    responsive: {
+      680: {
+        items: 4
+      },
+    }
+  }
   constructor(private formBuilder: UntypedFormBuilder,
     private router: Router,
     // private authenticationService: AuthenticationService,
-    private userService: UserProfileService) { }
+    private userService: UserProfileService) { 
+    this._fetchData();
+
+    }
 
   ngOnInit(): void {
     this.layout_mode = LAYOUT_MODE
@@ -48,7 +67,10 @@ export class RegisterComponent implements OnInit {
     });
     document.body.setAttribute('data-layout', 'vertical');
   }
-
+  private _fetchData() {
+ 
+    this.News = News;
+  }
   // convenience getter for easy access to form fields
   get f() { return this.signupForm.controls; }
 

@@ -4,8 +4,9 @@ import { CustomerService } from 'src/app/core/services/customer.service';
 import { ExpensesService } from 'src/app/core/services/expenses.service';
 import { BannersService } from 'src/app/core/services/banners.service';
 import { ChartType } from './dashboard.model';
-import { basicRadialBarChart, simplePieChart } from './data';
+import { basicRadialBarChart, investedOverview, News } from './data';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,6 +35,10 @@ export class DashboardComponent implements OnInit {
   simplePieChart!: ChartType;
   basicRadialBarChart!: ChartType;
 
+  investedOverview!: ChartType;
+  News: any;
+
+
   page = 1;
   pageSize = 10;
   collectionSize = 0;
@@ -44,30 +49,37 @@ export class DashboardComponent implements OnInit {
   imagesData: any = [];
 
   showNavigationArrows: any;
-
-  donutChart: ChartType = {
-    chart: { height: 380, type: "donut" },
+  topServiceChart: ChartType = {
+    chart: {
+      width: 227,
+      height: 227,
+      type: 'pie'
+    },
+    colors: ["#35398e", "#3c40a0", "#4348b3", "#5156be", "#6468c5"],
+    legend: { show: !1 },
+    stroke: {
+      width: 0
+    },
     series: [],
     labels: [],
-    colors: ["#35398e", "#3c40a0", "#4348b3", "#5156be", "#6468c5"],
-    legend: {
-      show: !0,
-      position: "bottom",
-      horizontalAlign: "center",
-      verticalAlign: "middle",
-      floating: !1,
-      fontSize: "14px",
-      color: "#000000",
-      offsetX: 0,
-    },
-    responsive: [
-      {
-        breakpoint: 600,
-        options: { chart: { height: 240 }, legend: { show: !1 } },
-      },
-    ],
   };
+
+
+  timelineCarousel: OwlOptions = {
+    items: 1,
+    loop: false,
+    margin: 0,
+    nav: false,
+    navText: ["", ""],
+    dots: true,
+    responsive: {
+      680: {
+        items: 4
+      },
+    }
+  }
   constructor(
+
     private bannersService: BannersService,
     private customerService: CustomerService,
     private expensesService: ExpensesService,
@@ -75,7 +87,7 @@ export class DashboardComponent implements OnInit {
 
     private router: Router,
   ) {
-    this.getCustomerDonoutChart();
+    this.getCustomerServicesChart();
   }
 
   option = {
@@ -136,7 +148,8 @@ export class DashboardComponent implements OnInit {
 
   private _fetchData() {
     this.basicRadialBarChart = basicRadialBarChart;
-    this.simplePieChart = simplePieChart;
+    this.investedOverview = investedOverview;
+    this.News = News;
   }
 
 
@@ -149,13 +162,13 @@ export class DashboardComponent implements OnInit {
   openearnings() {
     this.router.navigate(['/custom/earnings'])
   }
-  getCustomerDonoutChart() {
+  getCustomerServicesChart() {
     this.dashboardService.getCustservice().subscribe((data: any) => {
+      debugger
       data.forEach((element: any) => {
-        this.donutChart.series.push(element.service_count);
-        this.donutChart.labels.push(element.servicesname);
+        this.topServiceChart.series.push(element.service_count);
+        this.topServiceChart.labels.push(element.servicesname);
       });
     });
   }
-
 }
