@@ -164,15 +164,25 @@ export class ProfileComponent implements OnInit {
         this.toastr.success('Service details added successfully', 'Success', { timeOut: 3000 });
         this.discountValidationForm.markAsUntouched();
         this.generalModel = data[0];
+
       })
     }
 
   }
   getAllGeneralDetails() {
     this.salonId = 1;
+    debugger
     this.adminService.getAllGeneralDetails(this.salonId).subscribe((data: any) => {
-      this.generalModel = data[0];
-      this.populateForm();
+      if (data.length > 0) {
+        this.generalModel = data[0];
+        this.populateForm();
+      }
+      else {
+        this.generalModel.vipdiscount = 0;
+        this.generalModel.maxdiscount = 0;
+        this.generalModel.emppointsconvert = 0;
+        this.generalModel.custpointsconvert = 0;
+      }
     });
   }
   populateForm(): void {
