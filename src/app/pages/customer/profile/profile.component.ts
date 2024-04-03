@@ -6,6 +6,8 @@ import { UserProfileService } from 'src/app/core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AdminService } from 'src/app/core/services/admin.service';
+import { monthlyPlan, yearlyPlan } from './pricing.model';
+import { monthlyData, yearlyData } from './data';
 
 @Component({
   selector: 'app-profile',
@@ -28,7 +30,11 @@ export class ProfileComponent implements OnInit {
   discountValidationForm!: FormGroup;
   userData: any = {};
   salonId: any;
+  monthlyData!: monthlyPlan[];
+  yearlyData!: yearlyPlan[];
+
   // bread crumb items
+
   breadCrumbItems!: Array<{}>;
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -61,6 +67,13 @@ export class ProfileComponent implements OnInit {
       { label: 'Profile', active: true }
     ];
     this.getAllGeneralDetails();
+    this._fetchData();
+  }
+
+  // Pricing Data Fetch
+  private _fetchData() {
+    this.monthlyData = monthlyData;
+    this.yearlyData = yearlyData;
   }
   get a() { return this.unlockForm.controls; }
   get f() { return this.discountValidationForm.controls; }
