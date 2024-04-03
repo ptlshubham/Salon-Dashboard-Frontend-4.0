@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
     chart: { height: 380, type: "donut" },
     series: [],
     labels: [],
-    colors: ["#2ab57d", "#5156be", "#fd625e", "#4ba6ef", "#ffbf53"],
+    colors: ["#35398e", "#3c40a0", "#4348b3", "#5156be", "#6468c5"],
     legend: {
       show: !0,
       position: "bottom",

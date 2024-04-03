@@ -23,14 +23,14 @@ export class AdminService {
         return this.httpClient.post<any>(ApiService.updateRegistrationListURL, admin);
     }
     removeRegistrationDetails(id: any) {
-        
+
         return this.httpClient.get<any>(ApiService.removeRegistrationDetailsURL + id);
     }
     saveGeneralDetails(admin: any) {
 
         return this.httpClient.post<any>(ApiService.saveGeneralSalonDetailsURL, admin);
     }
-    getAllGeneralDetails(): Observable<any[]> {
-        return this.httpClient.get<any>(ApiService.getAllGeneralSalonDataURL);
+    getAllGeneralDetails(id:any): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getAllGeneralSalonDataURL + id);
     }
 }

@@ -274,78 +274,110 @@
                         <div class="row">
                             <div class="d-flex flex-column">
                                 <div class="p-1">Customer Name : <span class="badge bg-primary"
-                                        ngbTooltip="{{paymemtDataModel.fname}} {{paymemtDataModel.lname}}"
-                                        placement="top">{{paymemtDataModel.fname}}
-                                        {{paymemtDataModel.lname}}</span>
+                                        ngbTooltip="{{paymentDataModel.fname}} {{paymentDataModel.lname}}"
+                                        placement="top">{{paymentDataModel.fname}}
+                                        {{paymentDataModel.lname}}</span>
                                 </div>
                                 <div class="p-1">Contact : <span class="badge bg-primary"
-                                        ngbTooltip="{{paymemtDataModel.contact}}"
-                                        placement="top">{{paymemtDataModel.contact}}</span>
+                                        ngbTooltip="{{paymentDataModel.contact}}"
+                                        placement="top">{{paymentDataModel.contact}}</span>
                                 </div>
                                 <div class="p-1 d-flex flex-wrap gap-2">Services : <span class="badge bg-primary"
-                                        *ngFor="let a of paymemtDataModel.services;let i=index"
+                                        *ngFor="let a of paymentDataModel.services;let i=index"
                                         ngbTooltip="{{a.servicesname}}" placement="top">{{a.servicesname}}</span>
                                 </div>
                                 <div class="p-1">Today Earned Point : <span class="badge bg-primary"
-                                        ngbTooltip="{{paymemtDataModel.totalpoint}}"
-                                        placement="top">{{paymemtDataModel.totalpoint}}</span>
+                                        ngbTooltip="{{paymentDataModel.totalpoint}}"
+                                        placement="top">{{paymentDataModel.totalpoint}}</span>
                                 </div>
                             </div>
                         </div>
                         <h5 class="font-size-18 mb-4 p-1">Total Amount:
                             <span class="badge bg-success text-white text-decoration-underline"
-                                ngbTooltip="{{paymemtDataModel.totalprice}} ₹"
-                                placement="top">{{paymemtDataModel.totalprice}}
+                                ngbTooltip="{{paymentDataModel.totalprice}} ₹"
+                                placement="top">{{paymentDataModel.totalprice}}
                                 ₹</span>
                         </h5>
-                        <div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text">Customer Total Point</label>
-                                <input type="text" class="form-control disabled-c" disabled placeholder="Total Point">
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text">Redeem Points</label>
-                                <input type="text" class="form-control" placeholder="Enter Redeem Points">
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text">Cash</label>
-                                <input type="text" class="form-control" placeholder="Enter Amount">
-                                <label class="input-group-text">₹</label>
-                            </div>
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text">Customer Total Point</label>
+                                    <input type="text" class="form-control disabled-c" disabled
+                                        placeholder="Total Customer Point" value="{{billingModel.totalcustpoint}}">
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <label class="input-group-text">Redeem Points</label>
+                                        <input type="number" class="form-control" placeholder="Enter Redemption Points"
+                                            #pointsInput (focusout)="calculateRedeemPoints(pointsInput.value)">
+                                        <input type="text" class="form-control disabled-c" disabled
+                                            placeholder="Converted Price" value="{{billingModel.redeempointprice}}">
+                                        <label class="input-group-text">₹</label>
+                                    </div>
+                                    <div *ngIf="pointsError" class="text-danger">{{ pointsError }}</div>
+                                </div>
+                                <div class="input-group mb-3" *ngIf="paymentDataModel.vip">
+                                    <label class="input-group-text">VIP Discount</label>
+                                    <label class="input-group-text">{{generalModel.vipdiscount}}%</label>
+                                    <input type="number" class="form-control disabled-c"
+                                        value="{{billingModel.vipdiscountprice}}" disabled placeholder="VIP Discount">
+                                    <label class="input-group-text">₹</label>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group" *ngIf="!paymentDataModel.vip">
+                                        <label class="input-group-text">Discount</label>
+                                        <input type="number" class="form-control"
+                                            placeholder="Enter Percentage Discount" #discountInput
+                                            (focusout)="calculateDiscount(discountInput.value)">
+                                        <label class="input-group-text">%</label>
+                                        <label class="input-group-text disabled-c">{{
+                                            billingModel.maxdiscountprice}}</label>
+                                        <label class="input-group-text">₹</label>
+                                    </div>
+                                    <div *ngIf="discountError" class="text-danger">{{ discountError }}</div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text">Total</label>
+                                    <input type="text" class="form-control disabled-c" disabled
+                                        placeholder="Enter Amount">
+                                    <label class="input-group-text">₹</label>
+                                </div>
 
-                            <div class="input-group mb-3">
-                                <label class="input-group-text">Online Payment</label>
-                                <select class="form-select" style="max-width: 130px;">
-                                    <option value="BT" selected>UPI</option>
-                                    <option value="ET">Credit/Debit </option>
-                                    <option value="LT">Bank Transfer</option>
-                                </select>
-                                <input type="text" class="form-control" placeholder="Enter Amount">
-                                <label class="input-group-text">₹</label>
-                            </div>
 
-                            <div class="input-group mb-3">
-                                <label class="input-group-text">Pending Amount</label>
-                                <input type="text" class="form-control" placeholder="Enter Amount">
-                                <label class="input-group-text">₹</label>
                             </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text">Cash</label>
+                                    <input type="text" class="form-control" placeholder="Enter Amount">
+                                    <label class="input-group-text">₹</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text">Online</label>
+                                    <select class="form-select" style="max-width: 130px;">
+                                        <option value="BT" selected>UPI</option>
+                                        <option value="ET">Credit/Debit </option>
+                                        <option value="LT">Bank Transfer</option>
+                                    </select>
+                                    <input type="number" class="form-control" placeholder="Enter Amount">
+                                    <label class="input-group-text">₹</label>
+                                </div>
 
-                            <div class="input-group mb-3">
-                                <label class="input-group-text">Total</label>
-                                <input type="text" class="form-control disabled-c" disabled placeholder="Enter Amount">
-                                <label class="input-group-text">₹</label>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text">Pending Amount</label>
+                                    <input type="number" class="form-control" placeholder="Enter Amount">
+                                    <label class="input-group-text">₹</label>
+                                </div>
+
                             </div>
-                        </div>
-
-                        <div class="text-center">
-                            <button type="button" class="btn btn-success w-md">Pay Now</button>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-success w-md">Pay Now</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-
         </div>
     </ng-template>
     <ng-template #servicesexlargeModal let-modal>
@@ -582,9 +614,6 @@
                                 <div class="grid-example">Total Approx Time:<br><span
                                         class="text-primary"><b>{{totalTempTime}}
                                             (Minutes)</b></span>
-                                </div>
-                                <div class="vr"></div>
-                                <div class="grid-example">VIP Bonus:<br><span class="text-primary"><b> ₹</b></span>
                                 </div>
                             </div>
                         </div>

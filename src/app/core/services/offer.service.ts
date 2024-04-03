@@ -41,12 +41,6 @@ export class OfferService {
     removeOfferDetails(id:any) {
         return this.httpClient.get<any>(ApiService.removeOfferDetailsURL + id);
     }
-    getCustAllPoint(id:any) {
-        let data = {
-            id: id
-        }
-        return this.httpClient.post<any>(ApiService.getOfferTotalPointsURL, data);
-    }
     getAllOfferDataList(id:any) {
         let data = {
             id: id

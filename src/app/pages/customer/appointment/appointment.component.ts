@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { AdminService } from 'src/app/core/services/admin.service';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { OfferService } from 'src/app/core/services/offer.service';
@@ -41,7 +42,7 @@ export class AppointmentComponent implements OnInit {
   collectionSizeEmployee = 0;
   paginateEmployeeData: any = [];
   isworking: boolean = false;
-  paymemtDataModel: any = {};
+  paymentDataModel: any = {};
   completeNumber: number = 0;
   processNumber: number = 0;
   point: number = 0;
@@ -82,8 +83,15 @@ export class AppointmentComponent implements OnInit {
   selectedCustId: any;
   servicesModel: any = {};
   tCustPoint: any = 0;
-
+  tempCustPoint: any = 0;
   customerModel: any = {};
+
+  generalModel: any = {};
+  salonId: any;
+  billingModel: any = {};
+  discountError: string | null = null;
+  totalCustPoint: any = [];
+  pointsError: string | null = null;
 
   constructor(
     private employeeService: EmployeeService,
@@ -93,6 +101,7 @@ export class AppointmentComponent implements OnInit {
     public formBuilder: UntypedFormBuilder,
     private offerService: OfferService,
     private servicesService: ServiceListService,
+    private adminService: AdminService
 
   ) {
     this.refreshSubscription = this.customerService.refresh$.subscribe(() => {
@@ -227,15 +236,74 @@ export class AppointmentComponent implements OnInit {
 
   }
   openPaymentData(data: any, content: any) {
-    this.paymemtDataModel = {};
-    this.customerService.getServicesListUsingId(data.id).subscribe((res: any) => {
-      this.paymemtDataModel = data;
-      this.paymemtDataModel.services = res;
-    });
+    this.pointsError = null;
+    this.discountError = null;
+    this.billingModel = {};
+    this.paymentDataModel = {};
+    this.billingModel.maxdiscountprice = 'Discounted Price';
+    this.getAllGeneralDetails();
+    this.getCustomerPoints(data.cId);
 
-    this.modalService.open(content, {windowClass: 'modal-holder', centered: true });
+    this.customerService.getServicesListUsingId(data.id).subscribe((res: any) => {
+      this.paymentDataModel = data;
+      this.paymentDataModel.services = res;
+      if (this.paymentDataModel.vip) {
+        const totalPrice = this.paymentDataModel.totalprice;
+        const vipDiscountPercentage = this.generalModel.vipdiscount;
+        const priceAfterVipDiscount = totalPrice - (totalPrice * (vipDiscountPercentage / 100));
+        const discountPrice = totalPrice - priceAfterVipDiscount;
+        debugger
+        this.billingModel.vipdiscountprice = discountPrice;
+      }
+    });
+    this.modalService.open(content, { size: 'xl', windowClass: 'modal-holder', centered: true });
   }
 
+  calculateDiscount(enteredValue: string) {
+    const percentageDiscount = parseFloat(enteredValue);
+    const maxDiscount = this.generalModel.maxdiscount;
+
+    if (!isNaN(percentageDiscount)) {
+      if (percentageDiscount > maxDiscount) {
+        this.discountError = 'Discount cannot exceed the maximum discount.';
+        return; // Exit the function if discount is greater than maxDiscount
+      } else {
+        this.discountError = null; // Clear the error message if discount is valid
+      }
+
+      const totalPrice = this.paymentDataModel?.totalprice ?? 0;
+      const priceAfterDiscount = totalPrice - (totalPrice * (percentageDiscount / 100));
+      const discountPrice = totalPrice - priceAfterDiscount;
+      this.billingModel.maxdiscountprice = discountPrice;
+
+      console.log('Price after discount:', priceAfterDiscount);
+    } else {
+      this.discountError = 'Invalid input. Please enter a valid percentage.';
+    }
+  }
+
+
+  calculateRedeemPoints(enteredValue: any) {
+    const redemptionPoints = parseInt(enteredValue, 10);
+
+    if (isNaN(redemptionPoints) || redemptionPoints !== 100) {
+      this.pointsError = 'Redemption points must be exactly 100.';
+      return;
+    } else if (this.billingModel.totalcustpoint < redemptionPoints) {
+      this.pointsError = 'Insufficient customer points for redemption.';
+      return;
+    } else {
+      this.pointsError = null; // Clear the error message if points are valid
+    }
+
+    debugger; // You can remove this line if you don't need to debug
+
+    // Perform redemption and update models
+    this.billingModel.redeempoints = redemptionPoints;
+    this.billingModel.redeempointprice = this.generalModel.custpointsconvert;
+
+    // Perform any other logic related to redemption
+  }
 
 
   removeItemFromUsedServices(index: any, data: any) {
@@ -433,7 +501,7 @@ export class AppointmentComponent implements OnInit {
     this.tempServiceData = [];
     this.selectedCustId = this.userBookingData.cId;
     this.customerModel = this.userBookingData;
-    
+
     this.customerModel.customerName = this.userBookingData.fname + ' ' + this.userBookingData.lname;
     this.getAllServices();
     this.getAllEmployee();
@@ -444,7 +512,7 @@ export class AppointmentComponent implements OnInit {
 
   addOldSelectedServices() {
     this.usedServices
-    
+
     for (let i = 0; i < this.usedServices.length; i++) {
       this.tempServiceData.push({
         time: this.usedServices[i].time,
@@ -455,8 +523,8 @@ export class AppointmentComponent implements OnInit {
         servicetype: this.usedServices[i].servicetype,
         memid: this.usedServices[i].memid,
         comboId: this.usedServices[i].comboid,
-        CSId:this.usedServices[i].CSId,
-        appointmentid:this.usedServices[i].appointmentid,
+        CSId: this.usedServices[i].CSId,
+        appointmentid: this.usedServices[i].appointmentid,
       });
     }
     for (let i = 0; i < this.tempServiceData.length; i++) {
@@ -692,6 +760,7 @@ export class AppointmentComponent implements OnInit {
     }
     this.calculateTempServicePointsList();
   }
+
   removeItemFromAppointement(i: any, data: any) {
     if (data.servicetype == 'Combo') {
       const comboIdToRemove = data.comboId;
@@ -707,4 +776,23 @@ export class AppointmentComponent implements OnInit {
     this.calculateTempServicePointsList();
   }
 
+  getAllGeneralDetails() {
+    this.salonId = 1;
+    this.adminService.getAllGeneralDetails(this.salonId).subscribe((data: any) => {
+      this.generalModel = data[0];
+    });
+  }
+  getCustomerPoints(id: any) {
+    this.customerService.getCustAllPoint(id).subscribe((data: any) => {
+      this.totalCustPoint = data;
+      this.tempCustPoint = 0;
+      this.totalCustPoint.forEach((element: any) => {
+        if (element.totalcustpoint != undefined) {
+          this.tempCustPoint = element.totalcustpoint;
+          debugger
+        }
+      });
+      this.billingModel.totalcustpoint = this.tempCustPoint;
+    });
+  }
 }

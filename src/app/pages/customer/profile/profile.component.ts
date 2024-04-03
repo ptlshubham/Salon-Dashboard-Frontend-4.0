@@ -27,6 +27,7 @@ export class ProfileComponent implements OnInit {
   generalModel: any = {};
   discountValidationForm!: FormGroup;
   userData: any = {};
+  salonId: any;
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   constructor(
@@ -155,7 +156,8 @@ export class ProfileComponent implements OnInit {
 
   }
   getAllGeneralDetails() {
-    this.adminService.getAllGeneralDetails().subscribe((data: any) => {
+    this.salonId = 1;
+    this.adminService.getAllGeneralDetails(this.salonId).subscribe((data: any) => {
       this.generalModel = data[0];
       this.populateForm();
     });
