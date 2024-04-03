@@ -84,8 +84,8 @@ export class SalonRegistartionComponent {
       selectSupscription: ['', [Validators.required]],
       websitelink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
       oname: ['', [Validators.required]],
-      semail: ['', [Validators.required]]
-
+      semail: ['', [Validators.required]],
+      adminfname:['',[Validators.required]]
     });
   }
   get f() { return this.validationForm.controls; }
