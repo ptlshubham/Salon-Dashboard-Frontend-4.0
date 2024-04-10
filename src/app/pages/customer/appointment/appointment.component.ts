@@ -252,7 +252,7 @@ export class AppointmentComponent implements OnInit {
         const vipDiscountPercentage = this.generalModel.vipdiscount;
         const priceAfterVipDiscount = totalPrice - (totalPrice * (vipDiscountPercentage / 100));
         const discountPrice = totalPrice - priceAfterVipDiscount;
-        debugger
+        
         this.billingModel.vipdiscountprice = discountPrice;
       }
     });
@@ -296,7 +296,7 @@ export class AppointmentComponent implements OnInit {
       this.pointsError = null; // Clear the error message if points are valid
     }
 
-    debugger; // You can remove this line if you don't need to debug
+    // You can remove this line if you don't need to debug
 
     // Perform redemption and update models
     this.billingModel.redeempoints = redemptionPoints;
@@ -789,7 +789,7 @@ export class AppointmentComponent implements OnInit {
       this.totalCustPoint.forEach((element: any) => {
         if (element.totalcustpoint != undefined) {
           this.tempCustPoint = element.totalcustpoint;
-          debugger
+          
         }
       });
       this.billingModel.totalcustpoint = this.tempCustPoint;

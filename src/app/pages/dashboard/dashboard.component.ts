@@ -164,7 +164,6 @@ export class DashboardComponent implements OnInit {
   }
   getCustomerServicesChart() {
     this.dashboardService.getCustservice().subscribe((data: any) => {
-      debugger
       data.forEach((element: any) => {
         this.topServiceChart.series.push(element.service_count);
         this.topServiceChart.labels.push(element.servicesname);

@@ -6,8 +6,9 @@ import { UserProfileService } from 'src/app/core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AdminService } from 'src/app/core/services/admin.service';
-import { monthlyPlan, yearlyPlan } from './pricing.model';
-import { monthlyData, yearlyData } from './data';
+import { monthlyPlan,  } from './pricing.model';
+import { monthlyData,  } from './data';
+import { EmployeeService } from 'src/app/core/services/employee.service';
 
 @Component({
   selector: 'app-profile',
@@ -31,8 +32,12 @@ export class ProfileComponent implements OnInit {
   userData: any = {};
   salonId: any;
   monthlyData!: monthlyPlan[];
-  yearlyData!: yearlyPlan[];
   selectedCurrency: string = '';
+  Employeemodel: any = {};
+  public employeelist: any[] = [];
+ 
+ 
+
   // bread crumb items
 
   breadCrumbItems!: Array<{}>;
@@ -41,7 +46,9 @@ export class ProfileComponent implements OnInit {
     private userService: UserProfileService,
     private router: Router,
     public toastr: ToastrService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private employeeService: EmployeeService,
+  
 
   ) {
     this.getUserDataById();
@@ -49,6 +56,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.onemployeeselect();
     this.selectedCurrency = '₹';
     this.unlockForm = this.formBuilder.group({
       password: ['', Validators.required],
@@ -74,7 +82,6 @@ export class ProfileComponent implements OnInit {
   // Pricing Data Fetch
   private _fetchData() {
     this.monthlyData = monthlyData;
-    this.yearlyData = yearlyData;
   }
   get a() { return this.unlockForm.controls; }
   get f() { return this.discountValidationForm.controls; }
@@ -172,7 +179,6 @@ export class ProfileComponent implements OnInit {
   }
   getAllGeneralDetails() {
     this.salonId = 1;
-    debugger
     this.adminService.getAllGeneralDetails(this.salonId).subscribe((data: any) => {
       if (data.length > 0) {
         this.generalModel = data[0];
@@ -199,5 +205,15 @@ export class ProfileComponent implements OnInit {
   selectedCurrencyData(currency: string) {
     // Update selectedCurrency when the dropdown value changes
     this.selectedCurrency = currency;
+  }
+  onemployeeselect(){
+    this.employeeService.getAllEmployeeList().subscribe((data: any) => {
+      this.employeelist = data;
+      
+      for (let i = 0; i < this.employeelist.length; i++) {
+        this.employeelist[i].index = i + 1;
+      }
+     
+    });
   }
 }
