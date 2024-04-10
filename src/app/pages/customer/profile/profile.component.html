@@ -139,18 +139,20 @@
                                                 <h5 class="card-title mb-0">Currency</h5>
                                             </div>
                                             <div class="col mt-3">
-                                                <div class="dropdown" ngbDropdown>
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                        aria-expanded="false" ngbDropdownToggle>Select Currency Type
-                                                        Currency <i class="mdi mdi-chevron-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
-                                                        ngbDropdownMenu>
-                                                        <a class="dropdown-item" href="javascript:void(0);">Dollar</a>
-                                                        <a class="dropdown-item" href="javascript:void(0);">Pound</a>
-                                                        <a class="dropdown-item" href="javascript:void(0);">Euro</a>
-                                                    </div>
+                                                <div class="input-group mb-3">
+                                                    <label class="input-group-text">Select Currency Type</label>
+                                                    <select class="form-select" style="max-width: 130px;"
+                                                        [(ngModel)]="selectedCurrency"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        (ngModelChange)="selectedCurrencyData($event)">
+                                                        <option [ngValue]="'₹'">Rupee (₹)</option>
+                                                        <option [ngValue]="'$'">Dollar ($)</option>
+                                                        <option [ngValue]="'£'">Pound (£)</option>
+                                                        <option [ngValue]="'€'">Euro (€)</option>
+                                                    </select>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Selected Currency Type"
+                                                        [value]="selectedCurrency === '₹' ? '₹' : selectedCurrency">
                                                 </div>
                                             </div><!-- end col -->
                                             <div class="text-end">

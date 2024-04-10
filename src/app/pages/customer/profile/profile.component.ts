@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   salonId: any;
   monthlyData!: monthlyPlan[];
   yearlyData!: yearlyPlan[];
-
+  selectedCurrency: string = '';
   // bread crumb items
 
   breadCrumbItems!: Array<{}>;
@@ -49,6 +49,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedCurrency = '₹';
     this.unlockForm = this.formBuilder.group({
       password: ['', Validators.required],
       confirmpwd: ['', Validators.required]
@@ -195,5 +196,8 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
-
+  selectedCurrencyData(currency: string) {
+    // Update selectedCurrency when the dropdown value changes
+    this.selectedCurrency = currency;
+  }
 }
