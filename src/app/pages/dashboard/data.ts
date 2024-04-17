@@ -186,27 +186,7 @@ const marketOverview: ChartType = {
   },
 };
 
-const basicRadialBarChart: ChartType = {
-  chart: { height: 370, type: "radialBar" },
-  plotOptions: {
-      radialBar: {
-          dataLabels: {
-              name: { fontSize: "22px" },
-              value: { fontSize: "16px" },
-              total: {
-                  show: !0,
-                  label: "Total",
-                  formatter: (w: any) => {
-                      return 249;
-                  }
-              }
-          }
-      }
-  },
-  colors: ['#556ee6', '#34c38f', '#f46a6a', '#f1b44c'],
-  series: [44, 55, 67, 83],
-  labels: ['Computer', 'Tablet', 'Laptop', 'Mobile'],
-};
+
 
 const simplePieChart: ChartType = {
   chart: { height: 380, type: "pie" },
@@ -474,4 +454,4 @@ const transactionsSell = [
   }
 ];
 
-export { walletOverview, investedOverview, marketOverview, recentActivity, walletlineChart, tradeslineChart, investedlineChart, profitlineChart, News, transactionsAll, transactionsBuy, transactionsSell,basicRadialBarChart, simplePieChart, donutChart };
+export { walletOverview, investedOverview, marketOverview, recentActivity, walletlineChart, tradeslineChart, investedlineChart, profitlineChart, News, transactionsAll, transactionsBuy, transactionsSell, simplePieChart, donutChart };

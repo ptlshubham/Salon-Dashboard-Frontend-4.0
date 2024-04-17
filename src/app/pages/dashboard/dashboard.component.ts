@@ -4,7 +4,7 @@ import { CustomerService } from 'src/app/core/services/customer.service';
 import { ExpensesService } from 'src/app/core/services/expenses.service';
 import { BannersService } from 'src/app/core/services/banners.service';
 import { ChartType } from './dashboard.model';
-import { basicRadialBarChart, investedOverview, News } from './data';
+import { investedOverview, News } from './data';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
@@ -33,7 +33,6 @@ export class DashboardComponent implements OnInit {
   MembershipList: any = [];
   totalExpense: number = 0;
   simplePieChart!: ChartType;
-  basicRadialBarChart!: ChartType;
 
   investedOverview!: ChartType;
   News: any;
@@ -51,8 +50,8 @@ export class DashboardComponent implements OnInit {
   showNavigationArrows: any;
   topServiceChart: ChartType = {
     chart: {
-      width: 227,
-      height: 227,
+      width: 220,
+      height: 220,
       type: 'pie'
     },
     colors: ["#35398e", "#3c40a0", "#4348b3", "#5156be", "#6468c5"],
@@ -64,6 +63,27 @@ export class DashboardComponent implements OnInit {
     labels: [],
   };
 
+  basicRadialBarChart: ChartType = {
+    chart: { height: 220, type: "radialBar" },
+    plotOptions: {
+      radialBar: {
+        dataLabels: {
+          name: { fontSize: "22px" },
+          value: { fontSize: "16px" },
+          total: {
+            show: !0,
+            label: "Total",
+            formatter: (w: any) => {
+              return 249;
+            }
+          }
+        }
+      }
+    },
+    colors: ['#556ee6', '#34c38f', '#f46a6a', '#f1b44c'],
+    series: [44, 55, 67, 83],
+    labels: ['Computer', 'Tablet', 'Laptop', 'Mobile'],
+  };
 
   timelineCarousel: OwlOptions = {
     items: 1,
@@ -78,6 +98,73 @@ export class DashboardComponent implements OnInit {
       },
     }
   }
+
+  columnlabelChart: ChartType = {
+    chart: { height: 220, type: "bar", toolbar: { show: !1 } },
+    plotOptions: { bar: { borderRadius: 10, dataLabels: { position: "top" } } },
+    colors: ['#5156be'],
+    dataLabels: {
+      enabled: !0,
+      formatter: (val: string) => {
+        return val + '%';
+      },
+      offsetY: -22,
+      style: { fontSize: "12px", colors: ["#304758"] },
+    },
+    series: [
+      {
+        name: "Inflation",
+        data: [2.5, 3.2, 5, 10.1, 4.2, 3.8, 3, 2.4, 4, 1.2, 3.5, 0.8],
+      },
+    ],
+    xaxis: {
+      categories: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+      position: "top",
+      labels: { offsetY: -18 },
+      axisBorder: { show: !1 },
+      axisTicks: { show: !1 },
+      crosshairs: {
+        fill: {
+          type: "gradient",
+          gradient: {
+            colorFrom: "#D8E3F0",
+            colorTo: "#BED1E6",
+            stops: [0, 100],
+            opacityFrom: 0.4,
+            opacityTo: 0.5,
+          },
+        },
+      },
+      tooltip: { enabled: !0, offsetY: -35 },
+    },
+    yaxis: {
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false,
+      },
+      labels: {
+        show: false,
+        formatter: (val: string) => {
+          return val + '%';
+        }
+      }
+    } 
+  };
   constructor(
 
     private bannersService: BannersService,
@@ -147,8 +234,6 @@ export class DashboardComponent implements OnInit {
   }
 
   private _fetchData() {
-    this.basicRadialBarChart = basicRadialBarChart;
-    this.investedOverview = investedOverview;
     this.News = News;
   }
 
@@ -164,7 +249,6 @@ export class DashboardComponent implements OnInit {
   }
   getCustomerServicesChart() {
     this.dashboardService.getCustservice().subscribe((data: any) => {
-      debugger
       data.forEach((element: any) => {
         this.topServiceChart.series.push(element.service_count);
         this.topServiceChart.labels.push(element.servicesname);
