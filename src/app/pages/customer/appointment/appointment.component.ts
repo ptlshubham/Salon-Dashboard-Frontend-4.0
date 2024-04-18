@@ -93,6 +93,15 @@ export class AppointmentComponent implements OnInit {
   totalCustPoint: any = [];
   pointsError: string | null = null;
 
+  vipDiscount: number = 0;
+  discount: number = 0;
+  redeemPoint: number = 0;
+  cash: number = 0;
+  online: number = 0;
+  selectedPaymentMethod: string = 'UPI'; // Default selected option
+  exceedError: string | null = null;
+  pendingAmount: number = 0;
+
   constructor(
     private employeeService: EmployeeService,
     private customerService: CustomerService,
@@ -235,77 +244,235 @@ export class AppointmentComponent implements OnInit {
     }
 
   }
-  openPaymentData(data: any, content: any) {
+  openPaymentData(content: any) {
     this.pointsError = null;
     this.discountError = null;
     this.billingModel = {};
     this.paymentDataModel = {};
-    this.billingModel.maxdiscountprice = 'Discounted Price';
-    this.getAllGeneralDetails();
-    this.getCustomerPoints(data.cId);
 
-    this.customerService.getServicesListUsingId(data.id).subscribe((res: any) => {
-      this.paymentDataModel = data;
+    this.billingModel.maxdiscountprice = 0;
+    this.getAllGeneralDetails();
+    this.getCustomerPoints(this.userBookingData.cId);
+
+    this.customerService.getServicesListUsingId(this.userBookingData.id).subscribe((res: any) => {
+      this.billingModel.subtotal = 0;
+      this.paymentDataModel = this.userBookingData;
       this.paymentDataModel.services = res;
       if (this.paymentDataModel.vip) {
-        const totalPrice = this.paymentDataModel.totalprice;
-        const vipDiscountPercentage = this.generalModel.vipdiscount;
-        const priceAfterVipDiscount = totalPrice - (totalPrice * (vipDiscountPercentage / 100));
-        const discountPrice = totalPrice - priceAfterVipDiscount;
-        debugger
-        this.billingModel.vipdiscountprice = discountPrice;
+        this.calculateVIPDiscount();
+      }
+      else {
+        this.billingModel.subtotal = this.paymentDataModel.totalprice;
+        this.billingModel.pendingamount = this.billingModel.subtotal;
       }
     });
+
+    this.billingModel.cashamount = 0;
+    this.billingModel.onlineamount = 0;
+    this.cash = 0;
+    this.online = 0;
+    this.exceedError = null;
+
     this.modalService.open(content, { size: 'xl', windowClass: 'modal-holder', centered: true });
   }
+  calculateVIPDiscount() {
+    const totalPrice = this.paymentDataModel.totalprice;
+    const vipDiscountPercentage = this.generalModel.vipdiscount;
+    const priceAfterVipDiscount = totalPrice - (totalPrice * (vipDiscountPercentage / 100));
+    const roundedPriceAfterVipDiscount = Math.ceil(priceAfterVipDiscount); // Round up to the nearest whole number
+    const discountPrice = totalPrice - roundedPriceAfterVipDiscount;
+    this.billingModel.vipdiscountprice = discountPrice;
+    this.billingModel.subtotal = totalPrice - this.billingModel.vipdiscountprice;
+    this.billingModel.pendingamount = this.billingModel.subtotal;
+  }
 
-  calculateDiscount(enteredValue: string) {
-    const percentageDiscount = parseFloat(enteredValue);
-    const maxDiscount = this.generalModel.maxdiscount;
-
-    if (!isNaN(percentageDiscount)) {
-      if (percentageDiscount > maxDiscount) {
-        this.discountError = 'Discount cannot exceed the maximum discount.';
-        return; // Exit the function if discount is greater than maxDiscount
-      } else {
-        this.discountError = null; // Clear the error message if discount is valid
-      }
-
-      const totalPrice = this.paymentDataModel?.totalprice ?? 0;
-      const priceAfterDiscount = totalPrice - (totalPrice * (percentageDiscount / 100));
-      const discountPrice = totalPrice - priceAfterDiscount;
-      this.billingModel.maxdiscountprice = discountPrice;
-
-      console.log('Price after discount:', priceAfterDiscount);
-    } else {
-      this.discountError = 'Invalid input. Please enter a valid percentage.';
+  calculationDiscount(enteredValue: any, value: any) {
+    this.billingModel.cashamount = 0;
+    this.billingModel.onlineamount = 0;
+    if (value == 'max') {
+      this.calculateDiscount(enteredValue);
+    }
+    else if (value == 'redeem') {
+      this.calculateRedeemPoints(enteredValue);
     }
   }
 
+  calculateDiscount(enteredValue: any) {
+    const percentageDiscount = parseFloat(enteredValue);
+    const maxDiscount = this.generalModel.maxdiscount;
+    if (this.discount > 0) {
+      this.billingModel.subtotal += this.billingModel.maxdiscountprice;
+      this.billingModel.pendingamount = this.billingModel.subtotal;
+      if (!isNaN(percentageDiscount)) {
+        if (percentageDiscount > maxDiscount) {
+          this.billingModel.maxdiscountprice = 0;
+          this.discountError = 'Discount cannot exceed the maximum discount.';
+          return; // Exit the function if discount is greater than maxDiscount
+        } else {
+          this.discountError = null; // Clear the error message if discount is valid
+        }
+        const totalPrice = this.paymentDataModel?.totalprice ?? 0;
+        const priceAfterDiscount = totalPrice - (totalPrice * (percentageDiscount / 100));
+        const roundedPriceAfterDiscount = Math.ceil(priceAfterDiscount); // Round up to the nearest whole number
+
+        const discountPrice = totalPrice - roundedPriceAfterDiscount;
+        this.billingModel.maxdiscountprice = discountPrice;
+        this.billingModel.subtotal -= this.billingModel.maxdiscountprice;
+        this.billingModel.pendingamount = this.billingModel.subtotal;
+        this.discount = enteredValue;
+        console.log('Price after discount:', roundedPriceAfterDiscount);
+      } else {
+        this.billingModel.maxdiscountprice = 0;
+        this.discountError = 'Invalid input. Please enter a valid percentage.';
+      }
+    }
+    else {
+      if (!isNaN(percentageDiscount)) {
+        if (percentageDiscount > maxDiscount) {
+          this.billingModel.maxdiscountprice = 0;
+          this.discountError = 'Discount cannot exceed the maximum discount.';
+          return; // Exit the function if discount is greater than maxDiscount
+        } else {
+          this.discountError = null; // Clear the error message if discount is valid
+        }
+        const totalPrice = this.paymentDataModel?.totalprice ?? 0;
+        const priceAfterDiscount = totalPrice - (totalPrice * (percentageDiscount / 100));
+        const roundedPriceAfterDiscount = Math.ceil(priceAfterDiscount); // Round up to the nearest whole number
+
+        const discountPrice = totalPrice - roundedPriceAfterDiscount;
+        this.billingModel.maxdiscountprice = discountPrice;
+        this.billingModel.subtotal -= this.billingModel.maxdiscountprice;
+        this.billingModel.pendingamount = this.billingModel.subtotal;
+        this.discount = enteredValue;
+        console.log('Price after discount:', roundedPriceAfterDiscount);
+      } else {
+        this.billingModel.maxdiscountprice = 0;
+        this.discountError = 'Invalid input. Please enter a valid percentage.';
+      }
+    }
+  }
 
   calculateRedeemPoints(enteredValue: any) {
     const redemptionPoints = parseInt(enteredValue, 10);
-
-    if (isNaN(redemptionPoints) || redemptionPoints !== 100) {
-      this.pointsError = 'Redemption points must be exactly 100.';
+    if (isNaN(redemptionPoints)) {
+      this.billingModel.redeempoints = 0;
+      this.billingModel.redeempointprice = 0;
+      this.pointsError = 'Please enter a valid number.';
       return;
-    } else if (this.billingModel.totalcustpoint < redemptionPoints) {
+    }
+    if (redemptionPoints !== 0 && redemptionPoints !== 100) {
+      if (this.billingModel.redeempointprice > 0) {
+        this.billingModel.subtotal += this.billingModel.redeempointprice;
+        this.billingModel.pendingamount = this.billingModel.subtotal;
+      }
+      this.billingModel.redeempoints = 0;
+      this.billingModel.redeempointprice = 0;
+      this.pointsError = 'Redemption points must be either 0 or 100.';
+      return;
+    }
+    if (this.billingModel.totalcustpoint < redemptionPoints) {
+      if (this.billingModel.redeempointprice > 0) {
+        this.billingModel.subtotal += this.billingModel.redeempointprice;
+        this.billingModel.pendingamount = this.billingModel.subtotal;
+      }
+      this.billingModel.redeempoints = 0;
+      this.billingModel.redeempointprice = 0;
       this.pointsError = 'Insufficient customer points for redemption.';
       return;
-    } else {
-      this.pointsError = null; // Clear the error message if points are valid
     }
-
-    debugger; // You can remove this line if you don't need to debug
-
-    // Perform redemption and update models
-    this.billingModel.redeempoints = redemptionPoints;
-    this.billingModel.redeempointprice = this.generalModel.custpointsconvert;
-
-    // Perform any other logic related to redemption
+    this.pointsError = null;
+    // Update billing model based on valid redemption points
+    if (redemptionPoints === 100) {
+      if (this.billingModel.redeempointprice > 0) {
+        this.billingModel.subtotal += this.billingModel.redeempointprice;
+        this.billingModel.pendingamount = this.billingModel.subtotal;
+      }
+      this.billingModel.redeempoints = redemptionPoints;
+      this.billingModel.redeempointprice = this.generalModel.custpointsconvert;
+      this.billingModel.subtotal -= this.billingModel.redeempointprice;
+      this.billingModel.pendingamount = this.billingModel.subtotal;
+    } else {
+      if (this.billingModel.redeempointprice > 0) {
+        this.billingModel.subtotal += this.billingModel.redeempointprice;
+        this.billingModel.pendingamount = this.billingModel.subtotal;
+      }
+      this.billingModel.redeempoints = 0;
+      this.billingModel.redeempointprice = 0;
+    }
   }
 
+  calculationOfPayment(enteredValue: any, value: string) {
+    this.pendingAmount = this.billingModel.pendingamount;
+    const enteredValueNum: number = parseFloat(enteredValue); // Convert enteredValue to a number
+    debugger
 
+    if (value === 'cash') {
+      if (this.cash > 0) {
+        const tempPending: number = this.pendingAmount + this.cash;
+        this.billingModel.pendingamount = tempPending - enteredValueNum;
+        this.billingModel.cashamount = enteredValueNum;
+        this.cash = enteredValueNum;
+        this.pendingAmount = this.billingModel.pendingamount;
+
+      } else {
+        this.billingModel.pendingamount -= enteredValueNum;
+        this.billingModel.cashamount = enteredValueNum;
+        this.cash = enteredValueNum;
+        this.pendingAmount = this.billingModel.pendingamount;
+
+      }
+    } else if (value === 'online') {
+      if (this.online > 0) {
+        const tempPending: number = this.pendingAmount + this.online;
+        this.billingModel.pendingamount = tempPending - enteredValueNum;
+        this.billingModel.onlineamount = enteredValueNum;
+        this.online = enteredValueNum;
+        this.pendingAmount = this.billingModel.pendingamount;
+
+      } else {
+        this.billingModel.pendingamount -= enteredValueNum;
+        this.billingModel.onlineamount = enteredValueNum;
+        this.online = enteredValueNum;
+        this.pendingAmount = this.billingModel.pendingamount;
+
+      }
+    }
+    if (this.pendingAmount > 0 && (this.cash + this.online) > this.pendingAmount) {
+      debugger
+      this.exceedError = 'Error: Total payment exceeds pending amount.';
+      // You can add code here to display an error message to the user
+      return; // Exit the method if total payment exceeds pending amount
+    }
+  }
+
+  savePaymentDetails() {
+    var empPoint: number = 0;
+    
+    const empPointsMap = new Map<number, number>();
+    this.paymentDataModel.services.forEach((element: any) => {
+      if (element.epoint != undefined) {
+        empPoint = empPoint + element.epoint;
+      }
+      if (element.empid != null) {
+        if (empPointsMap.has(element.empid)) {
+          // If empid already exists in the map, add the points to the existing total
+          empPointsMap.set(element.empid, empPointsMap.get(element.empid)! + element.point);
+        } else {
+          // If empid is not in the map, set the points as the initial total
+          empPointsMap.set(element.empid, element.point);
+        }
+        // Add the element to selectedAllEmp (whether duplicate or not)
+      }
+    });
+    this.paymentDataModel.emppoint = empPointsMap;
+  
+    this.billingModel
+    debugger
+  }
+
+  onPaymentMethodChange() {
+    this.billingModel.paymentMethod = this.selectedPaymentMethod;
+  }
   removeItemFromUsedServices(index: any, data: any) {
 
     Swal.fire({
@@ -789,10 +956,10 @@ export class AppointmentComponent implements OnInit {
       this.totalCustPoint.forEach((element: any) => {
         if (element.totalcustpoint != undefined) {
           this.tempCustPoint = element.totalcustpoint;
-          debugger
         }
       });
       this.billingModel.totalcustpoint = this.tempCustPoint;
     });
   }
 }
+
