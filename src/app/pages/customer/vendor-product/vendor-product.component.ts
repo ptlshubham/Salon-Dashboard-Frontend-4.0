@@ -95,18 +95,23 @@ export class VendorProductComponent {
   addFinalPrice() {
     this.finalprice = 0;
     this.totalQuantity = 0;
+
     this.tempProductData.forEach((element: any) => {
-      element.qty
-
-      if (element.totalprice != undefined) {
-        this.finalprice = this.finalprice + element.totalprice;
+      // Check if element.totalprice is defined and add it to final price
+      if (element.totalprice !== undefined) {
+        this.finalprice += element.totalprice;
       }
-      if (element.qty) {
-        this.totalQuantity = this.totalQuantity + element.qty;
 
+      // Check if element.qty exists and is a number or can be parsed to a number
+      if (element.qty) {
+        const quantity = parseFloat(element.qty);
+        if (!isNaN(quantity)) {
+          this.totalQuantity += quantity;
+        }
       }
     });
   }
+
 
   removeItemFromTempServices(i: any) {
     this.tempProductData.splice(i, 1);
