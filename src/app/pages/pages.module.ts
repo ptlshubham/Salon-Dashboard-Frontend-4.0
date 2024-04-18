@@ -46,7 +46,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TablesModule,
     LeafletModule,
     CustomerModule,
-    NgbModule 
+    NgbModule
   ]
 })
 export class PagesModule { }

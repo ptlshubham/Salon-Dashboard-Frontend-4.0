@@ -195,6 +195,59 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text">Select Employee</label>
+                                                <select class="form-select" style="max-width: 130px;"
+                                                    [(ngModel)]="Employeemodel" [ngModelOptions]="{ standalone: true }"
+                                                    (ngModelChange)="onemployeeselect()">
+                                                    <option *ngFor="let employee of employeelist" [ngValue]="employee">
+                                                        {{ employee.fname }}
+                                                    </option>
+                                                </select>
+                                                <label class="input-group-text" style="width:300px;">
+                                                    {{ Employeemodel?.fname || 'Select an employee' }}
+                                                </label>
+                                                <label class="input-group-text" style="width:300px;">
+                                                    {{ Employeemodel?.contact || 'Select an employee' }}
+                                                </label>
+                                            </div>
+
+                                            <!-- <div class="row"> 
+                                            <div class="col-xl-6 mt-3" >
+                                                <div>
+                                                    
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="formCheck1">
+                                                        <label class="form-check-label" for="formCheck1">
+                                                           Admin
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="formCheck2" >
+                                                        <label class="form-check-label" for="formCheck2">
+                                                           Employee
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 mt-3">
+                                                <div>
+                                                  
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="formCheck1">
+                                                        <label class="form-check-label" for="formCheck1">
+                                                            Receptionist
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mb-5">
+                                                        <input class="form-check-input" type="checkbox" id="formCheck2" >
+                                                        <label class="form-check-label" for="formCheck2">
+                                                           Power User
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div> -->
                                             <div class="col-xl-3">
                                                 <ul ngbNav #nav1="ngbNav" [activeId]="1" class="flex-column nav-pills">
                                                     <li [ngbNavItem]="1"
@@ -203,12 +256,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <i class="bx bx-check-circle h3 mb-0 me-4"></i>
                                                                 <div class="flex-1">
-                                                                    <h2 class="fw-medium">$29 <span
-                                                                            class="text-muted font-size-15">/ Month
-                                                                            Plans</span></h2>
-                                                                    <p class="fw-normal mb-0 text-muted">For small teams
-                                                                        trying out Minia for an
-                                                                        unlimited period of time</p>
+                                                                    <h4 class="fw-medium">Admin</h4>
                                                                 </div>
                                                             </div>
                                                         </a>
@@ -345,12 +393,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <i class="bx bx-check-circle h3 mb-0 me-4"></i>
                                                                 <div class="flex-1">
-                                                                    <h2 class="fw-medium">$79 <span
-                                                                            class="text-muted font-size-15">/ Month
-                                                                            Plans</span></h2>
-                                                                    <p class="fw-normal mb-0 text-muted">For larger
-                                                                        businesses or those with
-                                                                        onal administration needs</p>
+                                                                    <h4 class="fw-medium">Receptionist</h4>
                                                                 </div>
                                                             </div>
                                                         </a>
@@ -485,14 +528,146 @@
                                                         class="nav flex-column nav-pills pricing-tab-box">
                                                         <a ngbNavLink>
                                                             <div class="d-flex align-items-center">
+                                                                <i class="bx bx-check-circle h3 mb-3 me-4"></i>
+                                                                <div class="flex-1">
+                                                                    <h4 class="fw-medium">Employee</h4>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <ng-template ngbNavContent>
+                                                            <div class="tab-pane fade show active" id="v-price-one"
+                                                                role="tabpanel" aria-labelledby="v-pills-tab-one">
+                                                                <div class="table-responsive text-center">
+                                                                    <table
+                                                                        class="table table-bordered mb-0 table-centered align-middle">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td style="width: 20%;">
+                                                                                    <div class="py-3">
+                                                                                        <h5 class="font-size-16 mb-0">1
+                                                                                            Month</h5>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td style="width: 20%;">
+                                                                                    <div class="py-3">
+                                                                                        <h5 class="font-size-16 mb-0">3
+                                                                                            Month</h5>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td style="width: 20%;">
+                                                                                    <div class="py-3">
+                                                                                        <h5 class="font-size-16 mb-0">6
+                                                                                            Month</h5>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td style="width: 20%;">
+                                                                                    <div class="py-3">
+                                                                                        <h5 class="font-size-16 mb-0">1
+                                                                                            Year</h5>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th scope="row">Users</th>
+                                                                                <td>1</td>
+                                                                                <td>3</td>
+                                                                                <td>5</td>
+                                                                                <td>7</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th scope="row">Storage</th>
+                                                                                <td>5 GB</td>
+                                                                                <td>30 GB</td>
+                                                                                <td>50 GB</td>
+                                                                                <td>100 GB</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th scope="row">Domain</th>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <i
+                                                                                            class="mdi mdi-check-circle text-success font-size-20"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>3</td>
+                                                                                <td>5</td>
+                                                                                <td>10</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th scope="row">Hidden Fees</th>
+                                                                                <td>No</td>
+                                                                                <td>No</td>
+                                                                                <td>No</td>
+                                                                                <td>No</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th scope="row">Support</th>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <i
+                                                                                            class="mdi mdi-check-circle text-success font-size-20"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <i
+                                                                                            class="mdi mdi-check-circle text-success font-size-20"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <i
+                                                                                            class="mdi mdi-check-circle text-success font-size-20"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <i
+                                                                                            class="mdi mdi-check-circle text-success font-size-20"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th scope="row">Update</th>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <i
+                                                                                            class="mdi mdi-check-circle text-success font-size-20"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <i
+                                                                                            class="mdi mdi-check-circle text-success font-size-20"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <i
+                                                                                            class="mdi mdi-check-circle text-success font-size-20"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <i
+                                                                                            class="mdi mdi-check-circle text-success font-size-20"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </li>
+                                                    <li [ngbNavItem]="4"
+                                                        class="nav flex-column mt-3 nav-pills pricing-tab-box">
+                                                        <a ngbNavLink>
+                                                            <div class="d-flex align-items-center">
                                                                 <i class="bx bx-check-circle h3 mb-0 me-4"></i>
                                                                 <div class="flex-1">
-                                                                    <h2 class="fw-medium">$99 <span
-                                                                            class="text-muted font-size-15">/ Month
-                                                                            Plans</span></h2>
-                                                                    <p class="fw-normal mb-0 text-muted">For extra large
-                                                                        businesses or those in
-                                                                        regulated industries</p>
+                                                                    <h4 class="fw-medium">Power User</h4>
                                                                 </div>
                                                             </div>
                                                         </a>
@@ -642,21 +817,17 @@
                         <ng-template ngbNavContent>
                             <div class="tab-pane" id="about" role="tabpanel">
                                 <div class="card-header d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Start your creative project right plans</h4>
+                                    <h4 class="card-title mb-3 flex-grow-1">Start your creative project right plans</h4>
 
-                                    <div class="flex-shrink-0 align-self-end">
+                                    <div class="flex-shrink-0 align-self-end ">
                                         <ul ngbNav #nav="ngbNav" [activeId]="1"
                                             class="nav justify-content-end nav-tabs-custom rounded card-header-tabs">
                                             <li [ngbNavItem]="1" class="nav-item">
-                                                <a ngbNavLink class="nav-link px-3">
-                                                    Monthly
-                                                </a>
                                                 <ng-template ngbNavContent>
-                                                    <div class="tab-pane fade show" id="month" role="tabpanel"
-                                                        aria-labelledby="monthly">
+                                                    <div class="tab-pane fade show" id="month" role="tabpanel">
                                                         <div class="row">
                                                             @for (data of monthlyData; track $index) {
-                                                            <div class="col-xl-3 col-sm-6">
+                                                            <div class="col-xl-4 col-sm-6">
                                                                 <div class="card mb-xl-0"
                                                                     [ngClass]=" { 'bg-primary': data.badge === 'Featured' }">
                                                                     <div class="card-body">
@@ -737,97 +908,7 @@
                                                 </ng-template>
                                             </li>
 
-                                            <li [ngbNavItem]="2" class="nav-item">
-                                                <a ngbNavLink class="nav-link px-3">
-                                                    Yearly
-                                                </a>
-                                                <ng-template ngbNavContent>
-                                                    <div class="tab-pane fade show" id="month" role="tabpanel"
-                                                        aria-labelledby="monthly">
-                                                        <div class="row">
-                                                            @for (data of yearlyData; track $index) {
-                                                            <div class="col-xl-3 col-sm-6">
-                                                                <div class="card mb-xl-0"
-                                                                    [ngClass]=" { 'bg-primary': data.badge === 'Featured' }">
-                                                                    <div class="card-body">
-                                                                        <div class="p-2">
-                                                                            @if(data.badge){
-                                                                            <div class="pricing-badge">
-                                                                                <span class="badge">Featured</span>
-                                                                            </div>
-                                                                            }
-                                                                            <h5 class="font-size-16"
-                                                                                [ngClass]=" { 'text-white': data.badge === 'Featured' }">
-                                                                                {{data.title}}</h5>
-                                                                            <h1 class="mt-3"
-                                                                                [ngClass]=" { 'text-white': data.badge === 'Featured' }">
-                                                                                ${{data.price}} <span
-                                                                                    class="text-muted font-size-16 fw-medium"
-                                                                                    [ngClass]=" { 'text-white': data.badge === 'Featured','text-muted': data.badge !== 'Featured' }">/
-                                                                                    Month</span></h1>
-                                                                            <p class="text-muted mt-3 font-size-15"
-                                                                                [ngClass]=" { 'text-white-50': data.badge === 'Featured' }">
-                                                                                For small teams trying out Minia for an
-                                                                                unlimited
-                                                                                period of time</p>
-                                                                            <div class="mt-4 pt-2 text-muted">
-                                                                                <p class="mb-3 font-size-15"
-                                                                                    [ngClass]=" { 'text-white': data.badge === 'Featured' }">
-                                                                                    <i class="mdi mdi-check-circle text-secondary font-size-18 me-2"
-                                                                                        [ngClass]=" { 'text-light': data.badge === 'Featured' }"></i>Verifide
-                                                                                    work and
-                                                                                    reviews
-                                                                                </p>
-                                                                                <p class="mb-3 font-size-15"
-                                                                                    [ngClass]=" { 'text-white': data.badge === 'Featured' }">
-                                                                                    <i class="mdi mdi-check-circle text-secondary font-size-18 me-2"
-                                                                                        [ngClass]=" { 'text-light': data.badge === 'Featured' }"></i>Dedicated
-                                                                                    Ac managers
-                                                                                </p>
-                                                                                <p class="mb-3 font-size-15"
-                                                                                    [ngClass]=" { 'text-white': data.badge === 'Featured' }">
-                                                                                    <i class="mdi mdi-check-circle text-secondary font-size-18 me-2"
-                                                                                        [ngClass]=" { 'text-light': data.badge === 'Featured' }"></i>Unlimited
-                                                                                    proposals
-                                                                                </p>
-                                                                                <p class="mb-3 font-size-15"
-                                                                                    [ngClass]=" { 'text-white': data.badge === 'Featured' }">
-                                                                                    <i class="mdi mdi-check-circle text-secondary font-size-18 me-2"
-                                                                                        [ngClass]=" { 'text-light': data.badge === 'Featured' }"></i>Project
-                                                                                    tracking
-                                                                                </p>
-                                                                                <p class="mb-3 font-size-15"
-                                                                                    [ngClass]=" { 'text-white': data.badge === 'Featured' }">
-                                                                                    <i class="mdi mdi-check-circle text-secondary font-size-18 me-2"
-                                                                                        [ngClass]=" { 'text-light': data.badge === 'Featured' }"></i>Dedicated
-                                                                                    Ac managers
-                                                                                </p>
-                                                                                <p class="mb-3 font-size-15"
-                                                                                    [ngClass]=" { 'text-white': data.badge === 'Featured' }">
-                                                                                    <i class="mdi mdi-check-circle text-secondary font-size-18 me-2"
-                                                                                        [ngClass]=" { 'text-light': data.badge === 'Featured' }"></i>Unlimited
-                                                                                    proposals
-                                                                                </p>
-                                                                            </div>
 
-                                                                            <div class="mt-4 pt-2">
-                                                                                <a href="javascript:void(0);"
-                                                                                    class="btn btn-outline-primary w-100"
-                                                                                    [ngClass]=" { 'btn-light': data.badge === 'Featured' }">Choose
-                                                                                    Plan</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- end card body -->
-                                                                </div>
-                                                                <!-- end card -->
-                                                            </div>}
-                                                            <!-- end col -->
-                                                        </div>
-                                                        <!-- end row -->
-                                                    </div>
-                                                </ng-template>
-                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -899,7 +980,605 @@
                             </div>
                         </ng-template>
                     </li>
+                    <li [ngbNavItem]="6" class="nav-item">
+                        <a ngbNavLink class="nav-link px-3">
+                            Social Links
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="tab-pane" id="about" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-2">Social links</h5>
+                                        <div class="text-muted">
+                                            <p class="mb-0">Add your social media links</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form [formGroup]="Sociallinks">
+                                            <div class="mb-3 input-group">
+                                                <span class="input-group-text ">
+                                                    <i class="mdi mdi-facebook "></i>
+                                                </span>
+                                                <input type="text" formControlName="facebooklink" class="form-control"
+                                                    [ngClass]="{ 'is-invalid': l.facebooklink.touched && l.facebooklink.errors }"
+                                                    id="facebooklink" placeholder="Enter Website Link"
+                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
+                                                <div *ngIf="l.facebooklink.touched || l.facebooklink.invalid || l.facebooklink.pristine"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="l.facebooklink.errors?.required">website link is
+                                                        required.</div>
+                                                    <div *ngIf="l.facebooklink.errors?.pattern">Please enter a valid
+                                                        website Link</div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 input-group">
+                                                <span class="input-group-text ">
+                                                    <i class="mdi mdi-instagram"></i>
+                                                </span>
+                                                <input type="text" formControlName="instagramlink" class="form-control"
+                                                    [ngClass]="{ 'is-invalid': l.instagramlink.touched && l.instagramlink.errors }"
+                                                    id="instagramlink" placeholder="Enter Website Link"
+                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
+                                                <div *ngIf="l.instagramlink.touched || l.instagramlink.invalid || l.instagramlink.pristine"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="l.instagramlink.errors?.required">website link is
+                                                        required.</div>
+                                                    <div *ngIf="l.instagramlink.errors?.pattern">Please enter a valid
+                                                        website Link</div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 input-group">
+                                                <span class="input-group-text ">
+                                                    <i class="mdi mdi-twitter"></i>
+                                                </span>
+                                                <input type="text" formControlName="twitterlink" class="form-control"
+                                                    [ngClass]="{ 'is-invalid': l.twitterlink.touched && l.twitterlink.errors }"
+                                                    id="twitterlink" placeholder="Enter Website Link"
+                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
+                                                <div *ngIf="l.twitterlink.touched || l.twitterlink.invalid || l.twitterlink.pristine"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="l.twitterlink.errors?.required">website link is
+                                                        required.</div>
+                                                    <div *ngIf="l.twitterlink.errors?.pattern">Please enter a valid
+                                                        website Link</div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 input-group">
+                                                <span class="input-group-text ">
+                                                    <i class="mdi mdi-linkedin"></i>
+                                                </span>
+                                                <input type="text" formControlName="linkedinlink" class="form-control"
+                                                    [ngClass]="{ 'is-invalid': l.linkedinlink.touched && l.linkedinlink.errors }"
+                                                    id="linkedinlink" placeholder="Enter Website Link"
+                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
+                                                <div *ngIf="l.linkedinlink.touched || l.linkedinlink.invalid || l.linkedinlink.pristine"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="l.linkedinlink.errors?.required">website link is
+                                                        required.</div>
+                                                    <div *ngIf="l.linkedinlink.errors?.pattern">Please enter a valid
+                                                        website Link</div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 input-group">
+                                                <span class="input-group-text ">
+                                                    <i class="mdi mdi-youtube"></i>
+                                                </span>
+                                                <input type="text" formControlName="youtubelink" class="form-control"
+                                                    [ngClass]="{ 'is-invalid': l.youtubelink.touched && l.youtubelink.errors }"
+                                                    id="youtubelink" placeholder="Enter Website Link"
+                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
+                                                <div *ngIf="l.youtubelink.touched || l.youtubelink.invalid || l.youtubelink.pristine"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="l.youtubelink.errors?.required">website link is
+                                                        required.</div>
+                                                    <div *ngIf="l.youtubelink.errors?.pattern">Please enter a valid
+                                                        website Link</div>
+                                                </div>
+                                            </div>
 
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" submitlinks()" [disabled]="Sociallinks.invalid">
+                                                            Submit
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Error messages can be displayed here if needed -->
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title mb-2">Google Credencial</h5>
+                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <label class="form-check-label"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <form [formGroup]="googlecredencial">
+                                                    <label for="basicpill-gid-input1" class="form-label">Google
+                                                        Id</label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="gid" class="form-control"
+                                                            [ngClass]="{ 'is-invalid': gc.gid.touched && gc.gid.errors }"
+                                                            id="gid" placeholder="Enter your id">
+                                                        <div *ngIf="gc.gid.touched || gc.gid.invalid || gc.gid.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="gc.gid.errors?.required">id is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+                                                    <label for="basicpill-gpass-input1" class="form-label">Pass
+                                                    </label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="gpass" class="form-control"
+                                                            [ngClass]="{ 'is-invalid': gc.gpass.touched && gc.gpass.errors }"
+                                                            id="gpass" placeholder="Enter Password">
+                                                        <div *ngIf="gc.gpass.touched || gc.gpass.invalid || gc.gpass.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="gc.gpass.errors?.required">Password is required.
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-3 col-xl-3 col-md-3">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" submitgoogle()"
+                                                            [disabled]="googlecredencial.invalid">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title">Facebok Credential</h5>
+                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <label class="form-check-label"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+
+                                                <form [formGroup]="facebookcredencial">
+                                                    <label for="basicpill-fbid-input1" class="form-label">Facebook
+                                                        Id</label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="fbid" class="form-control"
+                                                            [ngClass]="{ 'is-invalid': fb.fbid.touched && fb.fbid.errors }"
+                                                            id="fbid" placeholder="Enter Facebook id">
+                                                        <div *ngIf="fb.fbid.touched || fb.fbid.invalid || fb.fbid.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="fb.fbid.errors?.required">Facebook id is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+                                                    <label for="basicpill-fbpass-input1" class="form-label">Pass</label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="fbpass" class="form-control"
+                                                            [ngClass]="{ 'is-invalid': fb.fbpass.touched && fb.fbpass.errors }"
+                                                            id="fbpass" placeholder="Enter Password">
+                                                        <div *ngIf="fb.fbpass.touched || fb.fbpass.invalid || fb.fbpass.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="fb.fbpass.errors?.required">Password is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-3 col-xl-3 col-md-3">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" submitfacebook()"
+                                                            [disabled]="googlecredencial.invalid">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title mb-2">Twitter
+                                                        Credencial</h5>
+                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <label class="form-check-label"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+
+                                                <form [formGroup]="twiterlogincredencial">
+                                                    <label for="basicpill-tid-input1" class="form-label">Twitter
+                                                        Id</label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="tid" class="form-control"
+                                                            [ngClass]="{ 'is-invalid': tw.tid.touched && tw.tid.errors }"
+                                                            id="tid" placeholder="Enter Twitter id">
+                                                        <div *ngIf="tw.tid.touched || tw.tid.invalid || tw.tid.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="tw.tid.errors?.required"> id is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+                                                    <label for="basicpill-tpass-input1" class="form-label">Twitter
+                                                        Pass</label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="tpass" class="form-control"
+                                                            [ngClass]="{ 'is-invalid':tw.tpass.touched &&tw.tpass.errors }"
+                                                            id="tpass" placeholder="Enter Password">
+                                                        <div *ngIf="tw.tpass.touched ||tw.tpass.invalid ||tw.tpass.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="tw.tpass.errors?.required">Password is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-3 col-xl-3 col-md-3">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" submittwitter()"
+                                                            [disabled]="twiterlogincredencial.invalid">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title mb-2">Instagram Credencial</h5>
+                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <label class="form-check-label"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+
+                                                <form [formGroup]="instacreddencial">
+                                                    <label for="basicpill-iid-input1" class="form-label">Instagram
+                                                        Id</label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="instaid"
+                                                            class="form-control"
+                                                            [ngClass]="{ 'is-invalid': ins.instaid.touched && ins.instaid.errors }"
+                                                            id="instaid" placeholder="Enter Instagram Id">
+                                                        <div *ngIf="ins.instaid.touched || ins.instaid.invalid || ins.instaid.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="ins.instaid.errors?.required"> id is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+                                                    <label for="basicpill-ipass-input1" class="form-label">Pass
+                                                    </label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="instapass"
+                                                            class="form-control"
+                                                            [ngClass]="{ 'is-invalid':ins.instapass.touched &&ins.instapass.errors }"
+                                                            id="instapass" placeholder="Enter Password">
+                                                        <div *ngIf="ins.instapass.touched ||ins.instapass.invalid ||ins.instapass.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="ins.instapass.errors?.required">Password is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-3 col-xl-3 col-md-3">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" submittwitter()"
+                                                            [disabled]="instacreddencial.invalid">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title mb-2">Linkedin
+                                                        Credencial</h5>
+                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <label class="form-check-label"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+
+                                                <form [formGroup]="linkedincredencial">
+                                                    <label for="basicpill-lid-input1" class="form-label">Linkedin
+                                                        Id</label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="linkedinid"
+                                                            class="form-control"
+                                                            [ngClass]="{ 'is-invalid': lin.linkedinid.touched && lin.linkedinid.errors }"
+                                                            id="linkedinid" placeholder="Enter linkedin Id">
+                                                        <div *ngIf="lin.linkedinid.touched || lin.linkedinid.invalid || lin.linkedinid.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="lin.linkedinid.errors?.required"> id is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+                                                    <label for="basicpill-lpass-input1" class="form-label">Pass
+                                                    </label>
+                                                    <div class="mb-3 input-group">
+                                                        <input type="text" formControlName="linkedinpass"
+                                                            class="form-control"
+                                                            [ngClass]="{ 'is-invalid':lin.linkedinpass.touched &&lin.linkedinpass.errors }"
+                                                            id="linkedinpass" placeholder="Enter Password">
+                                                        <div *ngIf="lin.linkedinpass.touched ||lin.linkedinpass.invalid ||lin.linkedinpass.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="lin.linkedinpass.errors?.required">Password is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-3 col-xl-3 col-md-3">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" submittwitter()"
+                                                            [disabled]="linkedincredencial.invalid">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="7" class="nav-item">
+                        <a ngbNavLink class="nav-link px-3">
+                            SEO
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="tab-pane" id="about" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title">Google Analytics</h5>
+                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <label class="form-check-label"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <form [formGroup]="googleanalytics">
+                                                    <label for="basicpill-googleAnalytics-input"
+                                                        class="form-label">Google Analytics</label>
+                                                    <div class="mb-3 input-group">
+                                                        <textarea type="text" formControlName="analytics"
+                                                            class="form-control"
+                                                            [ngClass]="{ 'is-invalid': gayl.analytics.touched && gayl.analytics.errors }"
+                                                            id="analytics" placeholder="Enter descriptopn"></textarea>
+                                                        <div *ngIf="gayl.analytics.touched || gayl.analytics.invalid || gayl.analytics.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="gayl.analytics.errors?.required">
+                                                                Description is
+                                                                required.</div>
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-3 col-xl-3 col-md-3">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" SubmitAnalytics()"
+                                                            [disabled]="googleanalytics.invalid">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title">Enable Google Adsense Code</h5>
+                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <label class="form-check-label"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <form [formGroup]="egaCode">
+                                                    <label for="basicpill-GoogleAdsense-input" class="form-label">
+                                                        Google Adsense Code</label>
+                                                    <div class="mb-3 input-group">
+                                                        <textarea type="text" formControlName="googleadsencecode"
+                                                            class="form-control"
+                                                            [ngClass]="{ 'is-invalid': adsense.googleadsencecode.touched && adsense.googleadsencecode.errors }"
+                                                            id="googleadsencecode"
+                                                            placeholder="Enter descriptopn"></textarea>
+                                                        <div *ngIf="adsense.googleadsencecode.touched || adsense.googleadsencecode.invalid || adsense.googleadsencecode.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="adsense.googleadsencecode.errors?.required">
+                                                                Description is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-3 col-xl-3 col-md-3">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" SubmitAnalytics()" [disabled]="egaCode.invalid">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title">Display Facebook Messenger</h5>
+                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <label class="form-check-label"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <form [formGroup]="disfbmsg">
+                                                    <label for="basicpill-Displayfbnassage-input"
+                                                        class="form-label">Facebook Messenger</label>
+                                                    <div class="mb-3 input-group">
+                                                        <textarea type="text" formControlName="fbmsg"
+                                                            class="form-control"
+                                                            [ngClass]="{ 'is-invalid': fbmsg.fbmsg.touched && fbmsg.fbmsg.errors }"
+                                                            id="fbmsg" placeholder="Enter descriptopn"></textarea>
+                                                        <div *ngIf="fbmsg.fbmsg.touched || fbmsg.fbmsg.invalid || fbmsg.fbmsg.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="fbmsg.fbmsg.errors?.required">
+                                                                Description is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-3 col-xl-3 col-md-3">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" SubmitAnalytics()" [disabled]="disfbmsg.invalid">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="card-title">Display Facebook Pixel
+                                                    </h5>
+                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <label class="form-check-label"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <form [formGroup]="fbpixel">
+                                                    <label for="basicpill-Displayfbnassage-input"
+                                                        class="form-label">Google Adsense Code</label>
+                                                    <div class="mb-3 input-group">
+                                                        <textarea type="text" formControlName="pix" class="form-control"
+                                                            [ngClass]="{ 'is-invalid': p.pix.touched && p.pix.errors }"
+                                                            id="p" placeholder="Enter descriptopn"></textarea>
+                                                        <div *ngIf="p.pix.touched || p.pix.invalid || p.pix.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="p.pix.errors?.required">
+                                                                Description is
+                                                                required.</div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-3 col-xl-3 col-md-3">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" SubmitAnalytics()" [disabled]="fbpixel.invalid">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <form [formGroup]="googleanalytics">
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title mb-2">Enable Google Analytics</h5>
+                                            <div class="text-muted"></div>
+                                            <div class="card-body">
+                                                <h5 class="card-title"> Google Analytics</h5>
+                                                <div class="mb-3 input-group">
+                                                    <input type="text" formControlName="" class="form-control"
+                                                        placeholder="Enter Instagram Id">
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form> -->
+                            </div>
+                        </ng-template>
+                    </li>
                 </ul>
             </div>
             <!-- end card body -->
