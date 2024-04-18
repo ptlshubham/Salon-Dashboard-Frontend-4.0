@@ -20,8 +20,9 @@ import { TablesModule } from './tables/tables.module';
 import { PagesRoutingModule } from './pages-routing.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CustomerModule } from './customer/customer.module';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomerModule } from './customer/customer.module';
 
 @NgModule({
   declarations: [

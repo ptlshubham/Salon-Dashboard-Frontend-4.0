@@ -7,6 +7,8 @@ import { EmployeeService } from 'src/app/core/services/employee.service';
 import { SalaryService } from 'src/app/core/services/salary.service';
 import { ServiceListService } from 'src/app/core/services/services.service';
 import Swal from 'sweetalert2';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-employee',
@@ -62,6 +64,7 @@ export class EmployeeComponent {
     public formBuilder: UntypedFormBuilder,
     public datepipe: DatePipe,
     public toastr: ToastrService,
+    private modalService: NgbModal
 
   ) {
     this.getStateList();
@@ -88,9 +91,14 @@ export class EmployeeComponent {
       contactNumber: [{ value: '', disabled: true }, [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       gender: [{ value: '', disabled: true }, [Validators.required]],
       salary: ['', [Validators.required]],
+      points: ['', [Validators.required]],
+      rpoints: ['', [Validators.required]],
+      cpoints: ['', [Validators.required]],
+      notes : ['', [Validators.required]],
       paiddate: ['', [Validators.required]],
       desc: ['', [Validators.required]],
     });
+    
   }
   get f() { return this.validationForm.controls; }
   get fo() { return this.validationSalaryForm.controls; }
@@ -214,6 +222,11 @@ export class EmployeeComponent {
     this.showSalary = false;
     this.isOpen = false;
   }
+  openAttendance(largeDataModal: any) {
+    this.modalService.open(largeDataModal, { size: 'lg', windowClass: 'modal-holder', centered: true });
+
+
+    }
   openSalary(data: any) {
     this.showEmp = false;
     this.showSalary = true;
@@ -225,6 +238,8 @@ export class EmployeeComponent {
     this.getAllSalary(this.salaryModel.id);
 
   }
+  
+
   saveSalaryDetail() {
     this.salaryModel.empid = this.salaryModel.id;
     this.salaryService.saveSalaryList(this.salaryModel).subscribe((data: any) => {

@@ -980,6 +980,64 @@
                             </div>
                         </ng-template>
                     </li>
+                    <li [ngbNavItem]="7" class="nav-item">
+                        <a ngbNavLink class="nav-link px-3">
+                            Social Media
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="tab-pane" id="about" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-2">Social Media</h5>
+                                        <div class="text-muted">
+                                            <p class="mb-0">Your password must be at least 6 characters and
+                                                should include a combination of numbers, letters and special
+                                                characters.</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <i class="mdi mdi-facebook"></i>
+                                                <input type="password" [(ngModel)]="passwordValue"
+                                                    [ngModelOptions]="{standalone: true}" class="form-control"
+                                                    id="olduserpassword" placeholder="Old Password"
+                                                    (focusout)="onPasswordFocusOut()">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Password </label>
+                                                <input type="password" formControlName="password"
+                                                    [ngClass]="{ 'is-invalid': unlockSubmit && a.password.errors }"
+                                                    class="form-control" id="userpassword" placeholder="Enter Password">
+                                                <div *ngIf="unlockSubmit && a.password.errors" class="invalid-feedback">
+                                                    <div *ngIf="a.password.errors.required">Password is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Retype password</label>
+                                                <input type="password" formControlName="confirmpwd"
+                                                    placeholder="Retype Password"
+                                                    [ngClass]="{'is-invalid': unlockSubmit && a.confirmpwd.errors}"
+                                                    class="form-control" />
+                                                <div *ngIf="unlockSubmit && a.confirmpwd.errors"
+                                                    class="invalid-feedback">
+                                                    <span *ngIf="a.confirmpwd.errors.required">This value is
+                                                        required.</span>
+                                                    <span *ngIf="a.confirmpwd.errors.mustMatch">This value should be the
+                                                        same.</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <button class="btn btn-primary  waves-effect waves-light"
+                                                    [disabled]="!valid" type="submit"
+                                                    (click)="onResetSubmit()">Change</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
 
                 </ul>
             </div>

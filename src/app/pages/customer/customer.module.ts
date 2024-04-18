@@ -22,6 +22,9 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { BannersComponent } from './banners/banners.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EarningsComponent } from './earnings/earnings.component';
+import { AttandanceComponent } from './attandance/attandance.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+
 
 
 
@@ -40,7 +43,8 @@ import { EarningsComponent } from './earnings/earnings.component';
     AppointmentComponent,
     VendorProductComponent,
     ProfileComponent,
-    EarningsComponent
+    EarningsComponent,
+    AttandanceComponent
   ],
   imports: [
     CommonModule,
@@ -64,6 +68,7 @@ import { EarningsComponent } from './earnings/earnings.component';
     NgSelectModule,
     FlatpickrModule.forRoot(),
     NgbDatepickerModule,
+    FullCalendarModule
   ],
   providers: [
     DatePipe,
@@ -75,4 +80,5 @@ import { EarningsComponent } from './earnings/earnings.component';
     AppointmentComponent
   ]
 })
-export class CustomerModule { }
+export class CustomerModule {
+}

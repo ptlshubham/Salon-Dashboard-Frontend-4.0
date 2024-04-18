@@ -35,6 +35,8 @@ export class ProfileComponent implements OnInit {
   selectedCurrency: string = '';
   Employeemodel: any = {};
   public employeelist: any[] = [];
+  Sociallinks!: FormGroup;
+  
  
  
 
