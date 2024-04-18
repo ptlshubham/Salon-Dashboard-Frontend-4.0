@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-7 col-md-7 col-xl-7 col-sm-12">
+    <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
@@ -19,7 +19,6 @@
                                 <th class="text-center">Customer Name</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Total Price</th>
-                                <th class="text-center">Payment</th>
                                 <th class="text-end">Action</th>
                             </tr>
                         </thead>
@@ -56,19 +55,8 @@
                                         <i class="bx bx-pause-circle label-icon"></i>Hold</button>
                                 </td>
                                 <td class="text-center">{{s.totalprice}}₹</td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-info waves-effect btn-label waves-light"
-                                        ngbTooltip="Accept payment" placement="top" data-bs-toggle="modal"
-                                        data-bs-target=".bs-example-modal-xl" (click)="openPaymentData(s,content)"><i
-                                            class="bx bx-rupee label-icon"></i>Accept</button>
-                                </td>
                                 <td class="text-end">
                                     <div class="d-flex justify-content-end gap-1">
-                                        <!-- <button type="button" class="btn btn-soft-primary waves-effect waves-light"
-                                            (click)="openUsedServiceList(s,exlargeModal)"
-                                            ngbTooltip="View Used Services" placement="top" data-bs-toggle="modal"
-                                            data-bs-target=".bs-example-modal-xl"><i
-                                                class="fas fa-eye font-size-16 align-middle"></i></button> -->
                                         <button type="button" class="btn btn-soft-danger waves-effect waves-light"
                                             (click)="removeAppointmentData(s)" ngbTooltip="Remove Appointment"
                                             placement="top"><i
@@ -88,7 +76,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-5 col-md-5 col-xl-5 col-sm-12">
+    <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
@@ -240,6 +228,13 @@
                 <div class="d-flex justify-content-end gap-1">
                     <div class="hstack gap-3">
                         <div>
+                            <button type="button" class="btn btn-info waves-effect btn-label waves-light"
+                                ngbTooltip="Accept payment" placement="top" data-bs-toggle="modal"
+                                data-bs-target=".bs-example-modal-xl" (click)="openPaymentData(content)"><i
+                                    class="bx bx-rupee label-icon"></i>Accept</button>
+                        </div>
+                        <div class="vr"></div>
+                        <div>
                             <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
                                 ngbTooltip="Add new service" data-bs-toggle="modal"
                                 data-bs-target=".bs-example-modal-xl"
@@ -309,13 +304,14 @@
                                     <div class="input-group">
                                         <label class="input-group-text">Redeem Points</label>
                                         <input type="number" class="form-control" placeholder="Enter Redemption Points"
-                                            #pointsInput (focusout)="calculateRedeemPoints(pointsInput.value)">
+                                            #pointsInput (focusout)="calculationDiscount(pointsInput.value,'redeem')">
                                         <input type="text" class="form-control disabled-c" disabled
-                                            placeholder="Converted Price" value="{{billingModel.redeempointprice}}">
+                                            placeholder="Converted Price" value="{{ billingModel.redeempointprice }}">
                                         <label class="input-group-text">₹</label>
                                     </div>
-                                    <div *ngIf="pointsError" class="text-danger">{{ pointsError }}</div>
+                                    <div *ngIf="pointsError !== null" class="text-danger">{{ pointsError }}</div>
                                 </div>
+
                                 <div class="input-group mb-3" *ngIf="paymentDataModel.vip">
                                     <label class="input-group-text">VIP Discount</label>
                                     <label class="input-group-text">{{generalModel.vipdiscount}}%</label>
@@ -328,7 +324,7 @@
                                         <label class="input-group-text">Discount</label>
                                         <input type="number" class="form-control"
                                             placeholder="Enter Percentage Discount" #discountInput
-                                            (focusout)="calculateDiscount(discountInput.value)">
+                                            (focusout)="calculationDiscount(discountInput.value,'max')">
                                         <label class="input-group-text">%</label>
                                         <label class="input-group-text disabled-c">{{
                                             billingModel.maxdiscountprice}}</label>
@@ -339,7 +335,7 @@
                                 <div class="input-group mb-3">
                                     <label class="input-group-text">Total</label>
                                     <input type="text" class="form-control disabled-c" disabled
-                                        placeholder="Enter Amount">
+                                        placeholder="Enter Amount" value="{{billingModel.subtotal}}">
                                     <label class="input-group-text">₹</label>
                                 </div>
 
@@ -348,29 +344,42 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="input-group mb-3">
                                     <label class="input-group-text">Cash</label>
-                                    <input type="text" class="form-control" placeholder="Enter Amount">
+                                    <input type="number" class="form-control" placeholder="Enter Amount"
+                                        [(ngModel)]="billingModel.cashamount" #cashAmountInput
+                                        (focusout)="calculationOfPayment(cashAmountInput.value,'cash')">
                                     <label class="input-group-text">₹</label>
                                 </div>
                                 <div class="input-group mb-3">
                                     <label class="input-group-text">Online</label>
-                                    <select class="form-select" style="max-width: 130px;">
-                                        <option value="BT" selected>UPI</option>
-                                        <option value="ET">Credit/Debit </option>
-                                        <option value="LT">Bank Transfer</option>
+                                    <select class="form-select" style="max-width: 130px;"
+                                        [(ngModel)]="selectedPaymentMethod" (ngModelChange)="onPaymentMethodChange()">
+                                        <option value="UPI">UPI</option>
+                                        <option value="Credit/Debit">Credit/Debit</option>
+                                        <option value="Bank">Bank Transfer</option>
                                     </select>
-                                    <input type="number" class="form-control" placeholder="Enter Amount">
+                                    <input type="number" class="form-control" placeholder="Enter Amount"
+                                        [(ngModel)]="billingModel.onlineamount" #onlineAmountInput
+                                        (focusout)="calculationOfPayment(onlineAmountInput.value,'online')">
                                     <label class="input-group-text">₹</label>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <label class="input-group-text">Pending Amount</label>
-                                    <input type="number" class="form-control" placeholder="Enter Amount">
+                                    <input type="number" class="form-control disabled-c" disabled
+                                        placeholder="Enter Amount" [(ngModel)]="billingModel.pendingamount">
                                     <label class="input-group-text">₹</label>
                                 </div>
 
+                                <!-- Error message display area -->
+                                <div *ngIf="exceedError !== null && exceedError !== ''" class="alert alert-danger"
+                                    role="alert">
+                                    {{ exceedError }}
+                                </div>
+
+
                             </div>
                             <div class="text-center">
-                                <button type="button" class="btn btn-success w-md">Pay Now</button>
+                                <button type="button" class="btn btn-success w-md" (click)="savePaymentDetails()">Pay Now</button>
                             </div>
                         </div>
                     </div>
