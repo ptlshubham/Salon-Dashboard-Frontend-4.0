@@ -1,4 +1,4 @@
-<app-pagetitle title="Dashboard" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+<!-- <app-pagetitle title="Dashboard" [breadcrumbItems]="breadCrumbItems"></app-pagetitle> -->
 <!-- <div class="col-xl-12 mb-4">
 
     <ngb-carousel [showNavigationIndicators]="showNavigationIndicators">
@@ -110,161 +110,102 @@
         </div>
     </div>
     <!--end card-->
-
-    <div class="row">
-        <div class="col-xl-5">
-            <div class="card card-h-80">
-                <div class="card-body">
-                    <div class="d-flex flex-wrap align-items-center mb-4">
-                        <h5 class="card-title me-2">Wallet Balance</h5>
-                    </div>
-                    <div class="row align-items-center">
-                        <div class="col-sm">
-                            <apx-chart dir="ltr" class="apex-charts" [series]="topServiceChart.series"
-                                [chart]="topServiceChart.chart" [legend]="topServiceChart.legend"
-                                [colors]="topServiceChart.colors" [labels]="topServiceChart.labels"
-                                [stroke]="topServiceChart.stroke" [plotOptions]="topServiceChart.plotOptions">
-                            </apx-chart>
-                        </div>
-                        <div class="col-sm align-self-center" style="font-size: 0.8rem;">
-                            <div class="mt-2">
-                                <div>
-                                    <p class="mb-0"><i class="mdi mdi-circle align-middle font-size-10 me-2"></i> {{
-                                        topServiceChart.labels[0] }}
-                                    </p>
-                                </div>
-
-                                <div class="mt-2 pt-0">
-                                    <p class="mb-0"><i class="mdi mdi-circle align-middle font-size-10 me-2"></i> {{
-                                        topServiceChart.labels[1] }}
-                                    </p>
-                                </div>
-                                <div class="mt-2 pt-0">
-                                    <p class="mb-0"><i class="mdi mdi-circle align-middle font-size-10 me-2"></i>
-                                        {{ topServiceChart.labels[2] }}</p>
-
-                                </div>
-                                <div class="mt-2 pt-0">
-                                    <p class="mb-0"><i class="mdi mdi-circle align-middle font-size-10 me-2"></i>
-                                        {{ topServiceChart.labels[3] }}</p>
-
-                                </div>
-                                <div class="mt-2 pt-0">
-                                    <p class="mb-0"><i class="mdi mdi-circle align-middle font-size-10 me-2"></i>
-                                        {{ topServiceChart.labels[4] }}</p>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+</div>
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex mb-4">
+                    <h5 class="card-title">Wallet Balance</h5>
                 </div>
+                <apx-chart dir="ltr" class="apex-charts" [series]="topServiceChart.series"
+                    [chart]="topServiceChart.chart" [legend]="topServiceChart.legend" [colors]="topServiceChart.colors"
+                    [labels]="topServiceChart.labels" [stroke]="topServiceChart.stroke"
+                    [plotOptions]="topServiceChart.plotOptions">
+                </apx-chart>
             </div>
-
         </div>
-        <div class="col-xl-7">
-            <div class="row">
-                <div class="col-xl-8">
-                    <!-- card -->
-                    <div class="card">
-                        <!-- card body -->
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap align-items-center mb-4">
-                                <h5 class="card-title me-2">Invested Overview</h5>
-                            </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex mb-4">
+                    <h5 class="card-title">Wallet Balance</h5>
+                </div>
+                <apx-chart class="apex-charts" dir="ltr" [series]="basicRadialBarChart.series"
+                    [chart]="basicRadialBarChart.chart" [plotOptions]="basicRadialBarChart.plotOptions"
+                    [labels]="basicRadialBarChart.labels" [colors]="basicRadialBarChart.colors">
+                </apx-chart>
+            </div>
+        </div>
+        <!--end card-->
 
-                            <div class="row align-items-center">
-                                <div class="col-sm">
-                                    <apx-chart dir="ltr" class="apex-charts" [series]="investedOverview.series"
-                                        [chart]="investedOverview.chart" [legend]="investedOverview.legend"
-                                        [colors]="investedOverview.colors" [labels]="investedOverview.labels"
-                                        [stroke]="investedOverview.stroke" [plotOptions]="investedOverview.plotOptions"
-                                        [fill]="investedOverview.fill">
-                                    </apx-chart>
-                                </div>
-                                <div class="col-sm align-self-center">
-                                    <div class="mt-4 mt-sm-0">
-                                        <p class="mb-1">Invested Amount</p>
-                                        <h4>$ 6134.39</h4>
-
-                                        <p class="text-muted mb-4"> + 0.0012.23 ( 0.2 % ) <i
-                                                class="mdi mdi-arrow-up ms-1 text-success"></i></p>
-
-                                        <div class="row g-0 mb-4">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="mb-2 text-muted text-uppercase font-size-11">Income</p>
-                                                    <h5 class="fw-medium">$ 2632.46</h5>
-                                                </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex mb-4">
+                    <h5 class="card-title">Monthly Chart</h5>
+                </div>
+                <apx-chart class="apex-charts" dir="ltr" [series]="columnlabelChart.series"
+                    [chart]="columnlabelChart.chart" [plotOptions]="columnlabelChart.plotOptions"
+                    [yaxis]="columnlabelChart.yaxis" [title]="columnlabelChart.title" [stroke]="columnlabelChart.stroke"
+                    [dataLabels]="columnlabelChart.dataLabels" [xaxis]="columnlabelChart.xaxis"
+                    [legend]="columnlabelChart.legend" [colors]="columnlabelChart.colors"
+                    [fill]="columnlabelChart.fill">
+                </apx-chart>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-4">
+        <div class="row">
+            <!-- card -->
+            <div class="card bg-primary text-white shadow-primary card-h-100">
+                <!-- card body -->
+                <div class="card-body p-0">
+                    <div id="carouselExampleCaptions" class="carousel slide text-center widget-carousel"
+                        data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <!-- Carousel with caption -->
+                            <owl-carousel-o [options]="timelineCarousel" class="events navs-carousel">
+                                @for (slide of News; track $index) {
+                                <ng-template carouselSlide>
+                                    <div class="item event-list">
+                                        <div class="text-center p-4">
+                                            <!-- <i class="mdi {{slide.avatar_icon}} widget-box-1-icon"></i> -->
+                                            <div class="avatar-md m-auto">
+                                                <span
+                                                    class="avatar-title rounded-circle bg-light-subtle text-white font-size-24">
+                                                    <i class="{{slide.icon}}"></i>
+                                                </span>
                                             </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="mb-2 text-muted text-uppercase font-size-11">Expenses</p>
-                                                    <h5 class="fw-medium">-$ 924.38</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-2">
-                                            <a href="javascript:void(0);" class="btn btn-primary btn-sm">View more <i
-                                                    class="mdi mdi-arrow-right ms-1"></i></a>
+                                            <h4 class="mt-3 lh-base fw-normal text-white"><b>{{slide.title}}</b>
+                                                News</h4>
+                                            <!-- <p class="text-white-50 font-size-13">{{slide.content}}</p> -->
+                                            <button type="button" class="btn btn-light btn-sm">View details <i
+                                                    class="mdi mdi-arrow-right ms-1"></i></button>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </ng-template>}
+                            </owl-carousel-o>
+                            <!-- End carousel -->
                         </div>
+                        <!-- end carousel-inner -->
                     </div>
+                    <!-- end carousel -->
                 </div>
-                <!-- end col -->
-
-                <div class="col-xl-4">
-                    <!-- card -->
-                    <div class="card bg-primary text-white shadow-primary card-h-100">
-                        <!-- card body -->
-                        <div class="card-body p-0">
-                            <div id="carouselExampleCaptions" class="carousel slide text-center widget-carousel"
-                                data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    <!-- Carousel with caption -->
-                                    <owl-carousel-o [options]="timelineCarousel" class="events navs-carousel">
-                                        @for (slide of News; track $index) {
-                                        <ng-template carouselSlide>
-                                            <div class="item event-list">
-                                                <div class="text-center p-4">
-                                                    <!-- <i class="mdi {{slide.avatar_icon}} widget-box-1-icon"></i> -->
-                                                    <div class="avatar-md m-auto">
-                                                        <span
-                                                            class="avatar-title rounded-circle bg-light-subtle text-white font-size-24">
-                                                            <i class="{{slide.icon}}"></i>
-                                                        </span>
-                                                    </div>
-                                                    <h4 class="mt-3 lh-base fw-normal text-white"><b>{{slide.title}}</b>
-                                                        News</h4>
-                                                    <p class="text-white-50 font-size-13">{{slide.content}}</p>
-                                                    <button type="button" class="btn btn-light btn-sm">View details <i
-                                                            class="mdi mdi-arrow-right ms-1"></i></button>
-                                                </div>
-                                            </div>
-                                        </ng-template>}
-                                    </owl-carousel-o>
-                                    <!-- End carousel -->
-                                </div>
-                                <!-- end carousel-inner -->
-                            </div>
-                            <!-- end carousel -->
-                        </div>
-                        <!-- end card body -->
-                    </div>
-                    <!-- end card -->
-                </div>
-                <!-- end col -->
+                <!-- end card body -->
             </div>
-            <!-- end row -->
+            <!-- end card -->
+            <!-- end col -->
         </div>
+        <!-- end row -->
     </div>
+</div>
 
-    <div class="row">
-        <app-appointment></app-appointment>
-    </div>
-    <div class="row">
-        <app-users></app-users>
-    </div>
+<div class="row">
+    <app-appointment></app-appointment>
+</div>
+<div class="row">
+    <app-users></app-users>
+</div>
