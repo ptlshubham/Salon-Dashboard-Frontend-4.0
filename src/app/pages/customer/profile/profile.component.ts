@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MustMatch } from 'src/app/account/auth/validation.mustmatch';
 import ls from 'localstorage-slim';
@@ -6,9 +6,10 @@ import { UserProfileService } from 'src/app/core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AdminService } from 'src/app/core/services/admin.service';
-import { monthlyPlan,  } from './pricing.model';
-import { monthlyData,  } from './data';
+import { monthlyPlan, } from './pricing.model';
+import { monthlyData, } from './data';
 import { EmployeeService } from 'src/app/core/services/employee.service';
+import { Instagram, Linkedin, Twitter, Youtube } from 'angular-feather/icons';
 
 @Component({
   selector: 'app-profile',
@@ -36,10 +37,17 @@ export class ProfileComponent implements OnInit {
   Employeemodel: any = {};
   public employeelist: any[] = [];
   Sociallinks!: FormGroup;
-  
- 
- 
+  googlecredencial!: FormGroup;
+  facebookcredencial!: FormGroup;
+  twiterlogincredencial!: FormGroup;
+  instacreddencial!: FormGroup;
+  linkedincredencial!: FormGroup;
+  googleanalytics!: FormGroup;
+  egaCode!: FormGroup;
+  disfbmsg!: FormGroup;
+  fbpixel!: FormGroup;
 
+  @Output() dateRangeSelected: EventEmitter<{}> = new EventEmitter();
   // bread crumb items
 
   breadCrumbItems!: Array<{}>;
@@ -50,7 +58,7 @@ export class ProfileComponent implements OnInit {
     public toastr: ToastrService,
     private adminService: AdminService,
     private employeeService: EmployeeService,
-  
+
 
   ) {
     this.getUserDataById();
@@ -60,6 +68,50 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.onemployeeselect();
     this.selectedCurrency = '₹';
+
+    this.Sociallinks = this.formBuilder.group({
+      facebooklink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
+      instagramlink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
+      twitterlink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
+      linkedinlink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
+      youtubelink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]]
+    });
+    this.googlecredencial = this.formBuilder.group({
+      gid: ['', Validators.required],
+      gpass: ['', Validators.required]
+    });
+    this.facebookcredencial = this.formBuilder.group({
+      fbid: ['', Validators.required],
+      fbpass: ['', Validators.required]
+    });
+    this.twiterlogincredencial = this.formBuilder.group({
+      tid: ['', Validators.required],
+      tpass: ['', Validators.required]
+    });
+    this.instacreddencial = this.formBuilder.group({
+      instaid: ['', Validators.required],
+      instapass: ['', Validators.required]
+    });
+    this.linkedincredencial = this.formBuilder.group({
+      linkedinid: ['', Validators.required],
+      linkedinpass: ['', Validators.required]
+    });
+
+    this.googleanalytics = this.formBuilder.group({
+      analytics: ['', Validators.required]
+    });
+
+    this.egaCode = this.formBuilder.group({
+      googleadsencecode: ['', Validators.required]
+    });
+
+    this.disfbmsg = this.formBuilder.group({
+      fbmsg: ['', Validators.required]
+    });
+    this.fbpixel = this.formBuilder.group({
+      pix: ['', Validators.required]
+    });
+
     this.unlockForm = this.formBuilder.group({
       password: ['', Validators.required],
       confirmpwd: ['', Validators.required]
@@ -87,6 +139,16 @@ export class ProfileComponent implements OnInit {
   }
   get a() { return this.unlockForm.controls; }
   get f() { return this.discountValidationForm.controls; }
+  get l() { return this.Sociallinks.controls; }
+  get gc() { return this.googlecredencial.controls; }
+  get fb() { return this.facebookcredencial.controls; }
+  get tw() { return this.twiterlogincredencial.controls; }
+  get ins() { return this.instacreddencial.controls; }
+  get lin() { return this.linkedincredencial.controls; }
+  get gayl() { return this.googleanalytics.controls; }
+  get adsense() { return this.egaCode.controls; }
+  get fbmsg() { return this.disfbmsg.controls; }
+  get p() { return this.fbpixel.controls; }
 
   onResetSubmit() {
     this.unlockSubmit = true;
@@ -208,14 +270,19 @@ export class ProfileComponent implements OnInit {
     // Update selectedCurrency when the dropdown value changes
     this.selectedCurrency = currency;
   }
-  onemployeeselect(){
+  onemployeeselect() {
     this.employeeService.getAllEmployeeList().subscribe((data: any) => {
       this.employeelist = data;
-      
+
       for (let i = 0; i < this.employeelist.length; i++) {
         this.employeelist[i].index = i + 1;
       }
-     
+
     });
   }
+  submitlinks() { }
+  submitfacebook() { }
+  submitgoogle() { }
+  submittwitter() { }
+  SubmitAnalytics() { }
 }

@@ -47,7 +47,7 @@ import { CustomerModule } from './customer/customer.module';
     TablesModule,
     LeafletModule,
     CustomerModule,
-    NgbModule 
+    NgbModule
   ]
 })
 export class PagesModule { }
