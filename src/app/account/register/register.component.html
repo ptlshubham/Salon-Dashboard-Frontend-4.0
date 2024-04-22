@@ -5,8 +5,8 @@
                 <div class="auth-full-page-content d-flex p-sm-5 p-4">
                     <div class="w-100">
                         <div class="d-flex flex-column h-100">
-                            <div class="mb-3 mb-md-4 text-center">
-                                <a routerLink="/" class="d-block auth-logo">
+                            <div class="mb-4 mb-md-5 text-center">
+                                <a routerLink="/account/login" class="d-block auth-logo">
                                     <img src="assets/images/logo-sm.svg" alt="" height="28"> <span
                                         class="logo-txt">Saloon Portal</span>
                                 </a>
@@ -22,7 +22,7 @@
                                         <div class="mb-3">
                                             <label for="fname">First Name</label>
                                             <input type="text" formControlName="fname" class="form-control" id="fname"
-                                                [ngModel]="RegistartionModel.fname"
+                                                [(ngModel)]="RegistartionModel.fname"
                                                 [ngClass]="{'is-invalid': f.fname.touched && f.fname.errors}"
                                                 placeholder="Enter First Name">
                                             <div *ngIf="f.fname.touched && f.fname.errors" class="invalid-feedback">
@@ -34,7 +34,7 @@
                                         <div class="mb-3">
                                             <label for="lname">Last Name</label>
                                             <input type="text" formControlName="lname" class="form-control" id="lname"
-                                                [ngModel]="RegistartionModel.lname"
+                                                [(ngModel)]="RegistartionModel.lname"
                                                 [ngClass]="{'is-invalid': f.lname.touched && f.lname.errors}"
                                                 placeholder="Enter Last Name">
                                             <div *ngIf="f.lname.touched && f.lname.errors" class="invalid-feedback">
@@ -47,8 +47,8 @@
                                             <label for="useremail">Email</label>
                                             <input type="email" formControlName="email"
                                                 [ngClass]="{'is-invalid': f.email.touched && f.email.errors}"
-                                                [ngModel]="RegistartionModel.email" class="form-control" id="useremail"
-                                                placeholder="Enter email">
+                                                [(ngModel)]="RegistartionModel.email" class="form-control"
+                                                id="useremail" placeholder="Enter email">
                                             <div *ngIf="f.email.touched && f.email.errors" class="invalid-feedback">
                                                 <div *ngIf="f.email.errors.required">Email is required</div>
                                                 <div *ngIf="f.email.errors.email">Email must be a valid email address
@@ -60,7 +60,7 @@
                                             <label for="userpassword">Password</label>
                                             <input type="password" formControlName="password"
                                                 [ngClass]="{'is-invalid': f.password.touched && f.password.errors}"
-                                                [ngModel]="RegistartionModel.password" class="form-control"
+                                                [(ngModel)]="RegistartionModel.password" class="form-control"
                                                 id="userpassword" placeholder="Enter password">
                                             <div *ngIf="f.password.touched && f.password.errors"
                                                 class="invalid-feedback">
@@ -92,7 +92,7 @@
                                         <div class="mb-3">
                                             <label for="cname">Company Name</label>
                                             <input type="text" formControlName="cname" class="form-control" id="cname"
-                                                [ngModel]="RegistartionModel.cname"
+                                                [(ngModel)]="RegistartionModel.cname"
                                                 [ngClass]="{'is-invalid': f.cname.touched && f.cname.errors}"
                                                 placeholder="Enter Company Name">
                                             <div *ngIf="f.cname.touched && f.cname.errors" class="invalid-feedback">
@@ -104,7 +104,7 @@
                                         <div class="mb-3">
                                             <label for="phoneno">Phone Number</label>
                                             <input type="number" formControlName="phoneno" class="form-control"
-                                                id="phoneno" [ngModel]="RegistartionModel.phoneno"
+                                                id="phoneno" [(ngModel)]="RegistartionModel.phoneno"
                                                 [ngClass]="{'is-invalid': f.phoneno.touched && f.phoneno.errors}"
                                                 placeholder="Enter Phone Number">
                                             <div *ngIf="f.phoneno.touched && f.phoneno.errors" class="invalid-feedback">

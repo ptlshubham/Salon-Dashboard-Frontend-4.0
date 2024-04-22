@@ -136,13 +136,10 @@ export class RegisterComponent implements OnInit {
 
   }
   saveRegistartionDetail() {
-    this.submitted = true;
-    debugger
     this.adminService.saveRegistrationList(this.RegistartionModel).subscribe((data: any) => {
-      debugger
-      if (data === 'success') { // Use double or triple equal sign for comparison
-        this.toastr.success('Registration details added successfully', 'Success', { timeOut: 3000 });
-        this.isOpen = false;
+      if (data = 'success') {
+        this.toastr.success('You are successfully Register', 'Success', { timeOut: 3000 });
+        this.isOpen = true;
         this.RegistartionModel = {};
         this.companydetails.markAsUntouched();
       }
