@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
   layout_mode!: string;
   public comapanylist: any = [];
 
-  Personaldet!: FormGroup;
+
   companydetails!: FormGroup;
   submitted = false;
   successmsg = false;
@@ -66,35 +66,30 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.layout_mode = LAYOUT_MODE
-    if (this.layout_mode === 'dark') {
-      document.body.setAttribute("data-bs-theme", "dark");
-    }
-
-
     // Validation Set
-    this.Personaldet = this.formBuilder.group({
+    this.companydetails = this.formBuilder.group({
       fname: ['', Validators.required],
       lname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-
-    });
-    this.companydetails = this.formBuilder.group({
       cname: ['', Validators.required],
       phoneno: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
     });
-
+    this.layout_mode = LAYOUT_MODE
+    if (this.layout_mode === 'dark') {
+      document.body.setAttribute("data-bs-theme", "dark");
+    }
     document.body.setAttribute('data-layout', 'vertical');
   }
+
+  get f() { return this.companydetails.controls; }
+
   private _fetchData() {
 
     this.News = News;
   }
   // convenience getter for easy access to form fields
-  get f() { return this.Personaldet.controls; }
-  get e() { return this.companydetails.controls; }
+
 
   /**
    * On submit form
@@ -102,7 +97,7 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
-    if (this.Personaldet.invalid) {
+    if (this.companydetails.invalid) {
       return;
     } else {
       if (environment.defaultauth === 'firebase') {
@@ -142,24 +137,17 @@ export class RegisterComponent implements OnInit {
   }
   saveRegistartionDetail() {
     this.submitted = true;
-    // stop here if form is invalid
-    if (this.Personaldet.invalid) {
-      return;
-    }
-    else {
+    debugger
+    this.adminService.saveRegistrationList(this.RegistartionModel).subscribe((data: any) => {
       debugger
-      this.adminService.saveRegistrationList(this.RegistartionModel).subscribe((data: any) => {
-        this.comapanylist = data;
-
-        if (data = 'success') {
-          this.toastr.success('registration details added successfully', 'Success', { timeOut: 3000 });
-          this.isOpen = false;
-          this.RegistartionModel = {};
-          this.companydetails.markAsUntouched();
-          this.Personaldet.markAsTouched();
-        }
-      })
-    }
+      if (data === 'success') { // Use double or triple equal sign for comparison
+        this.toastr.success('Registration details added successfully', 'Success', { timeOut: 3000 });
+        this.isOpen = false;
+        this.RegistartionModel = {};
+        this.companydetails.markAsUntouched();
+      }
+    });
   }
+
 
 }

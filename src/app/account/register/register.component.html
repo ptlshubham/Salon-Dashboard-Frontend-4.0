@@ -16,8 +16,9 @@
                                     <h5 class="mb-0">Register Account</h5>
                                     <p class="text-muted mt-2">Get Your Free Saloon Account Now.</p>
                                 </div>
-                                <div *ngIf="isOpen==true">
-                                    <form [formGroup]="Personaldet">
+
+                                <form [formGroup]="companydetails">
+                                    <div *ngIf="isOpen==true">
                                         <div class="mb-3">
                                             <label for="fname">First Name</label>
                                             <input type="text" formControlName="fname" class="form-control" id="fname"
@@ -35,7 +36,7 @@
                                             <input type="text" formControlName="lname" class="form-control" id="lname"
                                                 [ngModel]="RegistartionModel.lname"
                                                 [ngClass]="{'is-invalid': f.lname.touched && f.lname.errors}"
-                                                placeholder="Enter First Name">
+                                                placeholder="Enter Last Name">
                                             <div *ngIf="f.lname.touched && f.lname.errors" class="invalid-feedback">
                                                 <span *ngIf="f.lname.errors.required">This Field is
                                                     required.</span>
@@ -76,26 +77,26 @@
 
                                         <div class="mt-2 d-grid">
                                             <button class="btn btn-primary btn-block" type="submit" *ngIf="isOpen==true"
-                                                (click)="continuetocompanydetails()"
-                                                [disabled]="Personaldet.invalid">Continue</button>
+                                                (click)="continuetocompanydetails()">Continue</button>
                                         </div>
-                                    </form>
-                                </div>
 
-                                <div *ngIf="isOpen==false">
-                                    <button type="button" class="btn btn-soft-light waves-effect waves-light"><i
-                                            class="mdi mdi-keyboard-backspace font-size-16 align-middle d-flex justify-content-end "
-                                            (click)="backtopersonaldetails()"></i></button>
+                                    </div>
 
-                                    <form [formGroup]="companydetails">
+                                    <div *ngIf="isOpen==false">
+                                        <button type="button" class="btn btn-soft-light waves-effect waves-light"
+                                            (click)="backtopersonaldetails()"><i
+                                                class="mdi mdi-keyboard-backspace font-size-16 align-middle d-flex justify-content-end "
+                                                *ngIf="isOpen==false"></i></button>
+
+
                                         <div class="mb-3">
                                             <label for="cname">Company Name</label>
                                             <input type="text" formControlName="cname" class="form-control" id="cname"
                                                 [ngModel]="RegistartionModel.cname"
-                                                [ngClass]="{'is-invalid': e.cname.touched && e.cname.errors}"
+                                                [ngClass]="{'is-invalid': f.cname.touched && f.cname.errors}"
                                                 placeholder="Enter Company Name">
-                                            <div *ngIf="e.cname.touched && e.cname.errors" class="invalid-feedback">
-                                                <span *ngIf="e.cname.errors.required">This Field is
+                                            <div *ngIf="f.cname.touched && f.cname.errors" class="invalid-feedback">
+                                                <span *ngIf="f.cname.errors.required">This Field is
                                                     required.</span>
                                             </div>
                                         </div>
@@ -104,10 +105,10 @@
                                             <label for="phoneno">Phone Number</label>
                                             <input type="number" formControlName="phoneno" class="form-control"
                                                 id="phoneno" [ngModel]="RegistartionModel.phoneno"
-                                                [ngClass]="{'is-invalid': e.phoneno.touched && e.phoneno.errors}"
+                                                [ngClass]="{'is-invalid': f.phoneno.touched && f.phoneno.errors}"
                                                 placeholder="Enter Phone Number">
-                                            <div *ngIf="e.phoneno.touched && e.phoneno.errors" class="invalid-feedback">
-                                                <span *ngIf="e.phoneno.errors.required">This Field is
+                                            <div *ngIf="f.phoneno.touched && f.phoneno.errors" class="invalid-feedback">
+                                                <span *ngIf="f.phoneno.errors.required">This Field is
                                                     required.</span>
                                             </div>
                                         </div>
@@ -117,35 +118,37 @@
                                                 [disabled]="companydetails.invalid"
                                                 (click)="saveRegistartionDetail()">Register</button>
                                         </div>
-                                    </form>
-
-                                    <div class="mt-2 pt-1 text-center">
-                                        <div class="signin-other-title">
-                                            <h5 class="font-size-14 mb-3 text-muted fw-medium">- Sign up using -</h5>
-                                        </div>
-
-                                        <ul class="list-inline mb-0">
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void()"
-                                                    class="social-list-item bg-primary text-white border-primary">
-                                                    <i class="mdi mdi-facebook"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void()"
-                                                    class="social-list-item bg-info text-white border-info">
-                                                    <i class="mdi mdi-twitter"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void()"
-                                                    class="social-list-item bg-danger text-white border-danger">
-                                                    <i class="mdi mdi-google"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </div>
+                                </form>
+
+
+                                <div class="mt-2 pt-1 text-center">
+                                    <div class="signin-other-title">
+                                        <h5 class="font-size-14 mb-3 text-muted fw-medium">- Sign up using -</h5>
+                                    </div>
+
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="javascript:void()"
+                                                class="social-list-item bg-primary text-white border-primary">
+                                                <i class="mdi mdi-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript:void()"
+                                                class="social-list-item bg-info text-white border-info">
+                                                <i class="mdi mdi-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript:void()"
+                                                class="social-list-item bg-danger text-white border-danger">
+                                                <i class="mdi mdi-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
+
                                 <div class="mt-1 text-center">
                                     <p class="text-muted mb-0">Already have an account ? <a routerLink="/account/login"
                                             class="text-primary fw-semibold"> Login </a> </p>
