@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ServiceListService } from 'src/app/core/services/services.service';
 import Swal from 'sweetalert2';
@@ -25,6 +26,7 @@ export class ServicesComponent {
     private servicesService: ServiceListService,
     public formBuilder: UntypedFormBuilder,
     public toastr: ToastrService,
+    private router: Router
 
   ) { }
 
@@ -42,6 +44,10 @@ export class ServicesComponent {
 
   }
   get f() { return this.validationForm.controls; }
+
+  goToServiceUpload() {
+    this.router.navigate(['/service-upload']);
+  }
 
   backToTable() {
     this.isOpen = false;

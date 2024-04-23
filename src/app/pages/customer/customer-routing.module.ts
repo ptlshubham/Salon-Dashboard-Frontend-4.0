@@ -13,7 +13,7 @@ import { BannersComponent } from './banners/banners.component';
 import { VendorProductComponent } from './vendor-product/vendor-product.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EarningsComponent } from './earnings/earnings.component';
-
+import { ServiceUploadComponent } from './service-upload/service-upload.component';
 const routes: Routes = [
      {
           path: 'service-list',
@@ -62,7 +62,12 @@ const routes: Routes = [
      {
           path: 'earnings',
           component: EarningsComponent
-     }
+     },
+     {
+          path: 'service-upload',
+          component: ServiceUploadComponent
+     },
+
 
 ];
 
