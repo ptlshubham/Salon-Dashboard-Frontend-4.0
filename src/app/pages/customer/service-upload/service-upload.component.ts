@@ -89,7 +89,7 @@ export class ServiceUploadComponent implements OnInit {
         tempArray = [];
         tempArray = this.bulkUploadedservice.slice(0, 300);
         
-        this.servicelistservice.saveServiceList(tempArray).subscribe((res: any) => {
+        this.servicelistservice.SaveBulkServiceDetails(tempArray).subscribe((res: any) => {
          
         })
       } else if (i != (this.bulkUploadedservice.length / 300)) {
@@ -98,7 +98,7 @@ export class ServiceUploadComponent implements OnInit {
         let end = start + 300;
         tempArray = this.bulkUploadedservice.slice(start, end);
         
-        this.servicelistservice.saveServiceList(tempArray).subscribe((res: any) => {
+        this.servicelistservice.SaveBulkServiceDetails(tempArray).subscribe((res: any) => {
          
         })
       }
@@ -108,7 +108,7 @@ export class ServiceUploadComponent implements OnInit {
         let end = this.bulkUploadedservice.length - start;
         tempArray = this.bulkUploadedservice.slice(start, end);
         
-        this.servicelistservice.saveServiceList(tempArray).subscribe((res: any) => {
+        this.servicelistservice.SaveBulkServiceDetails(tempArray).subscribe((res: any) => {
         
         })
       }

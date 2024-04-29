@@ -41,6 +41,7 @@ export class ApiService {
   public static getMonthlyTotalURL: string = ApiService.HOST_URL + '/admin/GetMonthlyTotal';
   public static updateCustomerListURL: string = ApiService.HOST_URL + '/admin/UpdateCustomerList';
   public static removeCustomerDetailsURL: string = ApiService.HOST_URL + '/admin/removeCustomerDetails/';
+  public static SaveBulkServiceDetailsURL: string = ApiService.HOST_URL + '/admin/SaveBulkServiceDetails/';
   public static removeServicesListURL: string = ApiService.HOST_URL + '/admin/RemoveServicesList/';
   public static forgotPasswordURL: string = ApiService.HOST_URL + '/admin/ForgotPassword';
   public static getOneTimePasswordURL: string = ApiService.HOST_URL + '/admin/GetOneTimePassword';
