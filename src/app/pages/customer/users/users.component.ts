@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent implements OnInit{
+export class UsersComponent implements OnInit {
   isOpen: boolean = false;
   isUpdate: boolean = false;
   isCustData: boolean = true;
@@ -25,11 +25,6 @@ export class UsersComponent implements OnInit{
   validationAppointmentForm!: FormGroup;
   validationServiceForm!: FormGroup;
   validationReedemPointsForm!: FormGroup;
-
-  page = 1;
-  pageSize = 10;
-  collectionSize = 0;
-  paginateData: any = [];
 
   stateData: any = [];
   cityData: any = [];
@@ -46,11 +41,18 @@ export class UsersComponent implements OnInit{
 
   customerModel: any = {};
   customerList: any = [];
+  pendingPayment: any = [];
+
+  page = 1;
+  pageSize = 10;
+  collectionSize = 0;
+  paginateData: any = [];
 
   appointPage = 1;
   appointPageSize = 10;
-  AppointCollectionSize = 0;
+  appointCollectionSize = 0;
   paginateAppointData: any = [];
+
   appointmentList: any = [];
   usedServices: any = [];
   totalPriceForDetails: number = 0;
@@ -94,6 +96,8 @@ export class UsersComponent implements OnInit{
   isCombo: boolean = false;
   minDate: string;
 
+  popoverContent: string = 'Popover content goes here';
+
   constructor(
     private customerService: CustomerService,
     public formBuilder: UntypedFormBuilder,
@@ -105,13 +109,13 @@ export class UsersComponent implements OnInit{
     private router: Router
 
   ) {
-    this.getCustomerDetails();
+    this.getPendingPayment();
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
   }
 
   ngOnInit(): void {
-
+    this.getCustomerDetails();
     this.validationForm = this.formBuilder.group({
       fname: ['', [Validators.required]],
       lname: ['', [Validators.required]],
@@ -125,11 +129,13 @@ export class UsersComponent implements OnInit{
       pincode: ['', [Validators.required, Validators.pattern("^[0-9]{6}$")]],
       gender: ['', [Validators.required]],
       vip: [Boolean],
-      notes: ['']
     });
     this.validationAppointmentForm = this.formBuilder.group({
       bookingDate: ['', [Validators.required]],
       time: ['', [Validators.required]],
+      vouchernotes: [''],
+      notes: ['']
+
     });
     this.validationServiceForm = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -190,19 +196,37 @@ export class UsersComponent implements OnInit{
   selectGenderData(e: any): void {
     this.selectedGender = e.target.value;
   }
+  getPendingPayment() {
+    this.customerService.getPendingPaymentTotal().subscribe((data: any) => {
+      this.pendingPayment = data;
+    });
+  }
   getCustomerDetails() {
     this.customerService.getAllCustomerList().subscribe((data: any) => {
       this.customerList = data;
-
-      this.filteredCustomerList = [...this.customerList]; // Initialize filtered list
       for (let i = 0; i < this.customerList.length; i++) {
         this.customerList[i].index = i + 1;
       }
+      this.customerList.forEach((customer: any) => {
+        const pendingPayment = this.pendingPayment.find((payment: any) => payment.cid === customer.id);
+        if (pendingPayment) {
+          customer.totalPending = pendingPayment.totalpending;
+        } else {
+          customer.totalPending = 0; // Set default value if no matching pending payment found
+        }
+      });
       this.collectionSize = this.customerList.length;
+      this.filteredCustomerList = [...this.customerList]; // Initialize filtered list
       this.getPagintaion();
     });
   }
-
+  openPendingAmount(id: any) {
+    this.router.navigate(['/custom/earnings'], {
+      queryParams: {
+        id: JSON.stringify(id)
+      }
+    });
+  }
   applySearchFilter() {
     this.page = 1; // Reset the page when the search query changes
     this.filteredCustomerList = this.customerList.filter((customer: any) =>
@@ -214,6 +238,7 @@ export class UsersComponent implements OnInit{
 
   getPagintaion() {
     // Paginate the filtered list
+    debugger
     this.paginateData = this.filteredCustomerList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
@@ -246,7 +271,7 @@ export class UsersComponent implements OnInit{
     this.customerService.getActivatedMembershipDetail(this.selectedCustId).subscribe((data: any) => {
       this.dataMembership = data;
       this.dataMembership.forEach((element: any) => {
-        
+
         if (todaydate < element.validitydate) {
           this.activeMembership.push(element);
         }
@@ -434,6 +459,7 @@ export class UsersComponent implements OnInit{
       for (let i = 0; i < this.appointmentList.length; i++) {
         this.appointmentList[i].index = i + 1;
       }
+      this.appointCollectionSize = this.appointmentList.length;
       this.getAppointPagintaion();
     });
   }
@@ -654,7 +680,7 @@ export class UsersComponent implements OnInit{
         this.appointmentModel = [];
         this.isOpenAppointmentList = false;
         this.isOpenCustAppointment = false;
-        this.customerService.triggerRefresh(); 
+        this.customerService.triggerRefresh();
         this.toastr.success('Booking has been done.', 'Success', { timeOut: 3000 });
       }
     })

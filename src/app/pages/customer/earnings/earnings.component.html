@@ -8,12 +8,11 @@
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Daily Earnings</small>
                         </h4>
                         <h4 class="mb-3">
-                            <!-- Total: <span [countUp]="servicesList.length" [options]="option"
-                                class="counter-value"></span> -->
+                            Total: <span [countUp]="todayTotalAmount" [options]="option" class="counter-value"></span>
                         </h4>
                     </div>
                     <div class="col-4 text-center">
-                        <img src="assets/images/icons/services.png" alt="" class="rounded avatar-lg">
+                        <img src="assets/images/icons/earnings.png" alt="" class="rounded avatar-lg">
                     </div>
                 </div>
                 <div class="text-nowrap">
@@ -29,15 +28,14 @@
                 <div class="row align-items-center">
                     <div class="col-8">
                         <h4>
-                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">pending List</small>
+                            <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Pending List</small>
                         </h4>
                         <h4 class="mb-3">
-                            <!-- Total: <span [countUp]="servicesList.length" [options]="option"
-                                class="counter-value"></span> -->
+                            Total: <span [countUp]="pendingAmount" [options]="option" class="counter-value"></span>
                         </h4>
                     </div>
                     <div class="col-4 text-center">
-                        <img src="assets/images/icons/services.png" alt="" class="rounded avatar-lg">
+                        <img src="assets/images/icons/earnings.png" alt="" class="rounded avatar-lg">
                     </div>
                 </div>
                 <div class="text-nowrap">
@@ -53,7 +51,7 @@
     <div class="card">
         <div class="card-header">
 
-            <h5 class="card-title">Earning List</h5>
+            <h5 class="card-title">Daily Earning List</h5>
 
             <div class="d-flex justify-content-end gap-3" style="align-items: baseline;">
                 <label class="form-label ">Duration</label>
@@ -64,9 +62,6 @@
                             [options]="flatpickrOptions">
                     </div>
                 </div>
-                <!-- <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
-                    (click)="openAddExpense()"><i class="bx bx-user-plus label-icon"></i>
-                    Add New Expense</button> -->
             </div>
         </div>
         <div class="card-body">
@@ -76,35 +71,34 @@
                         <tr>
                             <th class="text-left">#</th>
                             <th class="text-center">Customer Name</th>
-                            <th class="text-center">Amount</th>
-                            <th class="text-center">Payment Type</th>
-                            <th class="text-center">Payment Satuts</th>
+                            <th class="text-center">Contact No</th>
                             <th class="text-center">Payment Date</th>
-                            <th class="text-end">Payment Time</th>
+                            <th class="text-center">Paid Amount</th>
+                            <th class="text-center">Payment Type</th>
+                            <th class="text-center">Booking Date</th>
+                            <th class="text-center">Satuts</th>
                         </tr>
                     </thead>
-                    <!-- <tbody>
+                    <tbody>
                         <tr *ngFor="let s of paginateData;let i=index">
                             <td class="text-left">{{s.index}}</td>
-                            <td class="text-center">{{s.expensesdate | date:'dd/MM/yyyy'}}</td>
-                            <td class="text-center">{{s.expensesname}} </td>
-                            <td class="text-center">{{s.expensesprices}} </td>
-
-                            <td class="text-center">{{s.employeename }}</td>
-                            <td class="text-center">{{s.paymenttype }}</td>
-
-                            
+                            <td class="text-center">{{s.fname}} {{s.lname}}</td>
+                            <td class="text-center">{{s.contact}}</td>
+                            <td class="text-center">{{s.pdate | date:'dd/MM/yyyy h:mm a'}}</td>
+                            <td class="text-center">{{s.paidprice}} ₹</td>
+                            <td class="text-center">{{s.modeofpayment}}</td>
+                            <td class="text-center">{{s.appointmentdate | date:'dd/MM/yyyy h:mm a'}}</td>
+                            <td class="text-center">
+                                <span class="badge bg-success" *ngIf="!s.pendingstatus">Completed</span>
+                                <span class="badge bg-danger" *ngIf="s.pendingstatus">Pending</span>
+                            </td>
                         </tr>
-                    </tbody> -->
+                    </tbody>
                 </table>
             </div>
             <div class="row mt-5">
                 <div class="d-flex justify-content-start gap">
                     <div class="hstack gap-3">
-                        <div class="grid-example">Daily Total:
-                            <span class="text-primary"><b>
-                                    {{paginateData.total}} ₹</b></span>
-                        </div>
                         <!-- <div class="col-md">
                             <button type="button" class="btn btn-primary  " (click)="generateInvoicePDF()"><i
                                     class="fa fa-file-pdf-0"></i>
@@ -127,7 +121,7 @@
     <div class="card">
         <div class="card-header">
 
-            <h5 class="card-title">pending List</h5>
+            <h5 class="card-title">Pending List</h5>
 
             <div class="d-flex justify-content-end gap-3" style="align-items: baseline;">
                 <label class="form-label ">Duration</label>
@@ -150,48 +144,35 @@
                         <tr>
                             <th class="text-left">#</th>
                             <th class="text-center">Customer Name</th>
-                            <th class="text-center">Amount</th>
-                            <th class="text-center">Payment Type</th>
-                            <th class="text-center">Payment Satuts</th>
+                            <th class="text-center">Contact No</th>
                             <th class="text-center">Payment Date</th>
-                            <th class="text-end">Payment Time</th>
+                            <th class="text-center">Paid Amount</th>
+                            <th class="text-center">Payment Type</th>
+                            <th class="text-center">Booking Date</th>
+                            <th class="text-center">Satuts</th>
                         </tr>
                     </thead>
-                    <!-- <tbody>
-                        <tr *ngFor="let s of paginateData;let i=index">
+                    <tbody>
+                        <tr *ngFor="let s of paginateDataPending;let i=index">
                             <td class="text-left">{{s.index}}</td>
-                            <td class="text-center">{{s.expensesdate | date:'dd/MM/yyyy'}}</td>
-                            <td class="text-center">{{s.expensesname}} </td>
-                            <td class="text-center">{{s.expensesprices}} </td>
-
-                            <td class="text-center">{{s.employeename }}</td>
-                            <td class="text-center">{{s.paymenttype }}</td>
-
-                            
+                            <td class="text-center">{{s.fname}} {{s.lname}}</td>
+                            <td class="text-center">{{s.contact}}</td>
+                            <td class="text-center">{{s.pdate | date:'dd/MM/yyyy h:mm a'}}</td>
+                            <td class="text-center">{{s.paidprice}} ₹</td>
+                            <td class="text-center">{{s.modeofpayment}}</td>
+                            <td class="text-center">{{s.appointmentdate | date:'dd/MM/yyyy h:mm a'}}</td>
+                            <td class="text-center">
+                                <span class="badge bg-success" *ngIf="!s.pendingstatus">Completed</span>
+                                <span class="badge bg-danger" *ngIf="s.pendingstatus">Pending</span>
+                            </td>
                         </tr>
-                    </tbody> -->
+                    </tbody>
                 </table>
             </div>
-            <div class="row mt-5">
-                <div class="d-flex justify-content-start gap">
-                    <div class="hstack gap-3">
-                        <div class="grid-example">Daily Total:
-                            <span class="text-primary"><b>
-                                    {{paginateData.total}} ₹</b></span>
-                        </div>
-                        <!-- <div class="col-md">
-                            <button type="button" class="btn btn-primary  " (click)="generateInvoicePDF()"><i
-                                    class="fa fa-file-pdf-0"></i>
-                                Invoice(PDF)</button>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
-
             <div class="row mt-4">
-                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
-                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getPagintaion();"
-                    aria-label="Default pagination"
+                <ngb-pagination [collectionSize]="collectionSizePending" [pageSize]="pageSizePending"
+                    [(page)]="pagePending" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                    (pageChange)="getPendingPagintaion();" aria-label="Default pagination"
                     class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
             </div>
         </div>

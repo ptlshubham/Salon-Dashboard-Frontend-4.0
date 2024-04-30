@@ -42,7 +42,7 @@ export class EmployeeService {
         return this.httpClient.post<any>(ApiService.removeAppointementEmployeeDataURL, admin)
     }
     removeRegularUsedService(admin: any): Observable<any> {
-        
+
         return this.httpClient.post<any>(ApiService.removeRegularItemsFromServicesURL, admin)
     }
     removeMemberUsedService(admin: any): Observable<any> {
@@ -56,6 +56,9 @@ export class EmployeeService {
     }
     public getCityFromJson(): Observable<any[]> {
         return this.httpClient.get<any[]>('assets/json/state-city.json');
+    }
+    getEmpTotalPoint(): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getAllEmpPointListURL);
     }
 
 

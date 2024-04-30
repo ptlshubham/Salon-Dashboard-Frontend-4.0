@@ -67,7 +67,7 @@
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Daily Earnings</small>
                         </h4>
                         <h4 class="mb-3">
-                            Total: <span [countUp]="ExpensesList.length" [options]="option"
+                            Total: <span [countUp]="todayTotalAmount" [options]="option"
                                 class="counter-value"></span>
                         </h4>
                         <h4 class="mb-3">
@@ -116,13 +116,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex mb-4">
-                    <h5 class="card-title">Wallet Balance</h5>
+                    <h5 class="card-title">Top Services</h5>
                 </div>
-                <apx-chart dir="ltr" class="apex-charts" [series]="topServiceChart.series"
-                    [chart]="topServiceChart.chart" [legend]="topServiceChart.legend" [colors]="topServiceChart.colors"
-                    [labels]="topServiceChart.labels" [stroke]="topServiceChart.stroke"
-                    [plotOptions]="topServiceChart.plotOptions">
-                </apx-chart>
+                <div class="d-flex flex-column align-items-center">
+                    <apx-chart dir="ltr" class="apex-charts" [series]="topServiceChart.series"
+                        [chart]="topServiceChart.chart" [legend]="topServiceChart.legend"
+                        [colors]="topServiceChart.colors" [labels]="topServiceChart.labels"
+                        [stroke]="topServiceChart.stroke" [plotOptions]="topServiceChart.plotOptions">
+                    </apx-chart>
+                </div>
             </div>
         </div>
     </div>

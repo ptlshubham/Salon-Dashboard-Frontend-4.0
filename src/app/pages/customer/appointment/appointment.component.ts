@@ -1,6 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { NgbModal, NgbModalRef, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { CustomerService } from 'src/app/core/services/customer.service';
@@ -27,6 +29,7 @@ export class AppointmentComponent implements OnInit {
   collectionSize = 0;
   paginateActiveData: any = [];
   paginatePendingData: any = [];
+  pendingPayment: any = [];
 
 
   pagePe = 1;
@@ -102,6 +105,8 @@ export class AppointmentComponent implements OnInit {
   exceedError: string | null = null;
   pendingAmount: number = 0;
 
+  modalRef: NgbModalRef | null = null;
+  empPointList: any = [];
   constructor(
     private employeeService: EmployeeService,
     private customerService: CustomerService,
@@ -110,10 +115,14 @@ export class AppointmentComponent implements OnInit {
     public formBuilder: UntypedFormBuilder,
     private offerService: OfferService,
     private servicesService: ServiceListService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    public toastr: ToastrService,
+    private router: Router
 
   ) {
+    this.getPendingPayment();
     this.refreshSubscription = this.customerService.refresh$.subscribe(() => {
+      this.getPendingPayment();
       this.getAllAppointment();
       this.getOnlyIdealEmployee();
       this.userBookingData = {};
@@ -136,7 +145,18 @@ export class AppointmentComponent implements OnInit {
     this.getAllEmployee();
     this.offcanvasService.open(content, { position: 'end' });
   }
-
+  getPendingPayment() {
+    this.customerService.getPendingPaymentTotal().subscribe((data: any) => {
+      this.pendingPayment = data;
+    });
+  }
+  openPendingAmount(id: any) {
+    this.router.navigate(['/custom/earnings'], {
+      queryParams: {
+        id: JSON.stringify(id)
+      }
+    });
+  }
   getAllAppointment() {
     const todayDate = new Date();
     todayDate.setHours(0, 0, 0, 0);
@@ -148,6 +168,14 @@ export class AppointmentComponent implements OnInit {
           bookingDate.getTime() === todayDate.getTime();
       });
       this.appointmentList = filteredData;
+      this.appointmentList.forEach((customer: any) => {
+        const pendingPayment = this.pendingPayment.find((payment: any) => payment.cid === customer.custid);
+        if (pendingPayment) {
+          customer.totalPending = pendingPayment.totalpending;
+        } else {
+          customer.totalPending = 0; // Set default value if no matching pending payment found
+        }
+      });
       // for (let i = 0; i < this.appointmentList.length; i++) {
       //   this.appointmentList[i].index = i + 1;
       //   this.getUsedServicesDetails(data[i].id);
@@ -245,6 +273,7 @@ export class AppointmentComponent implements OnInit {
 
   }
   openPaymentData(content: any) {
+    this.getAllEmployeeTotalPoint();
     this.pointsError = null;
     this.discountError = null;
     this.billingModel = {};
@@ -287,6 +316,7 @@ export class AppointmentComponent implements OnInit {
   }
 
   calculationDiscount(enteredValue: any, value: any) {
+    this.billingModel.maxdiscount = 0;
     this.billingModel.cashamount = 0;
     this.billingModel.onlineamount = 0;
     if (value == 'max') {
@@ -298,6 +328,7 @@ export class AppointmentComponent implements OnInit {
   }
 
   calculateDiscount(enteredValue: any) {
+    this.billingModel.maxdiscount = enteredValue;
     const percentageDiscount = parseFloat(enteredValue);
     const maxDiscount = this.generalModel.maxdiscount;
     if (this.discount > 0) {
@@ -404,7 +435,7 @@ export class AppointmentComponent implements OnInit {
   calculationOfPayment(enteredValue: any, value: string) {
     this.pendingAmount = this.billingModel.pendingamount;
     const enteredValueNum: number = parseFloat(enteredValue); // Convert enteredValue to a number
-    debugger
+
 
     if (value === 'cash') {
       if (this.cash > 0) {
@@ -438,16 +469,20 @@ export class AppointmentComponent implements OnInit {
       }
     }
     if (this.pendingAmount > 0 && (this.cash + this.online) > this.pendingAmount) {
-      debugger
+
       this.exceedError = 'Error: Total payment exceeds pending amount.';
       // You can add code here to display an error message to the user
       return; // Exit the method if total payment exceeds pending amount
     }
   }
-
+  getAllEmployeeTotalPoint() {
+    this.employeeService.getEmpTotalPoint().subscribe((res: any) => {
+      this.empPointList = res;
+    })
+  }
   savePaymentDetails() {
     var empPoint: number = 0;
-    
+
     const empPointsMap = new Map<number, number>();
     this.paymentDataModel.services.forEach((element: any) => {
       if (element.epoint != undefined) {
@@ -464,10 +499,83 @@ export class AppointmentComponent implements OnInit {
         // Add the element to selectedAllEmp (whether duplicate or not)
       }
     });
-    this.paymentDataModel.emppoint = empPointsMap;
-  
-    this.billingModel
+    if (!this.paymentDataModel.emppoint) {
+      this.paymentDataModel.emppoint = [];
+    }
+
+    // Push key-value pairs as objects into emppoint
+    empPointsMap.forEach((value, key) => {
+      this.paymentDataModel.emppoint.push({ empid: key, point: value, empTotalPoint: 0 });
+    });
+
+    this.paymentDataModel.emppoint.forEach((element: any) => {
+      for (let i = 0; i < this.empPointList.length; i++) {
+        if (element.empid == this.empPointList[i].empid) {
+          this.paymentDataModel.emppoint[i].empTotalPoint = this.empPointList[i].totalpoint;
+        }
+      }
+    });
+    this.paymentDataModel.pendingamount = this.billingModel.pendingamount;
+    this.paymentDataModel.onlineamount = this.billingModel.onlineamount;
+    this.paymentDataModel.modeofpayment = this.selectedPaymentMethod;
+    this.paymentDataModel.cashamount = this.billingModel.cashamount;
+    this.paymentDataModel.subtotal = this.billingModel.subtotal;
+    this.paymentDataModel.tCustPoint = this.billingModel.totalcustpoint;
+
+
+    if (this.billingModel.maxdiscount != undefined) {
+      this.paymentDataModel.maxdiscount = this.billingModel.maxdiscount;
+      this.paymentDataModel.maxdiscountprice = this.billingModel.maxdiscountprice;
+    }
+    else {
+      this.paymentDataModel.maxdiscount = 0;
+      this.paymentDataModel.maxdiscountprice = 0;
+    }
+
+    if (this.billingModel.vipdiscountprice != undefined) {
+      this.paymentDataModel.vipdiscountprice = this.billingModel.vipdiscountprice;
+      this.paymentDataModel.vipdiscount = this.generalModel.vipdiscount;
+    }
+    else {
+      this.paymentDataModel.vipdiscountprice = 0;
+      this.paymentDataModel.vipdiscount = 0;
+    }
+
+    if (this.billingModel.redeempoints != undefined) {
+      this.paymentDataModel.redeempointprice = this.billingModel.redeempointprice;
+      this.paymentDataModel.redeempoints = this.billingModel.redeempoints;
+    }
+    else {
+      this.paymentDataModel.redeempointprice = 0;
+      this.paymentDataModel.redeempoints = 0;
+    }
+
+    if (this.billingModel.pendingamount > 0) {
+      this.paymentDataModel.pendingstatus = true;
+      this.paymentDataModel.lastpdate = new Date();
+      this.paymentDataModel.pdate = null;
+
+    }
+    else {
+      this.paymentDataModel.pendingstatus = false;
+      this.paymentDataModel.pdate = new Date();
+      this.paymentDataModel.lastpdate = new Date();
+    }
     debugger
+
+    this.customerService.savePaymentDetails(this.paymentDataModel).subscribe((data: any) => {
+      if (data == 'success') {
+        this.toastr.success('Payment completed Successfully', 'Uploaded', { timeOut: 3000, });
+
+        if (this.modalRef) {
+
+          this.modalRef.dismiss('Close click');
+        }
+      }
+      else {
+        this.toastr.error('Please try again.', 'Invalid Dimension', { timeOut: 3000, });
+      }
+    })
   }
 
   onPaymentMethodChange() {
@@ -648,7 +756,14 @@ export class AppointmentComponent implements OnInit {
       this.pendingList.sort((a: any, b: any) => {
         return new Date(a.bookingdate).getTime() - new Date(b.bookingdate).getTime();
       });
-
+      this.pendingList.forEach((customer: any) => {
+        const pendingPayment = this.pendingPayment.find((payment: any) => payment.cid === customer.custid);
+        if (pendingPayment) {
+          customer.totalPending = pendingPayment.totalpending;
+        } else {
+          customer.totalPending = 0; // Set default value if no matching pending payment found
+        }
+      });
       this.collectionSizePe = this.pendingList.length;
       this.getPendingPagintaion();
     });
@@ -952,6 +1067,7 @@ export class AppointmentComponent implements OnInit {
   getCustomerPoints(id: any) {
     this.customerService.getCustAllPoint(id).subscribe((data: any) => {
       this.totalCustPoint = data;
+
       this.tempCustPoint = 0;
       this.totalCustPoint.forEach((element: any) => {
         if (element.totalcustpoint != undefined) {

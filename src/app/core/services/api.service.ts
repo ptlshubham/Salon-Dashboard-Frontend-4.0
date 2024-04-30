@@ -24,6 +24,7 @@ export class ApiService {
   public static getAllEmployeeURL: string = ApiService.HOST_URL + '/admin/GetAllEmployee';
   public static getOnlyIdealEmployeeList: string = ApiService.HOST_URL + '/admin/GetOnlyIdealEmployeeList';
   public static removeEmployeeListURL: string = ApiService.HOST_URL + '/admin/RemoveEmployeeList/';
+  public static getAllEmpPointListURL: string = ApiService.HOST_URL + '/admin/GetAllEmpPointList';
   public static saveCustomerListURL: string = ApiService.HOST_URL + '/admin/SaveCustomerList';
   public static saveLoginUserURL: string = ApiService.HOST_URL + '/authenticate/UserLogin';
   public static getAllCustomerURL: string = ApiService.HOST_URL + '/admin/GetAllCustomer';
@@ -59,7 +60,6 @@ export class ApiService {
   public static saveAdminLoginURL: string = ApiService.HOST_URL + '/admin/login';
   public static ChackForPasswordURL: string = ApiService.HOST_URL + '/admin/ChackForPassword';
   public static saveModeOfPayment: string = ApiService.HOST_URL + '/admin/SaveModeOfPayment';
-  public static getAllModeOfPayment: string = ApiService.HOST_URL + '/admin/GetAllModeOfPayment';
   public static getMonthlyPayment: string = ApiService.HOST_URL + '/admin/GetMonthlyPayment';
   public static saveOfferListURL: string = ApiService.HOST_URL + '/admin/SaveOfferList';
   public static getAllOfferDataListURL: string = ApiService.HOST_URL + '/admin/GetAllOfferDataList';
@@ -150,6 +150,10 @@ export class ApiService {
   public static getAllGeneralSalonDataURL: string = ApiService.HOST_URL + '/admin/GetAllGeneralSalonData/';
   public static getUserDataByIdURL: string = ApiService.HOST_URL + '/admin/GetUserDataById/';
   public static getCustomerServicesURL: string = ApiService.HOST_URL + '/admin/GetCustomerServices';
- 
+
+  public static getAllPendingPaymentTotalURL: string = ApiService.HOST_URL + '/admin/GetAllPendingPaymentTotal/';
+  public static getAllPaymentListURL: string = ApiService.HOST_URL + '/admin/GetAllPaymentList';
+  // public static getTodayPendingPaymentListURL: string = ApiService.HOST_URL + '/admin/GetTodayPendingPaymentList';
+
 
 }

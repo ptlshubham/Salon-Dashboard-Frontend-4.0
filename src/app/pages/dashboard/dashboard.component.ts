@@ -7,6 +7,7 @@ import { ChartType } from './dashboard.model';
 import { investedOverview, News } from './data';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,6 +38,8 @@ export class DashboardComponent implements OnInit {
   investedOverview!: ChartType;
   News: any;
 
+  todayDate: any;
+  todayTotalAmount: number = 0;
 
   page = 1;
   pageSize = 10;
@@ -64,7 +67,7 @@ export class DashboardComponent implements OnInit {
   };
 
   basicRadialBarChart: ChartType = {
-    chart: { height: 220, type: "radialBar" },
+    chart: { height: 220, width: 220, type: "radialBar" },
     plotOptions: {
       radialBar: {
         dataLabels: {
@@ -163,7 +166,7 @@ export class DashboardComponent implements OnInit {
           return val + '%';
         }
       }
-    } 
+    }
   };
   constructor(
 
@@ -171,7 +174,7 @@ export class DashboardComponent implements OnInit {
     private customerService: CustomerService,
     private expensesService: ExpensesService,
     private dashboardService: DashboardService,
-
+    private datePipe: DatePipe,
     private router: Router,
   ) {
     this.getCustomerServicesChart();
@@ -235,6 +238,7 @@ export class DashboardComponent implements OnInit {
 
   private _fetchData() {
     this.News = News;
+    this.getDailyEarningsPayment();
   }
 
 
@@ -252,6 +256,22 @@ export class DashboardComponent implements OnInit {
       data.forEach((element: any) => {
         this.topServiceChart.series.push(element.service_count);
         this.topServiceChart.labels.push(element.servicesname);
+      });
+    });
+  }
+  getDailyEarningsPayment() {
+    this.todayTotalAmount = 0;
+    let nowDate = new Date();
+    // Format the date using DatePipe
+    this.todayDate = this.datePipe.transform(nowDate, 'yyyy-MM-dd');
+    this.customerService.getAllPaymentDetails().subscribe((data: any) => {
+
+      data.forEach((element: any) => {
+        let lastpdate = element.lastpdate;
+        let lastdateWithoutTime = new Date(lastpdate).toISOString().split('T')[0];
+        if (lastdateWithoutTime == this.todayDate) {
+          this.todayTotalAmount = this.todayTotalAmount + element.paidprice;
+        }
       });
     });
   }

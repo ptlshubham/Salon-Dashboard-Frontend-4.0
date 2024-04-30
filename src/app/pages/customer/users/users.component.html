@@ -5,7 +5,7 @@
                 <div class="d-flex justify-content-between">
                     <h5 class="card-title">Add New Customer Details</h5>
                     <button type="submit" class="btn btn-danger  waves-effect waves-light " (click)="backToTable()"
-                        ngbTooltip="BAck to Customer List">
+                        ngbTooltip="Back to Customer List">
                         <i class="bx bx-arrow-back font-size-16 align-middle"></i>
                         Back</button>
                 </div>
@@ -260,7 +260,10 @@
                                 <td class="text-center">
                                     <span class="fa fa-star checked" *ngIf="s.vip==true" ngbTooltip="VIP Mode is ON"
                                         placement="bottom"></span>
-                                    {{s.fname}} {{s.lname}}
+                                    {{s.fname}} {{s.lname}}<span class="position-absolute rounded-circle bg-danger p-1"
+                                        *ngIf="s.amountpending==true" placement="right"
+                                        ngbTooltip="Pending Amount : {{s.totalPending}} ₹"
+                                        (click)="openPendingAmount(s.id)"></span>
                                 </td>
                                 <td class="text-center">{{s.whatsapp}} </td>
                                 <td class="text-center">{{s.gender}} </td>
@@ -335,7 +338,7 @@
                 </table>
             </div>
             <div class="row mt-4">
-                <ngb-pagination [collectionSize]="AppointCollectionSize" [pageSize]="appointPageSize"
+                <ngb-pagination [collectionSize]="appointCollectionSize" [pageSize]="appointPageSize"
                     [(page)]="appointPage" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
                     (pageChange)="getAppointPagintaion();" aria-label="Default pagination"
                     class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
@@ -501,7 +504,7 @@
                             <div class="mb-3">
                                 <label for="basicpill-notes-input" class="form-label">Voucher Notes</label>
                                 <textarea id="basicpill-notes-input" class="form-control" rows="3" id="notes"
-                                    [(ngModel)]="customerModel.vouchernotes" [ngModelOptions]="{standalone: true}"
+                                    formControlName="vouchernotes" [(ngModel)]="customerModel.vouchernotes"
                                     placeholder="Notes"></textarea>
                             </div>
                         </div>

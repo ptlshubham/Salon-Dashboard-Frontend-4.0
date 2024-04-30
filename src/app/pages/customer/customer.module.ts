@@ -24,6 +24,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { EarningsComponent } from './earnings/earnings.component';
 import { AttandanceComponent } from './attandance/attandance.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { CountUpModule } from 'ngx-countup';
 
 
 
@@ -68,7 +69,9 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     NgSelectModule,
     FlatpickrModule.forRoot(),
     NgbDatepickerModule,
-    FullCalendarModule
+    FullCalendarModule,
+    CountUpModule,
+
   ],
   providers: [
     DatePipe,

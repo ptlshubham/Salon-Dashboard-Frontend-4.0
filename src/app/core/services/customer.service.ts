@@ -91,10 +91,8 @@ export class CustomerService {
         return this.httpClient.post<any>(ApiService.getUsedServicesByCustomerURL, data);
     }
     savePaymentDetails(admin: any) {
+        debugger
         return this.httpClient.post<any>(ApiService.saveModeOfPayment, admin);
-    }
-    getPaymentDetails(): Observable<any> {
-        return this.httpClient.get<any>(ApiService.getAllModeOfPayment);
     }
     getMonthlyDetails(): Observable<any> {
         return this.httpClient.get<any>(ApiService.getMonthlyPayment);
@@ -138,4 +136,14 @@ export class CustomerService {
     updateCompleteStatusDetails(admin: any): Observable<any> {
         return this.httpClient.post<any>(ApiService.updateAppointmentServicesStatusURL, admin)
     }
+    getPendingPaymentTotal(): Observable<any> {
+        return this.httpClient.get<any>(ApiService.getAllPendingPaymentTotalURL);
+    }
+    getAllPaymentDetails(): Observable<any> {
+        return this.httpClient.get<any>(ApiService.getAllPaymentListURL);
+    }
+    
+    // getTodayPendingPayment(): Observable<any> {
+    //     return this.httpClient.get<any>(ApiService.getTodayPendingPaymentListURL);
+    // }
 }

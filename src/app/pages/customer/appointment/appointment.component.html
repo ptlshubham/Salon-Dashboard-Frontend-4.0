@@ -27,7 +27,11 @@
                                 <td class="text-left">{{s.index}}</td>
                                 <td class="text-center">
                                     <span class="fa fa-star checked" *ngIf="s.vip==true" ngbTooltip="VIP Mode is ON"
-                                        placement="bottom"></span> {{s.fname}} {{s.lname}}
+                                        placement="bottom"></span> {{s.fname}} {{s.lname}}<span
+                                        class="position-absolute rounded-circle bg-danger p-1"
+                                        *ngIf="s.amountpending==true" placement="right"
+                                        ngbTooltip="Pending Amount : {{s.totalPending}} ₹"
+                                        (click)="openPendingAmount(s.id)"></span>
                                 </td>
                                 <td class="text-center">
                                     <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
@@ -100,7 +104,11 @@
                             <tr *ngFor="let s of paginatePendingData;let i=index">
                                 <td class="text-left">{{s.index}}</td>
                                 <td class="text-center"><span class="fa fa-star checked" *ngIf="s.vip==true"
-                                        ngbTooltip="VIP Mode is ON" placement="bottom"></span> {{s.fname}} {{s.lname}}
+                                        ngbTooltip="VIP Mode is ON" placement="bottom"></span> {{s.fname}}
+                                    {{s.lname}}<span class="position-absolute rounded-circle bg-danger p-1"
+                                        *ngIf="s.amountpending==true" placement="right"
+                                        ngbTooltip="Pending Amount : {{s.totalPending}} ₹"
+                                        (click)="openPendingAmount(s.id)"></span>
                                 </td>
                                 <td class="text-center">{{s.bookingdate |date}}</td>
                                 <td class="text-center">
@@ -379,7 +387,8 @@
 
                             </div>
                             <div class="text-center">
-                                <button type="button" class="btn btn-success w-md" (click)="savePaymentDetails()">Pay Now</button>
+                                <button type="button" class="btn btn-success w-md" (click)="savePaymentDetails()">Pay
+                                    Now</button>
                             </div>
                         </div>
                     </div>

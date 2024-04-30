@@ -12,7 +12,6 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { ExtrapagesModule } from './extrapages/extrapages.module';
 import { AuthInterceptor } from './core/guards/auth-http-interceptor';
 import { ToastrModule } from 'ngx-toastr';
-import { BannersComponent } from './pages/customer/banners/banners.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 
