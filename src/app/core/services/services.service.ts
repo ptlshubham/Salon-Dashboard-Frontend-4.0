@@ -11,7 +11,8 @@ import { ApiService } from './api.service';
 export class ServiceListService {
 
     constructor(
-        private httpClient: HttpClient
+        private httpClient: HttpClient,
+        private http: HttpClient
     ) { }
 
     saveServiceList(admin: any){
@@ -30,4 +31,9 @@ export class ServiceListService {
     removeCustomerDetails(id:any) {
         return this.httpClient.get<any>(ApiService.removeCustomerDetailsURL + id);
     }
+    SaveBulkServiceDetails(data: any) {
+         
+        return this.http.post(ApiService.SaveBulkServiceDetailsURL, data);
+    }
+
 }
