@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services/customer.service';
 
@@ -51,11 +51,29 @@ export class EarningsComponent implements OnInit {
     private customerService: CustomerService,
     public formBuilder: UntypedFormBuilder,
     public toastr: ToastrService,
-    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe
 
   ) {
-    this.getPendingPayment();
+    this.activatedRoute.queryParams.subscribe(res => {
+      if(res.id!=undefined){
+        this.customerService.getAllPaymentDetails().subscribe((data: any) => {
+          data.forEach((element: any) => {
+            if (element.pendingstatus == true && element.cid == res.id) {
+              this.pendingPaymentData.push(element);
+            }
+  
+          });
+          this.getPagintaion();
+          this.collectionSize = this.todayPaymentData.length;
+        });
+      }
+      else{
+        this.getPendingPayment();
+      }
+    
+    });
+
     // this.getTodayPendingPayment();
   }
   ngOnInit(): void {
