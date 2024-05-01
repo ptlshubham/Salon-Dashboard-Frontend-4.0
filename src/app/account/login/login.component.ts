@@ -79,6 +79,7 @@ export class LoginComponent implements OnInit {
         }
         else {
           if (data[0].role == 'Admin') {
+            debugger
           this.toastr.success('Admin successfully Login.', 'Success', { timeOut: 3000 });
             ls.set('lastOutTime', data[0].last_login, { encrypt: true }); // "mÆk¬�k§m®À½½°¹¿¯..."
             ls.set('lastInTime', data[0].last_login, { encrypt: true });
@@ -86,6 +87,7 @@ export class LoginComponent implements OnInit {
             ls.set('UserId', data[0].id, { encrypt: true });
             ls.set('authenticationToken', data[0].token, { encrypt: true });
             ls.set('role', data[0].role, { encrypt: true });
+            ls.set('salonid', data[0].salonid, { encrypt: true });
             this.router.navigate(['/']);
           }
           else if (data[0].role == 'Customer') {
@@ -98,7 +100,7 @@ export class LoginComponent implements OnInit {
             ls.set('UserId', data[0].id, { encrypt: true });
             ls.set('authenticationToken', data[0].token, { encrypt: true });
             ls.set('role', data[0].role, { encrypt: true });
-
+            ls.set('salonid', data[0].salonid, { encrypt: true });
             this.router.navigate(['/']);
           }
           else if (data[0].role == 'Sub-Admin') {
@@ -109,6 +111,7 @@ export class LoginComponent implements OnInit {
             ls.set('Add Customer', data[0].id, { encrypt: true });
             ls.set('authenticationToken', data[0].token, { encrypt: true });
             ls.set('role', data[0].role, { encrypt: true });
+            ls.set('salonid', data[0].salonid, { encrypt: true });
             this.router.navigate(['/']);
           }
         }
