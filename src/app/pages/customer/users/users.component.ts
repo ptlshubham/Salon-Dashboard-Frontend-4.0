@@ -626,10 +626,19 @@ export class UsersComponent implements OnInit {
     });
   }
   editCustomerDetails(data: any) {
+    this.cityListData = [];
+    this.getStateList();
     this.isOpen = true;
     this.isUpdate = true;
     this.customerModel = data;
-
+    this.employeeService.getCityFromJson().subscribe((res: any) => {
+      this.cityData = res;
+      this.cityData.forEach((element: any) => {
+        if (element.state == this.customerModel.state) {
+          this.cityListData.push(element);
+        }
+      });
+    })
   }
   removeCustomerDetails(id: any) {
     Swal.fire({

@@ -154,7 +154,7 @@
                                     [(ngModel)]="expensesModel.paymenttype"
                                     [ngClass]="{'is-invalid': f.paymenttype.touched && f.paymenttype.errors}">
                                     <option value="" hidden>Select Payment Type</option>
-                                    <option *ngFor="let c of paymentData">{{c.name}}</option>
+                                    <option *ngFor="let c of paymentData" [value]="c.name">{{c.name}}</option>
                                 </select>
                                 <div *ngIf="f.paymenttype.touched && f.paymenttype.errors" class="invalid-feedback">
                                     <span *ngIf="f.paymenttype.errors.required">This field is

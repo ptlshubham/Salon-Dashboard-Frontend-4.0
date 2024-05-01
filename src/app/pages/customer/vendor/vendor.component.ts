@@ -52,18 +52,19 @@ export class VendorComponent {
       fname: ['', [Validators.required]],
       contact: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       whatsapp: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-      gst: ['', [Validators.required]],
+      gst: [''],
       address: ['', [Validators.required]],
       selectState: ['', [Validators.required]],
-      city: ['', [Validators.required]],
+      selectedCity: ['', [Validators.required]],
       pincode: ['', [Validators.required]],
-
     });
   }
 
   get f() { return this.validationForm.controls; }
 
   openAddvendor() {
+    this.selectedState = '';
+    this.selectedCity = '';
     this.isOpen = true;
     this.isUpdate = false;
     this.vendorModel = {};
@@ -102,6 +103,7 @@ export class VendorComponent {
   }
   savevendorDetail() {
     this.vendorModel.isactive = true;
+    this.vendorModel.state = this.selectedState;
     this.vendorModel.city = this.selectedCity;
     this.vendorModel.service = this.selectedServices;
     this.vendorService.saveVendorList(this.vendorModel).subscribe((data: any) => {
@@ -134,17 +136,13 @@ export class VendorComponent {
       this.getPagintaion();
     });
   }
-
   editvendorDetails(data: any) {
     this.isOpen = true;
     this.isUpdate = true;
     this.vendorModel = data;
     this.selectedState = data.state;
     this.selectedCity = data.city;
-    this.selectedServices = data.services;
-    this.validationForm.controls['selectedCity'].setValue(data.city);
-    this.validationForm.controls['selectedState'].setValue(data.state);
-    this.validationForm.controls['selectedServices'].setValue(data.services);
+    this.getCityListAccordingState();
   }
   removevendor(id: any) {
     Swal.fire({

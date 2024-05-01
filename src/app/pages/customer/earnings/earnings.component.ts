@@ -56,22 +56,24 @@ export class EarningsComponent implements OnInit {
 
   ) {
     this.activatedRoute.queryParams.subscribe(res => {
-      if(res.id!=undefined){
+      if (res.id != undefined) {
+        this.isOpen = true;
+        this.isUpdate = false;
         this.customerService.getAllPaymentDetails().subscribe((data: any) => {
           data.forEach((element: any) => {
             if (element.pendingstatus == true && element.cid == res.id) {
               this.pendingPaymentData.push(element);
             }
-  
+
           });
-          this.getPagintaion();
+          this.getPendingPagintaion();
           this.collectionSize = this.todayPaymentData.length;
         });
       }
-      else{
+      else {
         this.getPendingPayment();
       }
-    
+
     });
 
     // this.getTodayPendingPayment();

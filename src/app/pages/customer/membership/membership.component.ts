@@ -65,6 +65,8 @@ export class MembershipComponent {
     this.validationServiceForm = this.formBuilder.group({
       servicename: ['', [Validators.required]],
     });
+    this.selectedValidity = '';
+
   }
 
   addServiceList() {
@@ -125,6 +127,7 @@ export class MembershipComponent {
     this.memberShipModel = {};
     this.validationForm.markAsUntouched();
     this.validationServiceForm.markAsUntouched();
+    this.selectedValidity = '';
   }
   removeItemFromTempServices(i: any) {
     this.tempServiceData.splice(i, 1);
@@ -196,9 +199,10 @@ export class MembershipComponent {
     this.memberShipModel = data1;
     this.membershipprice = data1.membershipprice;
     // this.serviceModel = {};
+    this.selectedValidity = data1.validity;
     this.MembershipService.getMemberServicesUsingId(data1.id).subscribe((data: any) => {
       this.membershipData = data;
-      
+
       for (let i = 0; i < this.membershipData.length; i++) {
         this.servicesList.forEach((element: any) => {
           if (element.id == this.membershipData[i].serviceid) {

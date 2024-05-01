@@ -96,7 +96,7 @@
                                         [(ngModel)]="customerModel.gender" (change)="selectGenderData($event)"
                                         [ngClass]="{'is-invalid': f.gender.touched && f.gender.errors}">
                                         <option value="" hidden>Select Gender</option>
-                                        <option *ngFor="let c of genderData">{{c.name}}</option>
+                                        <option *ngFor="let c of genderData" [value]="c.name">{{c.name}}</option>
                                     </select>
                                     <div *ngIf="f.gender.touched && f.gender.errors" class="invalid-feedback">
                                         <span *ngIf="f.gender.errors.required">This field is
@@ -134,7 +134,7 @@
                                         [(ngModel)]="customerModel.state" (change)="selectStateData($event)"
                                         [ngClass]="{'is-invalid': f.state.touched && f.state.errors}">
                                         <option value="" hidden>Select State</option>
-                                        <option *ngFor="let c of stateData">{{c.name}}</option>
+                                        <option *ngFor="let c of stateData" [value]="c.name">{{c.name}}</option>
                                     </select>
                                     <div *ngIf="f.state.touched && f.state.errors" class="invalid-feedback">
                                         <span *ngIf="f.state.errors.required">This field is
@@ -154,7 +154,7 @@
                                         </option>
                                         <option value="" hidden *ngIf="cityListData.length>=0">Select City
                                         </option>
-                                        <option *ngFor="let c of cityListData">{{c.city}}
+                                        <option *ngFor="let c of cityListData" [value]="c.city">{{c.city}}
                                         </option>
                                     </select>
                                     <div *ngIf="f.city.touched && f.city.errors" class="invalid-feedback">

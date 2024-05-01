@@ -83,8 +83,9 @@
                                     [(ngModel)]="selectedState" (change)="selectStateData($event)"
                                     [ngClass]="{'is-invalid': f.selectState.touched && f.selectState.errors}">
                                     <option value="" hidden>Select State</option>
-                                    <option *ngFor="let c of stateData">{{c.name}}</option>
+                                    <option *ngFor="let c of stateData" [value]="c.name">{{ c.name }}</option>
                                 </select>
+
                                 <div *ngIf="f.selectState.touched && f.selectState.errors" class="invalid-feedback">
                                     <span *ngIf="f.selectState.errors.required">This field is
                                         required.</span>
@@ -93,21 +94,19 @@
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <div class="form-group mb-3">
-                                <label for="Selct City" class="form-label">Select
-                                    City</label>
-                                <select required class="form-select" formControlName="city" [(ngModel)]="selectedCity"
-                                    (change)="selectCityData($event)"
-                                    [ngClass]="{'is-invalid': f.city.touched && f.city.errors}">
-                                    <option value="" hidden *ngIf="cityListData.length==0">Please Select
-                                        State
+                                <label for="Selct City" class="form-label">Select City</label>
+                                <select required class="form-select" formControlName="selectedCity"
+                                    [(ngModel)]="selectedCity" (change)="selectCityData($event)"
+                                    [ngClass]="{'is-invalid': f.selectedCity.touched && f.selectedCity.errors}">
+                                    <!-- Corrected *ngIf condition -->
+                                    <option value="" hidden *ngIf="cityListData.length === 0">Please Select State
                                     </option>
-                                    <option value="" hidden *ngIf="cityListData.length>=0">Select City
-                                    </option>
-                                    <option *ngFor="let c of cityListData">{{c.city}}
-                                    </option>
+                                    <option value="" hidden>Select City</option>
+                                    <option *ngFor="let c of cityListData" [value]="c.city">{{ c.city }}</option>
                                 </select>
-                                <div *ngIf="f.city.touched && f.city.errors" class="invalid-feedback">
-                                    <span *ngIf="f.city.errors.required">This field is
+
+                                <div *ngIf="f.selectedCity.touched && f.selectedCity.errors" class="invalid-feedback">
+                                    <span *ngIf="f.selectedCity.errors.required">This field is
                                         required.</span>
                                 </div>
                             </div>

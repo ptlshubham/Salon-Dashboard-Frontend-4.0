@@ -34,7 +34,7 @@
                   (change)="selectValidityDetails($event)"
                   [ngClass]="{'is-invalid': f.selectValidity.touched && f.selectValidity.errors}">
                   <option value="" hidden>Select Validity</option>
-                  <option *ngFor="let c of validityData">{{c.name}}</option>
+                  <option *ngFor="let c of validityData" [value]="c.name">{{c.name}}</option>
                 </select>
                 <div *ngIf="f.selectValidity.touched && f.selectValidity.errors" class="invalid-feedback">
                   <span *ngIf="f.selectValidity.errors.required">This field is

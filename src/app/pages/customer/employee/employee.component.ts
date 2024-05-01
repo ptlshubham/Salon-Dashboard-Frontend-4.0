@@ -69,7 +69,7 @@ export class EmployeeComponent {
   ) {
     this.getStateList();
     this.getAllServices();
-     this.getAllEmployee();
+    this.getAllEmployee();
   }
 
   ngOnInit(): void {
@@ -94,11 +94,11 @@ export class EmployeeComponent {
       points: ['', [Validators.required]],
       rpoints: ['', [Validators.required]],
       cpoints: ['', [Validators.required]],
-      notes : ['', [Validators.required]],
+      notes: ['', [Validators.required]],
       paiddate: ['', [Validators.required]],
       desc: ['', [Validators.required]],
     });
-    
+
   }
   get f() { return this.validationForm.controls; }
   get fo() { return this.validationSalaryForm.controls; }
@@ -154,7 +154,7 @@ export class EmployeeComponent {
     this.employeeModel.state = this.selectedState;
     this.employeeModel.city = this.selectedCity;
     this.employeeModel.service = this.selectedServices;
-    
+
     this.employeeService.saveEmployeeList(this.employeeModel).subscribe((data: any) => {
       if (data = 'success') {
         this.toastr.success('Employee details added successfully', 'Success', { timeOut: 3000 });
@@ -162,7 +162,7 @@ export class EmployeeComponent {
         this.isOpen = false;
         this.employeeModel = {};
         this.validationForm.markAsUntouched();
-         this.getAllEmployee();
+        this.getAllEmployee();
       }
     })
   }
@@ -202,20 +202,20 @@ export class EmployeeComponent {
     this.isOpen = true;
     this.isUpdate = true;
     this.employeeModel = data;
+    this.selectedGender = data.gender;
     this.selectedState = data.state;
     this.selectedCity = data.city;
     this.selectedServices = data.services;
-    this.validationForm.controls['selectedCity'].setValue(data.city);
-    this.validationForm.controls['selectedState'].setValue(data.state);
-    this.validationForm.controls['selectedServices'].setValue(data.services);
+    this.getCityListAccordingState();
+
   }
   updateEmployeeDetail() {
     this.employeeModel.gender = this.selectedGender;
     this.employeeService.updateEmpList(this.employeeModel).subscribe((req) => {
       this.toastr.success('Employee details updated successfully', 'Updated', { timeOut: 3000 });
       this.getAllEmployee();
-       this.isOpen = false;
-       this.isUpdate = false;
+      this.isOpen = false;
+      this.isUpdate = false;
     });
   }
   backToEmpPage() {
@@ -226,7 +226,7 @@ export class EmployeeComponent {
     this.modalService.open(largeDataModal, { size: 'lg', windowClass: 'modal-holder', centered: true });
 
 
-    }
+  }
   openSalary(data: any) {
     this.showEmp = false;
     this.showSalary = true;
@@ -238,7 +238,7 @@ export class EmployeeComponent {
     this.getAllSalary(this.salaryModel.id);
 
   }
-  
+
 
   saveSalaryDetail() {
     this.salaryModel.empid = this.salaryModel.id;
