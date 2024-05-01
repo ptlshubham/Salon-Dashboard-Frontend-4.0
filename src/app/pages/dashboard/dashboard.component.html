@@ -67,8 +67,7 @@
                             <small class="card-title text-muted mb-3 lh-1 d-block text-truncate">Daily Earnings</small>
                         </h4>
                         <h4 class="mb-3">
-                            Total: <span [countUp]="todayTotalAmount" [options]="option"
-                                class="counter-value"></span>
+                            Total: <span [countUp]="todayTotalAmount" [options]="option" class="counter-value"></span>
                         </h4>
                         <h4 class="mb-3">
                         </h4>
@@ -134,10 +133,12 @@
                 <div class="d-flex mb-4">
                     <h5 class="card-title">Wallet Balance</h5>
                 </div>
-                <apx-chart class="apex-charts" dir="ltr" [series]="basicRadialBarChart.series"
-                    [chart]="basicRadialBarChart.chart" [plotOptions]="basicRadialBarChart.plotOptions"
-                    [labels]="basicRadialBarChart.labels" [colors]="basicRadialBarChart.colors">
-                </apx-chart>
+                <div class="d-flex flex-column align-items-center">
+                    <apx-chart class="apex-charts" dir="ltr" [series]="basicRadialBarChart.series"
+                        [chart]="basicRadialBarChart.chart" [plotOptions]="basicRadialBarChart.plotOptions"
+                        [labels]="basicRadialBarChart.labels" [colors]="basicRadialBarChart.colors">
+                    </apx-chart>
+                </div>
             </div>
         </div>
         <!--end card-->

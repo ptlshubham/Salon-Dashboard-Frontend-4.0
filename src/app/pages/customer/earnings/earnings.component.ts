@@ -22,6 +22,8 @@ export class EarningsComponent implements OnInit {
   pageSizePending = 10;
   collectionSizePending = 0;
   paginateDataPending: any = [];
+  pendingData: any = [];
+  searchQuery: string = '';
 
   isUpdate: boolean = false;
   flatpickrOptions: any = {
@@ -71,20 +73,21 @@ export class EarningsComponent implements OnInit {
     // Format the date using DatePipe
     this.todayDate = this.datePipe.transform(nowDate, 'yyyy-MM-dd');
     this.customerService.getAllPaymentDetails().subscribe((data: any) => {
-      
+
       data.forEach((element: any) => {
         let lastpdate = element.lastpdate;
         let lastdateWithoutTime = new Date(lastpdate).toISOString().split('T')[0];
 
         if (lastdateWithoutTime == this.todayDate) {
-          
+
           this.todayTotalAmount = this.todayTotalAmount + element.paidprice;
           this.todayPaymentData.push(element)
         }
-        if (lastdateWithoutTime == this.todayDate && element.pendingstatus == true) {
-          
+        if (element.pendingstatus == true) {
+
           this.pendingAmount = this.pendingAmount + element.pending;
           this.pendingPaymentData.push(element);
+          this.pendingData.push(element);
         }
 
       });
@@ -110,6 +113,16 @@ export class EarningsComponent implements OnInit {
       this.pendingPaymentData[i].index = i + 1;
     }
     this.paginateDataPending = this.pendingPaymentData.slice((this.pagePending - 1) * this.pageSizePending, (this.pagePending - 1) * this.pageSizePending + this.pageSizePending);
+  }
+  applySearchFilter() {
+    this.paginateDataPending = [];
+
+    this.page = 1; // Reset the page when the search query changes
+    this.pendingData = this.pendingPaymentData.filter((customer: any) =>
+      customer.whatsapp.includes(this.searchQuery) ||
+      (customer.fname + ' ' + customer.lname).toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+    this.getPendingPagintaion();
   }
   editExpDetails() { }
   removeExpense() { }

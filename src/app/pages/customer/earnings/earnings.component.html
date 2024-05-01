@@ -124,11 +124,18 @@
             <h5 class="card-title">Pending List</h5>
 
             <div class="d-flex justify-content-end gap-3" style="align-items: baseline;">
-                <label class="form-label ">Duration</label>
+                <label>Search By:</label>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="fname" placeholder="Whatsapp No & Customer Name"
+                            [(ngModel)]="searchQuery" (input)="applySearchFilter()">
+                    </div>
+                </div>
+                <label class="form-label ">Date:</label>
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <input class="form-control flatpickr-input" type="text" mwlFlatpickr [altInput]="true"
-                            [convertModelValue]="true" (input)="onselection()" mode="range"
+                            [convertModelValue]="true" (input)="onselection()" mode="range" placeholder="Select Date Range"
                             [options]="flatpickrOptions">
                     </div>
                 </div>
