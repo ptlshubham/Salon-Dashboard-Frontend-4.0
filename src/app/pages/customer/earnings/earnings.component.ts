@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services/customer.service';
 
@@ -47,12 +48,23 @@ export class EarningsComponent implements OnInit {
     // decimalPlaces: 2,
   };
 
+  userBookingData: any = {};
+  totalPriceForDetails: number = 0;
+  totalPointForDetails: number = 0;
+  usedServices: any = [];
+  selectedPaymentMethod: string = 'UPI'; // Default selected option
+  billingModel: any = [];
+  cash: number = 0;
+  online: number = 0;
+  exceedError: string | null = null;
+
   constructor(
     private customerService: CustomerService,
     public formBuilder: UntypedFormBuilder,
     public toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private modalService: NgbModal,
 
   ) {
     this.activatedRoute.queryParams.subscribe(res => {
@@ -144,7 +156,98 @@ export class EarningsComponent implements OnInit {
     );
     this.getPendingPagintaion();
   }
+
+  openUsedServiceList(obj: any, exlargeModal: any) {
+    debugger
+    this.userBookingData = obj;
+    this.totalPriceForDetails = obj.tprice
+    this.totalPointForDetails = obj.tpoint
+    this.getUsedServicesDetails(obj.appointmentid);
+    this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
+  }
+
+  getUsedServicesDetails(id: any) {
+    this.customerService.getServicesListUsingId(id).subscribe((data: any) => {
+      this.usedServices = data;
+      this.userBookingData.services = data;
+      for (let i = 0; i < this.usedServices.length; i++) {
+        this.usedServices[i].index = i + 1;
+      }
+    });
+  }
+
+  openPaymentData(content: any) {
+    this.getCustomerPoints(this.userBookingData.cid);
+    this.billingModel.pendingamount = this.userBookingData.pending;
+
+    this.modalService.open(content, { size: 'xl', windowClass: 'modal-holder', centered: true });
+  }
+
+  onPaymentMethodChange() {
+    this.userBookingData.paymentMethod = this.selectedPaymentMethod;
+  }
+
+  getCustomerPoints(id: any) {
+    this.customerService.getCustAllPoint(id).subscribe((data: any) => {
+      this.userBookingData.totalcustpoint = data[0].totalcustpoint;
+    });
+  }
+
+  calculationOfPayment(enteredValue: any, value: string) {
+    this.pendingAmount = this.billingModel.pendingamount;
+    const enteredValueNum: number = parseFloat(enteredValue); // Convert enteredValue to a number
+
+
+    if (value === 'cash') {
+      if (this.cash > 0) {
+        const tempPending: number = this.pendingAmount + this.cash;
+        this.billingModel.pendingamount = tempPending - enteredValueNum;
+        this.billingModel.cashamount = enteredValueNum;
+        this.cash = enteredValueNum;
+        this.pendingAmount = this.billingModel.pendingamount;
+
+      } else {
+        this.billingModel.pendingamount -= enteredValueNum;
+        this.billingModel.cashamount = enteredValueNum;
+        this.cash = enteredValueNum;
+        this.pendingAmount = this.billingModel.pendingamount;
+
+      }
+    } else if (value === 'online') {
+      if (this.online > 0) {
+        const tempPending: number = this.pendingAmount + this.online;
+        this.billingModel.pendingamount = tempPending - enteredValueNum;
+        this.billingModel.onlineamount = enteredValueNum;
+        this.online = enteredValueNum;
+        this.pendingAmount = this.billingModel.pendingamount;
+
+      } else {
+        this.billingModel.pendingamount -= enteredValueNum;
+        this.billingModel.onlineamount = enteredValueNum;
+        this.online = enteredValueNum;
+        this.pendingAmount = this.billingModel.pendingamount;
+
+      }
+    }
+    if (this.pendingAmount > 0 && (this.cash + this.online) > this.pendingAmount) {
+
+      this.exceedError = 'Error: Total payment exceeds pending amount.';
+      // You can add code here to display an error message to the user
+      return; // Exit the method if total payment exceeds pending amount
+    }
+  }
+  savePaymentDetails() {
+
+  }
+
+
+
+
+
+
   editExpDetails() { }
   removeExpense() { }
   onselection() { }
+
+
 }

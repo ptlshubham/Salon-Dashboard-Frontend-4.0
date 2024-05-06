@@ -253,7 +253,8 @@
                                 <th class="text-left">
                                     <div class="form-check larger-checkbox mb-3">
                                         <input class="form-check-input" type="checkbox" id="formCheck1"
-                                            (change)="seletedCustomerDetails(s)">
+                                            ngbTooltip="Select Customer"
+                                            placement="right" (change)="seletedCustomerDetails(s)">
                                     </div>
                                 </th>
                                 <td class="text-center">{{s.index}}</td>
@@ -714,22 +715,6 @@
                             <span class="text-primary"><b>
                                     {{tCustPoint}}</b></span>
                         </div>
-                        <!-- <div class="vr"></div> -->
-                        <!-- <form [formGroup]="validationReedemPointsForm">
-                            <div class="form-group">
-                                <input type="number" formControlName="reedempoints"
-                                    [ngClass]="{ 'is-invalid': fp.reedempoints.touched && fp.reedempoints.errors }"
-                                    class="form-control" id="reedempoints" [(ngModel)]="appointmentModel.redeempoints"
-                                    placeholder="Enter Points to Redeem">
-                                <div *ngIf="fp.reedempoints.touched || fp.reedempoints.invalid || fp.reedempoints.pristine"
-                                    class="invalid-feedback">
-                                    <div *ngIf="fp.reedempoints.errors?.required">This field is required. Only Numbers
-                                        allowed.</div>
-                                    <div *ngIf="fp.reedempoints.errors?.pattern">Minimum 100
-                                        points required for reedem.</div>
-                                </div>
-                            </div>
-                        </form> -->
                         <div class="vr"></div>
                         <div class="grid-example">Total Price:<br><span class="text-success"><b>{{totalTempPrice}}
                                     ₹</b></span>

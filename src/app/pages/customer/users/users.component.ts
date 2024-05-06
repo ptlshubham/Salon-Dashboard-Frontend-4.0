@@ -390,7 +390,6 @@ export class UsersComponent implements OnInit {
   }
   seletedCustomerDetails(data: any) {
     this.getOfferDetails();
-
     this.validationAppointmentForm.markAsUntouched();
     this.validationServiceForm.markAsUntouched();
     this.tempServiceData = [];
@@ -444,6 +443,8 @@ export class UsersComponent implements OnInit {
     this.isCustData = true;
     this.isOpen = false;
     this.isOpenAppointmentList = false;
+    this.customerModel = [];
+    this.appointmentModel = [];
     this.isOpenCustAppointment = false;
   }
   backToCustomerData() {
