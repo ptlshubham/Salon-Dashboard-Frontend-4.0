@@ -22,7 +22,7 @@
                                         <div class="mb-3">
                                             <label for="fname">First Name</label>
                                             <input type="text" formControlName="fname" class="form-control" id="fname"
-                                                [(ngModel)]="RegistartionModel.fname"
+                                                [(ngModel)]="registartionModel.fname"
                                                 [ngClass]="{'is-invalid': f.fname.touched && f.fname.errors}"
                                                 placeholder="Enter First Name">
                                             <div *ngIf="f.fname.touched && f.fname.errors" class="invalid-feedback">
@@ -34,7 +34,7 @@
                                         <div class="mb-3">
                                             <label for="lname">Last Name</label>
                                             <input type="text" formControlName="lname" class="form-control" id="lname"
-                                                [(ngModel)]="RegistartionModel.lname"
+                                                [(ngModel)]="registartionModel.lname"
                                                 [ngClass]="{'is-invalid': f.lname.touched && f.lname.errors}"
                                                 placeholder="Enter Last Name">
                                             <div *ngIf="f.lname.touched && f.lname.errors" class="invalid-feedback">
@@ -47,7 +47,7 @@
                                             <label for="useremail">Email</label>
                                             <input type="email" formControlName="email"
                                                 [ngClass]="{'is-invalid': f.email.touched && f.email.errors}"
-                                                [(ngModel)]="RegistartionModel.email" class="form-control"
+                                                [(ngModel)]="registartionModel.email" class="form-control"
                                                 id="useremail" placeholder="Enter email">
                                             <div *ngIf="f.email.touched && f.email.errors" class="invalid-feedback">
                                                 <div *ngIf="f.email.errors.required">Email is required</div>
@@ -60,7 +60,7 @@
                                             <label for="userpassword">Password</label>
                                             <input type="password" formControlName="password"
                                                 [ngClass]="{'is-invalid': f.password.touched && f.password.errors}"
-                                                [(ngModel)]="RegistartionModel.password" class="form-control"
+                                                [(ngModel)]="registartionModel.password" class="form-control"
                                                 id="userpassword" placeholder="Enter password">
                                             <div *ngIf="f.password.touched && f.password.errors"
                                                 class="invalid-feedback">
@@ -77,22 +77,23 @@
 
                                         <div class="mt-2 d-grid">
                                             <button class="btn btn-primary btn-block" type="submit" *ngIf="isOpen==true"
-                                                (click)="continuetocompanydetails()">Continue</button>
+                                                (click)="continueToCompanyDetails()">Continue</button>
                                         </div>
 
                                     </div>
 
                                     <div *ngIf="isOpen==false">
                                         <button type="button" class="btn btn-soft-light waves-effect waves-light"
-                                            (click)="backtopersonaldetails()"><i
-                                                class="mdi mdi-keyboard-backspace font-size-16 align-middle d-flex justify-content-end "
-                                                *ngIf="isOpen==false"></i></button>
-
+                                            ngbTooltip="Back" placement="top" (click)="backToPersonalDetails()">
+                                            <i class="mdi mdi-keyboard-backspace font-size-16 align-middle d-flex justify-content-end "
+                                                *ngIf="isOpen==false">
+                                            </i>
+                                        </button>
 
                                         <div class="mb-3">
                                             <label for="cname">Company Name</label>
                                             <input type="text" formControlName="cname" class="form-control" id="cname"
-                                                [(ngModel)]="RegistartionModel.cname"
+                                                [(ngModel)]="registartionModel.cname"
                                                 [ngClass]="{'is-invalid': f.cname.touched && f.cname.errors}"
                                                 placeholder="Enter Company Name">
                                             <div *ngIf="f.cname.touched && f.cname.errors" class="invalid-feedback">
@@ -104,7 +105,7 @@
                                         <div class="mb-3">
                                             <label for="phoneno">Phone Number</label>
                                             <input type="number" formControlName="phoneno" class="form-control"
-                                                id="phoneno" [(ngModel)]="RegistartionModel.phoneno"
+                                                id="phoneno" [(ngModel)]="registartionModel.phoneno"
                                                 [ngClass]="{'is-invalid': f.phoneno.touched && f.phoneno.errors}"
                                                 placeholder="Enter Phone Number">
                                             <div *ngIf="f.phoneno.touched && f.phoneno.errors" class="invalid-feedback">

@@ -67,7 +67,7 @@ export class SalonRegistartionComponent {
   }
 
   ngOnInit(): void {
-    this.getAllRegistration();
+    // this.getAllRegistration();
 
     this.validationForm = this.formBuilder.group({
       sname: ['', [Validators.required]],
@@ -85,7 +85,7 @@ export class SalonRegistartionComponent {
       websitelink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
       oname: ['', [Validators.required]],
       semail: ['', [Validators.required]],
-      adminfname:['',[Validators.required]]
+      adminfname: ['', [Validators.required]]
     });
   }
   get f() { return this.validationForm.controls; }
@@ -152,21 +152,21 @@ export class SalonRegistartionComponent {
         this.isOpen = false;
         this.RegistartionModel = {};
         this.validationForm.markAsUntouched();
-        this.getAllRegistration();
+        // this.getAllRegistration();
       }
     })
   }
-  getAllRegistration() {
-    this.adminService.getAllRegistrationList().subscribe((data: any) => {
-      this.saloonlist = data;
+  //getAllRegistration () {
+  //   this.adminService.getAllRegistrationList().subscribe((data: any) => {
+  //     this.saloonlist = data;
 
-      for (let i = 0; i < this.saloonlist.length; i++) {
-        this.saloonlist[i].index = i + 1;
-      }
-      this.collectionSize = this.saloonlist.length;
-      this.getPagintaion();
-    });
-  }
+  //     for (let i = 0; i < this.saloonlist.length; i++) {
+  //       this.saloonlist[i].index = i + 1;
+  //     }
+  //     this.collectionSize = this.saloonlist.length;
+  //     this.getPagintaion();
+  //   });
+  // }
   removeRegistrationDetails(id: any) {
     Swal.fire({
       title: 'Are you sure?',
@@ -180,7 +180,7 @@ export class SalonRegistartionComponent {
       if (result.value) {
         this.adminService.removeRegistrationDetails(id).subscribe(() => {
         })
-        this.getAllRegistration();
+        // this.getAllRegistration();
         Swal.fire('Deleted!', 'registration  details has been deleted.', 'success');
       }
     });
@@ -200,7 +200,7 @@ export class SalonRegistartionComponent {
       this.toastr.success('Expense details updated successfully', 'Updated', { timeOut: 3000 });
       this.isOpen = false;
       this.isUpdate = false;
-      this.getAllRegistration();
+      // this.getAllRegistration();
     })
   }
 }

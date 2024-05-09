@@ -4,7 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { EventService } from '../../core/services/event.service';
 import { LanguageService } from '../../core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
-
+import { AdminService } from 'src/app/core/services/admin.service';
 import { LAYOUT_MODE } from "../layouts.model";
 import ls from 'localstorage-slim';
 import { UserProfileService } from 'src/app/core/services/user.service';
@@ -34,6 +34,8 @@ export class TopbarComponent implements OnInit {
   loginTotalTime: number = 0;
   uid: any;
   vip: any;
+  public registrationmodel: any = {};
+
   public userName = ls.get('UserName', { decrypt: true });
   constructor(
     private router: Router,
@@ -41,7 +43,9 @@ export class TopbarComponent implements OnInit {
     public languageService: LanguageService,
     public _cookiesService: CookieService,
     public translate: TranslateService,
-    private eventService: EventService
+    private eventService: EventService,
+    private adminService: AdminService,
+
   ) { }
 
   @Output() settingsButtonClicked = new EventEmitter();

@@ -37,7 +37,7 @@ export class ViewSallonComponent {
   ngOnInit(): void {
 
     this.onselectsaloon();
-    this.getAllRegistration();
+    // this.getAllRegistration();
     this.validationForm = this.formBuilder.group({
       sname: ['', [Validators.required]]
 
@@ -59,16 +59,16 @@ export class ViewSallonComponent {
   }
   get f() { return this.validationForm.controls; }
 
-  getAllRegistration() {
-    this.adminService.getAllRegistrationList().subscribe((data: any) => {
-      this.saloonlist = data;
-      for (let i = 0; i < this.saloonlist.length; i++) {
-        this.saloonlist[i].index = i + 1;
-      }
-      this.collectionSize = this.saloonlist.length;
+  // getAllRegistration() {
+  //   this.adminService.getAllRegistrationList().subscribe((data: any) => {
+  //     this.saloonlist = data;
+  //     for (let i = 0; i < this.saloonlist.length; i++) {
+  //       this.saloonlist[i].index = i + 1;
+  //     }
+  //     this.collectionSize = this.saloonlist.length;
 
-    });
-  }
+  //   });
+  // }
   onselectsaloon() {
     this.CustomerService.getAllCustomerList().subscribe((data: any) => {
       this.customerList = data;

@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { monthlyPlan, } from './pricing.model';
+import { ActivatedRoute } from '@angular/router';
 import { monthlyData, } from './data';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { Instagram, Linkedin, Twitter, Youtube } from 'angular-feather/icons';
@@ -25,18 +26,17 @@ export class ProfileComponent implements OnInit {
   resetPwdModel: any = {};
   datetime: any;
   in_time: any;
-  out_time: any;
-  visit: any = '';
+
+
   loginTotalTime: number = 0;
   generalModel: any = {};
   discountValidationForm!: FormGroup;
   userData: any = {};
-  salonId: any;
   monthlyData!: monthlyPlan[];
   selectedCurrency: string = '';
-  Employeemodel: any = {};
-  public employeelist: any[] = [];
-  Sociallinks!: FormGroup;
+  EmployeeModel: any = {};
+  public employeeList: any[] = [];
+  SocialLinks!: FormGroup;
   googlecredencial!: FormGroup;
   facebookcredencial!: FormGroup;
   twiterlogincredencial!: FormGroup;
@@ -46,6 +46,47 @@ export class ProfileComponent implements OnInit {
   egaCode!: FormGroup;
   disfbmsg!: FormGroup;
   fbpixel!: FormGroup;
+  userdetails!: FormGroup;
+  companyDetails!: FormGroup;
+  public registrationModel: any = {};
+  public socialLinksModel: any = {};
+  genderData: any = [
+    { name: 'Male' },
+    { name: 'Female' },
+    { name: 'Others' }
+  ]
+  selectedState: any;
+  selectedGender: any;
+
+  selectedstateuser: any;
+  stateData: any = [];
+  selectedCity: any;
+  cityListData: any = [];
+  cityData: any = [];
+  cityListDataUser: any = [];
+  socialmedialist: any = [];
+  credentialslist: any = [];
+  public googleModel: any = {};
+  facebookModel: any = {};
+  twitterModel: any = {};
+  instaModel: any = {};
+  linkedinModel: any = {};
+  socialcredentiallist: any = [];
+  sociallinkslist: any = [];
+  getsociallinklist: any = []
+  googlelist: any = []
+  hasSocialLinksData: boolean = false;
+  hasgooglecred: boolean = false;
+  hasfacebookcred: boolean = false;
+  hastwittercred: boolean = false;
+  hasinstacred: boolean = false;
+  haslinkedincred: boolean = false;
+  imageUrl: any = "assets/images/file-upload-image.jpg";
+  cardImageBase64: any;
+  clogo: any = null;
+  editFile: boolean = true;
+
+
 
   @Output() dateRangeSelected: EventEmitter<{}> = new EventEmitter();
   // bread crumb items
@@ -58,23 +99,25 @@ export class ProfileComponent implements OnInit {
     public toastr: ToastrService,
     private adminService: AdminService,
     private employeeService: EmployeeService,
+    public activatedRoute: ActivatedRoute,
 
 
   ) {
     this.getUserDataById();
     this.getAllGeneralDetails();
+    this.getStateList();
+
   }
 
   ngOnInit(): void {
-    this.onemployeeselect();
+    this.getAllRegistration();
     this.selectedCurrency = '₹';
-
-    this.Sociallinks = this.formBuilder.group({
-      facebooklink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
-      instagramlink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
-      twitterlink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
-      linkedinlink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]],
-      youtubelink: ['', [Validators.required, Validators.pattern("^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$")]]
+    this.SocialLinks = this.formBuilder.group({
+      facebooklink: ['', [Validators.required]],
+      instagramlink: ['', [Validators.required]],
+      twitterlink: ['', [Validators.required]],
+      linkedinlink: ['', [Validators.required]],
+      youtubelink: ['', [Validators.required]]
     });
     this.googlecredencial = this.formBuilder.group({
       gid: ['', Validators.required],
@@ -122,15 +165,42 @@ export class ProfileComponent implements OnInit {
       vipdiscount: ['', Validators.required],
       maxdiscount: ['', Validators.required],
       emppointsconvert: ['', Validators.required],
-      custpointsconvert: ['', Validators.required]
+      custpointsconvert: ['', Validators.required],
+      currency: ['']
+    });
+    this.userdetails = this.formBuilder.group({
+      fname: ['', Validators.required],
+      lname: ['', Validators.required],
+      uphone: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      uwhatsapp: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      uaddress: ['', [Validators.required]],
+      ustate: ['', [Validators.required]],
+      ulandmark: [''],
+      ucity: ['', [Validators.required]],
+      selectGender: ['', [Validators.required]],
+      upincode: ['', [Validators.required, Validators.pattern("^[0-9]{6}$")]],
     });
 
+    this.companyDetails = this.formBuilder.group({
+      cname: ['', Validators.required],
+      cphone: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      cwhatsapp: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      cemail: ['', Validators.required],
+      cgst: ['', [Validators.required]],
+      caddress: ['', [Validators.required]],
+      cstate: ['', [Validators.required]],
+      clandmark: [''],
+      ccity: ['', [Validators.required]],
+      cpincode: ['', [Validators.required]],
+      clogo: ['']
+    })
     this.breadCrumbItems = [
       { label: 'Contacts' },
       { label: 'Profile', active: true }
     ];
     this.getAllGeneralDetails();
     this._fetchData();
+
   }
 
   // Pricing Data Fetch
@@ -139,7 +209,7 @@ export class ProfileComponent implements OnInit {
   }
   get a() { return this.unlockForm.controls; }
   get f() { return this.discountValidationForm.controls; }
-  get l() { return this.Sociallinks.controls; }
+  get l() { return this.SocialLinks.controls; }
   get gc() { return this.googlecredencial.controls; }
   get fb() { return this.facebookcredencial.controls; }
   get tw() { return this.twiterlogincredencial.controls; }
@@ -149,7 +219,8 @@ export class ProfileComponent implements OnInit {
   get adsense() { return this.egaCode.controls; }
   get fbmsg() { return this.disfbmsg.controls; }
   get p() { return this.fbpixel.controls; }
-
+  get ud() { return this.userdetails.controls; }
+  get cd() { return this.companyDetails.controls; }
   onResetSubmit() {
     this.unlockSubmit = true;
     if (this.unlockForm.invalid) {
@@ -214,7 +285,6 @@ export class ProfileComponent implements OnInit {
         this.toastr.error('Your old password is incorrect', 'Error', { timeOut: 3000 });
       }
       else {
-
         if (data.message == "success") {
           this.valid = true;
         }
@@ -225,64 +295,337 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserData(ls.get('UserId', { decrypt: true })).subscribe((data: any) => {
       this.userData = data[0];
       this.userData.name = ls.get('UserName', { decrypt: true });
-
     });
   }
   saveGeneralServiceDetail() {
     if (this.discountValidationForm.valid) {
-      this.generalModel = this.discountValidationForm.value;
-      this.generalModel.salonid = 1;
+      this.generalModel.currency = this.selectedCurrency;
       this.adminService.saveGeneralDetails(this.generalModel).subscribe((data: any) => {
+        this.generalModel = data[0];
         this.toastr.success('Service details added successfully', 'Success', { timeOut: 3000 });
         this.discountValidationForm.markAsUntouched();
-        this.generalModel = data[0];
-
       })
     }
-
   }
   getAllGeneralDetails() {
-    this.salonId = 1;
-    this.adminService.getAllGeneralDetails(this.salonId).subscribe((data: any) => {
-      if (data.length > 0) {
-        this.generalModel = data[0];
-        this.populateForm();
-      }
-      else {
-        this.generalModel.vipdiscount = 0;
-        this.generalModel.maxdiscount = 0;
-        this.generalModel.emppointsconvert = 0;
-        this.generalModel.custpointsconvert = 0;
-      }
+    this.adminService.getAllGeneralDetails(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+      this.selectedCurrency = data[0].currency;
+      this.generalModel = data[0];
+
     });
-  }
-  populateForm(): void {
-    if (this.generalModel) {
-      this.discountValidationForm.patchValue({
-        vipdiscount: this.generalModel.vipdiscount,
-        maxdiscount: this.generalModel.maxdiscount,
-        emppointsconvert: this.generalModel.emppointsconvert,
-        custpointsconvert: this.generalModel.custpointsconvert
-      });
-    }
   }
   selectedCurrencyData(currency: string) {
-    // Update selectedCurrency when the dropdown value changes
     this.selectedCurrency = currency;
   }
-  onemployeeselect() {
+  onEmpChange() {
     this.employeeService.getAllEmployeeList().subscribe((data: any) => {
-      this.employeelist = data;
+      this.employeeList = data;
+    });
+  }
+  selectGenderData(e: any): void {
+    this.selectedGender = e.target.value;
+  }
+  selectStateData(e: any): void {
+    this.selectedState = e.target.value;
+    this.selectedstateuser = e.target.value
+    this.getCityListAccordingState();
+  }
+  getCityListAccordingState() {
+    this.cityListData = [];
+    this.cityListDataUser = [];
+    this.employeeService.getCityFromJson().subscribe((res: any) => {
+      this.cityData = res;
+      this.cityData.forEach((element: any) => {
+        if (element.state == this.selectedState) {
+          this.cityListData.push(element);
+        }
+      });
+      this.cityData.forEach((element: any) => {
+        if (element.state == this.selectedstateuser) {
+          this.cityListDataUser.push(element);
+        }
+      });
+    })
+  }
+  getStateList() {
+    this.employeeService.getStateFromJson().subscribe((res: any) => {
+      this.stateData = res;
+    })
+  }
+  selectCityData(e: any): void {
+    this.selectedCity = e.target.value
+  }
 
-      for (let i = 0; i < this.employeelist.length; i++) {
-        this.employeelist[i].index = i + 1;
-      }
+  getAllRegistration() {
+    this.adminService.getAllRegistrationList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+      this.registrationModel = data[0];
+      this.selectedGender = this.registrationModel.ugender;
+      this.cityListData = [];
+      this.cityListDataUser = [];
+      this.employeeService.getCityFromJson().subscribe((res: any) => {
+        this.cityData = res;
+        this.cityData.forEach((element: any) => {
+          if (element.state == this.registrationModel.cstate) {
+            this.cityListData.push(element);
+          }
+          if (element.state == this.registrationModel.ustate) {
+            this.cityListDataUser.push(element);
+          }
+        });
+      })
+    });
+  }
+
+  updateuserdetails() {
+    this.registrationModel.selectGender = this.selectedGender
+    this.adminService.updateUserDetails(this.registrationModel).subscribe((req) => {
+      this.toastr.success('User details updated successfully', 'Updated', { timeOut: 3000 });
+    });
+  }
+  UpdateCompaniesDetails() {
+    this.adminService.updateCompaniesDetails(this.registrationModel).subscribe((req) => {
+      this.toastr.success('Company details updated successfully', 'Updated', { timeOut: 3000 });
 
     });
   }
-  submitlinks() { }
-  submitfacebook() { }
-  submitgoogle() { }
-  submittwitter() { }
+  saveSocialLinks() {
+    this.socialLinksModel.salonid = ls.get('salonid', { decrypt: true });
+    this.adminService.saveSocialLinks(this.socialLinksModel).subscribe((data: any) => {
+      this.sociallinkslist = data;
+      this.socialLinksModel = {};
+      this.toastr.success('SocialLinks added successfully', 'Success', { timeOut: 3000 });
+      this.getSocialLinks();
+    });
+  }
+
+  submitGoogle() {
+    this.googleModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleModel.accounttype = 'Google';
+    this.adminService.saveCredentials(this.googleModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('google Credentials  added successfully', 'Success', { timeOut: 3000 });
+      this.getSocialCred();
+    });
+  }
+  submitFacebook() {
+    this.facebookModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookModel.accounttype = 'Facebook';
+    this.adminService.saveCredentials(this.facebookModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('Facebook Credentials  added successfully', 'Success', { timeOut: 3000 });
+      this.getSocialCred();
+
+    });
+  }
+
+  submitTwitter() {
+    this.twitterModel.salonid = ls.get('salonid', { decrypt: true });
+    this.twitterModel.accounttype = 'Twitter';
+    this.adminService.saveCredentials(this.twitterModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('Twitter Credentials  added successfully', 'Success', { timeOut: 3000 });
+      this.getSocialCred();
+
+    });
+  }
+  submitInsta() {
+    this.instaModel.salonid = ls.get('salonid', { decrypt: true });
+    this.instaModel.accounttype = 'Instagram';
+    this.adminService.saveCredentials(this.instaModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('Instagram Credentials  added successfully', 'Success', { timeOut: 3000 });
+      this.getSocialCred();
+
+    });
+  }
+  submitLinkedinCred() {
+    this.linkedinModel.salonid = ls.get('salonid', { decrypt: true });
+    this.linkedinModel.accounttype = 'Linkedin';
+    this.adminService.saveCredentials(this.linkedinModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('Linkedin Credentials  added successfully', 'Success', { timeOut: 3000 });
+      this.getSocialCred();
+
+    });
+  }
+
+
+  updateSocialLinks() {
+    this.socialLinksModel.salonid = ls.get('salonid', { decrypt: true });
+    this.adminService.saveSocialLinks(this.socialLinksModel).subscribe((data: any) => {
+      this.sociallinkslist = data;
+      this.toastr.success('SocialLinks updated successfully', 'Success', { timeOut: 3000 });
+    });
+  }
+  updateGoogleCred() {
+    this.googleModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleModel.accounttype = 'Google';
+    this.adminService.saveCredentials(this.googleModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('google credentials updated successfully', 'Success', { timeOut: 3000 });
+    });
+  };
+  updateFacebookCred() {
+    this.facebookModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookModel.accounttype = 'Facebook';
+    this.adminService.saveCredentials(this.facebookModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('Facebook credentials updated successfully', 'Success', { timeOut: 3000 });
+    },
+    );
+  }
+  updateTwitterCred() {
+    this.twitterModel.salonid = ls.get('salonid', { decrypt: true });
+    this.twitterModel.accounttype = 'Twitter';
+    this.adminService.saveCredentials(this.twitterModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('Twitter credentials updated successfully', 'Success', { timeOut: 3000 });
+    },
+    );
+  }
+  updateLinkdinCred() {
+    this.linkedinModel.salonid = ls.get('salonid', { decrypt: true });
+    this.linkedinModel.accounttype = 'Linkedin';
+
+    this.adminService.saveCredentials(this.linkedinModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('Linkedin credentials updated successfully', 'Success', { timeOut: 3000 });
+    },
+    );
+  }
+  updateInstaCred() {
+    this.instaModel.salonid = ls.get('salonid', { decrypt: true });
+    this.instaModel.accounttype = 'Instagram';
+    this.adminService.saveCredentials(this.instaModel).subscribe((data: any) => {
+      this.credentialslist = data;
+      this.toastr.success('Instagram credentials updated successfully', 'Success', { timeOut: 3000 });
+    },
+    );
+  }
+  getSocialLinks() {
+    this.adminService.getSocialLinks(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+      if (data.length > 0) {
+        this.hasSocialLinksData = true;
+        this.socialLinksModel = data[0];
+      }
+      else {
+        this.hasSocialLinksData = false;
+      }
+    });
+  }
+
+
+  getSocialCred() {
+    this.adminService.getSocialCredentials(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+      if (data.length > 0) {
+        this.hasgooglecred = data.some((item: any) => item.accounttype === 'Google');
+        this.hasfacebookcred = data.some((item: any) => item.accounttype === 'Facebook');
+        this.hasinstacred = data.some((item: any) => item.accounttype === 'Instagram');
+        this.haslinkedincred = data.some((item: any) => item.accounttype === 'Linkedin');
+        this.hastwittercred = data.some((item: any) => item.accounttype === 'Twitter');
+
+        this.googleModel = data.find((item: any) => item.accounttype === 'Google') || {};
+        this.facebookModel = data.find((item: any) => item.accounttype === 'Facebook') || {};
+        this.instaModel = data.find((item: any) => item.accounttype === 'Instagram') || {};
+        this.linkedinModel = data.find((item: any) => item.accounttype === 'Linkedin') || {};
+        this.twitterModel = data.find((item: any) => item.accounttype === 'Twitter') || {};
+      } else {
+        this.hasgooglecred = false;
+        this.hasfacebookcred = false;
+        this.hasinstacred = false;
+        this.haslinkedincred = false;
+        this.hastwittercred = false;
+      }
+
+      this.socialcredentiallist.forEach((element: any) => {
+        switch (element.accounttype) {
+          case 'Google':
+            this.googleModel.username = element.username;
+            this.googleModel.password = element.password;
+            this.hasgooglecred = true;
+            break;
+          case 'Facebook':
+            this.facebookModel.username = element.username;
+            this.facebookModel.password = element.password;
+            break;
+          case 'Instagram':
+            this.instaModel.username = element.username;
+            this.instaModel.password = element.password;
+            break;
+          case 'Linkedin':
+            this.linkedinModel.username = element.username;
+            this.linkedinModel.password = element.password;
+            break;
+          case 'Twitter':
+            this.twitterModel.username = element.username;
+            this.twitterModel.password = element.password;
+            break;
+          default:
+            break;
+        }
+      });
+    });
+  }
+  removeUploadedLogo() {
+    this.clogo = null;
+    this.imageUrl = 'assets/images/file-upload-image.jpg';
+    this.registrationModel.clogo = this.clogo;
+    this.adminService.saveCompaniesLogo(this.registrationModel).subscribe((req) => {
+      this.toastr.success('Logo updated successfully', 'Updated', { timeOut: 3000 });
+    });
+  }
+  getSocialData() {
+    this.getSocialCred();
+    this.getSocialLinks();
+
+  }
+
+  // Logo Upload
+  uploadFile(event: any) {
+    let reader = new FileReader();
+    let file = event.target.files[0];
+    const img = new Image();
+    img.src = window.URL.createObjectURL(file);
+    img.onload = () => {
+
+      if (img.width === 250 && img.height === 250) {
+        if (event.target.files && event.target.files[0]) {
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            this.imageUrl = reader.result;
+            const imgBase64Path = reader.result;
+            this.cardImageBase64 = imgBase64Path;
+            const formdata = new FormData();
+            formdata.append('file', file);
+            this.adminService.uploadLogoImage(formdata).subscribe((response) => {
+              this.clogo = response;
+              this.updatelogo();
+              this.toastr.success('Image Uploaded Successfully', 'Uploaded', {
+                timeOut: 3000,
+              });
+              this.editFile = false;
+              // this.removeUpload = true;
+            });
+          }
+        }
+      } else {
+        this.toastr.error('Please upload an image with dimensions of 250x250px', 'Invalid Dimension', { timeOut: 3000, });
+      }
+    };
+  }
+
+  removeUploadedImage() {
+    this.clogo = null;
+    this.imageUrl = 'assets/images/file-upload-image.jpg';
+  }
+  updatelogo() {
+    this.registrationModel.clogo = this.clogo;
+    this.adminService.saveCompaniesLogo(this.registrationModel).subscribe((req) => {
+      this.toastr.success('Logo updated successfully', 'Updated', { timeOut: 3000 });
+    });
+
+  }
+  savediscount() {
+  }
   SubmitAnalytics() { }
 }

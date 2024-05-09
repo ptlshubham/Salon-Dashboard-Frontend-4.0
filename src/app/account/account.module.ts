@@ -13,6 +13,7 @@ import { NgStepperModule } from 'angular-ng-stepper';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     NgxMaskDirective,
     NgxMaskPipe,
     CarouselModule,
+    NgbTooltipModule
 
   ]
 })

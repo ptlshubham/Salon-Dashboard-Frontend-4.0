@@ -11,7 +11,7 @@
                         <div class="d-flex align-items-start mt-3 mt-sm-0">
                             <div class="flex-shrink-0">
                                 <div class="avatar-xl me-3">
-                                    <img src="assets/images/users/user.png" alt=""
+                                    <img src="http://localhost:8100{{registrationModel.clogo}}" alt=""
                                         class="img-fluid rounded-circle d-block">
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                         </a>
                         <ng-template ngbNavContent>
                             <div class="tab-pane" id="about" role="tabpanel">
-                                <form [formGroup]="discountValidationForm" (ngSubmit)="saveGeneralServiceDetail()">
+                                <form [formGroup]="discountValidationForm">
                                     <div class="card ">
                                         <div class="card-header">
                                             <h5 class="card-title mb-0">Discount For Customer</h5>
@@ -77,6 +77,7 @@
                                                 <label class="input-group-text">VIP Discount</label>
                                                 <input type="number" class="form-control" placeholder="Enter Discount"
                                                     formControlName="vipdiscount" id="vipdiscount"
+                                                    [(ngModel)]="generalModel.vipdiscount"
                                                     [ngClass]="{ 'is-invalid': f.vipdiscount.touched && f.vipdiscount.errors }">
                                                 <label class="input-group-text">%</label>
                                                 <div *ngIf="f.vipdiscount.touched || f.vipdiscount.invalid"
@@ -91,7 +92,7 @@
                                                     Discount)</label>
                                                 <input type="number" class="form-control"
                                                     placeholder="Enter General Discount (Max Discount)"
-                                                    formControlName="maxdiscount"
+                                                    formControlName="maxdiscount" [(ngModel)]="generalModel.maxdiscount"
                                                     [ngClass]="{ 'is-invalid': f.maxdiscount.touched && f.maxdiscount.errors }">
                                                 <label class="input-group-text">%</label>
                                                 <div *ngIf="f.maxdiscount.touched || f.maxdiscount.invalid"
@@ -112,6 +113,7 @@
                                                 <input type="number" class="form-control"
                                                     placeholder="Enter Points Price (100 Points)"
                                                     formControlName="emppointsconvert" id="emppointsconvert"
+                                                    [(ngModel)]="generalModel.emppointsconvert"
                                                     [ngClass]="{ 'is-invalid': f.emppointsconvert.touched && f.emppointsconvert.errors }">
                                                 <label class="input-group-text">₹</label>
                                                 <div *ngIf="f.emppointsconvert.touched || f.emppointsconvert.invalid"
@@ -126,6 +128,7 @@
                                                 <input type="number" class="form-control"
                                                     placeholder="Enter Points Price (100 Points)"
                                                     formControlName="custpointsconvert"
+                                                    [(ngModel)]="generalModel.custpointsconvert"
                                                     [ngClass]="{ 'is-invalid': f.custpointsconvert.touched && f.custpointsconvert.errors }">
                                                 <label class="input-group-text">₹</label>
                                                 <div *ngIf="f.custpointsconvert.touched || f.custpointsconvert.invalid "
@@ -152,14 +155,15 @@
                                                     </select>
                                                     <input type="text" class="form-control"
                                                         placeholder="Selected Currency Type"
-                                                        [value]="selectedCurrency === '₹' ? '₹' : selectedCurrency">
+                                                        [(ngModel)]="selectedCurrency" formControlName="currency">
                                                 </div>
                                             </div><!-- end col -->
                                             <div class="text-end">
                                                 <button type="submit" class="btn btn-primary"
-                                                    [disabled]="discountValidationForm.invalid"><i
+                                                    [disabled]="discountValidationForm.invalid"
+                                                    (click)="saveGeneralServiceDetail()"><i
                                                         class="bx bx-save align-middle"></i>
-                                                    Save</button>
+                                                    Update</button>
                                             </div>
                                         </div>
                                     </div>
@@ -175,8 +179,468 @@
                         <ng-template ngbNavContent>
                             <div class="tab-pane" id="about" role="tabpanel">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title mb-0">Discount For Customer</h5>
+
+                                    <div class="card-body">
+                                        <form [formGroup]="companyDetails">
+
+                                            <div>
+                                                <h5 class="card-header mb-3"> Profile</h5>
+                                            </div>
+                                            <div class="row justify-content-around">
+                                                <div class="col-xl-4 col-md-6 d-flex align-items-center">
+                                                    <label class="text-center ml-5">Your Logo</label>
+
+                                                </div>
+                                                <div class="col-xl-4 col-md-6 d-flex align-items-center ml-5">
+                                                    <div *ngIf="registrationModel.clogo!=null">
+                                                        <img src="http://localhost:8100{{registrationModel.clogo}}"
+                                                            alt="" class="rounded img-thumbnail"><span><i
+                                                                class="fas fa-times font-size-22 align-middle text-danger position-absolute"
+                                                                ngbTooltip="Remove Logo" placement="top"
+                                                                (click)="removeUploadedLogo()"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div *ngIf="registrationModel.clogo==null">
+                                                        <div class="text-center"> <!-- Added text-center class -->
+                                                            <label>Upload Image</label>
+                                                        </div>
+                                                        <p style="text-align: center;color: red;">Please Upload only 250
+                                                            X 250px image.</p>
+                                                        <div class="avatar-upload">
+                                                            <div class="avatar-edit">
+                                                                <input type='file' id="imageUpload"
+                                                                    accept=".png, .jpg, .jpeg" #fileInput
+                                                                    (change)="uploadFile($event)" />
+                                                            </div>
+                                                            <div class="avatar-preview">
+                                                                <div id="imagePreview"
+                                                                    [style.backgroundImage]="'url('+ imageUrl +')'">
+                                                                </div>
+                                                            </div>
+                                                            <div style="margin-top: 10px;">
+                                                                <button type="submit"
+                                                                    class="btn btn-primary btn-sm btn-block"
+                                                                    (click)="fileInput.click()">Upload Image
+                                                                </button>
+                                                                <button type="submit"
+                                                                    class="btn btn-danger btn-sm btn-block"
+                                                                    (click)="removeUploadedImage()">Remove
+                                                                    Image</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-md-6 d-flex align-items-center ml-5">
+                                                    <label class="text-center">this logo will appear on the documents
+                                                        (invoices, quotes, etc.)
+                                                        Preferred image size: 250px x 250px</label>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+                                            <div>
+                                                <h5 class="card-title mb-0 ">Company Profile</h5>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label>Company Name</label>
+                                                        <input type="text" class="form-control" id="cname"
+                                                            placeholder="Enter Company Name" formControlName="cname"
+                                                            [ngClass]="{'is-invalid': cd.cname.touched && cd.cname.errors}"
+                                                            [(ngModel)]="registrationModel.cname">
+                                                        <div *ngIf="cd.cname.touched && cd.cname.errors"
+                                                            class="invalid-feedback">
+                                                            <span *ngIf="cd.cname.errors.required">This Field is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-phoneno-input1" class="form-label">Company
+                                                            Contact Number</label>
+                                                        <input type="number" formControlName="cphone"
+                                                            [ngClass]="{ 'is-invalid': cd.cphone.touched && cd.cphone.errors }"
+                                                            class="form-control" id="cphone"
+                                                            [(ngModel)]="registrationModel.cphone"
+                                                            placeholder="Enter Contact Number">
+                                                        <div *ngIf="cd.cphone.touched || cd.cphone.invalid || cd.cphone.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="cd.cphone.errors?.required">Mobile number is
+                                                                required.</div>
+                                                            <div *ngIf="cd.cphone.errors?.pattern">Please, Enter 10
+                                                                digit
+                                                                Mobile number.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-phoneno-input1" class="form-label">Company
+                                                            Whatsapp Number</label>
+                                                        <input type="number" formControlName="cwhatsapp"
+                                                            [ngClass]="{ 'is-invalid': cd.cwhatsapp.touched && cd.cwhatsapp.errors }"
+                                                            class="form-control" id="cwhatsapp"
+                                                            [(ngModel)]="registrationModel.cwhatsapp"
+                                                            placeholder="Enter Whatsapp Number">
+                                                        <div *ngIf="cd.cwhatsapp.touched || cd.cwhatsapp.invalid || cd.cwhatsapp.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="cd.cwhatsapp.errors?.required">Mobile number is
+                                                                required.</div>
+                                                            <div *ngIf="cd.cwhatsapp.errors?.pattern">Please, Enter 10
+                                                                digit
+                                                                Mobile number.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label>Company Email</label>
+                                                        <input type="email" class="form-control"
+                                                            formControlName="cemail" id="cemail"
+                                                            placeholder="Enter Email Address"
+                                                            [ngClass]="{'is-invalid': cd.cemail.touched && cd.cemail.errors}"
+                                                            [(ngModel)]="registrationModel.cemail">
+                                                        <div *ngIf="cd.cemail.touched && cd.cemail.errors"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="cd.cemail.errors.required">Email is required
+                                                            </div>
+                                                            <div *ngIf="cd.cemail.errors.cemail">Email must be a valid
+                                                                email address</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-gst-input" class="form-label">GSTIN
+                                                            Number</label>
+                                                        <input type="text" formControlName="cgst"
+                                                            [ngClass]="{ 'is-invalid': cd.cgst.touched && cd.cgst.errors }"
+                                                            class="form-control" id="cgst"
+                                                            [(ngModel)]="registrationModel.cgst"
+                                                            placeholder="Enter GSTIN"
+                                                            pattern="^([0][1-9]|[1-2][0-9]|[3][0-7])([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$">
+                                                        <div *ngIf="cd.cgst.touched || cd.cgst.invalid || cd.cgst.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="cd.cgst.errors?.required">GSTIN is required.
+                                                            </div>
+                                                            <div *ngIf="cd.cgst.errors?.pattern">Please enter a valid
+                                                                GSTIN.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-address-input"
+                                                            class="form-label">Address</label>
+                                                        <textarea id="basicpill-address-input" class="form-control"
+                                                            rows="3" id="caddress" formControlName="caddress"
+                                                            [(ngModel)]="registrationModel.caddress"
+                                                            [ngClass]="{ 'is-invalid': cd.caddress.touched && cd.caddress.errors }"
+                                                            placeholder="Address (Area and Street)"></textarea>
+                                                        <div *ngIf="cd.caddress.touched && cd.caddress.errors"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="cd.caddress.errors.required">caddress is
+                                                                required.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label for="Selct State" class="form-label">Select State</label>
+                                                        <select required class="form-select" formControlName="cstate"
+                                                            [(ngModel)]="registrationModel.cstate"
+                                                            (change)="selectStateData($event)"
+                                                            [ngClass]="{'is-invalid': cd.cstate.touched && cd.cstate.errors}">
+                                                            <option value="" hidden>Select State</option>
+                                                            <option *ngFor="let c of stateData" [value]="c.name">
+                                                                {{c.name}}</option>
+                                                        </select>
+                                                        <div *ngIf="cd.cstate.touched && cd.cstate.errors"
+                                                            class="invalid-feedback">
+                                                            <span *ngIf="cd.cstate.errors.required">This field is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label for="Selct City" class="form-label">Select City</label>
+                                                        <select required class="form-select" formControlName="ccity"
+                                                            [(ngModel)]="registrationModel.ccity"
+                                                            (change)="selectCityData($event)"
+                                                            [ngClass]="{'is-invalid': cd.ccity.touched && cd.ccity.errors}">
+                                                            <!-- Corrected *ngIf condition -->
+                                                            <option value="" hidden *ngIf="cityListData.length === 0">
+                                                                Please Select State
+                                                            </option>
+                                                            <option value="" hidden>Select City</option>
+                                                            <option *ngFor="let c of cityListData" [value]="c.city">{{
+                                                                c.city }}</option>
+                                                        </select>
+
+                                                        <div *ngIf="cd.ccity.touched && cd.ccity.errors"
+                                                            class="invalid-feedback">
+                                                            <span *ngIf="cd.ccity.errors.required">This field is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-vatno-input1" class="form-label">Enter
+                                                            Landmark</label>
+                                                        <input type="text" formControlName="clandmark"
+                                                            class="form-control" id="clandmark"
+                                                            placeholder="Landmark (Optional)"
+                                                            [(ngModel)]="registrationModel.clandmark">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-phoneno-input1" class="form-label">Enter
+                                                            Pincode</label>
+                                                        <input type="number" formControlName="cpincode"
+                                                            [ngClass]="{ 'is-invalid': cd.cpincode.touched && cd.cpincode.errors }"
+                                                            class="form-control" id="cpincode"
+                                                            [(ngModel)]="registrationModel.cpincode"
+                                                            placeholder="Enter Pincode Number">
+                                                        <div *ngIf="cd.cpincode.touched || cd.cpincode.invalid || cd.cpincode.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="cd.cpincode.errors?.required">Pincode is
+                                                                required.</div>
+                                                            <div *ngIf="cd.cpincode.errors?.pattern">Please, Enter valid
+                                                                PINCODE.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row justify-content-end mx-4">
+                                                        <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
+                                                            <button type="submit" class="btn btn-primary"
+                                                                (click)=" UpdateCompaniesDetails() "
+                                                                [disabled]="companyDetails.invalid">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <hr>
+                                        <div>
+                                            <h5 class="card-title mb-0">User Profile</h5>
+                                        </div>
+                                        <hr>
+                                        <form [formGroup]="userdetails">
+                                            <div class="row">
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label>First Name</label>
+                                                        <input type="text" class="form-control" id="fname"
+                                                            placeholder="Enter First Name" formControlName="fname"
+                                                            [ngClass]="{'is-invalid': ud.fname.touched && ud.fname.errors}"
+                                                            [(ngModel)]="registrationModel.fname">
+                                                        <div *ngIf="ud.fname.touched && ud.fname.errors"
+                                                            class="invalid-feedback">
+                                                            <span *ngIf="ud.fname.errors.required">This Field is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label>Last Name</label>
+                                                        <input type="text" class="form-control" id="lname"
+                                                            placeholder="Enter Last Name" formControlName="lname"
+                                                            [ngClass]="{'is-invalid': ud.lname.touched && ud.lname.errors}"
+                                                            [(ngModel)]="registrationModel.lname">
+                                                        <div *ngIf="ud.lname.touched && ud.lname.errors"
+                                                            class="invalid-feedback">
+                                                            <span *ngIf="ud.lname.errors.required">This Field is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label>User Email</label>
+                                                        <input type="text" class="form-control disabled-c" id="email"
+                                                            [(ngModel)]="registrationModel.uemail"
+                                                            placeholder="Enter Email"
+                                                            [ngModelOptions]="{standalone: true}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-uphone-input1" class="form-label">Contact
+                                                            Number</label>
+                                                        <input type="number" formControlName="uphone"
+                                                            [ngClass]="{ 'is-invalid': ud.uphone.touched && ud.uphone.errors }"
+                                                            class="form-control" id="uphone"
+                                                            [(ngModel)]="registrationModel.uphone"
+                                                            placeholder="Enter Alternate Number">
+                                                        <div *ngIf="ud.uphone.touched || ud.uphone.invalid || ud.uphone.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="ud.uphone.errors?.required">Mobile number is
+                                                                required.</div>
+                                                            <div *ngIf="ud.uphone.errors?.pattern">Please, Enter 10
+                                                                digit
+                                                                Mobile number.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-phoneno-input1"
+                                                            class="form-label">Whatsapp
+                                                            Number</label>
+                                                        <input type="number" formControlName="uwhatsapp"
+                                                            [ngClass]="{ 'is-invalid': ud.uwhatsapp.touched && ud.uwhatsapp.errors }"
+                                                            class="form-control" id="uwhatsapp"
+                                                            [(ngModel)]="registrationModel.uwhatsapp"
+                                                            placeholder="Enter Alternate Number">
+                                                        <div *ngIf="ud.uwhatsapp.touched || ud.uwhatsapp.invalid || ud.uwhatsapp.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="ud.uwhatsapp.errors?.required">Mobile number is
+                                                                required.</div>
+                                                            <div *ngIf="ud.uwhatsapp.errors?.pattern">Please, Enter 10
+                                                                digit
+                                                                Mobile number.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label for="Selct Gender" class="form-label">Select
+                                                            Gender</label>
+                                                        <select required class="form-select"
+                                                            formControlName="selectGender" [(ngModel)]="selectedGender"
+                                                            (change)="selectGenderData($event)"
+                                                            [ngClass]="{'is-invalid': ud.selectGender.touched && ud.selectGender.errors}">
+                                                            <option value="" hidden>Select Gender</option>
+                                                            <option *ngFor="let c of genderData" [value]="c.name">
+                                                                {{c.name}}</option>
+                                                        </select>
+                                                        <div *ngIf="ud.selectGender.touched && ud.selectGender.errors"
+                                                            class="invalid-feedback">
+                                                            <span *ngIf="ud.selectGender.errors.required">This field is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-address-input"
+                                                            class="form-label">Address</label>
+                                                        <textarea id="basicpill-address-input" class="form-control"
+                                                            rows="3" id="uaddress" formControlName="uaddress"
+                                                            [(ngModel)]="registrationModel.uaddress"
+                                                            [ngClass]="{ 'is-invalid': ud.uaddress.touched && ud.uaddress.errors }"
+                                                            placeholder="uaddress (Area and Street)"></textarea>
+                                                        <div *ngIf="ud.uaddress.touched && ud.uaddress.errors"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="ud.uaddress.errors.required">Address is
+                                                                required.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-vatno-input1" class="form-label">Enter
+                                                            Landmark</label>
+                                                        <input type="text" formControlName="ulandmark"
+                                                            class="form-control" id="ulandmark"
+                                                            placeholder="ulandmark (Optional)"
+                                                            [(ngModel)]="registrationModel.ulandmark">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label for="Selct State" class="form-label">Select
+                                                            State</label>
+                                                        <select required class="form-select" formControlName="ustate"
+                                                            [(ngModel)]="registrationModel.ustate"
+                                                            (change)="selectStateData($event)"
+                                                            [ngClass]="{'is-invalid': ud.ustate.touched && ud.ustate.errors}">
+                                                            <option value="" hidden>Select State</option>
+                                                            <option *ngFor="let c of stateData" [value]="c.name">
+                                                                {{c.name}}</option>
+                                                        </select>
+                                                        <div *ngIf="ud.ustate.touched && ud.ustate.errors"
+                                                            class="invalid-feedback">
+                                                            <span *ngIf="ud.ustate.errors.required">This field is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="form-group mb-3">
+                                                        <label for="Selct City" class="form-label">Select
+                                                            City</label>
+                                                        <select required class="form-select" formControlName="ucity"
+                                                            [(ngModel)]="registrationModel.ucity"
+                                                            (change)="selectCityData($event)"
+                                                            [ngClass]="{'is-invalid': ud.ucity.touched && ud.ucity.errors}">
+                                                            <option value="" hidden *ngIf="cityListDataUser.length==0">
+                                                                Please Select
+                                                                State
+                                                            </option>
+                                                            <option value="" hidden *ngIf="cityListDataUser.length>=0">
+                                                                Select City
+                                                            </option>
+                                                            <option *ngFor="let c of cityListDataUser" [value]="c.city">
+                                                                {{c.city}}
+                                                            </option>
+                                                        </select>
+                                                        <div *ngIf="ud.ucity.touched && ud.ucity.errors"
+                                                            class="invalid-feedback">
+                                                            <span *ngIf="ud.ucity.errors.required">This field is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="mb-3">
+                                                        <label for="basicpill-phoneno-input1" class="form-label">Enter
+                                                            Pincode</label>
+                                                        <input type="number" formControlName="upincode"
+                                                            [ngClass]="{ 'is-invalid': ud.upincode.touched && ud.upincode.errors }"
+                                                            class="form-control" id="upincode"
+                                                            [(ngModel)]="registrationModel.upincode"
+                                                            placeholder="Enter Pincode Number">
+                                                        <div *ngIf="ud.upincode.touched || ud.upincode.invalid || ud.upincode.pristine"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="ud.upincode.errors?.required">Pincode is
+                                                                required.</div>
+                                                            <div *ngIf="ud.upincode.errors?.pattern">Please, Enter valid
+                                                                PINCODE.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row justify-content-end mx-4">
+                                                    <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)="UpdateCompaniesDetails()"
+                                                            [disabled]="userdetails.invalid">Update</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+
+
+
+
+
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +648,7 @@
 
                     </li>
                     <li [ngbNavItem]="3" class="nav-item">
-                        <a ngbNavLink class="nav-link px-3">
+                        <a ngbNavLink class="nav-link px-3" (click)="onEmpChange()">
                             User & Roles
                         </a>
                         <ng-template ngbNavContent>
@@ -198,17 +662,17 @@
                                             <div class="input-group mb-3">
                                                 <label class="input-group-text">Select Employee</label>
                                                 <select class="form-select" style="max-width: 130px;"
-                                                    [(ngModel)]="Employeemodel" [ngModelOptions]="{ standalone: true }"
-                                                    (ngModelChange)="onemployeeselect()">
-                                                    <option *ngFor="let employee of employeelist" [ngValue]="employee">
+                                                    [(ngModel)]="EmployeeModel" [ngModelOptions]="{ standalone: true }"
+                                                    (ngModelChange)="onEmpChange()">
+                                                    <option *ngFor="let employee of employeeList" [ngValue]="employee">
                                                         {{ employee.fname }}
                                                     </option>
                                                 </select>
                                                 <label class="input-group-text" style="width:300px;">
-                                                    {{ Employeemodel?.fname || 'Select an employee' }}
+                                                    {{ EmployeeModel?.fname || 'Select an employee' }}
                                                 </label>
                                                 <label class="input-group-text" style="width:300px;">
-                                                    {{ Employeemodel?.contact || 'Select an employee' }}
+                                                    {{ EmployeeModel?.contact || 'Select an employee' }}
                                                 </label>
                                             </div>
 
@@ -981,7 +1445,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="6" class="nav-item">
-                        <a ngbNavLink class="nav-link px-3">
+                        <a ngbNavLink class="nav-link px-3" (click)="getSocialData()" (click)="getSocialLinks()">
                             Social Links
                         </a>
                         <ng-template ngbNavContent>
@@ -994,21 +1458,21 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <form [formGroup]="Sociallinks">
+                                        <form [formGroup]="SocialLinks">
                                             <div class="mb-3 input-group">
                                                 <span class="input-group-text ">
                                                     <i class="mdi mdi-facebook "></i>
                                                 </span>
                                                 <input type="text" formControlName="facebooklink" class="form-control"
                                                     [ngClass]="{ 'is-invalid': l.facebooklink.touched && l.facebooklink.errors }"
-                                                    id="facebooklink" placeholder="Enter Website Link"
-                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
-                                                <div *ngIf="l.facebooklink.touched || l.facebooklink.invalid || l.facebooklink.pristine"
+                                                    id="facebooklink" placeholder="Enter facebook Link"
+                                                    [(ngModel)]="socialLinksModel.facebook"
+                                                    formControlName="facebooklink">
+                                                <div *ngIf="l.facebooklink.touched || l.facebooklink.invalid "
                                                     class="invalid-feedback">
-                                                    <div *ngIf="l.facebooklink.errors?.required">website link is
+                                                    <div *ngIf="l.facebooklink.errors?.required">Facebook link is
                                                         required.</div>
-                                                    <div *ngIf="l.facebooklink.errors?.pattern">Please enter a valid
-                                                        website Link</div>
+
                                                 </div>
                                             </div>
                                             <div class="mb-3 input-group">
@@ -1017,14 +1481,14 @@
                                                 </span>
                                                 <input type="text" formControlName="instagramlink" class="form-control"
                                                     [ngClass]="{ 'is-invalid': l.instagramlink.touched && l.instagramlink.errors }"
-                                                    id="instagramlink" placeholder="Enter Website Link"
-                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
-                                                <div *ngIf="l.instagramlink.touched || l.instagramlink.invalid || l.instagramlink.pristine"
+                                                    id="instagramlink" placeholder="Enter Instagram Link"
+                                                    [(ngModel)]="socialLinksModel.instagram"
+                                                    formControlName="instagramlink">
+                                                <div *ngIf="l.instagramlink.touched || l.instagramlink.invalid "
                                                     class="invalid-feedback">
                                                     <div *ngIf="l.instagramlink.errors?.required">website link is
                                                         required.</div>
-                                                    <div *ngIf="l.instagramlink.errors?.pattern">Please enter a valid
-                                                        website Link</div>
+
                                                 </div>
                                             </div>
                                             <div class="mb-3 input-group">
@@ -1033,15 +1497,16 @@
                                                 </span>
                                                 <input type="text" formControlName="twitterlink" class="form-control"
                                                     [ngClass]="{ 'is-invalid': l.twitterlink.touched && l.twitterlink.errors }"
-                                                    id="twitterlink" placeholder="Enter Website Link"
-                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
-                                                <div *ngIf="l.twitterlink.touched || l.twitterlink.invalid || l.twitterlink.pristine"
+                                                    id="twitterlink" placeholder="Enter Twitter Link"
+                                                    [(ngModel)]="socialLinksModel.twitter"
+                                                    formControlName="twitterlink">
+                                                <div *ngIf="l.twitterlink.touched || l.twitterlink.invalid "
                                                     class="invalid-feedback">
                                                     <div *ngIf="l.twitterlink.errors?.required">website link is
                                                         required.</div>
-                                                    <div *ngIf="l.twitterlink.errors?.pattern">Please enter a valid
-                                                        website Link</div>
+
                                                 </div>
+
                                             </div>
                                             <div class="mb-3 input-group">
                                                 <span class="input-group-text ">
@@ -1049,14 +1514,14 @@
                                                 </span>
                                                 <input type="text" formControlName="linkedinlink" class="form-control"
                                                     [ngClass]="{ 'is-invalid': l.linkedinlink.touched && l.linkedinlink.errors }"
-                                                    id="linkedinlink" placeholder="Enter Website Link"
-                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
-                                                <div *ngIf="l.linkedinlink.touched || l.linkedinlink.invalid || l.linkedinlink.pristine"
+                                                    id="linkedinlink" placeholder="Enter Linkedin Link"
+                                                    formControlName="linkedinlink"
+                                                    [(ngModel)]="socialLinksModel.linkedin">
+                                                <div *ngIf="l.linkedinlink.touched || l.linkedinlink.invalid "
                                                     class="invalid-feedback">
                                                     <div *ngIf="l.linkedinlink.errors?.required">website link is
                                                         required.</div>
-                                                    <div *ngIf="l.linkedinlink.errors?.pattern">Please enter a valid
-                                                        website Link</div>
+
                                                 </div>
                                             </div>
                                             <div class="mb-3 input-group">
@@ -1065,14 +1530,13 @@
                                                 </span>
                                                 <input type="text" formControlName="youtubelink" class="form-control"
                                                     [ngClass]="{ 'is-invalid': l.youtubelink.touched && l.youtubelink.errors }"
-                                                    id="youtubelink" placeholder="Enter Website Link"
-                                                    pattern="^(https?|ftp):\/\/[^\s/$.?#]+\.[^\s/?#]+(\/[^\s/?#]*)?$">
-                                                <div *ngIf="l.youtubelink.touched || l.youtubelink.invalid || l.youtubelink.pristine"
+                                                    id="youtubelink" placeholder="Enter Youtube Link"
+                                                    formControlName="youtubelink"
+                                                    [(ngModel)]="socialLinksModel.youtube">
+                                                <div *ngIf="l.youtubelink.touched || l.youtubelink.invalid "
                                                     class="invalid-feedback">
                                                     <div *ngIf="l.youtubelink.errors?.required">website link is
                                                         required.</div>
-                                                    <div *ngIf="l.youtubelink.errors?.pattern">Please enter a valid
-                                                        website Link</div>
                                                 </div>
                                             </div>
 
@@ -1080,8 +1544,12 @@
                                                 <div class="row justify-content-end">
                                                     <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
                                                         <button type="submit" class="btn btn-primary"
-                                                            (click)=" submitlinks()" [disabled]="Sociallinks.invalid">
+                                                            (click)=" saveSocialLinks()" *ngIf="!hasSocialLinksData">
                                                             Submit
+                                                        </button>
+                                                        <button type="Update" class="btn btn-primary"
+                                                            (click)=" updateSocialLinks()" *ngIf="hasSocialLinksData">
+                                                            Update
                                                         </button>
 
                                                     </div>
@@ -1096,11 +1564,7 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="d-flex justify-content-between">
-                                                    <h5 class="card-title mb-2">Google Credencial</h5>
-                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                        <input type="checkbox" class="form-check-input" checked>
-                                                        <label class="form-check-label"></label>
-                                                    </div>
+                                                    <h5 class="card-title mb-2">Google credentials</h5>
                                                 </div>
                                             </div>
                                             <div class="card-body">
@@ -1109,9 +1573,10 @@
                                                         Id</label>
                                                     <div class="mb-3 input-group">
                                                         <input type="text" formControlName="gid" class="form-control"
+                                                            formControlName="gid" [(ngModel)]="googleModel.username"
                                                             [ngClass]="{ 'is-invalid': gc.gid.touched && gc.gid.errors }"
                                                             id="gid" placeholder="Enter your id">
-                                                        <div *ngIf="gc.gid.touched || gc.gid.invalid || gc.gid.pristine"
+                                                        <div *ngIf="gc.gid.touched || gc.gid.invalid "
                                                             class="invalid-feedback">
                                                             <div *ngIf="gc.gid.errors?.required">id is
                                                                 required.</div>
@@ -1123,8 +1588,9 @@
                                                     <div class="mb-3 input-group">
                                                         <input type="text" formControlName="gpass" class="form-control"
                                                             [ngClass]="{ 'is-invalid': gc.gpass.touched && gc.gpass.errors }"
-                                                            id="gpass" placeholder="Enter Password">
-                                                        <div *ngIf="gc.gpass.touched || gc.gpass.invalid || gc.gpass.pristine"
+                                                            id="gpass" placeholder="Enter Password"
+                                                            formControlName="gpass" [(ngModel)]="googleModel.password">
+                                                        <div *ngIf="gc.gpass.touched || gc.gpass.invalid "
                                                             class="invalid-feedback">
                                                             <div *ngIf="gc.gpass.errors?.required">Password is required.
                                                             </div>
@@ -1137,9 +1603,15 @@
                                                 <div class="row justify-content-end">
                                                     <div class="col-lg-3 col-xl-3 col-md-3">
                                                         <button type="submit" class="btn btn-primary"
-                                                            (click)=" submitgoogle()"
-                                                            [disabled]="googlecredencial.invalid">
+                                                            (click)=" submitGoogle()"
+                                                            [disabled]="googlecredencial.invalid"
+                                                            *ngIf="!hasgooglecred">
                                                             Submit
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" updateGoogleCred()"
+                                                            [disabled]="googlecredencial.invalid" *ngIf="hasgooglecred">
+                                                            Update
                                                         </button>
                                                     </div>
                                                 </div>
@@ -1150,11 +1622,8 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="d-flex justify-content-between">
-                                                    <h5 class="card-title">Facebok Credential</h5>
-                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                        <input type="checkbox" class="form-check-input" checked>
-                                                        <label class="form-check-label"></label>
-                                                    </div>
+                                                    <h5 class="card-title">Facebook Credentials</h5>
+
                                                 </div>
                                             </div>
                                             <div class="card-body">
@@ -1165,8 +1634,9 @@
                                                     <div class="mb-3 input-group">
                                                         <input type="text" formControlName="fbid" class="form-control"
                                                             [ngClass]="{ 'is-invalid': fb.fbid.touched && fb.fbid.errors }"
-                                                            id="fbid" placeholder="Enter Facebook id">
-                                                        <div *ngIf="fb.fbid.touched || fb.fbid.invalid || fb.fbid.pristine"
+                                                            id="fbid" placeholder="Enter Facebook id"
+                                                            formControlName="fbid" [(ngModel)]="facebookModel.username">
+                                                        <div *ngIf="fb.fbid.touched || fb.fbid.invalid "
                                                             class="invalid-feedback">
                                                             <div *ngIf="fb.fbid.errors?.required">Facebook id is
                                                                 required.</div>
@@ -1177,8 +1647,10 @@
                                                     <div class="mb-3 input-group">
                                                         <input type="text" formControlName="fbpass" class="form-control"
                                                             [ngClass]="{ 'is-invalid': fb.fbpass.touched && fb.fbpass.errors }"
-                                                            id="fbpass" placeholder="Enter Password">
-                                                        <div *ngIf="fb.fbpass.touched || fb.fbpass.invalid || fb.fbpass.pristine"
+                                                            id="fbpass" placeholder="Enter Password"
+                                                            formControlName="fbpass"
+                                                            [(ngModel)]="facebookModel.password">
+                                                        <div *ngIf="fb.fbpass.touched || fb.fbpass.invalid "
                                                             class="invalid-feedback">
                                                             <div *ngIf="fb.fbpass.errors?.required">Password is
                                                                 required.</div>
@@ -1191,9 +1663,16 @@
                                                 <div class="row justify-content-end">
                                                     <div class="col-lg-3 col-xl-3 col-md-3">
                                                         <button type="submit" class="btn btn-primary"
-                                                            (click)=" submitfacebook()"
-                                                            [disabled]="googlecredencial.invalid">
+                                                            (click)=" submitFacebook()"
+                                                            [disabled]="facebookcredencial.invalid"
+                                                            *ngIf="!hasfacebookcred">
                                                             Submit
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" updateFacebookCred()"
+                                                            [disabled]="googlecredencial.invalid"
+                                                            *ngIf="hasfacebookcred">
+                                                            Update
                                                         </button>
                                                     </div>
                                                 </div>
@@ -1205,11 +1684,7 @@
                                             <div class="card-header">
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="card-title mb-2">Twitter
-                                                        Credencial</h5>
-                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                        <input type="checkbox" class="form-check-input" checked>
-                                                        <label class="form-check-label"></label>
-                                                    </div>
+                                                        credentials</h5>
                                                 </div>
                                             </div>
                                             <div class="card-body">
@@ -1220,8 +1695,9 @@
                                                     <div class="mb-3 input-group">
                                                         <input type="text" formControlName="tid" class="form-control"
                                                             [ngClass]="{ 'is-invalid': tw.tid.touched && tw.tid.errors }"
-                                                            id="tid" placeholder="Enter Twitter id">
-                                                        <div *ngIf="tw.tid.touched || tw.tid.invalid || tw.tid.pristine"
+                                                            id="tid" placeholder="Enter Twitter id"
+                                                            formControlName="tid" [(ngModel)]="twitterModel.username">
+                                                        <div *ngIf="tw.tid.touched || tw.tid.invalid"
                                                             class="invalid-feedback">
                                                             <div *ngIf="tw.tid.errors?.required"> id is
                                                                 required.</div>
@@ -1233,8 +1709,9 @@
                                                     <div class="mb-3 input-group">
                                                         <input type="text" formControlName="tpass" class="form-control"
                                                             [ngClass]="{ 'is-invalid':tw.tpass.touched &&tw.tpass.errors }"
-                                                            id="tpass" placeholder="Enter Password">
-                                                        <div *ngIf="tw.tpass.touched ||tw.tpass.invalid ||tw.tpass.pristine"
+                                                            id="tpass" placeholder="Enter Password"
+                                                            formControlName="tpass" [(ngModel)]="twitterModel.password">
+                                                        <div *ngIf="tw.tpass.touched ||tw.tpass.invalid"
                                                             class="invalid-feedback">
                                                             <div *ngIf="tw.tpass.errors?.required">Password is
                                                                 required.</div>
@@ -1247,9 +1724,16 @@
                                                 <div class="row justify-content-end">
                                                     <div class="col-lg-3 col-xl-3 col-md-3">
                                                         <button type="submit" class="btn btn-primary"
-                                                            (click)=" submittwitter()"
-                                                            [disabled]="twiterlogincredencial.invalid">
+                                                            (click)=" submitTwitter()"
+                                                            [disabled]="twiterlogincredencial.invalid"
+                                                            *ngIf="!hastwittercred">
                                                             Submit
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" updateTwitterCred()"
+                                                            [disabled]="googlecredencial.invalid"
+                                                            *ngIf="hastwittercred">
+                                                            Update
                                                         </button>
                                                     </div>
                                                 </div>
@@ -1260,11 +1744,8 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="d-flex justify-content-between">
-                                                    <h5 class="card-title mb-2">Instagram Credencial</h5>
-                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                        <input type="checkbox" class="form-check-input" checked>
-                                                        <label class="form-check-label"></label>
-                                                    </div>
+                                                    <h5 class="card-title mb-2">Instagram credentials</h5>
+
                                                 </div>
                                             </div>
                                             <div class="card-body">
@@ -1276,8 +1757,9 @@
                                                         <input type="text" formControlName="instaid"
                                                             class="form-control"
                                                             [ngClass]="{ 'is-invalid': ins.instaid.touched && ins.instaid.errors }"
-                                                            id="instaid" placeholder="Enter Instagram Id">
-                                                        <div *ngIf="ins.instaid.touched || ins.instaid.invalid || ins.instaid.pristine"
+                                                            id="instaid" placeholder="Enter Instagram Id"
+                                                            formControlName="instaid" [(ngModel)]="instaModel.username">
+                                                        <div *ngIf="ins.instaid.touched || ins.instaid.invalid"
                                                             class="invalid-feedback">
                                                             <div *ngIf="ins.instaid.errors?.required"> id is
                                                                 required.</div>
@@ -1290,8 +1772,10 @@
                                                         <input type="text" formControlName="instapass"
                                                             class="form-control"
                                                             [ngClass]="{ 'is-invalid':ins.instapass.touched &&ins.instapass.errors }"
-                                                            id="instapass" placeholder="Enter Password">
-                                                        <div *ngIf="ins.instapass.touched ||ins.instapass.invalid ||ins.instapass.pristine"
+                                                            id="instapass" placeholder="Enter Password"
+                                                            formControlName="instapass"
+                                                            [(ngModel)]="instaModel.password">
+                                                        <div *ngIf="ins.instapass.touched ||ins.instapass.invalid"
                                                             class="invalid-feedback">
                                                             <div *ngIf="ins.instapass.errors?.required">Password is
                                                                 required.</div>
@@ -1304,9 +1788,14 @@
                                                 <div class="row justify-content-end">
                                                     <div class="col-lg-3 col-xl-3 col-md-3">
                                                         <button type="submit" class="btn btn-primary"
-                                                            (click)=" submittwitter()"
-                                                            [disabled]="instacreddencial.invalid">
+                                                            (click)=" submitInsta()"
+                                                            [disabled]="instacreddencial.invalid" *ngIf="!hasinstacred">
                                                             Submit
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" updateInstaCred()"
+                                                            [disabled]="googlecredencial.invalid" *ngIf="hasinstacred">
+                                                            Update
                                                         </button>
                                                     </div>
                                                 </div>
@@ -1318,11 +1807,8 @@
                                             <div class="card-header">
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="card-title mb-2">Linkedin
-                                                        Credencial</h5>
-                                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                        <input type="checkbox" class="form-check-input" checked>
-                                                        <label class="form-check-label"></label>
-                                                    </div>
+                                                        credentials</h5>
+
                                                 </div>
                                             </div>
                                             <div class="card-body">
@@ -1334,12 +1820,13 @@
                                                         <input type="text" formControlName="linkedinid"
                                                             class="form-control"
                                                             [ngClass]="{ 'is-invalid': lin.linkedinid.touched && lin.linkedinid.errors }"
-                                                            id="linkedinid" placeholder="Enter linkedin Id">
-                                                        <div *ngIf="lin.linkedinid.touched || lin.linkedinid.invalid || lin.linkedinid.pristine"
+                                                            id="linkedinid" placeholder="Enter linkedin Id"
+                                                            formControlName="linkedinid"
+                                                            [(ngModel)]="linkedinModel.username">
+                                                        <div *ngIf="lin.linkedinid.touched || lin.linkedinid.invalid "
                                                             class="invalid-feedback">
                                                             <div *ngIf="lin.linkedinid.errors?.required"> id is
                                                                 required.</div>
-
                                                         </div>
                                                     </div>
                                                     <label for="basicpill-lpass-input1" class="form-label">Pass
@@ -1348,8 +1835,10 @@
                                                         <input type="text" formControlName="linkedinpass"
                                                             class="form-control"
                                                             [ngClass]="{ 'is-invalid':lin.linkedinpass.touched &&lin.linkedinpass.errors }"
-                                                            id="linkedinpass" placeholder="Enter Password">
-                                                        <div *ngIf="lin.linkedinpass.touched ||lin.linkedinpass.invalid ||lin.linkedinpass.pristine"
+                                                            id="linkedinpass" placeholder="Enter Password"
+                                                            formControlName="linkedinpass"
+                                                            [(ngModel)]="linkedinModel.password">
+                                                        <div *ngIf="lin.linkedinpass.touched ||lin.linkedinpass.invalid "
                                                             class="invalid-feedback">
                                                             <div *ngIf="lin.linkedinpass.errors?.required">Password is
                                                                 required.</div>
@@ -1362,9 +1851,16 @@
                                                 <div class="row justify-content-end">
                                                     <div class="col-lg-3 col-xl-3 col-md-3">
                                                         <button type="submit" class="btn btn-primary"
-                                                            (click)=" submittwitter()"
-                                                            [disabled]="linkedincredencial.invalid">
+                                                            (click)=" submitLinkedinCred()"
+                                                            [disabled]="linkedincredencial.invalid"
+                                                            *ngIf="!haslinkedincred">
                                                             Submit
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            (click)=" updateLinkdinCred()"
+                                                            [disabled]="googlecredencial.invalid"
+                                                            *ngIf="haslinkedincred">
+                                                            Update
                                                         </button>
                                                     </div>
                                                 </div>
@@ -1398,7 +1894,8 @@
                                             <div class="card-body">
                                                 <form [formGroup]="googleanalytics">
                                                     <label for="basicpill-googleAnalytics-input"
-                                                        class="form-label">Google Analytics</label>
+                                                        class="form-label">Google
+                                                        Analytics</label>
                                                     <div class="mb-3 input-group">
                                                         <textarea type="text" formControlName="analytics"
                                                             class="form-control"
@@ -1422,6 +1919,7 @@
                                                             [disabled]="googleanalytics.invalid">
                                                             Submit
                                                         </button>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -1485,7 +1983,8 @@
                                             <div class="card-body">
                                                 <form [formGroup]="disfbmsg">
                                                     <label for="basicpill-Displayfbnassage-input"
-                                                        class="form-label">Facebook Messenger</label>
+                                                        class="form-label">Facebook
+                                                        Messenger</label>
                                                     <div class="mb-3 input-group">
                                                         <textarea type="text" formControlName="fbmsg"
                                                             class="form-control"
@@ -1529,7 +2028,8 @@
                                             <div class="card-body">
                                                 <form [formGroup]="fbpixel">
                                                     <label for="basicpill-Displayfbnassage-input"
-                                                        class="form-label">Google Adsense Code</label>
+                                                        class="form-label">Google
+                                                        Adsense Code</label>
                                                     <div class="mb-3 input-group">
                                                         <textarea type="text" formControlName="pix" class="form-control"
                                                             [ngClass]="{ 'is-invalid': p.pix.touched && p.pix.errors }"

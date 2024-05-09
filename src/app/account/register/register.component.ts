@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
   successmsg = false;
   error = '';
   News: any;
-  RegistartionModel: any = {};
+  registartionModel: any = {};
 
   isOpen: boolean = true;
 
@@ -126,21 +126,24 @@ export class RegisterComponent implements OnInit {
       }
     }
   }
-  continuetocompanydetails() {
+  continueToCompanyDetails() {
     this.isOpen = false;
 
   }
-  backtopersonaldetails() {
+  backToPersonalDetails() {
     this.isOpen = true;
 
 
   }
   saveRegistartionDetail() {
-    this.adminService.saveRegistrationList(this.RegistartionModel).subscribe((data: any) => {
+    this.registartionModel.adminrole = 'Admin';
+    this.adminService.saveRegistrationList(this.registartionModel).subscribe((data: any) => {
+
+
       if (data = 'success') {
         this.toastr.success('You are successfully Register', 'Success', { timeOut: 3000 });
         this.isOpen = true;
-        this.RegistartionModel = {};
+        this.registartionModel = {};
         this.companydetails.markAsUntouched();
       }
     });
