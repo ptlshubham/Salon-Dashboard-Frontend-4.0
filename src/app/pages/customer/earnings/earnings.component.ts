@@ -128,6 +128,7 @@ export class EarningsComponent implements OnInit {
     });
   }
   getPagintaion() {
+    debugger
     for (let i = 0; i < this.todayPaymentData.length; i++) {
       this.todayPaymentData[i].index = i + 1;
     }
@@ -236,7 +237,7 @@ export class EarningsComponent implements OnInit {
       return; // Exit the method if total payment exceeds pending amount
     }
   }
-  savePaymentDetails() {
+  updatePendingPaymentDetails() {
 
   }
 

@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="align-items-center d-flex">
+                    <h5 class="card-title mb-0 flex-grow-1">MEDIA HOUSE</h5>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <ul ngbNav #nav="ngbNav" [activeId]="activeTab"
+                        class=" justify-content-end nav-tabs">
+                        <li [ngbNavItem]="tabIds[0]" (click)="onCategoryChange('All',1)">
+                            <a ngbNavLink>
+                                <span class="d-none d-sm-block">ALL</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="tabIds[i + 1]" *ngFor="let c of categoryData;let i=index"
+                            (click)="onCategoryChange(c.category,i + 2)">
+                            <a ngbNavLink>
+                                <span class="d-none d-sm-block">{{c.category}}</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
+                            </ng-template>
+                        </li>
+                    </ul>
+                    <div [ngbNavOutlet]="nav" class="text-muted"></div>
+                </div>
+                <ng-template #TabContent>
+                    <div class="row mt-4">
+                        <div class="col-lg-3 col-sm-6 mb-4" *ngFor="let c of paginateData;let i=index">
+                            <div class="image-popup">
+                                <img [src]="c.thumb" (click)="openZoomGallery(i)" class="img-thumbnail" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page"
+                            [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                            (pageChange)="getPagintaion();" aria-label="Default pagination"
+                            class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

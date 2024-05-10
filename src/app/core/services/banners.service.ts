@@ -30,6 +30,9 @@ export class BannersService {
   getWebBanners(): Observable<any[]>{
     return this.httpClient.get<any>(ApiService.getWebBannersURL);
   }
+  getImageCategory(){
+    return this.httpClient.get<any>(ApiService.getImageCategoryGroupByURL);
+  }
   removeWebBanners(id:any){
     let bnr={
       id:id

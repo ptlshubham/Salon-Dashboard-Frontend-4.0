@@ -111,6 +111,7 @@ export class ApiService {
   public static removeMembershipDetailsURL: string = ApiService.HOST_URL + '/admin/removeMembershipDetails/';
   public static getAllMembershipURL: string = ApiService.HOST_URL + '/admin/getAllMembership/';
   public static getWebBannersURL: string = ApiService.HOST_URL + '/admin/GetWebBanners';
+  public static getImageCategoryGroupByURL: string = ApiService.HOST_URL + '/admin/GetImageCategoryGroupBy';
   public static uploadBannersImageURL: string = ApiService.HOST_URL + '/admin/UploadBannersImage';
 
 

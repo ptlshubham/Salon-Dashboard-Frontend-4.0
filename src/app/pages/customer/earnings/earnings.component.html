@@ -74,6 +74,7 @@
                             <th class="text-center">Contact No</th>
                             <th class="text-center">Payment Date</th>
                             <th class="text-center">Paid Amount</th>
+                            <th class="text-center">Pending Amount</th>
                             <th class="text-center">Payment Type</th>
                             <th class="text-center">Booking Date</th>
                             <th class="text-center">Satuts</th>
@@ -86,6 +87,7 @@
                             <td class="text-center">{{s.contact}}</td>
                             <td class="text-center">{{s.pdate | date:'dd/MM/yyyy h:mm a'}}</td>
                             <td class="text-center">{{s.paidprice}} ₹</td>
+                            <td class="text-center"><span class="badge bg-">{{s.pending}} ₹</span></td>
                             <td class="text-center">{{s.modeofpayment}}</td>
                             <td class="text-center">{{s.appointmentdate | date:'dd/MM/yyyy h:mm a'}}</td>
                             <td class="text-center">
@@ -154,6 +156,7 @@
                             <th class="text-center">Contact No</th>
                             <th class="text-center">Payment Date</th>
                             <th class="text-center">Paid Amount</th>
+                            <th class="text-center">Pending Amount</th>
                             <th class="text-center">Payment Type</th>
                             <th class="text-center">Booking Date</th>
                             <th class="text-center">Satuts</th>
@@ -167,6 +170,7 @@
                             <td class="text-center">{{s.contact}}</td>
                             <td class="text-center">{{s.pdate | date:'dd/MM/yyyy h:mm a'}}</td>
                             <td class="text-center">{{s.paidprice}} ₹</td>
+                            <td class="text-center"><span class="badge bg-warning">{{s.pending}} ₹</span></td>
                             <td class="text-center">{{s.modeofpayment}}</td>
                             <td class="text-center">{{s.appointmentdate | date:'dd/MM/yyyy h:mm a'}}</td>
                             <td class="text-center">
@@ -258,7 +262,7 @@
 </ng-template>
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h5 class="modal-title mt-0">Payment Method</h5>
+        <h5 class="modal-title mt-0">Pending Payment Method</h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close click')">
         </button>
     </div>
@@ -380,7 +384,8 @@
 
                         </div>
                         <div class="text-center">
-                            <button type="button" class="btn btn-success w-md" (click)="savePaymentDetails()">Pay
+                            <button type="button" class="btn btn-success w-md"
+                                (click)="updatePendingPaymentDetails()">Pay
                                 Now</button>
                         </div>
                     </div>

@@ -25,6 +25,7 @@ import { EarningsComponent } from './earnings/earnings.component';
 import { AttandanceComponent } from './attandance/attandance.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CountUpModule } from 'ngx-countup';
+import { LightboxModule } from 'ngx-lightbox';
 
 
 
@@ -71,6 +72,7 @@ import { CountUpModule } from 'ngx-countup';
     NgbDatepickerModule,
     FullCalendarModule,
     CountUpModule,
+    LightboxModule,
 
   ],
   providers: [

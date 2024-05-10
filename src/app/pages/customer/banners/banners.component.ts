@@ -28,12 +28,19 @@ export class BannersComponent implements OnInit {
   cardImageBase64: any;
   editFile: boolean = true;
   removeUpload: boolean = false;
-  bannersModel: any = {};
   paginateData: any = [];
   imagesData: any = [];
+  categoryData: any = [];
   filterdata: any = [];
   imageUrl: any = "assets/images/file-upload-image.jpg";
-
+  purpose = [
+    {
+      name: 'Slider For Homepage',
+    },
+    {
+      name: 'Image For Gallery',
+    }
+  ]
 
   constructor(
     private bannersService: BannersService,
@@ -47,6 +54,7 @@ export class BannersComponent implements OnInit {
     this.getBanners();
     this.validationForm = this.formBuilder.group({
       purpose: ['', [Validators.required]],
+      category: [''],
     });
   }
   get f() { return this.validationForm.controls; }
@@ -55,45 +63,19 @@ export class BannersComponent implements OnInit {
   openAddbanners() {
     this.isOpen = true;
     this.isUpdate = false;
-    this.bannersModel = {};
+    this.imageModel = {};
     this.validationForm.markAsUntouched();
   }
   backToTable() {
     this.isOpen = false;
     this.isUpdate = false;
-    this.bannersModel = {};
+    this.imageModel = {};
     this.validationForm.markAsUntouched();
   }
   onPurposeChange(event: any) {
     this.bannersImage = null;
     this.imageUrl = "assets/images/file-upload-image.jpg"
-    console.log('Selected purpose:', event.target.value);
-    
-    // perform other actions based on the selected value
   }
-  // uploadFile(event: any) {
-  //   let reader = new FileReader();
-  //   let file = event.target.files[0];
-  //   if (event.target.files && event.target.files[0]) {
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => {
-  //       this.imageUrl = reader.result;
-  //       const imgBase64Path = reader.result;
-  //       this.cardImageBase64 = imgBase64Path;
-  //       const formdata = new FormData();
-  //       formdata.append('file', file);
-  //       this.bannersService.uploadImage(formdata).subscribe((response) => {
-  //         this.bannersImage = response;
-  //         this.toastr.success('Image Uploaded Successfully', 'Uploaded', {
-  //           timeOut: 3000,
-  //         });
-  //         
-  //         this.editFile = false;
-  //         this.removeUpload = true;
-  //       })
-  //     }
-  //   }
-  // }
   removeUploadedImage() {
     this.bannersImage = null;
     this.imageUrl = 'assets/images/file-upload-image.jpg';
@@ -117,8 +99,8 @@ export class BannersComponent implements OnInit {
     const img = new Image();
     img.src = window.URL.createObjectURL(file);
     img.onload = () => {
-      if (this.imageModel.purpose == 'slider') {
-        
+      if (this.imageModel.purpose == 'Slider For Homepage') {
+
         if (img.width === 1920 && img.height === 710) {
           if (event.target.files && event.target.files[0]) {
             reader.readAsDataURL(file);
@@ -142,29 +124,24 @@ export class BannersComponent implements OnInit {
           this.toastr.error('Please upload an image with dimensions of 1920x710px', 'Invalid Dimension', { timeOut: 3000, });
         }
       }
-      else if (this.imageModel.purpose == 'image') {
-        if (img.width === 500 && img.height === 500) {
-          
-          if (event.target.files && event.target.files[0]) {
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-              this.imageUrl = reader.result;
-              const imgBase64Path = reader.result;
-              this.cardImageBase64 = imgBase64Path;
-              const formdata = new FormData();
-              formdata.append('file', file);
-              this.bannersService.uploadImage(formdata).subscribe((response) => {
-                this.bannersImage = response;
-                this.toastr.success('Image Uploaded Successfully', 'Uploaded', {
-                  timeOut: 3000,
-                });
-                this.editFile = false;
-                this.removeUpload = true;
-              })
-            }
+      else if (this.imageModel.purpose == 'Image For Gallery') {
+        if (event.target.files && event.target.files[0]) {
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            this.imageUrl = reader.result;
+            const imgBase64Path = reader.result;
+            this.cardImageBase64 = imgBase64Path;
+            const formdata = new FormData();
+            formdata.append('file', file);
+            this.bannersService.uploadImage(formdata).subscribe((response) => {
+              this.bannersImage = response;
+              this.toastr.success('Image Uploaded Successfully', 'Uploaded', {
+                timeOut: 3000,
+              });
+              this.editFile = false;
+              this.removeUpload = true;
+            })
           }
-        } else {
-          this.toastr.error('Please upload an image with dimensions of 500x500px', 'Invalid Dimension', { timeOut: 3000, });
         }
       }
 
@@ -178,10 +155,14 @@ export class BannersComponent implements OnInit {
     if (this.validationForm.invalid) {
       return;
     } else {
+      if (this.imageModel.category == undefined) {
+        this.imageModel.category = null;
+      }
       this.imageModel.image = this.bannersImage;
       this.imageModel.status = true;
+
       this.bannersService.saveWebBannersImage(this.imageModel).subscribe((res: any) => {
-        
+
         this.toastr.success('Images Data added Successfully', 'success', {
           timeOut: 3000,
         });
@@ -194,6 +175,7 @@ export class BannersComponent implements OnInit {
     }
   }
   getBanners() {
+    this.getBannersCategory();
     this.bannersService.getWebBanners().subscribe((res: any) => {
       this.imagesData = res;
       this.filterdata = res;
@@ -204,7 +186,18 @@ export class BannersComponent implements OnInit {
       this.getPagintaion();
     })
   }
-
+  getBannersCategory() {
+    this.categoryData = [];
+    this.bannersService.getImageCategory().subscribe((res: any) => {
+      debugger
+      res.forEach((element: any) => {
+        if (element.category != null && element.category != 'null') {
+          this.categoryData.push(element);
+        }
+        debugger
+      });
+    })
+  }
   getPagintaion() {
     this.paginateData = this.imagesData.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
@@ -233,12 +226,12 @@ export class BannersComponent implements OnInit {
     })
   }
   deactiveBanners(ind: any) {
-    
+
     this.paginateData[ind].status = false;
     this.bannersService.activeDeavctiveWebBanners(this.paginateData[ind]).subscribe((req) => {
     })
   }
-  
+
   removeBannersImages(id: any) {
     Swal.fire({
       title: 'Are you sure?',
@@ -252,10 +245,10 @@ export class BannersComponent implements OnInit {
       if (result.value) {
         this.bannersService.removeWebBanners(id).subscribe(() => {
         })
-        this. getBanners();
+        this.getBanners();
         Swal.fire('Deleted!', 'Banners Successfully Removed.', 'success');
       }
     });
   }
-  
+
 }
