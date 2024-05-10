@@ -60,4 +60,10 @@ export class AdminService {
     saveCompaniesLogo(admin: any): Observable<any> {
         return this.httpClient.post<any>(ApiService.saveCompaniesLogoURL, admin);
     }
+    saveSeoDetails(admin: any): Observable<any> {
+        return this.httpClient.post<any>(ApiService.saveSeoDetailsURL, admin);
+    }
+    GetSeoDetails(id: any): Observable<any> {
+        return this.httpClient.get<any>(ApiService.GetSeoDetailsURL + id);
+    }
 }

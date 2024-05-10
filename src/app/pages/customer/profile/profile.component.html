@@ -10,8 +10,12 @@
                     <div class="col-sm order-2 order-sm-1">
                         <div class="d-flex align-items-start mt-3 mt-sm-0">
                             <div class="flex-shrink-0">
-                                <div class="avatar-xl me-3">
-                                    <img src="http://localhost:8100{{registrationModel.clogo}}" alt=""
+                                <div class="avatar-xl me-3" *ngIf="registrationModel.clogo">
+                                    <img src="http://localhost:8100{{ registrationModel.clogo }}" alt=""
+                                        class="img-fluid rounded-circle d-block">
+                                </div>
+                                <div class="avatar-xl me-3" *ngIf="!registrationModel.clogo">
+                                    <img src="assets\images\users\user.png" alt=""
                                         class="img-fluid rounded-circle d-block">
                                 </div>
                             </div>
@@ -419,15 +423,13 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <div class="row justify-content-end mx-4">
-                                                        <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
-                                                            <button type="submit" class="btn btn-primary"
-                                                                (click)=" UpdateCompaniesDetails() "
-                                                                [disabled]="companyDetails.invalid">Update</button>
-                                                        </div>
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        [disabled]="companyDetails.invalid"
+                                                        (click)="UpdateCompaniesDetails()">
+                                                        Update</button>
                                                 </div>
+
                                             </div>
                                         </form>
                                         <hr>
@@ -625,22 +627,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="row justify-content-end mx-4">
-                                                    <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)="UpdateCompaniesDetails()"
-                                                            [disabled]="userdetails.invalid">Update</button>
-                                                    </div>
-                                                </div>
+                                            <div class="text-end">
+                                                <button type="submit" class="btn btn-primary"
+                                                    [disabled]="userdetails.invalid" (click)="UpdateCompaniesDetails()">
+                                                    Update</button>
                                             </div>
+
                                         </form>
-
-
-
-
-
-
                                     </div>
                                 </div>
                             </div>
@@ -1541,7 +1534,7 @@
                                             </div>
 
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
+                                                <div class="row justify-content-end d-flex">
                                                     <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
                                                         <button type="submit" class="btn btn-primary"
                                                             (click)=" saveSocialLinks()" *ngIf="!hasSocialLinksData">
@@ -1600,20 +1593,17 @@
                                                 </form>
                                             </div>
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
-                                                    <div class="col-lg-3 col-xl-3 col-md-3">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" submitGoogle()"
-                                                            [disabled]="googlecredencial.invalid"
-                                                            *ngIf="!hasgooglecred">
-                                                            Submit
-                                                        </button>
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" updateGoogleCred()"
-                                                            [disabled]="googlecredencial.invalid" *ngIf="hasgooglecred">
-                                                            Update
-                                                        </button>
-                                                    </div>
+                                                <div class="text-end ">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" submitGoogle()" [disabled]="googlecredencial.invalid"
+                                                        *ngIf="!hasgooglecred">
+                                                        Submit
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" updateGoogleCred()"
+                                                        [disabled]="googlecredencial.invalid" *ngIf="hasgooglecred">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1660,21 +1650,18 @@
                                                 </form>
                                             </div>
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
-                                                    <div class="col-lg-3 col-xl-3 col-md-3">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" submitFacebook()"
-                                                            [disabled]="facebookcredencial.invalid"
-                                                            *ngIf="!hasfacebookcred">
-                                                            Submit
-                                                        </button>
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" updateFacebookCred()"
-                                                            [disabled]="googlecredencial.invalid"
-                                                            *ngIf="hasfacebookcred">
-                                                            Update
-                                                        </button>
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" submitFacebook()"
+                                                        [disabled]="facebookcredencial.invalid"
+                                                        *ngIf="!hasfacebookcred">
+                                                        Submit
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" updateFacebookCred()"
+                                                        [disabled]="facebookcredencial.invalid" *ngIf="hasfacebookcred">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1721,21 +1708,19 @@
                                                 </form>
                                             </div>
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
-                                                    <div class="col-lg-3 col-xl-3 col-md-3">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" submitTwitter()"
-                                                            [disabled]="twiterlogincredencial.invalid"
-                                                            *ngIf="!hastwittercred">
-                                                            Submit
-                                                        </button>
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" updateTwitterCred()"
-                                                            [disabled]="googlecredencial.invalid"
-                                                            *ngIf="hastwittercred">
-                                                            Update
-                                                        </button>
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" submitTwitter()"
+                                                        [disabled]="twiterlogincredencial.invalid"
+                                                        *ngIf="!hastwittercred">
+                                                        Submit
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" updateTwitterCred()"
+                                                        [disabled]="twiterlogincredencial.invalid"
+                                                        *ngIf="hastwittercred">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1785,19 +1770,17 @@
                                                 </form>
                                             </div>
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
-                                                    <div class="col-lg-3 col-xl-3 col-md-3">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" submitInsta()"
-                                                            [disabled]="instacreddencial.invalid" *ngIf="!hasinstacred">
-                                                            Submit
-                                                        </button>
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" updateInstaCred()"
-                                                            [disabled]="googlecredencial.invalid" *ngIf="hasinstacred">
-                                                            Update
-                                                        </button>
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" submitInsta()" [disabled]="instacreddencial.invalid"
+                                                        *ngIf="!hasinstacred">
+                                                        Submit
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" updateInstaCred()"
+                                                        [disabled]="instacreddencial.invalid" *ngIf="hasinstacred">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1848,21 +1831,18 @@
                                                 </form>
                                             </div>
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
-                                                    <div class="col-lg-3 col-xl-3 col-md-3">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" submitLinkedinCred()"
-                                                            [disabled]="linkedincredencial.invalid"
-                                                            *ngIf="!haslinkedincred">
-                                                            Submit
-                                                        </button>
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" updateLinkdinCred()"
-                                                            [disabled]="googlecredencial.invalid"
-                                                            *ngIf="haslinkedincred">
-                                                            Update
-                                                        </button>
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" submitLinkedinCred()"
+                                                        [disabled]="linkedincredencial.invalid"
+                                                        *ngIf="!haslinkedincred">
+                                                        Submit
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" updateLinkdinCred()"
+                                                        [disabled]="linkedincredencial.invalid" *ngIf="haslinkedincred">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1874,7 +1854,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="7" class="nav-item">
-                        <a ngbNavLink class="nav-link px-3">
+                        <a ngbNavLink class="nav-link px-3" (click)="getallseo()">
                             SEO
                         </a>
                         <ng-template ngbNavContent>
@@ -1886,8 +1866,8 @@
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="card-title">Google Analytics</h5>
                                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                        <input type="checkbox" class="form-check-input" checked>
-                                                        <label class="form-check-label"></label>
+                                                        <input type="checkbox" class="form-check-input"
+                                                            [(ngModel)]="googleAnalyticModel.isactive">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1898,7 +1878,7 @@
                                                         Analytics</label>
                                                     <div class="mb-3 input-group">
                                                         <textarea type="text" formControlName="analytics"
-                                                            class="form-control"
+                                                            [(ngModel)]="googleAnalyticModel.code" class="form-control"
                                                             [ngClass]="{ 'is-invalid': gayl.analytics.touched && gayl.analytics.errors }"
                                                             id="analytics" placeholder="Enter descriptopn"></textarea>
                                                         <div *ngIf="gayl.analytics.touched || gayl.analytics.invalid || gayl.analytics.pristine"
@@ -1912,15 +1892,18 @@
                                                 </form>
                                             </div>
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
-                                                    <div class="col-lg-3 col-xl-3 col-md-3">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" SubmitAnalytics()"
-                                                            [disabled]="googleanalytics.invalid">
-                                                            Submit
-                                                        </button>
-
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" saveGoogleAnalytics()"
+                                                        [disabled]="googleanalytics.invalid"
+                                                        *ngIf="!hasGoogleAnalytics">
+                                                        Submit
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" updateGoogleAnalytics()"
+                                                        [disabled]="googleanalytics.invalid" *ngIf="hasGoogleAnalytics">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1931,7 +1914,8 @@
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="card-title">Enable Google Adsense Code</h5>
                                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <input type="checkbox" class="form-check-input"
+                                                            [(ngModel)]="googleAdsenseModel.isactive">
                                                         <label class="form-check-label"></label>
                                                     </div>
                                                 </div>
@@ -1944,7 +1928,7 @@
                                                         <textarea type="text" formControlName="googleadsencecode"
                                                             class="form-control"
                                                             [ngClass]="{ 'is-invalid': adsense.googleadsencecode.touched && adsense.googleadsencecode.errors }"
-                                                            id="googleadsencecode"
+                                                            id="googleadsencecode" [(ngModel)]="googleAdsenseModel.code"
                                                             placeholder="Enter descriptopn"></textarea>
                                                         <div *ngIf="adsense.googleadsencecode.touched || adsense.googleadsencecode.invalid || adsense.googleadsencecode.pristine"
                                                             class="invalid-feedback">
@@ -1954,17 +1938,20 @@
 
                                                         </div>
                                                     </div>
-
                                                 </form>
                                             </div>
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
-                                                    <div class="col-lg-3 col-xl-3 col-md-3">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" SubmitAnalytics()" [disabled]="egaCode.invalid">
-                                                            Submit
-                                                        </button>
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" saveGoogleAdsense()" [disabled]="egaCode.invalid"
+                                                        *ngIf="!hasgoogleadsencecode">
+                                                        Submit
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" updateGoogleAdsense()" [disabled]="egaCode.invalid"
+                                                        *ngIf="hasgoogleadsencecode">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1975,7 +1962,8 @@
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="card-title">Display Facebook Messenger</h5>
                                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <input type="checkbox" class="form-check-input"
+                                                            [(ngModel)]="facebookMessagerModel.isactive">
                                                         <label class="form-check-label"></label>
                                                     </div>
                                                 </div>
@@ -1988,6 +1976,7 @@
                                                     <div class="mb-3 input-group">
                                                         <textarea type="text" formControlName="fbmsg"
                                                             class="form-control"
+                                                            [(ngModel)]="facebookMessagerModel.code"
                                                             [ngClass]="{ 'is-invalid': fbmsg.fbmsg.touched && fbmsg.fbmsg.errors }"
                                                             id="fbmsg" placeholder="Enter descriptopn"></textarea>
                                                         <div *ngIf="fbmsg.fbmsg.touched || fbmsg.fbmsg.invalid || fbmsg.fbmsg.pristine"
@@ -2002,13 +1991,17 @@
                                                 </form>
                                             </div>
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
-                                                    <div class="col-lg-3 col-xl-3 col-md-3">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" SubmitAnalytics()" [disabled]="disfbmsg.invalid">
-                                                            Submit
-                                                        </button>
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" saveFacebookMessenger()" [disabled]="disfbmsg.invalid"
+                                                        *ngIf="!hasfacebookmessage">
+                                                        Submit
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" updateFacebookMessenger()"
+                                                        [disabled]="disfbmsg.invalid" *ngIf="hasfacebookmessage">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -2020,7 +2013,8 @@
                                                     <h5 class="card-title">Display Facebook Pixel
                                                     </h5>
                                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                        <input type="checkbox" class="form-check-input" checked>
+                                                        <input type="checkbox" class="form-check-input"
+                                                            [(ngModel)]="facebookPixelModel.isactive">
                                                         <label class="form-check-label"></label>
                                                     </div>
                                                 </div>
@@ -2028,10 +2022,10 @@
                                             <div class="card-body">
                                                 <form [formGroup]="fbpixel">
                                                     <label for="basicpill-Displayfbnassage-input"
-                                                        class="form-label">Google
-                                                        Adsense Code</label>
+                                                        class="form-label">Facebook Pixel Code</label>
                                                     <div class="mb-3 input-group">
                                                         <textarea type="text" formControlName="pix" class="form-control"
+                                                            [(ngModel)]="facebookPixelModel.code"
                                                             [ngClass]="{ 'is-invalid': p.pix.touched && p.pix.errors }"
                                                             id="p" placeholder="Enter descriptopn"></textarea>
                                                         <div *ngIf="p.pix.touched || p.pix.invalid || p.pix.pristine"
@@ -2046,13 +2040,17 @@
                                                 </form>
                                             </div>
                                             <div class="card-footer">
-                                                <div class="row justify-content-end">
-                                                    <div class="col-lg-3 col-xl-3 col-md-3">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" SubmitAnalytics()" [disabled]="fbpixel.invalid">
-                                                            Submit
-                                                        </button>
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" saveFacebookPixelcode()" [disabled]="fbpixel.invalid"
+                                                        *ngIf="!hasfacebookPixel">
+                                                        Submit
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" updateFacebookPixelcode()"
+                                                        [disabled]="fbpixel.invalid" *ngIf="hasfacebookPixel">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

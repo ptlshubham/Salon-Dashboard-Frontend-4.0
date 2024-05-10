@@ -72,6 +72,7 @@ export class ProfileComponent implements OnInit {
   instaModel: any = {};
   linkedinModel: any = {};
   socialcredentiallist: any = [];
+  seodetailsList: any = [];
   sociallinkslist: any = [];
   getsociallinklist: any = []
   googlelist: any = []
@@ -81,13 +82,20 @@ export class ProfileComponent implements OnInit {
   hastwittercred: boolean = false;
   hasinstacred: boolean = false;
   haslinkedincred: boolean = false;
+
+  hasGoogleAnalytics: boolean = false;
+  hasfacebookPixel: boolean = false;
+  hasgoogleadsencecode: boolean = false;
+  hasfacebookmessage: boolean = false;
   imageUrl: any = "assets/images/file-upload-image.jpg";
   cardImageBase64: any;
   clogo: any = null;
   editFile: boolean = true;
-
-
-
+  googleAnalyticModel: any = {}
+  googleAdsenseModel: any = {}
+  googleSeoList: any = []
+  facebookMessagerModel: any = {}
+  facebookPixelModel: any = {}
   @Output() dateRangeSelected: EventEmitter<{}> = new EventEmitter();
   // bread crumb items
 
@@ -542,7 +550,6 @@ export class ProfileComponent implements OnInit {
           case 'Google':
             this.googleModel.username = element.username;
             this.googleModel.password = element.password;
-            this.hasgooglecred = true;
             break;
           case 'Facebook':
             this.facebookModel.username = element.username;
@@ -577,7 +584,6 @@ export class ProfileComponent implements OnInit {
   getSocialData() {
     this.getSocialCred();
     this.getSocialLinks();
-
   }
 
   // Logo Upload
@@ -623,9 +629,124 @@ export class ProfileComponent implements OnInit {
     this.adminService.saveCompaniesLogo(this.registrationModel).subscribe((req) => {
       this.toastr.success('Logo updated successfully', 'Updated', { timeOut: 3000 });
     });
+  }
 
+  saveGoogleAnalytics() {
+    this.googleAnalyticModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleAnalyticModel.type = 'Google Analytics';
+
+    this.adminService.saveSeoDetails(this.googleAnalyticModel).subscribe((data: any) => {
+      this.googleSeoList = data;
+      this.toastr.success('Google Analytics code added successfully', 'Success', { timeOut: 3000 });
+      this.getSeoDetails();
+
+    });
   }
-  savediscount() {
+  updateGoogleAnalytics() {
+    this.googleAnalyticModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleAnalyticModel.type = 'Google Analytics';
+    this.adminService.saveSeoDetails(this.googleAnalyticModel).subscribe((data: any) => {
+      this.googleSeoList = data;
+      this.toastr.success('Google Analytics  updated successfully', 'Success', { timeOut: 3000 });
+    },
+    );
   }
-  SubmitAnalytics() { }
+  saveGoogleAdsense() {
+    this.googleAdsenseModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleAdsenseModel.type = 'Google Adsense';
+    this.adminService.saveSeoDetails(this.googleAdsenseModel).subscribe((data: any) => {
+      this.googleSeoList = data;
+      this.toastr.success('Google Adsense  added successfully', 'Success', { timeOut: 3000 });
+      this.getSeoDetails();
+    });
+  }
+  updateGoogleAdsense() {
+    this.googleAdsenseModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleAdsenseModel.type = 'Google Adsense';
+    this.adminService.saveSeoDetails(this.googleAdsenseModel).subscribe((data: any) => {
+      this.googleSeoList = data;
+      this.toastr.success('google Adsense  updated successfully', 'Success', { timeOut: 3000 });
+    },
+    );
+  }
+  saveFacebookMessenger() {
+    this.facebookMessagerModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookMessagerModel.type = 'Facebook Messenger';
+    this.adminService.saveSeoDetails(this.facebookMessagerModel).subscribe((data: any) => {
+      this.googleSeoList = data;
+      this.toastr.success('Facebook Message  added successfully', 'Success', { timeOut: 3000 });
+      this.getSeoDetails();
+
+    });
+  }
+  updateFacebookMessenger() {
+    this.facebookMessagerModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookMessagerModel.type = 'Facebook Messenger';
+    this.adminService.saveSeoDetails(this.facebookMessagerModel).subscribe((data: any) => {
+      this.googleSeoList = data;
+      this.toastr.success('Facebook Message updated successfully', 'Success', { timeOut: 3000 });
+    },
+    );
+  }
+  saveFacebookPixelcode() {
+    this.facebookPixelModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookPixelModel.type = 'Facebook Pixel';
+    this.adminService.saveSeoDetails(this.facebookPixelModel).subscribe((data: any) => {
+      this.googleSeoList = data;
+      this.toastr.success('Facebook Pixel  added successfully', 'Success', { timeOut: 3000 });
+      this.getSeoDetails();
+
+    });
+  }
+  updateFacebookPixelcode() {
+    this.facebookPixelModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookPixelModel.type = 'Facebook Pixel';
+    this.adminService.saveSeoDetails(this.facebookPixelModel).subscribe((data: any) => {
+      this.googleSeoList = data;
+      this.toastr.success('Facebook Pixel updated successfully', 'Success', { timeOut: 3000 });
+    },
+    );
+  }
+  getSeoDetails() {
+    this.adminService.GetSeoDetails(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+      if (data.length > 0) {
+        this.hasGoogleAnalytics = data.some((item: any) => item.type === 'Google Analytics');
+        this.hasgoogleadsencecode = data.some((item: any) => item.type === 'Google Adsense');
+        this.hasfacebookmessage = data.some((item: any) => item.type === 'Facebook Messenger');
+        this.hasfacebookPixel = data.some((item: any) => item.type === 'Facebook Pixel');
+        this.googleAnalyticModel = data.find((item: any) => item.type === 'Google Analytics') || {};
+        this.googleAdsenseModel = data.find((item: any) => item.type === 'Google Adsense') || {};
+        this.facebookMessagerModel = data.find((item: any) => item.type === 'Facebook Messenger') || {};
+        this.facebookPixelModel = data.find((item: any) => item.type === 'Facebook Pixel') || {};
+
+      } else {
+        this.hasGoogleAnalytics = false;
+        this.hasgoogleadsencecode = false;
+        this.hasfacebookmessage = false;
+        this.hasfacebookPixel = false;
+      }
+
+      this.seodetailsList.forEach((element: any) => {
+        switch (element.type) {
+          case 'Google Analytics':
+            this.googleAnalyticModel.code = element.code;
+            break;
+          case 'Google Adsense':
+            this.googleAdsenseModel.code = element.code;
+            break;
+          case 'Facebook Messenger':
+            this.facebookMessagerModel.code = element.code;
+            break;
+          case 'Facebook Pixel':
+            this.facebookPixelModel.code = element.code;
+            break;
+          default:
+            break;
+        }
+      });
+    });
+  };
+  getallseo() {
+    this.getSeoDetails();
+  }
 }
