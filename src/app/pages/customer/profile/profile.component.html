@@ -10,11 +10,13 @@
                     <div class="col-sm order-2 order-sm-1">
                         <div class="d-flex align-items-start mt-3 mt-sm-0">
                             <div class="flex-shrink-0">
-                                <div class="avatar-xl me-3" *ngIf="registrationModel.clogo!='null' && registrationModel.clogo!=null">
+                                <div class="avatar-xl me-3"
+                                    *ngIf="registrationModel.clogo!='null' && registrationModel.clogo!=null">
                                     <img src="http://localhost:8100{{ registrationModel.clogo }}" alt=""
                                         class="img-fluid rounded-circle d-block">
                                 </div>
-                                <div class="avatar-xl me-3" *ngIf="registrationModel.clogo=='null' || registrationModel.clogo==null">
+                                <div class="avatar-xl me-3"
+                                    *ngIf="registrationModel.clogo=='null' || registrationModel.clogo==null">
                                     <img src="assets\images\users\user.png" alt=""
                                         class="img-fluid rounded-circle d-block">
                                 </div>
@@ -196,7 +198,8 @@
 
                                                 </div>
                                                 <div class="col-xl-4 col-md-6 d-flex align-items-center ml-5">
-                                                    <div *ngIf="registrationModel.clogo!=null && registrationModel.clogo!='null'">
+                                                    <div
+                                                        *ngIf="registrationModel.clogo!=null && registrationModel.clogo!='null'">
                                                         <img src="http://localhost:8100{{registrationModel.clogo}}"
                                                             alt="" class="rounded img-thumbnail"><span><i
                                                                 class="fas fa-times font-size-22 align-middle text-danger position-absolute"
@@ -204,7 +207,8 @@
                                                                 (click)="removeUploadedLogo()"></i>
                                                         </span>
                                                     </div>
-                                                    <div *ngIf="registrationModel.clogo==null || registrationModel.clogo=='null'">
+                                                    <div
+                                                        *ngIf="registrationModel.clogo==null || registrationModel.clogo=='null'">
                                                         <div class="text-center"> <!-- Added text-center class -->
                                                             <label>Upload Image</label>
                                                         </div>
@@ -1534,18 +1538,15 @@
                                             </div>
 
                                             <div class="card-footer">
-                                                <div class="row justify-content-end d-flex">
-                                                    <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            (click)=" saveSocialLinks()" *ngIf="!hasSocialLinksData">
-                                                            Submit
-                                                        </button>
-                                                        <button type="Update" class="btn btn-primary"
-                                                            (click)=" updateSocialLinks()" *ngIf="hasSocialLinksData">
-                                                            Update
-                                                        </button>
-
-                                                    </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        (click)=" saveSocialLinks()" *ngIf="!hasSocialLinksData">
+                                                        Submit
+                                                    </button>
+                                                    <button type="Update" class="btn btn-primary"
+                                                        (click)=" updateSocialLinks()" *ngIf="hasSocialLinksData">
+                                                        Update
+                                                    </button>
                                                 </div>
                                             </div>
                                             <!-- Error messages can be displayed here if needed -->
