@@ -111,14 +111,15 @@ export class ProfileComponent implements OnInit {
 
 
   ) {
-    this.getUserDataById();
-    this.getAllGeneralDetails();
-    this.getStateList();
+
 
   }
 
   ngOnInit(): void {
     this.getAllRegistration();
+    this.getUserDataById();
+    this.getStateList();
+
     this.selectedCurrency = '₹';
     this.SocialLinks = this.formBuilder.group({
       facebooklink: ['', [Validators.required]],
@@ -365,7 +366,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getAllRegistration() {
-    this.adminService.getAllRegistrationList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+    this.adminService.getAllRegistrationList(this.salonid).subscribe((data: any) => {
       this.registrationModel = data[0];
       this.selectedGender = this.registrationModel.ugender;
       this.cityListData = [];
@@ -397,7 +398,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   saveSocialLinks() {
-    this.socialLinksModel.salonid = ls.get('salonid', { decrypt: true });
+    this.socialLinksModel.salonid = this.salonid;
     this.adminService.saveSocialLinks(this.socialLinksModel).subscribe((data: any) => {
       this.sociallinkslist = data;
       this.socialLinksModel = {};
@@ -407,7 +408,7 @@ export class ProfileComponent implements OnInit {
   }
 
   submitGoogle() {
-    this.googleModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleModel.salonid = this.salonid;
     this.googleModel.accounttype = 'Google';
     this.adminService.saveCredentials(this.googleModel).subscribe((data: any) => {
       this.credentialslist = data;
@@ -416,7 +417,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   submitFacebook() {
-    this.facebookModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookModel.salonid = this.salonid;
     this.facebookModel.accounttype = 'Facebook';
     this.adminService.saveCredentials(this.facebookModel).subscribe((data: any) => {
       this.credentialslist = data;
@@ -427,7 +428,7 @@ export class ProfileComponent implements OnInit {
   }
 
   submitTwitter() {
-    this.twitterModel.salonid = ls.get('salonid', { decrypt: true });
+    this.twitterModel.salonid = this.salonid;
     this.twitterModel.accounttype = 'Twitter';
     this.adminService.saveCredentials(this.twitterModel).subscribe((data: any) => {
       this.credentialslist = data;
@@ -437,7 +438,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   submitInsta() {
-    this.instaModel.salonid = ls.get('salonid', { decrypt: true });
+    this.instaModel.salonid = this.salonid;
     this.instaModel.accounttype = 'Instagram';
     this.adminService.saveCredentials(this.instaModel).subscribe((data: any) => {
       this.credentialslist = data;
@@ -447,7 +448,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   submitLinkedinCred() {
-    this.linkedinModel.salonid = ls.get('salonid', { decrypt: true });
+    this.linkedinModel.salonid = this.salonid;
     this.linkedinModel.accounttype = 'Linkedin';
     this.adminService.saveCredentials(this.linkedinModel).subscribe((data: any) => {
       this.credentialslist = data;
@@ -459,14 +460,14 @@ export class ProfileComponent implements OnInit {
 
 
   updateSocialLinks() {
-    this.socialLinksModel.salonid = ls.get('salonid', { decrypt: true });
+    this.socialLinksModel.salonid = this.salonid;
     this.adminService.saveSocialLinks(this.socialLinksModel).subscribe((data: any) => {
       this.sociallinkslist = data;
       this.toastr.success('SocialLinks updated successfully', 'Success', { timeOut: 3000 });
     });
   }
   updateGoogleCred() {
-    this.googleModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleModel.salonid = this.salonid;
     this.googleModel.accounttype = 'Google';
     this.adminService.saveCredentials(this.googleModel).subscribe((data: any) => {
       this.credentialslist = data;
@@ -474,7 +475,7 @@ export class ProfileComponent implements OnInit {
     });
   };
   updateFacebookCred() {
-    this.facebookModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookModel.salonid = this.salonid;
     this.facebookModel.accounttype = 'Facebook';
     this.adminService.saveCredentials(this.facebookModel).subscribe((data: any) => {
       this.credentialslist = data;
@@ -483,7 +484,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   updateTwitterCred() {
-    this.twitterModel.salonid = ls.get('salonid', { decrypt: true });
+    this.twitterModel.salonid = this.salonid;
     this.twitterModel.accounttype = 'Twitter';
     this.adminService.saveCredentials(this.twitterModel).subscribe((data: any) => {
       this.credentialslist = data;
@@ -492,7 +493,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   updateLinkdinCred() {
-    this.linkedinModel.salonid = ls.get('salonid', { decrypt: true });
+    this.linkedinModel.salonid = this.salonid;
     this.linkedinModel.accounttype = 'Linkedin';
 
     this.adminService.saveCredentials(this.linkedinModel).subscribe((data: any) => {
@@ -502,7 +503,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   updateInstaCred() {
-    this.instaModel.salonid = ls.get('salonid', { decrypt: true });
+    this.instaModel.salonid = this.salonid;
     this.instaModel.accounttype = 'Instagram';
     this.adminService.saveCredentials(this.instaModel).subscribe((data: any) => {
       this.credentialslist = data;
@@ -511,7 +512,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   getSocialLinks() {
-    this.adminService.getSocialLinks(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+    this.adminService.getSocialLinks(this.salonid).subscribe((data: any) => {
       if (data.length > 0) {
         this.hasSocialLinksData = true;
         this.socialLinksModel = data[0];
@@ -524,7 +525,7 @@ export class ProfileComponent implements OnInit {
 
 
   getSocialCred() {
-    this.adminService.getSocialCredentials(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+    this.adminService.getSocialCredentials(this.salonid).subscribe((data: any) => {
       if (data.length > 0) {
         this.hasgooglecred = data.some((item: any) => item.accounttype === 'Google');
         this.hasfacebookcred = data.some((item: any) => item.accounttype === 'Facebook');
@@ -632,7 +633,7 @@ export class ProfileComponent implements OnInit {
   }
 
   saveGoogleAnalytics() {
-    this.googleAnalyticModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleAnalyticModel.salonid = this.salonid;
     this.googleAnalyticModel.type = 'Google Analytics';
 
     this.adminService.saveSeoDetails(this.googleAnalyticModel).subscribe((data: any) => {
@@ -643,7 +644,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   updateGoogleAnalytics() {
-    this.googleAnalyticModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleAnalyticModel.salonid = this.salonid;
     this.googleAnalyticModel.type = 'Google Analytics';
     this.adminService.saveSeoDetails(this.googleAnalyticModel).subscribe((data: any) => {
       this.googleSeoList = data;
@@ -652,7 +653,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   saveGoogleAdsense() {
-    this.googleAdsenseModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleAdsenseModel.salonid = this.salonid;
     this.googleAdsenseModel.type = 'Google Adsense';
     this.adminService.saveSeoDetails(this.googleAdsenseModel).subscribe((data: any) => {
       this.googleSeoList = data;
@@ -661,7 +662,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   updateGoogleAdsense() {
-    this.googleAdsenseModel.salonid = ls.get('salonid', { decrypt: true });
+    this.googleAdsenseModel.salonid = this.salonid;
     this.googleAdsenseModel.type = 'Google Adsense';
     this.adminService.saveSeoDetails(this.googleAdsenseModel).subscribe((data: any) => {
       this.googleSeoList = data;
@@ -670,7 +671,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   saveFacebookMessenger() {
-    this.facebookMessagerModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookMessagerModel.salonid = this.salonid;
     this.facebookMessagerModel.type = 'Facebook Messenger';
     this.adminService.saveSeoDetails(this.facebookMessagerModel).subscribe((data: any) => {
       this.googleSeoList = data;
@@ -680,7 +681,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   updateFacebookMessenger() {
-    this.facebookMessagerModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookMessagerModel.salonid = this.salonid;
     this.facebookMessagerModel.type = 'Facebook Messenger';
     this.adminService.saveSeoDetails(this.facebookMessagerModel).subscribe((data: any) => {
       this.googleSeoList = data;
@@ -689,7 +690,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   saveFacebookPixelcode() {
-    this.facebookPixelModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookPixelModel.salonid = this.salonid;
     this.facebookPixelModel.type = 'Facebook Pixel';
     this.adminService.saveSeoDetails(this.facebookPixelModel).subscribe((data: any) => {
       this.googleSeoList = data;
@@ -699,7 +700,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   updateFacebookPixelcode() {
-    this.facebookPixelModel.salonid = ls.get('salonid', { decrypt: true });
+    this.facebookPixelModel.salonid = this.salonid;
     this.facebookPixelModel.type = 'Facebook Pixel';
     this.adminService.saveSeoDetails(this.facebookPixelModel).subscribe((data: any) => {
       this.googleSeoList = data;
@@ -708,7 +709,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   getSeoDetails() {
-    this.adminService.GetSeoDetails(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+    this.adminService.GetSeoDetails(this.salonid).subscribe((data: any) => {
       if (data.length > 0) {
         this.hasGoogleAnalytics = data.some((item: any) => item.type === 'Google Analytics');
         this.hasgoogleadsencecode = data.some((item: any) => item.type === 'Google Adsense');
