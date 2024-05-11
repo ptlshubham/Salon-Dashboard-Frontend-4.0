@@ -392,7 +392,7 @@ export class ProfileComponent implements OnInit {
   }
   UpdateCompaniesDetails() {
     this.adminService.updateCompaniesDetails(this.registrationModel).subscribe((req) => {
-      this.toastr.success('Company details updated successfully', 'Updated', { timeOut: 3000 });
+      this.toastr.success('companies details updated successfully', 'Updated', { timeOut: 3000 });
 
     });
   }

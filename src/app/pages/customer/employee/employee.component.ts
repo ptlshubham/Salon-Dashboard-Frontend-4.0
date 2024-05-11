@@ -112,6 +112,9 @@ export class EmployeeComponent {
   }
 
   openAddEmployee() {
+    this.selectedState = '';
+    this.selectedCity = '';
+    this.selectedGender = '';
     this.isOpen = true;
     this.isUpdate = false;
     this.employeeModel = {};
