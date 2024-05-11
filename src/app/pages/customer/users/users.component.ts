@@ -470,7 +470,7 @@ export class UsersComponent implements OnInit {
   }
 
   getOfferDetails() {
-    this.offerService.getActiveOfferList().subscribe((data: any) => {
+    this.offerService.getActiveOfferList(this.salonid).subscribe((data: any) => {
       this.comboOfferList = data;
     });
   }

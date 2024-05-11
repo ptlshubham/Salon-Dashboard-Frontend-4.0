@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { MembershipService } from 'src/app/core/services/membership.service';
@@ -40,6 +41,9 @@ export class PurchaseMembershipComponent {
   validity: any;
   validityDays: number = 0;
   validityDate: any;
+  salonid: any = ls.get('salonid', { decrypt: true });
+
+  
   constructor(
     public formBuilder: UntypedFormBuilder,
     private customerService: CustomerService,
@@ -102,7 +106,7 @@ export class PurchaseMembershipComponent {
   }
   getAllActiveMembershipDetails() {
 
-    this.membershipService.getAllActiveMembership().subscribe((data: any) => {
+    this.membershipService.getAllActiveMembership(this.salonid).subscribe((data: any) => {
       this.memberShipList = data;
 
       for (let i = 0; i < this.memberShipList.length; i++) {

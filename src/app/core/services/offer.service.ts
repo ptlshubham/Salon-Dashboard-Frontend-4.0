@@ -17,11 +17,11 @@ export class OfferService {
     saveOfferList(admin: any): Observable<any> {
         return this.httpClient.post<any>(ApiService.saveOfferListURL, admin);
     }
-    getAllOfferList(): Observable<any[]> {
-        return this.httpClient.get<any>(ApiService.getAllOfferURL);
+    getAllOfferList(id: any): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getAllOfferURL + id);
     }
-    getActiveOfferList(): Observable<any[]> {
-        return this.httpClient.get<any>(ApiService.getActiveOfferURL);
+    getActiveOfferList(id: any): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getActiveOfferURL + id);
     }
     getAllAppointmentList(): Observable<any[]> {
         return this.httpClient.get<any>(ApiService.getAllAppointmentURL);
@@ -29,7 +29,7 @@ export class OfferService {
     getCompletedServices(): Observable<any[]> {
         return this.httpClient.get<any>(ApiService.getAllCompletedServicesURL);
     }
-    getViewAppointment(admin:any) {
+    getViewAppointment(admin: any) {
         let data = {
             id: admin.id
         }
@@ -38,23 +38,23 @@ export class OfferService {
     updateOfferList(admin: any): Observable<any> {
         return this.httpClient.post<any>(ApiService.updateOfferListURL, admin);
     }
-    removeOfferDetails(id:any) {
+    removeOfferDetails(id: any) {
         return this.httpClient.get<any>(ApiService.removeOfferDetailsURL + id);
     }
-    getAllOfferDataList(id:any) {
+    getAllOfferDataList(id: any) {
         let data = {
             id: id
         }
         return this.httpClient.post<any>(ApiService.getAllOfferDataListURL, data);
     }
-    getServicesListUsingId(id:any) {
+    getServicesListUsingId(id: any) {
         let data = {
             id: id
         }
         return this.httpClient.post<any>(ApiService.getUsedServicesByOfferURL, data);
     }
     activeDeavctiveOffers(admin: any): Observable<any> {
-     
+
         return this.httpClient.post<any>(ApiService.updateActiveOffersURL, admin);
-      }
+    }
 }

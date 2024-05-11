@@ -65,8 +65,8 @@ export class ApiService {
   public static saveOfferListURL: string = ApiService.HOST_URL + '/admin/SaveOfferList';
   public static getAllOfferDataListURL: string = ApiService.HOST_URL + '/admin/GetAllOfferDataList';
   public static getUsedServicesByOfferURL: string = ApiService.HOST_URL + '/admin/GetUsedServicesByOffer';
-  public static getAllOfferURL: string = ApiService.HOST_URL + '/admin/GetAllOffer';
-  public static getActiveOfferURL: string = ApiService.HOST_URL + '/admin/GetActiveOffer';
+  public static getAllOfferURL: string = ApiService.HOST_URL + '/admin/GetAllOffer/';
+  public static getActiveOfferURL: string = ApiService.HOST_URL + '/admin/GetActiveOffer/';
   public static getOfferTotalPointsURL: string = ApiService.HOST_URL + '/admin/GetOfferTotalPoints';
   public static updateOfferListURL: string = ApiService.HOST_URL + '/admin/UpdateOfferList';
   public static removeOfferDetailsURL: string = ApiService.HOST_URL + '/admin/removeOfferDetails/';
@@ -105,11 +105,10 @@ export class ApiService {
   public static getCustomerDataByIdURL: string = ApiService.HOST_URL + '/admin/GetCustomerDataById/';
   public static saveMembershipListURL: string = ApiService.HOST_URL + '/admin/SaveMembershipList';
   public static getUsedServicesByMembershipURL: string = ApiService.HOST_URL + '/admin/GetUsedServicesByMembership';
-  public static getAllOMembershipURL: string = ApiService.HOST_URL + '/admin/GetAllMembership';
-  public static getAllActiveMembershipURL: string = ApiService.HOST_URL + '/admin/GetAllActiveMembership';
+  public static getAllActiveMembershipURL: string = ApiService.HOST_URL + '/admin/GetAllActiveMembership/';
   public static updateMembershipListURL: string = ApiService.HOST_URL + '/admin/UpdateMembershipList';
   public static removeMembershipDetailsURL: string = ApiService.HOST_URL + '/admin/removeMembershipDetails/';
-  public static getAllMembershipURL: string = ApiService.HOST_URL + '/admin/getAllMembership/';
+  public static getAllMembershipURL: string = ApiService.HOST_URL + '/admin/GetAllMembership/';
   public static getWebBannersURL: string = ApiService.HOST_URL + '/admin/GetWebBanners/';
   public static getImageCategoryGroupByURL: string = ApiService.HOST_URL + '/admin/GetImageCategoryGroupBy';
   public static uploadBannersImageURL: string = ApiService.HOST_URL + '/admin/UploadBannersImage';

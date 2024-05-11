@@ -817,7 +817,7 @@ export class AppointmentComponent implements OnInit {
     this.calculateTempServicePointsList();
   }
   getOfferDetails() {
-    this.offerService.getActiveOfferList().subscribe((data: any) => {
+    this.offerService.getActiveOfferList(this.salonid).subscribe((data: any) => {
       this.comboOfferList = data;
     });
   }

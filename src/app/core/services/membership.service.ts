@@ -15,11 +15,11 @@ export class MembershipService {
     ) { }
 
     saveMembershipList(admin: any): Observable<any> {
-        
+
         return this.httpClient.post<any>(ApiService.saveMembershipListURL, admin);
     }
-    getAllMembershipList(): Observable<any[]> {
-        return this.httpClient.get<any>(ApiService.getAllMembershipURL);
+    getAllMembershipList(id: any): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getAllMembershipURL + id);
     }
     getAllAppointmentList(): Observable<any[]> {
         return this.httpClient.get<any>(ApiService.getAllAppointmentURL);
@@ -38,8 +38,8 @@ export class MembershipService {
         return this.httpClient.get<any>(ApiService.removeMembershipDetailsURL + id);
     }
 
-    getAllActiveMembership(): Observable<any> {
-        return this.httpClient.get<any>(ApiService.getAllActiveMembershipURL);
+    getAllActiveMembership(id: any): Observable<any> {
+        return this.httpClient.get<any>(ApiService.getAllActiveMembershipURL + id);
     }
     getMemberServicesUsingId(id: any) {
         let data = {
@@ -53,7 +53,7 @@ export class MembershipService {
     getPurchasedDetail(data: any): Observable<any> {
         return this.httpClient.post<any>(ApiService.getMembershipPurchasedByIDURL, data);
     }
-    updatePurchaseMembershipStatus(id:any){
+    updatePurchaseMembershipStatus(id: any) {
         return this.httpClient.get<any>(ApiService.updatePurchaseMembershipStatusURL + id);
     }
     activeDeavctiveMemberShip(admin: any): Observable<any> {

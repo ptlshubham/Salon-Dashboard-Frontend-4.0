@@ -38,7 +38,7 @@ export class MembershipComponent {
     { name: '12 Month' }
   ]
   selectedValidity: any;
-
+  salonid: any = ls.get('salonid', { decrypt: true });
   get f() {
     return this.validationForm.controls;
   }
@@ -53,10 +53,11 @@ export class MembershipComponent {
     private servicesService: ServiceListService
   ) {
 
-    this.getAllServices();
-    this.getMembershiDetails();
   }
   ngOnInit(): void {
+
+    this.getAllServices();
+    this.getMembershiDetails();
     this.validationForm = this.formBuilder.group({
       membershipname: ['', [Validators.required]],
       selectValidity: ['', [Validators.required]],
@@ -142,6 +143,7 @@ export class MembershipComponent {
     this.memberShipModel.services = this.tempServiceData;
     this.memberShipModel.totalprice = this.finalprice;
     this.memberShipModel.isactive = true;
+    this.memberShipModel.salonid = this.salonid;
     this.MembershipService.saveMembershipList(this.memberShipModel).subscribe((data: any) => {
       this.memberShipList = data;
       this.toastr.success('membership package details added successfully', 'Success', { timeOut: 3000 });
@@ -156,8 +158,9 @@ export class MembershipComponent {
   }
 
   getMembershiDetails() {
-    this.MembershipService.getAllMembershipList().subscribe((data: any) => {
+    this.MembershipService.getAllMembershipList(this.salonid).subscribe((data: any) => {
       this.memberShipList = data;
+      debugger
       for (let i = 0; i < this.memberShipList.length; i++) {
         this.memberShipList[i].index = i + 1;
       }
