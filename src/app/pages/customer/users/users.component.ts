@@ -8,6 +8,7 @@ import { OfferService } from 'src/app/core/services/offer.service';
 import { ServiceListService } from 'src/app/core/services/services.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import ls from 'localstorage-slim';
 
 @Component({
   selector: 'app-users',
@@ -97,7 +98,7 @@ export class UsersComponent implements OnInit {
   minDate: string;
 
   popoverContent: string = 'Popover content goes here';
-
+  salonid: any = ls.get('salonid', { decrypt: true });
   constructor(
     private customerService: CustomerService,
     public formBuilder: UntypedFormBuilder,
@@ -426,12 +427,12 @@ export class UsersComponent implements OnInit {
     })
   }
   getAllServices() {
-    this.servicesService.getAllServicesList().subscribe((data: any) => {
+    this.servicesService.getAllServicesList(this.salonid).subscribe((data: any) => {
       this.servicesList = data;
     });
   }
   getAllEmployee() {
-    this.employeeService.getAllEmployeeList().subscribe((data: any) => {
+    this.employeeService.getAllEmployeeList(this.salonid).subscribe((data: any) => {
       this.employeeReg = data;
       this.employeeReg.forEach((employee: any, index: number) => {
         employee.employeeName = `${employee.fname} ${employee.lname}`;

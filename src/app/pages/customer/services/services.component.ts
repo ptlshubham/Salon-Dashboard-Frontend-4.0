@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { ServiceListService } from 'src/app/core/services/services.service';
 import Swal from 'sweetalert2';
@@ -63,7 +64,7 @@ export class ServicesComponent {
     this.validationForm.markAsUntouched();
   }
   getAllServices() {
-    this.servicesService.getAllServicesList().subscribe((data: any) => {
+    this.servicesService.getAllServicesList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
       this.servicesList = data;
       for (let i = 0; i < this.servicesList.length; i++) {
         this.servicesList[i].index = i + 1;
@@ -77,6 +78,7 @@ export class ServicesComponent {
   }
 
   saveServicesDetail() {
+    this.servicesModel.salonid = ls.get('salonid', { decrypt: true });
     this.servicesService.saveServiceList(this.servicesModel).subscribe((data: any) => {
       this.toastr.success('Service details added successfully', 'Success', { timeOut: 3000 });
       this.servicesList = data;

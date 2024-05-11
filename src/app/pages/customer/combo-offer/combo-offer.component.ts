@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { OfferService } from 'src/app/core/services/offer.service';
 import { ServiceListService } from 'src/app/core/services/services.service';
@@ -71,7 +72,7 @@ export class ComboOfferComponent {
     this.validationServiceForm.markAsUntouched();
   }
   getAllServices() {
-    this.servicesService.getAllServicesList().subscribe((data: any) => {
+    this.servicesService.getAllServicesList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
       this.servicesList = data;
     });
   }

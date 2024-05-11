@@ -15,24 +15,24 @@ export class ServiceListService {
         private http: HttpClient
     ) { }
 
-    saveServiceList(admin: any){
-        
+    saveServiceList(admin: any) {
+
         return this.httpClient.post<any>(ApiService.saveServicesListURL, admin);
     }
-    getAllServicesList(): Observable<Services[]> {
-        return this.httpClient.get<any>(ApiService.getAllServicesURL);
+    getAllServicesList(id: any): Observable<Services[]> {
+        return this.httpClient.get<any>(ApiService.getAllServicesURL + id);
     }
     updateServicesList(admin: Services): Observable<any[]> {
         return this.httpClient.post<any>(ApiService.updateServicesListURL, admin);
     }
-    removeServicesList(id:any) {
+    removeServicesList(id: any) {
         return this.httpClient.get<any>(ApiService.removeServicesListURL + id);
     }
-    removeCustomerDetails(id:any) {
+    removeCustomerDetails(id: any) {
         return this.httpClient.get<any>(ApiService.removeCustomerDetailsURL + id);
     }
     SaveBulkServiceDetails(data: any) {
-         
+
         return this.http.post(ApiService.SaveBulkServiceDetailsURL, data);
     }
 

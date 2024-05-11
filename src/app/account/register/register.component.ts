@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { environment } from '../../../environments/environment';
-import { UserProfileService } from '../../core/services/user.service';
 import { LAYOUT_MODE } from '../../layouts/layouts.model';
-import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { News } from '../../pages/dashboard/data';
 import { AdminService } from 'src/app/core/services/admin.service';
@@ -54,13 +51,9 @@ export class RegisterComponent implements OnInit {
   }
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private router: Router,
     private adminService: AdminService,
     public toastr: ToastrService,
-
-
-    // private authenticationService: AuthenticationService,
-    private userService: UserProfileService) {
+  ) {
     this._fetchData();
 
   }
@@ -90,42 +83,6 @@ export class RegisterComponent implements OnInit {
   }
   // convenience getter for easy access to form fields
 
-
-  /**
-   * On submit form
-   */
-  onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid
-    if (this.companydetails.invalid) {
-      return;
-    } else {
-      if (environment.defaultauth === 'firebase') {
-        // this.authenticationService.register(this.f.email.value, this.f.password.value).then((res: any) => {
-        //   this.successmsg = true;
-        //   if (this.successmsg) {
-        //     this.router.navigate(['']);
-        //   }
-        // })
-        // .catch((error: string) => {
-        //   this.error = error ? error : '';
-        // });
-      } else {
-        // this.userService.register(this.signupForm.value)
-        //   .pipe(first())
-        //   .subscribe(
-        //     (data: any) => {
-        //       this.successmsg = true;
-        //       if (this.successmsg) {
-        //         this.router.navigate(['/account/login']);
-        //       }
-        //     },
-        //     (error: any) => {
-        //       this.error = error ? error : '';
-        //     });
-      }
-    }
-  }
   continueToCompanyDetails() {
     this.isOpen = false;
 
@@ -138,8 +95,6 @@ export class RegisterComponent implements OnInit {
   saveRegistartionDetail() {
     this.registartionModel.adminrole = 'Admin';
     this.adminService.saveRegistrationList(this.registartionModel).subscribe((data: any) => {
-
-
       if (data = 'success') {
         this.toastr.success('You are successfully Register', 'Success', { timeOut: 3000 });
         this.isOpen = true;

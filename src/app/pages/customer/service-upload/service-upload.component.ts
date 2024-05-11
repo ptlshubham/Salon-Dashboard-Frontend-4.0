@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { ServiceListService } from 'src/app/core/services/services.service';
 import * as XLSX from 'xlsx';
@@ -25,7 +26,7 @@ export class ServiceUploadComponent implements OnInit {
 
   ) { }
   ngOnInit(): void {
-   
+
   }
   backToTable() {
     this.router.navigate(['/service-list']);
@@ -75,7 +76,8 @@ export class ServiceUploadComponent implements OnInit {
         totalcost: this.uploadedservice[i][2],
         time: this.uploadedservice[i][3],
         point: this.uploadedservice[i][4],
-        epoint: this.uploadedservice[i][5]
+        epoint: this.uploadedservice[i][5],
+        salonid: ls.get('salonid', { decrypt: true })
       }
       this.bulkUploadedservice.push(data);
     }
@@ -84,22 +86,22 @@ export class ServiceUploadComponent implements OnInit {
     for (let i = 0; i <= (this.bulkUploadedservice.length / 300); i++) {
       tempArray = [];
       let lnth = (this.bulkUploadedservice.length / 300);
-      
+
       if (i == 0) {
         tempArray = [];
         tempArray = this.bulkUploadedservice.slice(0, 300);
-        
+
         this.servicelistservice.SaveBulkServiceDetails(tempArray).subscribe((res: any) => {
-         
+          this.toastr.success('Service details added successfully', 'Success', { timeOut: 3000 });
         })
       } else if (i != (this.bulkUploadedservice.length / 300)) {
         tempArray = [];
         let start = i * 300;
         let end = start + 300;
         tempArray = this.bulkUploadedservice.slice(start, end);
-        
+
         this.servicelistservice.SaveBulkServiceDetails(tempArray).subscribe((res: any) => {
-         
+          this.toastr.success('Service details added successfully', 'Success', { timeOut: 3000 });
         })
       }
       else {
@@ -107,9 +109,9 @@ export class ServiceUploadComponent implements OnInit {
         let start = (i - 1) * 300;
         let end = this.bulkUploadedservice.length - start;
         tempArray = this.bulkUploadedservice.slice(start, end);
-        
+
         this.servicelistservice.SaveBulkServiceDetails(tempArray).subscribe((res: any) => {
-        
+          this.toastr.success('Service details added successfully', 'Success', { timeOut: 3000 });
         })
       }
 

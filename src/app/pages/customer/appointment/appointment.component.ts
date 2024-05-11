@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AdminService } from 'src/app/core/services/admin.service';
@@ -107,6 +108,7 @@ export class AppointmentComponent implements OnInit {
 
   modalRef: NgbModalRef | null = null;
   empPointList: any = [];
+  salonid: any = ls.get('salonid', { decrypt: true });
   constructor(
     private employeeService: EmployeeService,
     private customerService: CustomerService,
@@ -631,7 +633,7 @@ export class AppointmentComponent implements OnInit {
 
   }
   getAllEmployee() {
-    this.employeeService.getAllEmployeeList().subscribe((data: any) => {
+    this.employeeService.getAllEmployeeList(this.salonid).subscribe((data: any) => {
       this.employeeReg = data;
       this.employeeReg.forEach((employee: any, index: number) => {
         employee.employeeName = `${employee.fname} ${employee.lname}`;
@@ -647,7 +649,7 @@ export class AppointmentComponent implements OnInit {
     this.paginateEmployeeData = this.employeeReg.slice((this.pageEmployee - 1) * this.pageSizeEmployee, (this.pageEmployee - 1) * this.pageSizeEmployee + this.pageSizeEmployee);
   }
   getOnlyIdealEmployee() {
-    this.employeeService.getOnlyIdealEmployee().subscribe((data: any) => {
+    this.employeeService.getOnlyIdealEmployee(this.salonid).subscribe((data: any) => {
       this.idealEmployee = data;
       this.idealEmployee.forEach((employee: any, index: number) => {
         employee.employeeName = `${employee.fname} ${employee.lname}`;
@@ -820,7 +822,7 @@ export class AppointmentComponent implements OnInit {
     });
   }
   getAllServices() {
-    this.servicesService.getAllServicesList().subscribe((data: any) => {
+    this.servicesService.getAllServicesList(this.salonid).subscribe((data: any) => {
       this.servicesList = data;
     });
   }
