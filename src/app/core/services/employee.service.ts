@@ -17,11 +17,11 @@ export class EmployeeService {
 
         return this.httpClient.post<any>(ApiService.saveEmployeeListURL, data);
     }
-    getAllEmployeeList(): Observable<any[]> {
-        return this.httpClient.get<any>(ApiService.getAllEmployeeURL);
+    getAllEmployeeList(id:any): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getAllEmployeeURL+id);
     }
-    getOnlyIdealEmployee(): Observable<any[]> {
-        return this.httpClient.get<any>(ApiService.getOnlyIdealEmployeeList);
+    getOnlyIdealEmployee(id:any): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getOnlyIdealEmployeeList + id);
     }
     removeEmployeeList(id: any) {
         let data = {

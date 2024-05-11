@@ -56,7 +56,7 @@ export class EmployeeComponent {
   public employeeReg: any[] = [];
   public servicesList: any[] = [];
   salaryList: any = [];
-
+  salonid: any = ls.get('salonid', { decrypt: true });
 
   constructor(
     private servicesService: ServiceListService,
@@ -69,11 +69,11 @@ export class EmployeeComponent {
 
   ) {
     this.getStateList();
-    this.getAllServices();
-    this.getAllEmployee();
   }
 
   ngOnInit(): void {
+    this.getAllServices();
+    this.getAllEmployee();
     this.validationForm = this.formBuilder.group({
       fname: ['', [Validators.required]],
       lname: ['', [Validators.required]],
@@ -121,7 +121,8 @@ export class EmployeeComponent {
     this.validationForm.markAsUntouched();
   }
   getAllServices() {
-    this.servicesService.getAllServicesList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+    this.servicesService.getAllServicesList(this.salonid).subscribe((data: any) => {
+      debugger
       this.servicesList = data;
     });
   }
@@ -158,6 +159,7 @@ export class EmployeeComponent {
     this.employeeModel.state = this.selectedState;
     this.employeeModel.city = this.selectedCity;
     this.employeeModel.service = this.selectedServices;
+    this.employeeModel.salonid = this.salonid;
 
     this.employeeService.saveEmployeeList(this.employeeModel).subscribe((data: any) => {
       if (data = 'success') {
@@ -171,7 +173,7 @@ export class EmployeeComponent {
     })
   }
   getAllEmployee() {
-    this.employeeService.getAllEmployeeList().subscribe((data: any) => {
+    this.employeeService.getAllEmployeeList(this.salonid).subscribe((data: any) => {
       this.employeeReg = data;
 
       for (let i = 0; i < this.employeeReg.length; i++) {

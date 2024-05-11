@@ -21,8 +21,8 @@ export class ApiService {
   public static getAllServicesURL: string = ApiService.HOST_URL + '/admin/GetAllServices/';
   public static updateServicesListURL: string = ApiService.HOST_URL + '/admin/UpdateServicesList/';
   public static saveEmployeeListURL: string = ApiService.HOST_URL + '/admin/SaveEmployeeList';
-  public static getAllEmployeeURL: string = ApiService.HOST_URL + '/admin/GetAllEmployee';
-  public static getOnlyIdealEmployeeList: string = ApiService.HOST_URL + '/admin/GetOnlyIdealEmployeeList';
+  public static getAllEmployeeURL: string = ApiService.HOST_URL + '/admin/GetAllEmployee/';
+  public static getOnlyIdealEmployeeList: string = ApiService.HOST_URL + '/admin/GetOnlyIdealEmployeeList/';
   public static removeEmployeeListURL: string = ApiService.HOST_URL + '/admin/RemoveEmployeeList/';
   public static getAllEmpPointListURL: string = ApiService.HOST_URL + '/admin/GetAllEmpPointList';
   public static saveCustomerListURL: string = ApiService.HOST_URL + '/admin/SaveCustomerList';

@@ -98,7 +98,7 @@ export class ProfileComponent implements OnInit {
   facebookPixelModel: any = {}
   @Output() dateRangeSelected: EventEmitter<{}> = new EventEmitter();
   // bread crumb items
-
+  salonid: any = ls.get('salonid', { decrypt: true });
   breadCrumbItems!: Array<{}>;
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -316,7 +316,7 @@ export class ProfileComponent implements OnInit {
     }
   }
   getAllGeneralDetails() {
-    this.adminService.getAllGeneralDetails(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+    this.adminService.getAllGeneralDetails(this.salonid).subscribe((data: any) => {
       this.selectedCurrency = data[0].currency;
       this.generalModel = data[0];
 
@@ -326,7 +326,7 @@ export class ProfileComponent implements OnInit {
     this.selectedCurrency = currency;
   }
   onEmpChange() {
-    this.employeeService.getAllEmployeeList().subscribe((data: any) => {
+    this.employeeService.getAllEmployeeList(this.salonid).subscribe((data: any) => {
       this.employeeList = data;
     });
   }
