@@ -38,6 +38,7 @@ export class ComboOfferComponent {
   discount: number = 0;
   viewOfferData: any = {};
   offerData: any = [];
+  salonid: any = ls.get('salonid', { decrypt: true });
   constructor(
     private offerService: OfferService,
     public formBuilder: UntypedFormBuilder,
@@ -46,13 +47,12 @@ export class ComboOfferComponent {
     private modalService: NgbModal,
 
   ) {
-    this.getAllServices();
-    this.getOfferDetails();
 
   }
 
   ngOnInit(): void {
-
+    this.getAllServices();
+    this.getOfferDetails();
     this.validationForm = this.formBuilder.group({
       offername: ['', [Validators.required]],
       percentage: ['', [Validators.required, Validators.pattern("^[1-9][0-9]?$|^100$")]],
@@ -72,7 +72,7 @@ export class ComboOfferComponent {
     this.validationServiceForm.markAsUntouched();
   }
   getAllServices() {
-    this.servicesService.getAllServicesList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
+    this.servicesService.getAllServicesList(this.salonid).subscribe((data: any) => {
       this.servicesList = data;
     });
   }
@@ -121,6 +121,7 @@ export class ComboOfferComponent {
   saveOfferDetail() {
     this.offerModel.services = this.tempServiceData;
     this.offerModel.totalprice = this.totalprice;
+    this.offerModel.salonid = this.salonid;
     this.offerService.saveOfferList(this.offerModel).subscribe((data: any) => {
       this.offerList = data;
       this.toastr.success('Offer details added successfully', 'Success', { timeOut: 3000 });
@@ -134,7 +135,7 @@ export class ComboOfferComponent {
     })
   }
   getOfferDetails() {
-    this.offerService.getAllOfferList().subscribe((data: any) => {
+    this.offerService.getAllOfferList(this.salonid).subscribe((data: any) => {
       this.offerList = data;
       for (let i = 0; i < this.offerList.length; i++) {
         this.offerList[i].index = i + 1;
