@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { VendorService } from 'src/app/core/services/vendor.service';
@@ -46,7 +47,7 @@ export class VendorComponent {
 
   ngOnInit(): void {
 
-    this.getAllvendor()
+    this.getAllvendor();
 
     this.validationForm = this.formBuilder.group({
       fname: ['', [Validators.required]],
@@ -102,6 +103,7 @@ export class VendorComponent {
     })
   }
   savevendorDetail() {
+    this.vendorModel.salonid = ls.get('salonid', { decrypt: true });
     this.vendorModel.isactive = true;
     this.vendorModel.state = this.selectedState;
     this.vendorModel.city = this.selectedCity;
@@ -127,7 +129,7 @@ export class VendorComponent {
 
 
   getAllvendor() {
-    this.vendorService.getAllVendorList().subscribe((data: any) => {
+    this.vendorService.getAllVendorList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
       this.vendorList = data;
       for (let i = 0; i < this.vendorList.length; i++) {
         this.vendorList[i].index = i + 1;

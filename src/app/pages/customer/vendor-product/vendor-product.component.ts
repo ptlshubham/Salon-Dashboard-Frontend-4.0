@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { vendorproductService } from 'src/app/core/services/vedorproduct.service';
 import Swal from 'sweetalert2';
+import ls from 'localstorage-slim';
 
 @Component({
   selector: 'app-vendor-product',
@@ -60,7 +61,7 @@ export class VendorProductComponent {
   get f() { return this.validationForm.controls; }
 
   getVendorDetails() {
-    this.vendorService.getAllVendorList().subscribe((data: any) => {
+    this.vendorService.getAllVendorList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
       this.vendorList = data;
       this.vendorList.forEach((element: any) => {
         if (this.vendorId == element.id) {

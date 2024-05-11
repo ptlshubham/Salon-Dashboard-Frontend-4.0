@@ -16,10 +16,10 @@ export class VendorService {
     saveVendorList(admin: any): Observable<any> {
         return this.httpClient.post<any>(ApiService.saveVendorListURL, admin);
     }
-    getAllVendorList(): Observable<any[]> {
-        return this.httpClient.get<any>(ApiService.getAllVendorURL);
+    getAllVendorList(id: any): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getAllVendorURL + id);
     }
-    removeVendorList(id:any) {
+    removeVendorList(id: any) {
         let data = {
             id: id
         }

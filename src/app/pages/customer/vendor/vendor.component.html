@@ -188,7 +188,12 @@
                             <td class="text-center">{{s.contact}} </td>
                             <td class="text-center">{{s.address}} {{s.city}} {{s.state}} {{s.pincode}}
                             </td>
-                            <td class="text-center">{{s.gst}} </td>
+
+                            <td class="text-center" *ngIf="vendorModel.gst!='null' && vendorModel.gst!=null">{{s.gst}}
+                            </td>
+                            <td class="text-center" *ngIf="vendorModel.gst=='null' || vendorModel.gst==null">{{s.gst}}
+                            </td>
+
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
                                     <button type="button" class="btn btn-soft-warning waves-effect waves-light"

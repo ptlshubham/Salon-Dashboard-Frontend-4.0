@@ -8,6 +8,7 @@ import { investedOverview, News } from './data';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { DatePipe } from '@angular/common';
+import ls from 'localstorage-slim';
 
 @Component({
   selector: 'app-dashboard',
@@ -215,7 +216,7 @@ export class DashboardComponent implements OnInit {
     });
   }
   getExpensesDetails() {
-    this.expensesService.getAllExpensesList().subscribe((data: any[]) => {
+    this.expensesService.getAllExpensesList(ls.get('salonid', { decrypt: true })).subscribe((data: any[]) => {
       const todayDate = new Date().toISOString().slice(0, 10); // Get today's date in "YYYY-MM-DD" format
       const todayExpenses = data.filter((expense: any) => {
         const expenseDate = expense.expensesdate.slice(0, 10); // Get date part only

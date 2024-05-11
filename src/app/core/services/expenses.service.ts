@@ -14,11 +14,10 @@ export class ExpensesService {
     ) { }
 
     saveExpensesList(data: any): Observable<any> {
-        
         return this.httpClient.post<any>(ApiService.saveExpensesListURL, data);
     }
-    getAllExpensesList(): Observable<any[]> {
-        return this.httpClient.get<any>(ApiService.getAllExpensesURL);
+    getAllExpensesList(id: any): Observable<any[]> {
+        return this.httpClient.get<any>(ApiService.getAllExpensesURL + id);
     }
     removeExpensesDetails(id: any) {
         let data = {

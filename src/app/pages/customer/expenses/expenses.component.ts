@@ -6,6 +6,7 @@ import { ExpensesService } from 'src/app/core/services/expenses.service';
 import Swal from 'sweetalert2';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import ls from 'localstorage-slim';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 function extractDateFromDateStr(dateStr: string | undefined | null): Date | null {
@@ -73,7 +74,7 @@ export class ExpensesComponent {
   }
   ngOnInit(): void {
 
-    this.getAllExpenses()
+    this.getAllExpenses();
 
     this.validationForm = this.formBuilder.group({
       expensesprices: ['', [Validators.required]],
@@ -103,10 +104,10 @@ export class ExpensesComponent {
   }
 
   getAllExpenses() {
-    this.expensesService.getAllExpensesList().subscribe((data: any) => {
+    this.expensesService.getAllExpensesList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
       this.expensesList = data;
       this.filterData = data;
-      
+
       for (let i = 0; i < this.filterData.length; i++) {
         this.filterData[i].index = i + 1;
       }
@@ -140,7 +141,6 @@ export class ExpensesComponent {
   }
 
   filterExpensesByDateRange() {
-    
     this.filterData = [];
     if (this.selectedStartDate !== null && this.selectedEndDate !== null) {
       const filteredExpenses = this.expensesList.filter((expense: any) => {
@@ -148,12 +148,10 @@ export class ExpensesComponent {
         if (expenseDateStr === null || expenseDateStr === undefined) {
           return false; // Skip this expense if expensesDate is null or undefined
         }
-
         const expenseDate = extractDateFromDateStr(expenseDateStr);
         if (expenseDate === null) {
           return false; // Skip this expense if expenseDate cannot be extracted
         }
-
         return expenseDate >= this.selectedStartDate! && expenseDate <= this.selectedEndDate!;
       });
       console.log('Filtered Expenses:', filteredExpenses);
@@ -162,13 +160,8 @@ export class ExpensesComponent {
         this.filterData[i].index = i + 1;
       }
       this.getPagintaion();
-
     }
   }
-
-
-
-
   removeExpense(id: any) {
     Swal.fire({
       title: 'Are you sure?',
@@ -201,7 +194,7 @@ export class ExpensesComponent {
     })
   }
   saveExpensesDetail() {
-
+    this.expensesModel.salonid = ls.get('salonid', { decrypt: true });
     this.expensesService.saveExpensesList(this.expensesModel).subscribe((data: any) => {
       this.expensesList = data;
       this.toastr.success('Expense details added successfully', 'Success', { timeOut: 3000 });
@@ -209,7 +202,6 @@ export class ExpensesComponent {
       this.getAllExpenses();
       this.dailyTotal = 0;
       this.paginateData.reduce((sum: any, p: any) => sum + p.expensesprices, 0)
-
       this.expensesModel = {};
       this.isOpen = false;
       this.isUpdate = false;
