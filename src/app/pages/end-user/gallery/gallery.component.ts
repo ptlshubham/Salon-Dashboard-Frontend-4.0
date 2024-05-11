@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import ls from 'localstorage-slim';
 import { Lightbox } from 'ngx-lightbox';
 import { BannersService } from 'src/app/core/services/banners.service';
 
@@ -31,7 +32,7 @@ export class GalleryComponent {
 
   getBanners() {
     this.gallery = [];
-    this.bannersService.getWebBanners().subscribe((res: any) => {
+    this.bannersService.getWebBanners(ls.get('salonid', { decrypt: true })).subscribe((res: any) => {
       this.imagesData = res;
       res.forEach((element: any) => {
         if (element.name == 'Image For Gallery') {
@@ -72,7 +73,7 @@ export class GalleryComponent {
       }
     })
   }
-  
+
   onCategoryChange(event: any, tabId: any) {
     this.activeTab = tabId;
     this.selectedCategory = event

@@ -9,39 +9,39 @@ import { ApiService } from './api.service';
 })
 
 export class BannersService {
-  
+
 
   constructor(
     private httpClient: HttpClient
   ) { }
-  getWebSlider(): Observable<any>{
+  getWebSlider(): Observable<any> {
     return this.httpClient.get<any>(ApiService.getactiveBannerURL);
   }
-  
-  uploadImage(img:any): Observable<any>{
-     
+
+  uploadImage(img: any): Observable<any> {
+
     return this.httpClient.post<any>(ApiService.uploadBannersImageURL, img);
 
   }
   saveWebBannersImage(admin: any): Observable<any> {
-     
+
     return this.httpClient.post<any>(ApiService.saveWebBannersURL, admin);
   }
-  getWebBanners(): Observable<any[]>{
-    return this.httpClient.get<any>(ApiService.getWebBannersURL);
+  getWebBanners(id: any): Observable<any[]> {
+    return this.httpClient.get<any>(ApiService.getWebBannersURL + id);
   }
-  getImageCategory(){
+  getImageCategory() {
     return this.httpClient.get<any>(ApiService.getImageCategoryGroupByURL);
   }
-  removeWebBanners(id:any){
-    let bnr={
-      id:id
+  removeWebBanners(id: any) {
+    let bnr = {
+      id: id
     }
-    return this.httpClient.post<any>(ApiService.removeWebBannersURL,bnr);
+    return this.httpClient.post<any>(ApiService.removeWebBannersURL, bnr);
   }
 
   activeDeavctiveWebBanners(admin: any): Observable<any> {
-     
+
     return this.httpClient.post<any>(ApiService.updateActiveWebStatusURL, admin);
   }
 }
