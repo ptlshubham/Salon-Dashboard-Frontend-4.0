@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { BannersService } from 'src/app/core/services/banners.service';
 import Swal from 'sweetalert2';
@@ -151,6 +152,7 @@ export class BannersComponent implements OnInit {
 
 
   saveGalleryDetails() {
+    debugger
     this.submitted = false;
     if (this.validationForm.invalid) {
       return;
@@ -161,6 +163,7 @@ export class BannersComponent implements OnInit {
       this.imageModel.image = this.bannersImage;
       this.imageModel.status = true;
 
+      this.imageModel.salonid = ls.get('salonid', { decrypt: true });
       this.bannersService.saveWebBannersImage(this.imageModel).subscribe((res: any) => {
 
         this.toastr.success('Images Data added Successfully', 'success', {
@@ -176,7 +179,7 @@ export class BannersComponent implements OnInit {
   }
   getBanners() {
     this.getBannersCategory();
-    this.bannersService.getWebBanners().subscribe((res: any) => {
+    this.bannersService.getWebBanners(ls.get('salonid', { decrypt: true })).subscribe((res: any) => {
       this.imagesData = res;
       this.filterdata = res;
       for (let i = 0; i < this.imagesData.length; i++) {

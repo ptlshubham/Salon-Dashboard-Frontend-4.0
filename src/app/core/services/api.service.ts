@@ -109,7 +109,7 @@ export class ApiService {
   public static updateMembershipListURL: string = ApiService.HOST_URL + '/admin/UpdateMembershipList';
   public static removeMembershipDetailsURL: string = ApiService.HOST_URL + '/admin/removeMembershipDetails/';
   public static getAllMembershipURL: string = ApiService.HOST_URL + '/admin/GetAllMembership/';
-  public static getWebBannersURL: string = ApiService.HOST_URL + '/admin/GetWebBanners';
+  public static getWebBannersURL: string = ApiService.HOST_URL + '/admin/GetWebBanners/';
   public static getImageCategoryGroupByURL: string = ApiService.HOST_URL + '/admin/GetImageCategoryGroupBy';
   public static uploadBannersImageURL: string = ApiService.HOST_URL + '/admin/UploadBannersImage';
   public static saveWebBannersURL: string = ApiService.HOST_URL + '/admin/SaveWebBanners';
