@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AdminService } from 'src/app/core/services/admin.service';
@@ -820,7 +821,7 @@ export class AppointmentComponent implements OnInit {
     });
   }
   getAllServices() {
-    this.servicesService.getAllServicesList().subscribe((data: any) => {
+    this.servicesService.getAllServicesList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
       this.servicesList = data;
     });
   }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import ls from 'localstorage-slim';
 import { ServiceListService } from 'src/app/core/services/services.service';
 
 
@@ -46,7 +47,7 @@ export class RateCardComponent {
   }
 
   getAllServices() {
-    this.servicesService.getAllServicesList().subscribe((data: any) => {
+    this.servicesService.getAllServicesList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
       this.servicesList = data;
       this.filteredServiceList = [...this.servicesList];
       for (let i = 0; i < this.servicesList.length; i++) {

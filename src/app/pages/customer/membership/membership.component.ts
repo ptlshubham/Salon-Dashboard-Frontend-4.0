@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
+import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { MembershipService } from 'src/app/core/services/membership.service';
 import { ServiceListService } from 'src/app/core/services/services.service';
@@ -186,7 +187,7 @@ export class MembershipComponent {
     this.validationForm.markAsUntouched();
   }
   getAllServices() {
-    this.servicesService.getAllServicesList().subscribe((data: any) => {
+    this.servicesService.getAllServicesList(ls.get('salonid', { decrypt: true })).subscribe((data: any) => {
       this.servicesList = data;
     });
   }
