@@ -71,5 +71,11 @@ export const MENU: MenuItem[] = [
     label: 'Gallery',
     icon: 'mdi mdi-image-multiple',
     link: '/user/gallery'
+  },
+  {
+    id: 13,
+    label: 'Marketing-Promotions',
+    icon: 'dripicons-broadcast',
+    link: '/custom/marketing-promotions'
   }
 ];

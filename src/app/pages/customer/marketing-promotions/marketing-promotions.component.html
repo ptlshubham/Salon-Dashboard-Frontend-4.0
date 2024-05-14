@@ -1,0 +1,163 @@
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">Marketing Promotions</h5>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                <form [formGroup]="validationForm">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label>Title</label>
+                                <input type="text" class="form-control" placeholder="Enter Promotion Title"
+                                    formControlName="title" [(ngModel)]="promotionModel.title"
+                                    [ngClass]="{'is-invalid': f.title.touched && f.title.errors}">
+                                <div *ngIf="f.title.touched && f.title.errors" class="invalid-feedback">
+                                    <span *ngIf="f.title.errors.required">This Field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label for="purpose" class="form-label">Select
+                                    Purpose</label>
+                                <select required class="form-select" formControlName="purpose"
+                                    [(ngModel)]="promotionModel.purpose"
+                                    [ngClass]="{'is-invalid': f.purpose.touched && f.purpose.errors}">
+                                    <option value="" hidden>Select purpose</option>
+                                    <option *ngFor="let c of purposeData" [value]="c.name">{{c.name}}</option>
+                                </select>
+                                <div *ngIf="f.purpose.touched && f.purpose.errors" class="invalid-feedback">
+                                    <span *ngIf="f.purpose.errors.required">This field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label>Size</label>
+                                <input type="text" class="form-control" placeholder="Enter Image size"
+                                    formControlName="size" [(ngModel)]="promotionModel.sizes"
+                                    [ngClass]="{'is-invalid': f.size.touched && f.size.errors}">
+                                <div *ngIf="f.size.touched && f.size.errors" class="invalid-feedback">
+                                    <span *ngIf="f.size.errors.required">This Field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label>Description</label>
+                                <textarea type="text" class="form-control" placeholder="Enter Image Description"
+                                    formControlName="description" [(ngModel)]="promotionModel.description"
+                                    [ngClass]="{'is-invalid': f.description.touched && f.description.errors}">
+                                    </textarea>
+                                <div *ngIf="f.description.touched && f.description.errors" class="invalid-feedback">
+                                    <span *ngIf="f.description.errors.required">This Field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label>URL</label>
+                                <input type="text" class="form-control" placeholder="Enter Url" formControlName="url"
+                                    [ngClass]="{'is-invalid': f.url.touched && f.url.errors}"
+                                    [(ngModel)]="promotionModel.url">
+
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label>URL</label>
+                                <input type="text" class="form-control" placeholder="Enter Url (optional)"
+                                    formControlName="url1" [ngClass]="{'is-invalid': f.url1.touched && f.url1.errors}"
+                                    [(ngModel)]="promotionModel.url1">
+
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group mb-3">
+                                <label>URL</label>
+                                <input type="text" class="form-control" placeholder="Enter Url2 (optional)"
+                                    formControlName="url2" [ngClass]="{'is-invalid': f.url2.touched && f.url2.errors}"
+                                    [(ngModel)]="promotionModel.url2">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label>Upload Image</label>
+                                    <div class="avatar-upload">
+                                        <div class="avatar-edit">
+                                            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput
+                                                (change)="uploadFile($event)" [(ngModel)]="promotionModel.image" />
+                                        </div>
+                                        <div class="avatar-preview">
+                                            <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 10px;">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block"
+                                                (click)="fileInput.click()">Upload
+                                                Image</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btn-block"
+                                                (click)="removeUploadedLogo()">Remove
+                                                Image</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6" *ngFor="let i of addMultiImg; let ind=index">
+                                <div class="form-group mb-3">
+                                    <label>Upload Image</label>
+                                    <div class="avatar-upload">
+                                        <div class="avatar-edit">
+                                            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg"
+                                                #multiFileInput (change)="uploadMultiFile($event,ind)"
+                                                [(ngModel)]="promotionModel.image" />
+                                        </div>
+                                        <div class="avatar-preview">
+                                            <div id="imagePreview"
+                                                [style.backgroundImage]="'url('+ i.multiImageUrl +')'">
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 10px;">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block"
+                                                (click)="multiFileInput.click()">Upload
+                                                Image</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btn-block"
+                                                (click)="removeUploadedImage()">Remove
+                                                Image</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="col-xl-1 col-lg-1 col-md-1 col-md-1 d-flex align-items-center justify-content-center">
+                                <div class="form-group mb-3">
+                                    <i class="bx bx-plus c-icon" (click)="addMultiplrImage()"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="form-group">
+                    <div class="row justify-content-end">
+                        <div class="col-lg-1 col-xl-1 col-md-1 col-sm-2 col-xs-12">
+                            <button type="submit" class="btn btn-primary" [disabled]="validationForm.invalid"
+                                (click)="savePromotionDetails()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -158,7 +158,10 @@ export class ApiService {
   public static getAllGeneralSalonDataURL: string = ApiService.HOST_URL + '/admin/GetAllGeneralSalonData/';
   public static getUserDataByIdURL: string = ApiService.HOST_URL + '/admin/GetUserDataById/';
   public static getCustomerServicesURL: string = ApiService.HOST_URL + '/admin/GetCustomerServices';
-
+  public static UploadRefrenceImageURL: string = ApiService.HOST_URL + '/admin/UploadMultiRefrence';
+  public static UploadMultiRefrenceURL: string = ApiService.HOST_URL + '/admin/UploadRefrenceImage';
+  public static RemoveRefrenceImageURL: string = ApiService.HOST_URL + '/admin/RemoveRefrenceImage';
+  public static SavePromotiondetailsURL: string = ApiService.HOST_URL + '/admin/SavePromotiondetails';
   public static getAllPendingPaymentTotalURL: string = ApiService.HOST_URL + '/admin/GetAllPendingPaymentTotal/';
   public static getAllPaymentListURL: string = ApiService.HOST_URL + '/admin/GetAllPaymentList';
   // public static getTodayPendingPaymentListURL: string = ApiService.HOST_URL + '/admin/GetTodayPendingPaymentList';

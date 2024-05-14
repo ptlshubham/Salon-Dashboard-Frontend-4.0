@@ -26,6 +26,7 @@ import { AttandanceComponent } from './attandance/attandance.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CountUpModule } from 'ngx-countup';
 import { LightboxModule } from 'ngx-lightbox';
+import { MarketingPromotionsComponent } from './marketing-promotions/marketing-promotions.component';
 
 
 
@@ -46,7 +47,8 @@ import { LightboxModule } from 'ngx-lightbox';
     VendorProductComponent,
     ProfileComponent,
     EarningsComponent,
-    AttandanceComponent
+    AttandanceComponent,
+    MarketingPromotionsComponent
   ],
   imports: [
     CommonModule,

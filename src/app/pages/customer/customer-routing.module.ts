@@ -14,6 +14,7 @@ import { VendorProductComponent } from './vendor-product/vendor-product.componen
 import { ProfileComponent } from './profile/profile.component';
 import { EarningsComponent } from './earnings/earnings.component';
 import { ServiceUploadComponent } from './service-upload/service-upload.component';
+import { MarketingPromotionsComponent } from './marketing-promotions/marketing-promotions.component';
 const routes: Routes = [
      {
           path: 'service-list',
@@ -67,6 +68,10 @@ const routes: Routes = [
           path: 'service-upload',
           component: ServiceUploadComponent
      },
+     {
+          path: 'marketing-promotions',
+          component: MarketingPromotionsComponent
+     }
 
 
 ];
